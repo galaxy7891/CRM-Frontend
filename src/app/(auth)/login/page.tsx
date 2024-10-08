@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import FormComponent from '@/components/form-login';
-import Image from 'next/image';
 import LeftIconSection from '@/components/icon-left';
+import Image from 'next/image';
 
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
