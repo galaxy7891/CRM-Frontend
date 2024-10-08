@@ -1,5 +1,5 @@
 const Dashboard: React.FC = () => {
-  return <div>Halo</div>;
+  return <div>Dashboard</div>;
 };
 
 export default Dashboard;
