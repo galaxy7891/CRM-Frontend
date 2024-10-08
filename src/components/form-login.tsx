@@ -47,7 +47,7 @@ const FormComponent: React.FC<FormComponentProps> = ({
           {/* Label */}
           <label
             htmlFor={field.name}
-            className="block text-black text-xs font-custom font-medium mb-1 lg:text-base"
+            className="block text-black text-xs font-custom font-medium my-3 md:text-base"
           >
             {field.label}
           </label>
@@ -65,13 +65,13 @@ const FormComponent: React.FC<FormComponentProps> = ({
             onChange={handleChange}
             required={field.required}
             autoComplete="off"
-            className="w-full px-1 h-12 lg:h-15 font-custom border-2 text-black text-opacity-50 focus:outline-none border-font-gray rounded-lg bg-light-white focus:border-dark-navy"
+            className="w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black text-opacity-50 focus:outline-none border-font-gray rounded-lg bg-light-white focus:border-dark-navy "
           />
 
           {/* Right Icon for Password Visibility Toggle */}
           {field.type === 'password' && (
             <span
-              className="absolute inset-y-0 right-3 flex pt-5 lg:pt-7 items-center cursor-pointer"
+              className="absolute inset-y-0 right-3 flex pt-5 lg:pt-7 flex items-center cursor-pointer"
               onClick={() => togglePasswordVisibility(field.name)}
             >
               <Image
@@ -92,12 +92,13 @@ const FormComponent: React.FC<FormComponentProps> = ({
         </div>
       ))}
 
+      {/* ?? */}
       {/* Opsional Teks Setelah Input dengan Gaya */}
       {afterInputText && (
         <div className="flex justify-end mb-4">
           <a
             href={afterInputTextHref || '#'}
-            className="text-xs text-light-gold font-custom font-bold ml-1 lg:text-base"
+            className="text-xs text-light-gold font-custom font-bold ml-1 md:text-base  hover:underline"
           >
             {afterInputText}
           </a>
@@ -107,7 +108,7 @@ const FormComponent: React.FC<FormComponentProps> = ({
       {/* Tombol Submit */}
       <button
         type="submit"
-        className="w-full px-1 h-12 lg:h-15 font-custom  bg-light-gold text-font-brown font-bold text-xs rounded-lg"
+        className="w-full px-1 h-12 lg:h-15 font-custom  bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
       >
         {buttonText}
       </button>
