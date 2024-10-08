@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        custom: ["Poppins","sans-serif"],
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
@@ -25,6 +28,7 @@ const config: Config = {
           red: "#BD2F3D",
           redDark: "#CB1627",
           redLight: "#FFCACA",
+          blue: "#1976D2",
         },
         light: {
           white: "#ECF2F3",
@@ -44,6 +48,7 @@ const config: Config = {
           gray: "#A1A1A1",
           grayLight: "#8B8B8B",
           black: "#1A1A1A",
+          green: "#26BE54",
         },
       },
     },
