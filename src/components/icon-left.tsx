@@ -1,9 +1,9 @@
-import React from "react";
-import Image from "next/image";
+import React from 'react';
+import Image from 'next/image';
 
 const LeftIconSection: React.FC = () => {
   return (
-    <div className="w-1/2 hidden lg:flex bg-dark-navy flex-col justify-center items-center sticky top-0 h-screen">
+    <div className="md:w-1/2 hidden md:block lg:flex bg-dark-navy flex-col justify-center items-center sticky top-0 h-screen">
       <Image
         src="/icons/vector-login.svg"
         alt="Gambar di Kolom Kiri"
@@ -18,4 +18,3 @@ const LeftIconSection: React.FC = () => {
 };
 
 export default LeftIconSection;
-

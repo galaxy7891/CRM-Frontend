@@ -1,6 +1,6 @@
-"use client";
-import Image from "next/image";
-import React, { useState } from "react";
+'use client';
+import Image from 'next/image';
+import React, { useState } from 'react';
 
 interface InputField {
   name: string;
@@ -41,79 +41,77 @@ const FormComponent: React.FC<FormComponentProps> = ({
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto">
-      <form onSubmit={handleSubmit}>
-        {fields.map((field) => (
-          <div key={field.name} className="mb-4 relative">
-            {/* Label */}
-            <label
-              htmlFor={field.name}
-              className="block text-black text-xs font-custom font-medium mb-1 lg:text-base"
+    <form onSubmit={handleSubmit}>
+      {fields.map((field) => (
+        <div key={field.name} className="mb-4 relative">
+          {/* Label */}
+          <label
+            htmlFor={field.name}
+            className="block text-black text-xs font-custom font-medium mb-1 lg:text-base"
+          >
+            {field.label}
+          </label>
+
+          {/* Input */}
+          <input
+            type={
+              field.type === 'password' && showPassword[field.name]
+                ? 'text'
+                : field.type
+            }
+            name={field.name}
+            placeholder={field.placeholder}
+            value={formData[field.name]}
+            onChange={handleChange}
+            required={field.required}
+            autoComplete="off"
+            className="w-full px-1 h-12 lg:h-15 font-custom border-2 text-black text-opacity-50 focus:outline-none border-font-gray rounded-lg bg-light-white focus:border-dark-navy"
+          />
+
+          {/* Right Icon for Password Visibility Toggle */}
+          {field.type === 'password' && (
+            <span
+              className="absolute inset-y-0 right-3 flex pt-5 lg:pt-7 items-center cursor-pointer"
+              onClick={() => togglePasswordVisibility(field.name)}
             >
-              {field.label}
-            </label>
+              <Image
+                src={
+                  showPassword[field.name]
+                    ? '/icons/open-eye.svg'
+                    : '/icons/closed-eye.svg'
+                }
+                alt={
+                  showPassword[field.name] ? 'Show password' : 'Hide password'
+                }
+                width={12}
+                height={12}
+                className="lg:h-6 lg:w-6 h-5 w-5"
+              />
+            </span>
+          )}
+        </div>
+      ))}
 
-            {/* Input */}
-            <input
-              type={
-                field.type === "password" && showPassword[field.name]
-                  ? "text"
-                  : field.type
-              }
-              name={field.name}
-              placeholder={field.placeholder}
-              value={formData[field.name]}
-              onChange={handleChange}
-              required={field.required}
-              autoComplete="off"
-              className="w-full px-1 h-12 lg:h-15 font-custom border-2 text-black text-opacity-50 focus:outline-none border-font-gray rounded-lg bg-light-white focus:border-dark-navy"
-            />
+      {/* Opsional Teks Setelah Input dengan Gaya */}
+      {afterInputText && (
+        <div className="flex justify-end mb-4">
+          <a
+            href={afterInputTextHref || '#'}
+            className="text-xs text-light-gold font-custom font-bold ml-1 lg:text-base"
+          >
+            {afterInputText}
+          </a>
+        </div>
+      )}
 
-            {/* Right Icon for Password Visibility Toggle */}
-            {field.type === "password" && (
-              <span
-                className="absolute inset-y-0 right-3 flex pt-5 lg:pt-7 items-center cursor-pointer"
-                onClick={() => togglePasswordVisibility(field.name)}
-              >
-                <Image
-                  src={
-                    showPassword[field.name]
-                      ? "/icons/open-eye.svg"
-                      : "/icons/closed-eye.svg"
-                  }
-                  alt={
-                    showPassword[field.name] ? "Show password" : "Hide password"
-                  }
-                  width={12}
-                  height={12}
-                  className="lg:h-6 lg:w-6 h-5 w-5"
-                />
-              </span>
-            )}
-          </div>
-        ))}
-
-        {/* Opsional Teks Setelah Input dengan Gaya */}
-        {afterInputText && (
-          <div className="flex justify-end mb-4">
-            <a
-              href={afterInputTextHref || "#"}
-              className="text-xs text-light-gold font-custom font-bold ml-1 lg:text-base"
-            >
-              {afterInputText}
-            </a>
-          </div>
-        )}
-
-        {/* Tombol Submit */}
-        <button
-          type="submit"
-          className="w-full px-1 h-12 lg:h-15 font-custom  bg-light-gold text-font-brown font-bold text-xs rounded-lg"
-        >
-          {buttonText}
-        </button>
-      </form>
-    </div>
+      {/* Tombol Submit */}
+      <button
+        type="submit"
+        className="w-full px-1 h-12 lg:h-15 font-custom  bg-light-gold text-font-brown font-bold text-xs rounded-lg"
+      >
+        {buttonText}
+      </button>
+    </form>
   );
 };
 
