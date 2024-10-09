@@ -32,7 +32,7 @@ const PasswordValidation: React.FC = () => {
         id="password"
         type="password"
         placeholder="Masukkan Kata Sandi Baru"
-        className="w-full px-4 py-2 text-black text-opacity-70 border border-green-400 rounded-lg bg-light-white focus:border-dark-greenBright"
+        className="w-full px-4 py-2 text-black text-opacity-70 border focus:outline-none border-font-gray rounded-lg bg-light-white focus:border-dark-navy"
         value={password}
         onChange={handlePasswordChange}
       />
@@ -64,11 +64,19 @@ const PasswordValidation: React.FC = () => {
         })}
       </ul>
 
-      {/* Container untuk tombol agar terletak di tengah */}
-      <div className="flex justify-center mt-3">
+      <div className="flex flex-col sm:flex-row justify-between mt-4 sm:gap-3">
+        {/* Tombol Kembali */}
+        <button
+          type="button"
+          className="w-full sm:w-1/2 h-10 mb-2 sm:mb-0 sm:order-first font-bold font-custom text-xs md:text-base border text-light-gold border-dark-gold py-2 rounded-md hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
+        >
+          Kembali
+        </button>
+
+        {/* Tombol Simpan */}
         <button
           type="submit"
-          className="w-full lg:w-1/2 h-10 text-xs font-custom bg-light-gold text-font-brown font-bold rounded-lg"
+          className="w-full sm:w-1/2 h-10 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md sm:order-last"
         >
           Simpan
         </button>
