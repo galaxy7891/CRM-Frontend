@@ -32,21 +32,19 @@ const VerifiedEmail: React.FC = () => {
   return (
     <div className="bg-light-white h-screen p-7">
       <div className="bg-font-white w-full mx-auto lg:w-full lg:mx-auto rounded-xs h-full lg:max-h-screen relative">
-        <div className="flex flex-col lg:flex-col-reverse">
-          {/* Logo */}
-          <div className="p-5 text-start lg:text-center">
-            <p className="text-base font-bold lg:text-2xl lg:block text-font-brown lg:order-2">
+      <div className="flex flex-col lg:flex-col-reverse">
+          <div className="p-5 text-start sm:text-center">
+            <p className="text-base font-bold lg:text-2xl lg:block text-font-brown sm:order-2">
               Logo
             </p>
           </div>
 
-          {/* Stepper */}
           <div className="p-5 text-center">
-            <p className="lg:text-2xl text-font-brown lg:order-1">Stepper</p>
+            <p className="lg:text-2xl text-font-brown sm:order-1">Stepper</p>
           </div>
         </div>
 
-        <div className="p-5 lg:text-center">
+        <div className="p-5 text-start sm:text-center">
           <h1 className="text-2xl font-bold text-font-brown">
             Atur Ulang Kata Sandi
           </h1>
@@ -57,22 +55,29 @@ const VerifiedEmail: React.FC = () => {
             mengenai pengaturan ulang kata sandi.
           </p>
         </div>
-        <div className="px-5">
-        {/* Form Component */}
-        <FormComponent
-          fields={fields}
-          formData={formData}
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-          buttonText="Kirim"
-        />
-</div>
-        {/* Kembali ke Masuk */}
-        <div className="absolute bottom-0 left-0 w-full text-center flex items-center justify-center mb-4">
-          <a className="text-xs">Kembali ke</a>
-          <a href="/login" className="text-xs text-light-gold font-bold ml-1">
-            Masuk
-          </a>
+        <div className="grid md:grid-cols-12">
+          <div className="px-5 md:col-span-8 md:col-start-3">
+            {/* Form Component */}
+            <FormComponent
+              fields={fields}
+              formData={formData}
+              handleChange={handleChange}
+              handleSubmit={handleSubmit}
+              buttonText="Kirim"
+            />
+          </div>
+        </div>
+
+        <div className="mt-5 text-center">
+          <p className="text-xs md:text-base  font-custom font-medium">
+            Sudah punya akun?{" "}
+            <a
+              href="/register-email"
+              className="text-xs md:text-base font-custom text-light-gold font-bold ml-1 hover:underline"
+            >
+              Masuk
+            </a>
+          </p>
         </div>
       </div>
     </div>

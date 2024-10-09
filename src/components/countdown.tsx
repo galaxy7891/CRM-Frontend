@@ -23,7 +23,7 @@ const Countdown: React.FC = () => {
   };
 
   return (
-    <div className="text-base font-custom font-medium text-font-black">
+    <div className=" font-small lg:text-base font-custom font-medium text-font-black">
       {formatTime(timeLeft)}
     </div>
   );

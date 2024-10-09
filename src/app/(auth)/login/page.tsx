@@ -41,8 +41,8 @@ const LoginPage: React.FC = () => {
       <div className="sm:w-1/2 hidden md:block ">
         <LeftIconSection />
       </div>
-      <div className="flex flex-col p-4 lg:p-10 md:w-1/2">
-        <div className="bg-font-white w-full h-full rounded-lg p-4 sm:p-10 lg:px-20 lg:py-4">
+      <div className="flex flex-col p-4 lg:p-10 w-full sm:w-1/2">
+        <div className="bg-font-white w-full h-full rounded-lg px-4 sm:p-10 lg:px-20 lg:py-4">
           <p className="text-2xl lg:text-4xl text-font-brown font-custom pb-2">
             Logo
           </p>

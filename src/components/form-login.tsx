@@ -71,7 +71,7 @@ const FormComponent: React.FC<FormComponentProps> = ({
           {/* Right Icon for Password Visibility Toggle */}
           {field.type === 'password' && (
             <span
-              className="absolute inset-y-0 right-3 flex pt-5 lg:pt-7 flex items-center cursor-pointer"
+              className="absolute inset-y-0 right-3 flex pt-5 lg:pt-7 items-center cursor-pointer"
               onClick={() => togglePasswordVisibility(field.name)}
             >
               <Image
