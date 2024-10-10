@@ -7,7 +7,7 @@ const PasswordValidation: React.FC = () => {
   const [password, setPassword] = useState("");
 
   const rules = [
-    { regex: /.{8,}/, label: "Minimal 8 karakter" }, // Mengubah menjadi 8 karakter
+    { regex: /.{8,}/, label: "Minimal 8 karakter" },
     { regex: /[a-z]/, label: "Satu karakter huruf kecil" },
     { regex: /[A-Z]/, label: "Satu karakter huruf besar" },
     { regex: /[\d\W]/, label: "Satu angka, simbol, atau karakter spasi" },
@@ -22,7 +22,7 @@ const PasswordValidation: React.FC = () => {
       {/* Label untuk Input Password */}
       <label
         htmlFor="password"
-        className="block mb-2 text-sm font-medium text-gray-700"
+        className="block mb-2 text-base font-medium text-font-black"
       >
         Kata Sandi Baru
       </label>
@@ -64,23 +64,21 @@ const PasswordValidation: React.FC = () => {
         })}
       </ul>
 
-      <div className="flex flex-col sm:flex-row justify-between mt-4 gap-1 sm:gap-3">
-        {/* Tombol Kembali */}
-        <a
-          href="/verified-email"
-          type="button"
-          className="text-center order-2 sm:order-1 w-full sm:w-1/2 h-10 mb-2 sm:mb-0 font-bold font-custom text-xs md:text-base border text-light-gold border-dark-gold py-2 rounded-md hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
-        >
-          Kembali
-        </a>
-
-        {/* Tombol Simpan */}
+      {/* Wrapper untuk Tombol Kembali dan Simpan */}
+      <div className="flex flex-col mt-3 min-h-[120px]">
         <button
           type="submit"
-          className="order-1 sm:order-2 w-full sm:w-1/2 h-10 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
+          className="w-full h-10 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
         >
           Simpan
         </button>
+        <a
+          href="/verified-email"
+          type="button"
+          className="mt-3 text-center w-full h-10 font-bold font-custom text-xs md:text-base border text-light-gold border-dark-gold py-2 rounded-md hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
+        >
+          Kembali
+        </a>
       </div>
     </div>
   );
