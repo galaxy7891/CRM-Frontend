@@ -64,19 +64,20 @@ const PasswordValidation: React.FC = () => {
         })}
       </ul>
 
-      <div className="flex flex-col sm:flex-row justify-between mt-4 sm:gap-3">
+      <div className="flex flex-col sm:flex-row justify-between mt-4 gap-1 sm:gap-3">
         {/* Tombol Kembali */}
-        <button
+        <a
+          href="/verified-email"
           type="button"
-          className="w-full sm:w-1/2 h-10 mb-2 sm:mb-0 sm:order-first font-bold font-custom text-xs md:text-base border text-light-gold border-dark-gold py-2 rounded-md hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
+          className="text-center order-2 sm:order-1 w-full sm:w-1/2 h-10 mb-2 sm:mb-0 font-bold font-custom text-xs md:text-base border text-light-gold border-dark-gold py-2 rounded-md hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
         >
           Kembali
-        </button>
+        </a>
 
         {/* Tombol Simpan */}
         <button
           type="submit"
-          className="w-full sm:w-1/2 h-10 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md sm:order-last"
+          className="order-1 sm:order-2 w-full sm:w-1/2 h-10 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
         >
           Simpan
         </button>

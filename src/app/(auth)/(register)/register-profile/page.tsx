@@ -91,21 +91,22 @@ const LoginPage: React.FC = () => {
               buttonText="Lanjut"
             />
           </div>
-          <button
+          <a
+           href="/register-otp"
             type="button"
             className=" bg-white w-full mt-2 px-1 h-12 lg:h-15  flex items-center justify-center border border-dark-gold py-2 rounded-md hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
           >
             <span className="font-custom  text-dark-gold text-xs md:text-base font-bold ">
               Kembali
             </span>
-          </button>
+          </a>
          
           
           <div className="mt-5 text-center">
             <p className="text-xs md:text-base  font-custom font-medium">
              Sudah punya akun?{' '}
               <a
-                href="/register-email"
+                href="/login"
                 className="text-xs md:text-base font-custom text-light-gold font-bold ml-1 hover:underline"
               >
                 Masuk

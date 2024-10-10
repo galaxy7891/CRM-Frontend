@@ -72,7 +72,7 @@ const VerifiedEmail: React.FC = () => {
           <p className="text-xs md:text-base  font-custom font-medium">
             Sudah punya akun?{" "}
             <a
-              href="/register-email"
+              href="/login"
               className="text-xs md:text-base font-custom text-light-gold font-bold ml-1 hover:underline"
             >
               Masuk
