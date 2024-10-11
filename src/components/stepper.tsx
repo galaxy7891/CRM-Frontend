@@ -1,16 +1,92 @@
-import React from "react";
+import React from 'react';
 
-const Stepper: React.FC = () => {
+interface StepperProps {
+  step: number;
+}
+
+const StepperComponent: React.FC<StepperProps> = ({ step }) => {
   return (
     <div className="flex justify-center mb-4">
-      {/* Gaya visual untuk stepper */}
       <div className="flex space-x-4">
-        <div className="h-2 w-2 bg-gray-400 rounded-full"></div>
-        <div className="h-2 w-2 bg-green-400 rounded-full"></div>
-        <div className="h-2 w-2 bg-gray-400 rounded-full"></div>
+        <ol className="flex items-center ">
+          <li
+            className={`flex w-full items-center text-white  after:content-[''] after:w-[70px] after:h-1 after:border-b ${
+              step >= 3 ? 'after:border-dark-gold' : 'after:border-font-gray'
+            } after:border-4 after:inline-block dark:after:border-blue-800`}
+          >
+            <span className="flex items-center relative justify-center w-10 h-10 bg-dark-gold rounded-full lg:h-12 lg:w-12 shrink-0">
+              {step >= 3 ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="4.5"
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m4.5 12.75 6 6 9-13.5"
+                  />
+                </svg>
+              ) : (
+                <p className="text-2xl font-bold">1</p>
+              )}
+              <p className="flex justify-center absolute top-14 text-black text-xs md:text-sm">
+                Verifikasi
+              </p>
+            </span>
+          </li>
+          <li
+            className={`flex w-full items-center text-white after:content-[''] after:w-[70px] after:h-1 after:border-b  ${
+              step >= 4 ? 'after:border-dark-gold' : 'after:border-font-gray'
+            } after:border-4 after:inline-block dark:after:border-gray-700`}
+          >
+            <span
+              className={`flex items-center relative justify-center w-10 h-10 ${
+                step >= 3 ? 'bg-dark-gold' : 'bg-font-gray'
+              } rounded-full lg:h-12 lg:w-12  shrink-0`}
+            >
+              {step >= 4 ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="4.5"
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m4.5 12.75 6 6 9-13.5"
+                  />
+                </svg>
+              ) : (
+                <p className="text-2xl font-bold">2</p>
+              )}
+              <p className="absolute top-14 text-black text-xs md:text-sm whitespace-nowrap">
+                Data Pribadi
+              </p>
+            </span>
+          </li>
+          <li className="flex items-center w-full">
+            <span
+              className={`flex items-center text-white relative justify-center w-10 h-10 ${
+                step >= 4 ? 'bg-dark-gold' : 'bg-font-gray'
+              } rounded-full lg:h-12 lg:w-12 dark:bg-gray-700 shrink-0`}
+            >
+              <p className="text-2xl font-bold">3</p>
+              <p className="absolute top-14 text-black text-xs md:text-sm">
+                Perusahaan
+              </p>
+            </span>
+          </li>
+        </ol>
       </div>
     </div>
   );
 };
 
-export default Stepper;
+export default StepperComponent;

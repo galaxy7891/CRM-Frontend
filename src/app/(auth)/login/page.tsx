@@ -73,7 +73,7 @@ const LoginPage: React.FC = () => {
     if (Cookies.get('token')) {
       router.push('/welcome');
     }
-  }, []);
+  });
 
   return (
     <div className="flex flex-row min-h-screen justify-center">
@@ -131,7 +131,7 @@ const LoginPage: React.FC = () => {
             <p className="text-xs md:text-base font-custom font-medium">
               Belum punya akun?{' '}
               <a
-                href="/register-email"
+                href="/register"
                 className="text-xs md:text-base font-custom text-light-gold font-bold ml-1 hover:underline"
               >
                 Buat Akun
