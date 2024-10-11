@@ -1,6 +1,6 @@
-'use client';
-import Image from 'next/image';
-import React, { useState } from 'react';
+"use client";
+import Image from "next/image";
+import React, { useState } from "react";
 
 interface InputField {
   name: string;
@@ -55,8 +55,8 @@ const FormComponent: React.FC<FormComponentProps> = ({
           {/* Input */}
           <input
             type={
-              field.type === 'password' && showPassword[field.name]
-                ? 'text'
+              field.type === "password" && showPassword[field.name]
+                ? "text"
                 : field.type
             }
             name={field.name}
@@ -69,7 +69,7 @@ const FormComponent: React.FC<FormComponentProps> = ({
           />
 
           {/* Right Icon for Password Visibility Toggle */}
-          {field.type === 'password' && (
+          {field.type === "password" && (
             <span
               className="absolute inset-y-0 right-3 flex pt-5 lg:pt-7 items-center cursor-pointer"
               onClick={() => togglePasswordVisibility(field.name)}
@@ -77,11 +77,11 @@ const FormComponent: React.FC<FormComponentProps> = ({
               <Image
                 src={
                   showPassword[field.name]
-                    ? '/icons/open-eye.svg'
-                    : '/icons/closed-eye.svg'
+                    ? "/icons/open-eye.svg"
+                    : "/icons/closed-eye.svg"
                 }
                 alt={
-                  showPassword[field.name] ? 'Show password' : 'Hide password'
+                  showPassword[field.name] ? "Show password" : "Hide password"
                 }
                 width={12}
                 height={12}
@@ -97,7 +97,7 @@ const FormComponent: React.FC<FormComponentProps> = ({
       {afterInputText && (
         <div className="flex justify-end mb-4">
           <a
-            href={afterInputTextHref || '#'}
+            href={afterInputTextHref || "#"}
             className="text-xs text-light-gold font-custom font-bold ml-1 md:text-base  hover:underline"
           >
             {afterInputText}

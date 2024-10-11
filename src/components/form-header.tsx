@@ -5,7 +5,7 @@ interface HeaderProps {
   title: string;
   subtitle: string;
   description: string;
-  stepper?: React.ReactNode;
+  // stepper?: React.ReactNode;
 }
 
 const FormHeader: React.FC<HeaderProps> = ({
@@ -13,7 +13,7 @@ const FormHeader: React.FC<HeaderProps> = ({
   title,
   subtitle,
   description,
-  stepper,
+  // stepper,
 }) => {
   return (
     <div className="mb-8">
@@ -23,7 +23,7 @@ const FormHeader: React.FC<HeaderProps> = ({
       <p className="text-xl font-bold text-font-brown lg:mt-5 lg:text-4xl ">
         {title}
       </p>
-      {stepper && <div className="my-4">{stepper}</div>}
+      {/* {stepper && <div className="my-4">{stepper}</div>} */}
       <p className="text-font-black text-2xl font-custom font-medium mt-2 lg:text-2xl lg:mt-4">
         {subtitle}
       </p>
