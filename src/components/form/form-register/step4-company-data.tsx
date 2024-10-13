@@ -1,6 +1,7 @@
 // components/companyDataStep.tsx
 import React from 'react';
-import FormHeader from '../form-header';
+import FormHeader from '@/components/form/form-header';
+import FailPopUp from '@/components/pop-up/fail';
 
 interface CompanyData {
   name: string;
@@ -12,6 +13,9 @@ interface CompanyDataStepProps {
   step: number;
   setCompanyData: (data: CompanyData) => void;
   onNext: () => void;
+  isLoading: boolean;
+  setIsValidation: (validation: any) => void;
+  validation: any;
 }
 
 const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
@@ -19,7 +23,19 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
   setCompanyData,
   onNext,
   step,
+  isLoading,
+  setIsValidation,
+  validation,
 }) => {
+  const handlehandleFilledFields = () => {
+    if (companyData.name && companyData.industry) {
+      setIsValidation(null);
+      onNext();
+    } else {
+      setIsValidation({ message: 'Data perusahaan tidak boleh kosong.' });
+    }
+  };
+
   return (
     <div>
       <FormHeader
@@ -28,7 +44,12 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
         subtitle="Lengkapi Data Perusahaan"
         description="Isi data perusahaan terlebih dahulu untuk melanjutkan membuat akun."
         step={step}
+        step1_name="Verifikasi"
+        step2_name="Data Diri"
+        step3_name="Perusahaan"
       />
+
+      {validation && <FailPopUp message={validation.message} />}
       {/* Name */}
       <label
         htmlFor="company_name"
@@ -64,10 +85,11 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
       />
 
       <button
-        onClick={onNext}
+        onClick={handlehandleFilledFields}
+        disabled={isLoading}
         className="mt-4 w-full px-1 h-12 lg:h-15 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
       >
-        Lanjut
+        {isLoading ? 'Mengirim...' : 'Kirim'}
       </button>
     </div>
   );

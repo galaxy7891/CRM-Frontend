@@ -1,8 +1,6 @@
-import NotFound from "@/components/404";
+import NotFound from '@/app/not-found';
 // import LoginPage from "./(auth)/login/page";
 
 export default function Home() {
-  return <NotFound/>
-  
-  ;
+  return <NotFound />;
 }

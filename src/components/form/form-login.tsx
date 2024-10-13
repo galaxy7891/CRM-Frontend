@@ -1,6 +1,6 @@
-"use client";
-import Image from "next/image";
-import React, { useState } from "react";
+'use client';
+// import Image from 'next/image';
+import React, { useState } from 'react';
 
 interface InputField {
   name: string;
@@ -29,9 +29,15 @@ const FormComponent: React.FC<FormComponentProps> = ({
   afterInputText,
   afterInputTextHref,
 }) => {
-  const [showPassword, setShowPassword] = useState<{ [key: string]: boolean }>(
-    {}
-  );
+  // Inisialisasi awal state showPassword hanya satu kali
+  const initialShowPasswordState = fields.reduce((acc, field) => {
+    if (field.type === 'password') {
+      acc[field.name] = false; // Default hidden
+    }
+    return acc;
+  }, {} as { [key: string]: boolean });
+
+  const [showPassword, setShowPassword] = useState(initialShowPasswordState);
 
   const togglePasswordVisibility = (fieldName: string) => {
     setShowPassword((prevState) => ({
@@ -55,8 +61,8 @@ const FormComponent: React.FC<FormComponentProps> = ({
           {/* Input */}
           <input
             type={
-              field.type === "password" && showPassword[field.name]
-                ? "text"
+              field.type === 'password' && showPassword[field.name]
+                ? 'text'
                 : field.type
             }
             name={field.name}
@@ -69,12 +75,12 @@ const FormComponent: React.FC<FormComponentProps> = ({
           />
 
           {/* Right Icon for Password Visibility Toggle */}
-          {field.type === "password" && (
+          {field.type === 'password' && (
             <span
               className="absolute inset-y-0 right-3 pt-5 lg:pt-7 flex items-center cursor-pointer"
               onClick={() => togglePasswordVisibility(field.name)}
             >
-              <Image
+              {/* <Image
                 src={
                   showPassword[field.name]
                     ? "/icons/open-eye.svg"
@@ -86,7 +92,7 @@ const FormComponent: React.FC<FormComponentProps> = ({
                 width={12}
                 height={12}
                 className="lg:h-6 lg:w-6 h-5 w-5"
-              />
+              /> */}
             </span>
           )}
         </div>
@@ -97,7 +103,7 @@ const FormComponent: React.FC<FormComponentProps> = ({
       {afterInputText && (
         <div className="flex justify-end mb-4">
           <a
-            href={afterInputTextHref || "#"}
+            href={afterInputTextHref || '#'}
             className="text-xs text-light-gold font-custom font-bold ml-1 md:text-base  hover:underline"
           >
             {afterInputText}

@@ -1,6 +1,7 @@
 // components/PersonalDataStep.tsx
 import React from 'react';
-import FormHeader from '../form-header';
+import FormHeader from '@/components/form/form-header';
+import FailPopUp from '@/components/pop-up/fail';
 
 interface PersonalData {
   first_name: string;
@@ -13,8 +14,10 @@ interface PersonalData {
 interface PersonalDataStepProps {
   personalData: PersonalData;
   step: number;
-  setPersonalData: (data: PersonalData) => void;
   onNext: () => void;
+  setPersonalData: (data: PersonalData) => void;
+  setValidation: (validation: any) => void;
+  validation: any;
 }
 
 const PersonalDataStep: React.FC<PersonalDataStepProps> = ({
@@ -22,7 +25,23 @@ const PersonalDataStep: React.FC<PersonalDataStepProps> = ({
   setPersonalData,
   onNext,
   step,
+  setValidation,
+  validation,
 }) => {
+  const handleFilledFields = () => {
+    if (
+      personalData.first_name &&
+      personalData.last_name &&
+      personalData.phone &&
+      personalData.job_position &&
+      personalData.password
+    ) {
+      setValidation(null);
+      onNext();
+    } else {
+      setValidation({ message: 'Data pribadi tidak boleh kosong.' });
+    }
+  };
   return (
     <div>
       <FormHeader
@@ -31,7 +50,11 @@ const PersonalDataStep: React.FC<PersonalDataStepProps> = ({
         subtitle="Lengkapi Data Diri"
         description="Isi data diri terlebih dahulu untuk melanjutkan membuat akun."
         step={step}
+        step1_name="Verifikasi"
+        step2_name="Data Diri"
+        step3_name="Perusahaan"
       />
+      {validation && <FailPopUp message={validation.message} />}
       {/* First Name */}
       <label
         htmlFor="first_name"
@@ -40,6 +63,7 @@ const PersonalDataStep: React.FC<PersonalDataStepProps> = ({
         First Name
       </label>
       <input
+        required
         name="first_name"
         type="text"
         value={personalData?.first_name}
@@ -57,6 +81,7 @@ const PersonalDataStep: React.FC<PersonalDataStepProps> = ({
         Last Name
       </label>
       <input
+        required
         name="last_name"
         type="text"
         value={personalData?.last_name}
@@ -74,6 +99,7 @@ const PersonalDataStep: React.FC<PersonalDataStepProps> = ({
         Posisi Pekerjaan
       </label>
       <input
+        required
         name="job_position"
         type="text"
         value={personalData?.job_position}
@@ -91,6 +117,7 @@ const PersonalDataStep: React.FC<PersonalDataStepProps> = ({
         Nomor Telepon
       </label>
       <input
+        required
         name="phone"
         type="text"
         value={personalData?.phone}
@@ -109,6 +136,7 @@ const PersonalDataStep: React.FC<PersonalDataStepProps> = ({
         Password
       </label>
       <input
+        required
         name="password"
         type="password"
         value={personalData?.password}
@@ -137,7 +165,7 @@ const PersonalDataStep: React.FC<PersonalDataStepProps> = ({
       /> */}
 
       <button
-        onClick={onNext}
+        onClick={handleFilledFields}
         className="mt-4 w-full px-1 h-12 lg:h-15 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
       >
         Lanjut

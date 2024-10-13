@@ -1,15 +1,25 @@
-// components/OtpStep.tsx
 import React, { useState } from 'react';
-import FormHeader from '../form-header';
-import Countdown from '../countdown';
+import FormHeader from '@/components/form/form-header';
+import Countdown from '@/components/countdown';
+import FailPopUp from '@/components/pop-up/fail';
 
-interface OtpStepProps {
+interface SendOtpProps {
   otp: string; // Current OTP value
+  step: number;
   setOtp: (otp: string) => void; // Function to set the OTP
   onVerify: () => void; // Function to call on OTP verification
+  validation: any;
+  isLoading: boolean;
 }
 
-const OtpStep: React.FC<OtpStepProps> = ({ setOtp, onVerify }) => { //otp -
+const SendOtp: React.FC<SendOtpProps> = ({
+  step,
+  setOtp,
+  onVerify,
+  validation,
+  isLoading,
+}) => {
+  //otp -
   const [otpValues, setOtpValues] = useState<string[]>(Array(6).fill('')); // Initialize OTP values for 6 digits
 
   const handleInputChange = (index: number, value: string) => {
@@ -53,7 +63,12 @@ const OtpStep: React.FC<OtpStepProps> = ({ setOtp, onVerify }) => { //otp -
         title="Daftar Akun"
         subtitle="Verifikasi"
         description="Cek email dan masukan kode OTP yang telah terkirim"
+        step={step}
+        step1_name="Verifikasi"
+        step2_name="Data Diri"
+        step3_name="Perusahaan"
       />
+      {validation && <FailPopUp message={validation} />}
       <div className="flex justify-center mt-3">
         {otpValues.map((value, index) => (
           <input
@@ -73,12 +88,13 @@ const OtpStep: React.FC<OtpStepProps> = ({ setOtp, onVerify }) => { //otp -
       </div>
       <button
         onClick={onVerify}
+        disabled={isLoading}
         className="mt-4 w-full px-1 h-12 lg:h-15 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
       >
-        Verifikasi OTP
+        {isLoading ? 'Memverifikasi...' : 'Verifikasi'}
       </button>
     </div>
   );
 };
 
-export default OtpStep;
+export default SendOtp;

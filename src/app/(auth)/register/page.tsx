@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Step1 from '@/components/form/register-step1';
-import Step2 from '@/components/form/register-step2';
-import Step3 from '@/components/form/register-step3';
-import Step4 from '@/components/form/register-step4';
+import Step1_email from '@/components/form/form-register/step1-email';
+import Step2_otp from '@/components/form/form-register/step2-otp';
+import Step3_personal_data from '@/components/form/form-register/step3-personal-data';
+import Step4_company_data from '@/components/form/form-register/step4-company-data';
 import LeftIconSection from '@/components/icon-left';
 
 interface PersonalData {
@@ -22,9 +22,9 @@ interface CompanyData {
 }
 
 const Register = () => {
-  // State untuk mengelola langkah yang aktif
   const [step, setStep] = useState<number>(1);
-  // State untuk mengelola input form
+  const [validation, setValidation] = useState<any>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
   const [otp, setOtp] = useState<string>('');
   const [personalData, setPersonalData] = useState<PersonalData>({
@@ -41,6 +41,7 @@ const Register = () => {
   const router = useRouter();
 
   const handleSendOtp = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/otp/send`,
@@ -54,15 +55,20 @@ const Register = () => {
       );
       const data = await response.json();
       if (data.success) {
-        setStep(2); // Lanjut ke step 2 (verifikasi OTP)
-        console.log('OTP sent successfully');
+        setValidation(null);
+        setStep(2); // Continue to step 2 (verifikasi OTP)
+      } else {
+        setValidation(data.message.email[0]);
       }
     } catch (error) {
       console.error('Error sending OTP:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleVerifyOtp = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/otp/verify`,
@@ -76,14 +82,24 @@ const Register = () => {
       );
       const data = await response.json();
       if (data.success) {
-        setStep(3); // Lanjut ke step 3 (data pribadi)
+        setValidation(null);
+        setStep(3); // Continue to step 3 (personal data)
+      } else {
+        if (data.message.code) {
+          setValidation(data.message.code[0]);
+        } else {
+          setValidation(data.message);
+        }
       }
     } catch (error) {
-      console.error('Error verifying OTP:', error);
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleRegister = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`,
@@ -102,14 +118,16 @@ const Register = () => {
 
       const data = await response.json();
       if (data.success) {
+        setValidation(null);
         alert('Registrasi berhasil!');
-        router.push('/welcome'); // Arahkan ke halaman utama
+        router.push('/login');
       } else {
-        // Tampilkan kesalahan jika ada
-        alert(data.message || 'Terjadi kesalahan saat registrasi.');
+        console.error(data.message);
       }
     } catch (error) {
       console.error('Error during registration:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -121,33 +139,55 @@ const Register = () => {
       <div className="flex flex-col p-4 lg:p-10 w-full sm:w-1/2">
         <div className="bg-font-white w-full h-full rounded-lg px-4 sm:p-10 lg:px-20 lg:py-4">
           <div className="w-full">
-            {step === 1 && (
-              <Step1
-                email={email}
-                setEmail={setEmail}
-                onNext={handleSendOtp}
-                step={step}
-              />
-            )}
-            {step === 2 && (
-              <Step2 otp={otp} setOtp={setOtp} onVerify={handleVerifyOtp} />
-            )}
-            {step === 3 && (
-              <Step3
-                personalData={personalData}
-                setPersonalData={setPersonalData}
-                onNext={() => setStep(4)}
-                step={step}
-              />
-            )}
-            {step === 4 && (
-              <Step4
-                companyData={companyData}
-                setCompanyData={setCompanyData}
-                onNext={handleRegister}
-                step={step}
-              />
-            )}
+            {(() => {
+              switch (step) {
+                case 1:
+                  return (
+                    <Step1_email
+                      email={email}
+                      setEmail={setEmail}
+                      onNext={handleSendOtp}
+                      step={step}
+                      validation={validation}
+                      isLoading={isLoading}
+                    />
+                  );
+                case 2:
+                  return (
+                    <Step2_otp
+                      otp={otp}
+                      setOtp={setOtp}
+                      onVerify={handleVerifyOtp}
+                      step={step}
+                      validation={validation}
+                      isLoading={isLoading}
+                    />
+                  );
+                case 3:
+                  return (
+                    <Step3_personal_data
+                      personalData={personalData}
+                      setPersonalData={setPersonalData}
+                      onNext={() => setStep(4)}
+                      step={step}
+                      setValidation={setValidation}
+                      validation={validation}
+                    />
+                  );
+                case 4:
+                  return (
+                    <Step4_company_data
+                      companyData={companyData}
+                      setCompanyData={setCompanyData}
+                      onNext={handleRegister}
+                      step={step}
+                      setIsValidation={setValidation}
+                      validation={validation}
+                      isLoading={isLoading}
+                    />
+                  );
+              }
+            })()}
           </div>
           <div className="mt-5 text-center">
             <p className="text-xs md:text-base  font-custom font-medium">

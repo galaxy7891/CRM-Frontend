@@ -1,12 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import FormComponent from '@/components/form-login';
-import LeftIconSection from '@/components/icon-left';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+
+import FormComponent from '@/components/form/form-login';
+import LeftIconSection from '@/components/icon-left';
+import FailPopUp from '@/components/pop-up/fail';
 
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -58,9 +60,11 @@ const LoginPage: React.FC = () => {
         response.data.data.access_token
       ) {
         Cookies.set('token', response.data.data.access_token); // Set token in cookies
-        router.push('/welcome'); // Redirect to dashboard
+        router.push('/not-found'); // Redirect to dashboard
       } else {
-        setValidation({ message: 'Token tidak ditemukan. Silakan coba lagi.' });
+        setValidation({
+          message: 'Email atau Password salah. Silakan coba lagi.',
+        });
       }
     } catch (error) {
       console.error(error); // Debugging log for errors
@@ -69,9 +73,9 @@ const LoginPage: React.FC = () => {
   };
 
   useEffect(() => {
-    // Check if token exists
+    //Check if token exists
     if (Cookies.get('token')) {
-      router.push('/welcome');
+      router.push('/not-found');
     }
   });
 
@@ -93,6 +97,7 @@ const LoginPage: React.FC = () => {
               Selamat datang kembali! Silahkan masuk ke dalam akun Anda.
             </p>
           </div>
+          {validation.message && <FailPopUp message={validation.message} />}
           <div className="w-full">
             <FormComponent
               fields={fields}
@@ -100,15 +105,10 @@ const LoginPage: React.FC = () => {
               handleChange={handleChange}
               handleSubmit={loginHandler}
               afterInputText="Lupa kata sandi?"
-              afterInputTextHref="/verified-email"
+              afterInputTextHref="/forget-password"
               buttonText="Masuk"
             />
           </div>
-
-          {validation.message && (
-            <div className="alert alert-danger">{validation.message}</div>
-          )}
-
           <div className="text-center my-3 text-xs md:text-base font-custom ">
             <p>Atau</p>
           </div>

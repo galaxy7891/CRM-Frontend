@@ -2,9 +2,17 @@ import React from 'react';
 
 interface StepperProps {
   step: number;
+  step1_name: string;
+  step2_name: string;
+  step3_name: string;
 }
 
-const StepperComponent: React.FC<StepperProps> = ({ step }) => {
+const StepperComponent: React.FC<StepperProps> = ({
+  step,
+  step1_name,
+  step2_name,
+  step3_name,
+}) => {
   return (
     <div className="flex justify-center mb-4">
       <div className="flex space-x-4">
@@ -34,7 +42,7 @@ const StepperComponent: React.FC<StepperProps> = ({ step }) => {
                 <p className="text-2xl font-bold">1</p>
               )}
               <p className="flex justify-center absolute top-14 text-black text-xs md:text-sm">
-                Verifikasi
+                {step1_name}
               </p>
             </span>
           </li>
@@ -67,7 +75,7 @@ const StepperComponent: React.FC<StepperProps> = ({ step }) => {
                 <p className="text-2xl font-bold">2</p>
               )}
               <p className="absolute top-14 text-black text-xs md:text-sm whitespace-nowrap">
-                Data Pribadi
+                {step2_name}
               </p>
             </span>
           </li>
@@ -78,8 +86,8 @@ const StepperComponent: React.FC<StepperProps> = ({ step }) => {
               } rounded-full lg:h-12 lg:w-12 dark:bg-gray-700 shrink-0`}
             >
               <p className="text-2xl font-bold">3</p>
-              <p className="absolute top-14 text-black text-xs md:text-sm">
-                Perusahaan
+              <p className="absolute top-14 text-black text-xs md:text-sm  whitespace-nowrap">
+                {step3_name}
               </p>
             </span>
           </li>

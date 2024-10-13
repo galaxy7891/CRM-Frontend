@@ -6,6 +6,9 @@ interface HeaderProps {
   subtitle: string;
   description: string;
   step: number;
+  step1_name: string;
+  step2_name: string;
+  step3_name: string;
 }
 
 const FormHeader: React.FC<HeaderProps> = ({
@@ -14,6 +17,9 @@ const FormHeader: React.FC<HeaderProps> = ({
   subtitle,
   description,
   step,
+  step1_name,
+  step2_name,
+  step3_name,
 }) => {
   return (
     <div>
@@ -25,7 +31,12 @@ const FormHeader: React.FC<HeaderProps> = ({
           {title}
         </h1>
         <div className=" flex justify-center my-4 pb-6">
-          <Stepper step={step} />
+          <Stepper
+            step={step}
+            step1_name={step1_name}
+            step2_name={step2_name}
+            step3_name={step3_name}
+          />
         </div>
         <p className="text-font-black text-xl font-custom font-medium mt-2 lg:text-2xl lg:mt-4">
           {subtitle}
