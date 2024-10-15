@@ -11,7 +11,6 @@ interface PasswordValidationProps {
 const PasswordValidation: React.FC<PasswordValidationProps> = ({
   newPassword,
   setNewPassword,
-
   handleResetPassword,
 }) => {
   const rules = [

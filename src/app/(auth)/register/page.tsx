@@ -4,39 +4,39 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Step1_email from '@/components/form/form-register/step1-email';
 import Step2_otp from '@/components/form/form-register/step2-otp';
-import Step3_personal_data from '@/components/form/form-register/step3-personal-data';
-import Step4_company_data from '@/components/form/form-register/step4-company-data';
+import Step3_password from '@/components/form/form-register/step3-password';
+import Step4_personal_data from '@/components/form/form-register/step4-personal-data';
+import Step5_company_data from '@/components/form/form-register/step5-company-data';
 import LeftIconSection from '@/components/icon-left';
 
 interface PersonalData {
   first_name: string;
   last_name: string;
   phone: string;
-  job_position: string;
-  password: string;
 }
 
 interface CompanyData {
   name: string;
   industry: string;
+  job_position: string;
 }
 
 const Register = () => {
   const [step, setStep] = useState<number>(1);
-  const [validation, setValidation] = useState<any>('');
+  const [validation, setValidation] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [otp, setOtp] = useState<string>('');
   const [personalData, setPersonalData] = useState<PersonalData>({
     first_name: '',
     last_name: '',
     phone: '',
-    job_position: '',
-    password: '',
   });
   const [companyData, setCompanyData] = useState<CompanyData>({
     name: '',
     industry: '',
+    job_position: '',
   });
   const router = useRouter();
 
@@ -55,7 +55,7 @@ const Register = () => {
       );
       const data = await response.json();
       if (data.success) {
-        setValidation(null);
+        setValidation('');
         setStep(2); // Continue to step 2 (verifikasi OTP)
       } else {
         setValidation(data.message.email[0]);
@@ -80,10 +80,11 @@ const Register = () => {
           body: JSON.stringify({ email, code: otp }),
         }
       );
+
       const data = await response.json();
       if (data.success) {
-        setValidation(null);
-        setStep(3); // Continue to step 3 (personal data)
+        setValidation('');
+        setStep(3); // Continue to step 3 (input password)
       } else {
         if (data.message.code) {
           setValidation(data.message.code[0]);
@@ -110,6 +111,7 @@ const Register = () => {
           },
           body: JSON.stringify({
             email,
+            password,
             ...personalData,
             ...companyData,
           }),
@@ -118,7 +120,7 @@ const Register = () => {
 
       const data = await response.json();
       if (data.success) {
-        setValidation(null);
+        setValidation('');
         alert('Registrasi berhasil!');
         router.push('/login');
       } else {
@@ -152,6 +154,7 @@ const Register = () => {
                       isLoading={isLoading}
                     />
                   );
+
                 case 2:
                   return (
                     <Step2_otp
@@ -165,10 +168,11 @@ const Register = () => {
                   );
                 case 3:
                   return (
-                    <Step3_personal_data
-                      personalData={personalData}
-                      setPersonalData={setPersonalData}
+                    <Step3_password
+                      email={email}
+                      password={password}
                       onNext={() => setStep(4)}
+                      setPassword={setPassword}
                       step={step}
                       setValidation={setValidation}
                       validation={validation}
@@ -176,13 +180,20 @@ const Register = () => {
                   );
                 case 4:
                   return (
-                    <Step4_company_data
+                    <Step4_personal_data
+                      personalData={personalData}
+                      setPersonalData={setPersonalData}
+                      onNext={() => setStep(5)}
+                      step={step}
+                    />
+                  );
+                case 5:
+                  return (
+                    <Step5_company_data
                       companyData={companyData}
                       setCompanyData={setCompanyData}
                       onNext={handleRegister}
                       step={step}
-                      setIsValidation={setValidation}
-                      validation={validation}
                       isLoading={isLoading}
                     />
                   );

@@ -68,16 +68,15 @@ const LoginPage: React.FC = () => {
       }
     } catch (error) {
       console.error(error); // Debugging log for errors
-      // Handle error
     }
   };
 
-  useEffect(() => {
-    //Check if token exists
-    if (Cookies.get('token')) {
-      router.push('/not-found');
-    }
-  });
+  // useEffect(() => {
+  //   //Check if token exists
+  //   if (Cookies.get('token')) {
+  //     router.push('/not-found');
+  //   }
+  // });
 
   return (
     <div className="flex flex-row min-h-screen justify-center">

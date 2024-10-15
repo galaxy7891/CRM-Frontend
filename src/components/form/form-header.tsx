@@ -9,6 +9,7 @@ interface HeaderProps {
   step1_name: string;
   step2_name: string;
   step3_name: string;
+  step4_name: string;
 }
 
 const FormHeader: React.FC<HeaderProps> = ({
@@ -20,6 +21,7 @@ const FormHeader: React.FC<HeaderProps> = ({
   step1_name,
   step2_name,
   step3_name,
+  step4_name,
 }) => {
   return (
     <div>
@@ -36,6 +38,7 @@ const FormHeader: React.FC<HeaderProps> = ({
             step1_name={step1_name}
             step2_name={step2_name}
             step3_name={step3_name}
+            step4_name={step4_name}
           />
         </div>
         <p className="text-font-black text-xl font-custom font-medium mt-2 lg:text-2xl lg:mt-4">

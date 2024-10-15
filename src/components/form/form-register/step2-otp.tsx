@@ -65,8 +65,9 @@ const SendOtp: React.FC<SendOtpProps> = ({
         description="Cek email dan masukan kode OTP yang telah terkirim"
         step={step}
         step1_name="Verifikasi"
-        step2_name="Data Diri"
-        step3_name="Perusahaan"
+        step2_name="Akun"
+        step3_name="Data Diri"
+        step4_name="Perusahaan"
       />
       {validation && <FailPopUp message={validation} />}
       <div className="flex justify-center mt-3">
