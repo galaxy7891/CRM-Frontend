@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { useState } from "react";
+import Image from 'next/image';
+import { useState } from 'react';
 
-export default function PopUpSuccess() {
+export default function FailModel() {
   const [isOpen, setIsOpen] = useState(true);
 
   const handleClose = () => {
@@ -35,14 +35,14 @@ export default function PopUpSuccess() {
         <div className="flex flex-col items-center py-3 space-y-3 text-center">
           <div className="icon">
             <Image
-              src="/icons/success.svg"
+              src="/icons/fail.svg"
               alt="success"
               width={50}
               height={50}
               className="relative w-20 h-20 shadow-custom-success"
             />
           </div>
-          <h2 className="font-button-md">Password berhasil dirubah</h2>
+          <h2 className="font-button-md">Password gagal dirubah</h2>
           <div className="w-full">
             <a
               href="/login"

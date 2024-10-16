@@ -1,5 +1,5 @@
 // components/Countdown.tsx
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 const Countdown: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState<number>(5 * 60); // 5 minutes in seconds
@@ -17,13 +17,13 @@ const Countdown: React.FC = () => {
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${minutes.toString().padStart(2, "0")}:${seconds
+    return `${minutes.toString().padStart(2, '0')}:${seconds
       .toString()
-      .padStart(2, "0")}`;
+      .padStart(2, '0')}`;
   };
 
   return (
-    <div className=" font-small lg:text-base font-custom font-medium text-font-black">
+    <div className=" text-xs lg:text-base font-custom font-medium text-font-black">
       {formatTime(timeLeft)}
     </div>
   );

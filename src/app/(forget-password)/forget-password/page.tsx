@@ -9,10 +9,12 @@ import Step2_send_status from '@/components/form/form-forget-password/step2-send
 const ForgetPassword = () => {
   const [step, setStep] = useState<number>(1);
   const [email, setEmail] = useState<string>('');
-  const [validation, setValidation] = useState<any>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isOnClick, setIsOnClick] = useState<boolean>(false);
 
   const handleSendEmail = async () => {
+    setIsLoading(true);
+    setIsOnClick(true);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/password/forgot`,
@@ -26,12 +28,12 @@ const ForgetPassword = () => {
       );
       const data = await response.json();
       if (data.success) {
-        setStep(3);
-      } else {
-        setValidation(data.message.email[0]);
+        setStep(2);
       }
     } catch (error) {
       console.error('Error sending OTP:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -55,10 +57,11 @@ const ForgetPassword = () => {
                     email={email}
                     setEmail={setEmail}
                     onNext={handleSendEmail}
-                    validation={validation}
+                    isLoading={isLoading}
+                    isOnClick={isOnClick}
                   />
                 );
-              case 3:
+              case 2:
                 return (
                   <Step2_send_status step={step} onBack={handleBackButton} />
                 );

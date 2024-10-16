@@ -8,7 +8,7 @@ import Cookies from 'js-cookie';
 
 import FormComponent from '@/components/form/form-login';
 import LeftIconSection from '@/components/icon-left';
-import FailPopUp from '@/components/pop-up/fail';
+import FailPopUp from '@/components/status/fail-card';
 
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });

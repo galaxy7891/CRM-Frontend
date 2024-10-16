@@ -26,14 +26,6 @@ body {
   }
 }
 
-.font-small {
-  font-size: 10px;
-}
-
-.font-tiny {
-  font-size: 8px;
-}
-
 .error-fields {
   background-color: #fee2e2;
   border-color: #ef4444;

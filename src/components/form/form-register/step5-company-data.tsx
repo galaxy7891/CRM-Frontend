@@ -1,7 +1,7 @@
 // components/companyDataStep.tsx
 import React from 'react';
 import { useState } from 'react';
-import FailText from '@/components/pop-up/fail-text';
+import FailText from '@/components/status/fail-text';
 import FormHeader from '@/components/form/form-header';
 
 interface CompanyData {
@@ -42,10 +42,7 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
         subtitle="Lengkapi Data Perusahaan"
         description="Isi data perusahaan terlebih dahulu untuk melanjutkan membuat akun"
         step={step}
-        step1_name="Verifikasi"
-        step2_name="Akun"
-        step3_name="Data Diri"
-        step4_name="Perusahaan"
+        page_name="register"
       />
 
       {/* Name */}

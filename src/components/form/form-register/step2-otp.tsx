@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import FormHeader from '@/components/form/form-header';
 import Countdown from '@/components/countdown';
-import FailPopUp from '@/components/pop-up/fail';
+import FailPopUp from '@/components/status/fail-card';
 
 interface SendOtpProps {
   otp: string; // Current OTP value
   step: number;
   setOtp: (otp: string) => void; // Function to set the OTP
   onVerify: () => void; // Function to call on OTP verification
-  validation: any;
+  validation: string;
   isLoading: boolean;
 }
 
@@ -64,10 +64,7 @@ const SendOtp: React.FC<SendOtpProps> = ({
         subtitle="Verifikasi"
         description="Cek email dan masukan kode OTP yang telah terkirim"
         step={step}
-        step1_name="Verifikasi"
-        step2_name="Akun"
-        step3_name="Data Diri"
-        step4_name="Perusahaan"
+        page_name="register"
       />
       {validation && <FailPopUp message={validation} />}
       <div className="flex justify-center mt-3">

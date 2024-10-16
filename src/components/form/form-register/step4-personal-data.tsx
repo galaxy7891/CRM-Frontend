@@ -2,7 +2,7 @@
 import React from 'react';
 import { useState } from 'react';
 import FormHeader from '@/components/form/form-header';
-import FailText from '@/components/pop-up/fail-text';
+import FailText from '@/components/status/fail-text';
 
 interface PersonalData {
   first_name: string;
@@ -38,10 +38,7 @@ const PersonalDataStep: React.FC<PersonalDataStepProps> = ({
         subtitle="Lengkapi Data Diri"
         description="Isi data diri terlebih dahulu untuk melanjutkan membuat akun"
         step={step}
-        step1_name="Verifikasi"
-        step2_name="Akun"
-        step3_name="Data Diri"
-        step4_name="Perusahaan"
+        page_name="register"
       />
 
       {/* First Name */}

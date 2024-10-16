@@ -1,6 +1,6 @@
 import FormHeader from '@/components/form/form-header';
-import FailPopUp from '@/components/pop-up/fail';
-import FailText from '@/components/pop-up/fail-text';
+import FailCard from '@/components/status/fail-card';
+import FailText from '@/components/status/fail-text';
 import Image from 'next/image';
 import { useState } from 'react';
 
@@ -35,11 +35,7 @@ const Password: React.FC<PasswordProps> = ({
 
   const handleIsPasswordSame = () => {
     setIsOnClick(true);
-    if (!isPasswordValid && password && passwordConfirmation) {
-      setValidation('Kata Sandi tidak memenuhi kriteria');
-    } else if (password !== passwordConfirmation) {
-      setValidation('Kata Sandi tidak sama');
-    } else if (isPasswordValid && password && passwordConfirmation) {
+    if (isPasswordValid && password && passwordConfirmation) {
       setValidation('');
       onNext();
     }
@@ -54,12 +50,9 @@ const Password: React.FC<PasswordProps> = ({
         subtitle="Masukkan Password"
         description="Masukkan kata sandi"
         step={step}
-        step1_name="Verifikasi"
-        step2_name="Akun"
-        step3_name="Data Diri"
-        step4_name="Perusahaan"
+        page_name="register"
       />
-      {validation && <FailPopUp message={validation} />}
+      {validation && <FailCard message={validation} />}
       {/* email */}
       <label
         htmlFor="email"
@@ -116,6 +109,11 @@ const Password: React.FC<PasswordProps> = ({
       {isOnClick && passwordConfirmation == '' && (
         <FailText message="Ketik ulang kata sandi" />
       )}
+      {isOnClick &&
+        passwordConfirmation !== '' &&
+        passwordConfirmation !== password && (
+          <FailText message="Kata sandi tidak sama" />
+        )}
       <ul className="list-none space-y-2 mt-4">
         {rules.map((rule, index) => {
           const isValid = rule.regex.test(password);
@@ -129,11 +127,10 @@ const Password: React.FC<PasswordProps> = ({
                 className="mr-2"
               />
               <span
-                className={
-                  isValid
-                    ? 'text-font-green font-small lg:text-base font-custom'
-                    : 'text-light-redLight font-small lg:text-base font-custom'
+                className={`text-xs lg:text-base font-custom ${
+                  isValid ? 'text-font-green ' : 'text-light-redLight '
                 }
+                `}
               >
                 {rule.label}
               </span>
@@ -143,7 +140,8 @@ const Password: React.FC<PasswordProps> = ({
       </ul>
       <button
         onClick={handleIsPasswordSame}
-        className="mt-4 w-full px-1 h-12 lg:h-15 font-custom  bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
+        disabled={!isPasswordValid}
+        className="mt-4 w-full px-1 h-12 lg:h-15 font-custom  bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md disabled:opacity-60 disabled:hover:shadow-none"
       >
         Selanjutnya
       </button>

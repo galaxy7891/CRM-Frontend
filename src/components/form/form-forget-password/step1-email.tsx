@@ -1,12 +1,14 @@
 import FormHeader from '@/components/form/form-header';
-import FailPopUp from '@/components/pop-up/fail';
+import FailText from '@/components/status/fail-text';
+
 
 interface SendEmailProps {
   email: string;
   step: number;
   setEmail: (email: string) => void;
   onNext: () => void;
-  validation: any;
+  isLoading: boolean;
+  isOnClick: boolean;
 }
 
 const SendEmail: React.FC<SendEmailProps> = ({
@@ -14,7 +16,8 @@ const SendEmail: React.FC<SendEmailProps> = ({
   email,
   setEmail,
   onNext,
-  validation,
+  isLoading,
+  isOnClick,
 }) => {
   return (
     <div>
@@ -24,11 +27,8 @@ const SendEmail: React.FC<SendEmailProps> = ({
         subtitle="Masukkan Email"
         description="Silakan masukkan email anda untuk reset kata sandi"
         step={step}
-        step1_name="Email"
-        step2_name="Verifikasi"
-        step3_name="Ubah Sandi"
+        page_name="forget-password"
       />
-      {validation && <FailPopUp message={validation} />}
 
       <label
         htmlFor="email"
@@ -41,14 +41,19 @@ const SendEmail: React.FC<SendEmailProps> = ({
         type="email"
         placeholder="user@example.com"
         required={true}
-        className="w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black text-opacity-50 focus:outline-none border-font-gray rounded-lg bg-light-white focus:border-dark-navy "
+        className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black text-opacity-50 focus:outline-none  rounded-lg bg-light-white focus:border-dark-navy ${
+          isOnClick && email == '' ? `error-fields` : 'border-font-gray'
+        }`}
         onChange={(e) => setEmail(e.target.value)}
       />
+      {isOnClick && !email && <FailText message="Email tidak valid" />}
+
       <button
         onClick={onNext}
-        className="mt-4 w-full px-1 h-12 lg:h-15 font-custom  bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
+        disabled={isLoading}
+        className="mt-4 w-full px-1 h-12 lg:h-15 font-custom  bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md disabled:opacity-60 disabled:hover:shadow-none"
       >
-        Kirim
+        {isLoading ? 'Mengirim...' : 'Kirim'}
       </button>
     </div>
   );

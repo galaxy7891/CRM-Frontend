@@ -1,6 +1,6 @@
 import React from 'react';
 import FormHeader from '@/components/form/form-header';
-import FailPopUp from '@/components/pop-up/fail';
+import FailPopUp from '@/components/status/fail-card';
 
 interface SendEmailProps {
   email: string;
@@ -27,10 +27,7 @@ const SendEmail: React.FC<SendEmailProps> = ({
         subtitle="Masukkan Email"
         description="Masukan email untuk verifikasi"
         step={step}
-        step1_name="Verifikasi"
-        step2_name="Akun"
-        step3_name="Data Diri"
-        step4_name="Perusahaan"
+        page_name="register"
       />
       {validation && <FailPopUp message={validation} />}
       <label

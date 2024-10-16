@@ -72,8 +72,8 @@ const PasswordValidation: React.FC<PasswordValidationProps> = ({
               <span
                 className={
                   isValid
-                    ? 'text-font-green font-small lg:text-base font-custom'
-                    : 'text-light-redLight font-small lg:text-base font-custom'
+                    ? 'text-font-green text-xs lg:text-base font-custom'
+                    : 'text-light-redLight text-xs lg:text-base font-custom'
                 }
               >
                 {rule.label}
