@@ -5,14 +5,14 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-
+import { useGoogleLogin } from '@react-oauth/google';
 import FormComponent from '@/components/form/form-login';
 import LeftIconSection from '@/components/icon-left';
 import FailPopUp from '@/components/status/fail-card';
 
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
-  const [validation, setValidation] = useState<any>({});
+  const [validation, setValidation] = useState<string>('');
   const router = useRouter();
 
   const fields = [
@@ -62,14 +62,32 @@ const LoginPage: React.FC = () => {
         Cookies.set('token', response.data.data.access_token); // Set token in cookies
         router.push('/not-found'); // Redirect to dashboard
       } else {
-        setValidation({
-          message: 'Email atau Password salah. Silakan coba lagi.',
-        });
+        setValidation('Email atau Password salah. Silakan coba lagi.');
       }
     } catch (error) {
       console.error(error); // Debugging log for errors
     }
   };
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        // Send the token to your backend
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/oauth/google`,
+          {
+            token: tokenResponse.access_token, // Send the access token
+          }
+        );
+        console.log(response); // Debugging log
+      } catch (error) {
+        console.error('Google login error:', error); // Handle error
+      }
+    },
+    onError: (error) => {
+      console.error('Google login failed:', error); // Handle login error
+    },
+  });
 
   // useEffect(() => {
   //   //Check if token exists
@@ -96,7 +114,7 @@ const LoginPage: React.FC = () => {
               Selamat datang kembali! Silahkan masuk ke dalam akun Anda.
             </p>
           </div>
-          {validation.message && <FailPopUp message={validation.message} />}
+          {validation && <FailPopUp message={validation} />}
           <div className="w-full">
             <FormComponent
               fields={fields}
@@ -111,8 +129,10 @@ const LoginPage: React.FC = () => {
           <div className="text-center my-3 text-xs md:text-base font-custom ">
             <p>Atau</p>
           </div>
+
           <button
-            type="button"
+            type="submit"
+            onClick={() => googleLogin()}
             className="bg-white w-full px-1 h-12 lg:h-15 flex items-center justify-center border border-dark-blue py-2 rounded-md hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
           >
             <Image

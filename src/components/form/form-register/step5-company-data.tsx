@@ -70,23 +70,23 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
 
       {/* Industry */}
       <label
-        htmlFor="Industry"
+        htmlFor="job_potition"
         className="block text-black text-xs font-custom font-medium my-3 md:text-base"
       >
         Jenis Jabatan
       </label>
       <select
-        name="Industry"
-        value={companyData?.industry}
+        name="job_potition"
+        value={companyData?.job_position}
         onChange={(e) =>
-          setCompanyData({ ...companyData, industry: e.target.value })
+          setCompanyData({ ...companyData, job_position: e.target.value })
         }
         className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 focus:outline-none ${
           isOnClick && companyData?.job_position == ''
             ? 'error-fields'
             : 'border-font-gray'
         }  rounded-lg bg-light-white focus:border-dark-navy ${
-          companyData?.industry ? 'text-black' : 'text-gray-500'
+          companyData?.job_position ? 'text-black' : 'text-gray-500'
         }`}
       >
         <option value="" disabled hidden>
@@ -104,6 +104,9 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
         <option value="Sales" className="bg-white">
           Sales
         </option>
+        <option value="Lainnya" className="bg-white">
+          Lainnya
+        </option>
       </select>
       {isOnClick && companyData?.job_position == '' && (
         <FailText message="Jabatan tidak boleh kosong" />
@@ -117,16 +120,16 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
       </label>
       <select
         name="job_position"
-        value={companyData?.job_position}
+        value={companyData?.industry}
         onChange={(e) =>
-          setCompanyData({ ...companyData, job_position: e.target.value })
+          setCompanyData({ ...companyData, industry: e.target.value })
         }
         className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 focus:outline-none ${
-          isOnClick && companyData?.job_position == ''
+          isOnClick && companyData?.industry == ''
             ? 'error-fields'
             : 'border-font-gray'
         } rounded-lg bg-light-white focus:border-dark-navy ${
-          companyData?.job_position === '' ? 'text-gray-500' : 'text-black'
+          companyData?.industry === '' ? 'text-gray-500' : 'text-black'
         }`}
       >
         <option value="" disabled hidden>
@@ -142,7 +145,7 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
           Lainnya
         </option>
       </select>
-      {isOnClick && companyData?.job_position == '' && (
+      {isOnClick && companyData?.industry == '' && (
         <FailText message="Jenis industri tidak boleh kosong" />
       )}
 

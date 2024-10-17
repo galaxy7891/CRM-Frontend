@@ -8,6 +8,7 @@ import Step3_password from '@/components/form/form-register/step3-password';
 import Step4_personal_data from '@/components/form/form-register/step4-personal-data';
 import Step5_company_data from '@/components/form/form-register/step5-company-data';
 import LeftIconSection from '@/components/icon-left';
+import SuccessModal from '@/components/status/success-modal';
 
 interface PersonalData {
   first_name: string;
@@ -21,12 +22,21 @@ interface CompanyData {
   job_position: string;
 }
 
+interface Password {
+  password: string;
+  password_confirmation: string;
+}
+
 const Register = () => {
   const [step, setStep] = useState<number>(1);
   const [validation, setValidation] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
   const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [password, setPassword] = useState<Password>({
+    password: '',
+    password_confirmation: '',
+  });
   const [otp, setOtp] = useState<string>('');
   const [personalData, setPersonalData] = useState<PersonalData>({
     first_name: '',
@@ -58,10 +68,14 @@ const Register = () => {
         setValidation('');
         setStep(2); // Continue to step 2 (verifikasi OTP)
       } else {
-        setValidation(data.message.email[0]);
+        if (data.message.email) {
+          setValidation(data.message.email[0]);
+        } else {
+          setValidation(data.message);
+        }
       }
     } catch (error) {
-      console.error('Error sending OTP:', error);
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -111,7 +125,7 @@ const Register = () => {
           },
           body: JSON.stringify({
             email,
-            password,
+            ...password,
             ...personalData,
             ...companyData,
           }),
@@ -121,13 +135,16 @@ const Register = () => {
       const data = await response.json();
       if (data.success) {
         setValidation('');
-        alert('Registrasi berhasil!');
-        router.push('/login');
+        setIsSuccess(true);
+        setTimeout(() => {
+          router.push('/login');
+        }, 3000);
       } else {
+        setValidation(data.message);
         console.error(data.message);
       }
     } catch (error) {
-      console.error('Error during registration:', error);
+      setIsSuccess(false);
     } finally {
       setIsLoading(false);
     }
@@ -213,6 +230,16 @@ const Register = () => {
           </div>
         </div>
       </div>
+      {isSuccess && (
+        <SuccessModal
+          header="Akun berhasil didaftarkan"
+          description="Selamat bergabung dengan Loyal Cust!"
+          closeModal={false}
+          actionButton={false}
+          actionButton_href=""
+          actionButton_name=""
+        />
+      )}
     </div>
   );
 };

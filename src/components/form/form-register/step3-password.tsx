@@ -4,11 +4,15 @@ import FailText from '@/components/status/fail-text';
 import Image from 'next/image';
 import { useState } from 'react';
 
+interface Password {
+  password: string;
+  password_confirmation: string;
+}
 interface PasswordProps {
   email: string;
-  password: string;
-  setPassword: React.Dispatch<React.SetStateAction<string>>;
+  password: Password;
   step: number;
+  setPassword: (data: Password) => void;
   validation: string;
   setValidation: React.Dispatch<React.SetStateAction<string>>;
   onNext: () => void;
@@ -29,13 +33,18 @@ const Password: React.FC<PasswordProps> = ({
     { regex: /[\d\W]/, label: 'Satu angka, simbol, atau karakter spasi' },
   ];
 
-  const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
-  const [isOnClick, setIsOnClick] = useState<boolean>(false);
-  const isPasswordValid = rules.every((rule) => rule.regex.test(password));
+  const [isOnClick, setIsOnClick] = useState<boolean | null>(null);
+  const isPasswordValid = rules.every((rule) =>
+    rule.regex.test(password.password)
+  );
 
   const handleIsPasswordSame = () => {
     setIsOnClick(true);
-    if (isPasswordValid && password && passwordConfirmation) {
+    if (
+      isPasswordValid &&
+      password.password &&
+      password.password_confirmation
+    ) {
       setValidation('');
       onNext();
     }
@@ -77,14 +86,14 @@ const Password: React.FC<PasswordProps> = ({
       <input
         name="password"
         type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={password?.password}
+        onChange={(e) => setPassword({ ...password, password: e.target.value })}
         placeholder="Masukkan kata sandi"
         className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black  focus:outline-none  rounded-lg bg-light-white focus:border-dark-navy  ${
-          isOnClick && !password ? 'error-fields' : 'border-font-gray'
+          isOnClick && !password.password ? 'error-fields' : 'border-font-gray'
         } `}
       />
-      {isOnClick && password == '' && (
+      {isOnClick && password.password == '' && (
         <FailText message="Kata sandi tidak boleh kosong" />
       )}
       {/* confirm password */}
@@ -97,26 +106,31 @@ const Password: React.FC<PasswordProps> = ({
       <input
         name="password_confirmation"
         type="password"
-        value={passwordConfirmation}
-        onChange={(e) => setPasswordConfirmation(e.target.value)}
+        value={password?.password_confirmation}
+        onChange={(e) =>
+          setPassword({
+            ...password,
+            password_confirmation: e.target.value,
+          })
+        }
         placeholder="Masukkan kembali kata sandi"
         className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black  focus:outline-none  rounded-lg bg-light-white focus:border-dark-navy  ${
-          isOnClick && !passwordConfirmation
+          isOnClick && !password.password_confirmation
             ? 'error-fields'
             : 'border-font-gray'
         } `}
       />
-      {isOnClick && passwordConfirmation == '' && (
+      {isOnClick && password.password_confirmation == '' && (
         <FailText message="Ketik ulang kata sandi" />
       )}
       {isOnClick &&
-        passwordConfirmation !== '' &&
-        passwordConfirmation !== password && (
+        password.password_confirmation !== '' &&
+        password.password_confirmation !== password.password && (
           <FailText message="Kata sandi tidak sama" />
         )}
       <ul className="list-none space-y-2 mt-4">
         {rules.map((rule, index) => {
-          const isValid = rule.regex.test(password);
+          const isValid = rule.regex.test(password.password);
           return (
             <li key={index} className="flex items-center">
               <Image

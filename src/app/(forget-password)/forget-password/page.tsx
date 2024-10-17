@@ -29,6 +29,8 @@ const ForgetPassword = () => {
       const data = await response.json();
       if (data.success) {
         setStep(2);
+      } else {
+        console.error(data.message);
       }
     } catch (error) {
       console.error('Error sending OTP:', error);
