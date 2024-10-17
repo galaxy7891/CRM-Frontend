@@ -6,6 +6,7 @@ const config: Config = {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './node_modules/flowbite/**/*.js',
     flowbite.content(),
   ],
   theme: {
@@ -35,6 +36,7 @@ const config: Config = {
         light: {
           white: '#ECF2F3',
           grayBright: '#B8CCCF',
+
           green: '#3AA152',
           greenLight: '#ACFFC8',
           greenBright: '#B8FED0',
@@ -52,9 +54,21 @@ const config: Config = {
           black: '#1A1A1A',
           green: '#26BE54',
         },
+        dropdown: {
+          gold: '#B67E17',
+          lightYellow: '#FFE495',
+          navy: '#132934',
+        },
       },
     },
   },
-  plugins: [flowbite.plugin()],
+
+  // plugins: [],
+
+  plugins: [
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    require('flowbite/plugin'),
+    flowbite.plugin(),
+  ],
 };
 export default config;
