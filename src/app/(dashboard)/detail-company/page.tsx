@@ -1,5 +1,5 @@
 import ActivityLog from "@/components/profile/activity-log";
-import CardProfile from "@/components/profile/card-profile";
+import CardCompany from "@/components/profile/card-company";
 import HeaderProfile from "@/components/profile/header";
 import React from "react";
 
@@ -7,7 +7,7 @@ const DetailUser = () => {
   return (
     <div>
       <HeaderProfile />
-      <CardProfile />
+      <CardCompany />
       <ActivityLog />
     </div>
   );

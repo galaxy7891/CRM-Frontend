@@ -27,7 +27,7 @@ const Greeting: FC<{ username: string }> = ({ username }) => {
   }, []);
 
   return (
-    <h1 className="font-custom font-bold lg:text-2xl text-base text-font-black">
+    <h1 className="font-custom font-bold lg:text-2xl text-base text-font-black dark:text-font-white">
       {greetingMessage}, <span className="text-light-gold text-base font-bold font-custom">{username}</span>
     </h1>
   );

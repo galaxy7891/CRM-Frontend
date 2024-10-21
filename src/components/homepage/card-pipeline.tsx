@@ -23,12 +23,12 @@ const CardDeals: FC<CardProps> = ({ title, count, total }) => {
       ? "text-dark-green"
       : title === "Gagal"
       ? "text-dark-red"
-      : "text-font-black";
+      : "text-font-black dark:text-font-white";
 
   return (
     <Link href="/deals">
       <div
-        className="flex justify-between items-center p-4 rounded-lg bg-light-white w-full max-w-xs 
+        className="flex justify-between items-center p-4 rounded-lg bg-light-white dark:bg-dark-darkGray w-full max-w-xs 
                         transform transition-transform duration-500 hover:scale-105 hover:shadow-lg"
       >
         <div>
@@ -41,13 +41,13 @@ const CardDeals: FC<CardProps> = ({ title, count, total }) => {
           </p>
           {/* Format rupiah untuk count */}
           <p
-            className="text-lg lg:text-4xl font-custom text-font-black 
+            className="text-lg lg:text-4xl font-custom text-font-black dark:text-font-white
                          transition-opacity duration-500 delay-200 hover:opacity-100"
           >
             {formatRupiah(count)}
           </p>
           <p
-            className="mt-2 text-[8px] lg:xs font-custom text-font-black 
+            className="mt-2 text-[8px] lg:xs font-custom text-font-black dark:text-font-white
                          transition-opacity duration-700 delay-300 hover:opacity-100"
           >
             {total} {title}

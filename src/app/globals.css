@@ -14,6 +14,10 @@
   }
 } */
 
+body.dark {
+  background-color: #374952; /* Dark mode background color */
+}
+
 body {
   color: var(--foreground); 
   background: var(--background); 

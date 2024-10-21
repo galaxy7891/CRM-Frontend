@@ -11,16 +11,16 @@ const Dashboard: FC = () => {
     <div className="grid grid-rows-2 min-h-screen">
       {/* Card Atas */}
       <div className="p-4">
-        <div className="bg-font-white shadow-lg rounded-lg p-6 h-full">
+        <div className="bg-font-white dark:bg-dark-navy shadow-lg rounded-lg p-6 h-full">
           <div className="grid grid-rows-1 w-full h-full">
             {/* Aktivitas Section */}
             <section className="row-span-1 space-y-6 h-full">
               <CurrentDate />
               <Greeting username="user" />
-              <p className="text-sm lg:text-2xl font-custom text-font-black font-medium">
+              <p className="text-sm lg:text-2xl font-custom text-font-black font-medium  dark:text-font-white">
                 Aktivitas
               </p>
-              <p className="text-[10px] lg:text-base font-custom text-font-black">
+              <p className="text-[10px] lg:text-base font-custom text-font-black dark:text-font-white">
                 Aktivitas kamu selama seminggu
               </p>
               <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -35,12 +35,12 @@ const Dashboard: FC = () => {
 
       {/* Card Bawah */}
       <div className="p-4">
-        <div className="bg-font-white shadow-lg rounded-lg p-6 h-full">
+        <div className="bg-font-white shadow-lg rounded-lg p-6 h-full dark:bg-dark-navy">
           <div className="grid grid-rows-1 w-full h-full">
             <section className="row-span-1 space-y-4 h-full">
               {/* Flex container untuk teks dan button */}
               <div className="flex justify-between items-center">
-                <p className="font-custom text-font-black font-medium lg:text-2xl text-sm">
+                <p className="font-custom text-font-black font-medium lg:text-2xl text-sm dark:text-font-white">
                   Deals Pipeline
                 </p>
                 {/* Tombol di pojok kanan */}
@@ -49,7 +49,7 @@ const Dashboard: FC = () => {
                 </button>
               </div>
 
-              <p className="font-custom text-font-black lg:text-base text-[10px]">
+              <p className="font-custom text-font-black lg:text-base text-[10px] dark:text-font-white">
                 Aktivitas kamu selama seminggu
               </p>
 

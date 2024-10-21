@@ -8,7 +8,7 @@ const CurrentDate: React.FC = () => {
   const formattedDate = currentDate.toLocaleDateString('id-ID', options); // Locale Indonesia
 
   return (
-    <div className="text-font-black text-[10px] lg:text-base font-custom">
+    <div className="text-font-black text-[10px] lg:text-base font-custom dark:text-font-white">
       {formattedDate}
     </div>
   );

@@ -87,55 +87,68 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
         }}
       >
         <div className="flex flex-col gap-[16px]">
-          <h1 className="px-6 mb-4">Logo</h1>
+          <div className="flex justify-center mb-4 px-6">
+            <Image
+              src="/icons/sidebar/logo.svg"
+              alt="logo"
+              width={200}
+              height={200}
+              className="w-auto h-auto"
+            />
+          </div>
+
           <div className="flex flex-col items-start gap-4 h-screen">
             {MENU.map((item: MenuItem) =>
-            item.id === 9 ? (
-              <div key={item.id} className="w-full">
-                <div className="border-t border-white">
-                  <Link
-                    href={item.link || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`group w-full ${
-                      activeLink === item.link
-                        ? "text-font-white font-bold"
-                        : "text-font-white font-medium"
-                    } font-custom text-base flex flex-row px-4 py-3 gap-2 items-center`}
-                  >
-                    <Image
-                      src={activeLink === item.link ? item.iconHover! : item.icon}
-                      alt={item.alt}
-                      width={25}
-                      height={25}
-                      className={`${
-                        activeLink === item.link ? "block" : "group-hover:hidden"
-                      }`}
-                    />
-                    <Image
-                      src={item.iconHover!}
-                      alt={item.alt + " hover"}
-                      width={25}
-                      height={25}
-                      className={`${
+              item.id === 9 ? (
+                <div key={item.id} className="w-full">
+                  <div className="border-t border-white">
+                    <Link
+                      href={item.link || "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`group w-full ${
                         activeLink === item.link
-                          ? "hidden"
-                          : "hidden group-hover:block"
-                      }`}
-                    />
-                    <p
-                      className={`font-custom text-base ${
-                        activeLink === item.link
-                          ? "font-bold"
-                          : "font-medium group-hover:font-bold"
-                      }`}
+                          ? "text-font-white font-bold"
+                          : "text-font-white font-medium"
+                      } font-custom text-base flex flex-row px-4 py-3 gap-2 items-center`}
                     >
-                      {item.title}
-                    </p>
-                  </Link>
+                      <Image
+                        src={
+                          activeLink === item.link ? item.iconHover! : item.icon
+                        }
+                        alt={item.alt}
+                        width={25}
+                        height={25}
+                        className={`${
+                          activeLink === item.link
+                            ? "block"
+                            : "group-hover:hidden"
+                        }`}
+                      />
+                      <Image
+                        src={item.iconHover!}
+                        alt={item.alt + " hover"}
+                        width={25}
+                        height={25}
+                        className={`${
+                          activeLink === item.link
+                            ? "hidden"
+                            : "hidden group-hover:block"
+                        }`}
+                      />
+                      <p
+                        className={`font-custom text-base ${
+                          activeLink === item.link
+                            ? "font-bold"
+                            : "font-medium group-hover:font-bold"
+                        }`}
+                      >
+                        {item.title}
+                      </p>
+                    </Link>
                   </div>
-              </div>
-            ) : item.subItems ? (
+                </div>
+              ) : item.subItems ? (
                 <div className="flex flex-col w-full gap-2" key={item.id}>
                   <button
                     type="button"
