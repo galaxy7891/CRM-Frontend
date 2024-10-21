@@ -9,12 +9,12 @@ interface CardProps {
 
 const Card: FC<CardProps> = ({ title, count, link }) => {
   return (
-    <div className="flex justify-between items-center p-4 rounded-lg bg-light-white w-full  transform transition-transform duration-500 hover:scale-105 hover:shadow-lg">
+    <div className="flex justify-between items-center p-4 rounded-lg bg-light-white dark:bg-dark-darkGray w-full  transform transition-transform duration-500 hover:scale-105 hover:shadow-lg">
       <div className="w-full">
-        <p className="text-xs lg:text-base font-custom text-font-black transition-opacity duration-300 delay-100 hover:opacity-100 truncate">
+        <p className="text-xs lg:text-base font-custom text-font-black  dark:text-font-white transition-opacity duration-300 delay-100 hover:opacity-100 truncate">
           {title}
         </p>
-        <p className="text-xl lg:text-4xl font-custom text-font-black transition-opacity duration-500 delay-200 hover:opacity-100 truncate">
+        <p className="text-xl lg:text-4xl font-custom text-font-black dark:text-font-white transition-opacity duration-500 delay-200 hover:opacity-100 truncate">
           {count}
         </p>
       </div>

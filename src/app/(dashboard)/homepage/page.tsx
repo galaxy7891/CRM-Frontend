@@ -2,8 +2,6 @@
 
 import { FC, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import CurrentDate from '@/components/homepage/current-date';
-import Greeting from '@/components/homepage/greetings';
 import CardActivity from '../../../components/homepage/card-activity';
 import CardDeals from '@/components/homepage/card-pipeline';
 import axios from 'axios';
@@ -39,7 +37,7 @@ const Dashboard: FC = () => {
   return (
     <>
       {/* Card Activity */}
-      <div className="bg-font-white shadow-lg rounded-lg p-6 lg:m-4 grid grid-rows-1 ">
+      <div className="bg-font-white dark:text-font-white shadow-lg rounded-lg p-6 lg:m-4 grid grid-rows-1  ">
         <section className="row-span-1">
           {data?.date || 'Loading...'}
           <h1 className="font-custom font-bold lg:text-2xl text-base text-font-black pt-1">
@@ -48,10 +46,10 @@ const Dashboard: FC = () => {
               {data?.user || 'Loading..'}
             </span>
           </h1>
-          <p className="text-sm lg:text-2xl font-custom text-font-black font-medium pt-6">
+          <p className="text-sm lg:text-2xl font-custom text-font-black dark:text-font-white font-medium pt-6">
             Data Pelanggan
           </p>
-          <p className="text-xs lg:text-base font-custom text-font-black pt-1">
+          <p className="text-xs lg:text-base font-custom text-font-black dark:text-font-white pt-1">
             Ringkasan data pelanggan Anda
           </p>
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -76,14 +74,14 @@ const Dashboard: FC = () => {
 
       {/* Card Pipeline */}
 
-      <div className="bg-font-white shadow-lg rounded-lg p-6 lg:mx-4 my-4 lg:my-8 grid grid-rows-1 ">
+      <div className="bg-font-white dark:bg-dark-navy shadow-lg rounded-lg p-6 lg:mx-4 my-4 lg:my-8 grid grid-rows-1 ">
         <div className="row-span-1">
           <div className="grid grid-cols-12 ">
             <div className="col-span-8 lg:col-span-6">
-              <p className="font-custom text-font-black font-medium lg:text-2xl text-sm">
+              <p className="font-custom text-font-black dark:text-font-white font-medium lg:text-2xl text-sm">
                 Deals Pipeline
               </p>
-              <p className="font-custom text-font-black lg:text-base text-xs w-full pt-1">
+              <p className="font-custom text-font-black dark:text-font-white lg:text-base text-xs w-full pt-1">
                 Ringkasan data deals Anda
               </p>
             </div>

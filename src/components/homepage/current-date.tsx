@@ -11,7 +11,7 @@ const CurrentDate: React.FC = () => {
   const formattedDate = currentDate.toLocaleDateString('id-ID', options); // Locale Indonesia
 
   return (
-    <div className="text-font-black text-xs lg:text-base font-custom">
+    <div className="text-font-black dark:text-font-white text-xs lg:text-base font-custom ">
       {formattedDate}
     </div>
   );

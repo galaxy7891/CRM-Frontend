@@ -28,7 +28,7 @@ const CardDeals: FC<CardProps> = ({ title, total_pipeline, funds }) => {
 
   return (
     <Link href="/deals">
-      <div className="flex flex-col p-4 rounded-lg bg-light-white w-full  transform transition-transform duration-500 hover:scale-105 hover:shadow-lg">
+      <div className="flex flex-col p-4 rounded-lg bg-light-white dark:bg-dark-darkGray w-full  transform transition-transform duration-500 hover:scale-105 hover:shadow-lg">
         {/* colour change depends on title */}
         <p
           className={`text-xs lg:text-base font-custom ${titleColor} transition-opacity duration-300 delay-100 hover:opacity-100`}
@@ -36,10 +36,10 @@ const CardDeals: FC<CardProps> = ({ title, total_pipeline, funds }) => {
           {title}
         </p>
         {/* rupiah format and format data to number */}
-        <p className="text-lg lg:text-4xl font-custom text-font-black transition-opacity duration-500 delay-200 hover:opacity-100 truncate">
+        <p className="text-lg lg:text-4xl font-custom text-font-black dark:text-font-white transition-opacity duration-500 delay-200 hover:opacity-100 truncate">
           {formatRupiah(Number(funds))}
         </p>
-        <p className="mt-2 text-xs lg:text-base font-custom text-font-black transition-opacity duration-700 delay-300 hover:opacity-100 ">
+        <p className="mt-2 text-xs lg:text-base font-custom text-font-black dark:text-font-white transition-opacity duration-700 delay-300 hover:opacity-100 ">
           {total_pipeline} {title}
         </p>
       </div>

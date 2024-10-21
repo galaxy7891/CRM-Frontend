@@ -70,5 +70,6 @@ const config: Config = {
     require('flowbite/plugin'),
     flowbite.plugin(),
   ],
+  darkMode: "class",
 };
 export default config;

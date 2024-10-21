@@ -148,6 +148,8 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                   </div>
                 </div>
               ) : item.subItems ? (
+                </div>
+              ) : item.subItems ? (
                 <div className="flex flex-col w-full gap-2" key={item.id}>
                   <button
                     type="button"
