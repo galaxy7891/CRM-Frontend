@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import 'flowbite';
 
 :root {
   --background: #ecf2f3;
@@ -27,7 +28,7 @@ body {
 }
 
 .error-fields {
-  background-color: #fee2e2;
+  /* background-color: #fee2e2; */
   border-color: #ef4444;
 }
 

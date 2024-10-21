@@ -9,7 +9,6 @@ const sendStatus: React.FC<SendStatusProps> = ({ step, onBack }) => {
   return (
     <div>
       <FormHeader
-        logoText="Logo"
         title="Atur Ulang kata Sandi"
         subtitle="Verifikasi"
         description="Periksa email anda, jika tidak menerima dalam 15 menit, pastikan email yang dimasukkan benar"

@@ -3,41 +3,42 @@ import React from 'react';
 import { useState } from 'react';
 import FailText from '@/components/status/fail-text';
 import FormHeader from '@/components/form/form-header';
+import BackButton from '@/components/button/back-button';
 
+interface CompanyDataStepProps {
+  companyData: CompanyData;
+  step: number;
+  isLoading: string;
+  setCompanyData: (data: CompanyData) => void;
+  handleRegister: () => void;
+  handleBackButton: () => void;
+}
 interface CompanyData {
   name: string;
   industry: string;
   job_position: string;
 }
 
-interface CompanyDataStepProps {
-  companyData: CompanyData;
-  step: number;
-  setCompanyData: (data: CompanyData) => void;
-  onNext: () => void;
-  isLoading: boolean;
-}
-
 const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
   companyData,
-  setCompanyData,
-  onNext,
   step,
   isLoading,
+  setCompanyData,
+  handleRegister,
+  handleBackButton,
 }) => {
   const [isOnClick, setIsOnClick] = useState<boolean>(false);
 
   const handleCheckField = () => {
     setIsOnClick(true);
     if (companyData.name && companyData.industry && companyData.industry) {
-      onNext();
+      handleRegister();
     }
   };
 
   return (
     <div>
       <FormHeader
-        logoText="Logo"
         title="Daftar Akun"
         subtitle="Lengkapi Data Perusahaan"
         description="Isi data perusahaan terlebih dahulu untuk melanjutkan membuat akun"
@@ -151,11 +152,12 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
 
       <button
         onClick={handleCheckField}
-        disabled={isLoading}
+        disabled={isLoading == 'Register'}
         className="mt-4 w-full px-1 h-12 lg:h-15 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
       >
-        {isLoading ? 'Mengirim...' : 'Kirim'}
+        {isLoading == 'Register' ? 'Mengirim...' : 'Kirim'}
       </button>
+      <BackButton onClick={handleBackButton}>Kembali</BackButton>
     </div>
   );
 };

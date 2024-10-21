@@ -1,23 +1,31 @@
 import React, { useState } from 'react';
 import FormHeader from '@/components/form/form-header';
-import Countdown from '@/components/countdown';
-import FailPopUp from '@/components/status/fail-card';
+import FailText from '@/components/status/fail-text';
+import BackButton from '@/components/button/back-button';
 
 interface SendOtpProps {
+  email: string;
   otp: string; // Current OTP value
   step: number;
   setOtp: (otp: string) => void; // Function to set the OTP
-  onVerify: () => void; // Function to call on OTP verification
   validation: string;
-  isLoading: boolean;
+  isLoading: string;
+  countdown: any;
+  handleVerifyOTP: () => void; // Function to call on OTP verification
+  handleBackButton: () => void; // Function for back to prev step
+  handleSendOTP: () => void;
 }
 
 const SendOtp: React.FC<SendOtpProps> = ({
+  email,
   step,
   setOtp,
-  onVerify,
   validation,
   isLoading,
+  countdown,
+  handleVerifyOTP,
+  handleBackButton,
+  handleSendOTP,
 }) => {
   //otp -
   const [otpValues, setOtpValues] = useState<string[]>(Array(6).fill('')); // Initialize OTP values for 6 digits
@@ -59,15 +67,14 @@ const SendOtp: React.FC<SendOtpProps> = ({
   return (
     <div>
       <FormHeader
-        logoText="Logo"
         title="Daftar Akun"
         subtitle="Verifikasi"
-        description="Cek email dan masukan kode OTP yang telah terkirim"
+        description={`Cek email ${email} dan masukan 6 digit kode otp yang telah terkirim`}
         step={step}
         page_name="register"
       />
-      {validation && <FailPopUp message={validation} />}
-      <div className="flex justify-center mt-3">
+
+      <div className="flex justify-center my-3">
         {otpValues.map((value, index) => (
           <input
             key={index}
@@ -77,20 +84,45 @@ const SendOtp: React.FC<SendOtpProps> = ({
             maxLength={1}
             onChange={(e) => handleInputChange(index, e.target.value)}
             onKeyDown={(e) => handleKeyDown(index, e)}
-            className="w-10 h-10 lg:w-12 lg:h-12 bg-light-white text-center border-2 border-font-gray rounded-2xl text-lg focus:outline-none focus:border-dark-navy mx-1"
+            className={`w-10 h-10 lg:w-12 lg:h-12  text-center border-2  rounded-2xl text-lg focus:outline-none focus:border-dark-navy mx-1 ${
+              validation ? 'error-fields' : 'border-font-gray bg-light-white'
+            }`}
           />
         ))}
       </div>
-      <div className="flex justify-end mt-1">
-        <Countdown />
+      <div className="grid grid-cols-12 pb-8">
+        <div className="col-span-11">
+          {' '}
+          {validation && <FailText message={validation} />}
+        </div>
+        <div className="col-span-1 flex justify-end pt-1">
+          {countdown !== null && countdown > 0 && (
+            <p className="text-xs md:text-base font-medium">00:{countdown}</p>
+          )}
+        </div>
       </div>
+      <div className="text-center text-xs md:text-base">
+        <p>
+          Tidak menerima kode OTP?{' '}
+          <span
+            onClick={handleSendOTP}
+            className="font-bold text-light-gold text-xs md:text-base :hover:opacity-80 transition-opacity duration-200 hover:underline"
+          >
+            {isLoading == 'Send OTP'
+              ? 'Mengirim Ulang OTP...'
+              : 'Kirim Ulang Kode'}
+          </span>
+        </p>
+      </div>
+
       <button
-        onClick={onVerify}
-        disabled={isLoading}
+        onClick={handleVerifyOTP}
+        disabled={isLoading == 'Send OTP'}
         className="mt-4 w-full px-1 h-12 lg:h-15 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
       >
-        {isLoading ? 'Memverifikasi...' : 'Verifikasi'}
+        {isLoading == 'Verify OTP' ? 'Memverifikasi...' : 'Verifikasi'}
       </button>
+      <BackButton onClick={handleBackButton}>Kembali</BackButton>
     </div>
   );
 };

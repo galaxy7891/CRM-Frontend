@@ -54,7 +54,6 @@ const Password: React.FC<PasswordProps> = ({
     <div>
       {' '}
       <FormHeader
-        logoText="Logo"
         title="Daftar Akun"
         subtitle="Masukkan Password"
         description="Masukkan kata sandi"

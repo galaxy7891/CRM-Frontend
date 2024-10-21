@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 
-import IconForget from '@/components/icon-forget';
+import AuthLeftSection from '@/components/icon-forget';
+import AuthRightSection from '@/components/auth-right-section';
 import Step1_email from '@/components/form/form-forget-password/step1-email';
 import Step2_send_status from '@/components/form/form-forget-password/step2-send-status';
 
@@ -46,10 +47,10 @@ const ForgetPassword = () => {
   return (
     <div className="flex flex-row min-h-screen justify-center">
       <div className="sm:w-1/2 hidden md:block ">
-        <IconForget />
+        <AuthLeftSection />
       </div>
-      <div className="flex flex-col p-4 lg:p-10 w-full sm:w-1/2">
-        <div className="bg-font-white w-full h-full rounded-lg px-4 sm:p-10 lg:px-20 lg:py-4">
+      <div className="sm:w-1/2 flex flex-col w-full p-4 lg:px-10 lg:py-5">
+        <AuthRightSection>
           {(() => {
             switch (step) {
               case 1:
@@ -82,7 +83,7 @@ const ForgetPassword = () => {
               </a>
             </p>
           </div>
-        </div>
+        </AuthRightSection>
       </div>
     </div>
   );

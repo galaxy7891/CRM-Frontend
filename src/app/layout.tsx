@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: "LoyalCust",
-  description: "Customer Relationship Management",
-  icons: "/icons/sidebar/logo.svg",
+  title: 'LoyalCust',
+  description: 'Customer Relationship Management',
+  icons: '/icons/sidebar/logo.svg',
 };
 
 export default function RootLayout({
@@ -16,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-custom antialiased">
-        <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+        <GoogleOAuthProvider
+          clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
+        >
           {children}
         </GoogleOAuthProvider>
       </body>

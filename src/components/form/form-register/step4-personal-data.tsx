@@ -33,7 +33,6 @@ const PersonalDataStep: React.FC<PersonalDataStepProps> = ({
   return (
     <div>
       <FormHeader
-        logoText="Logo"
         title="Daftar Akun"
         subtitle="Lengkapi Data Diri"
         description="Isi data diri terlebih dahulu untuk melanjutkan membuat akun"

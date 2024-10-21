@@ -3,15 +3,23 @@
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
-import IconForget from '@/components/icon-forget';
+import AuthLeftSection from '@/components/icon-forget';
+import AuthRightSection from '@/components/auth-right-section';
 import FormHeader from '@/components/form/form-header';
 import FailText from '@/components/status/fail-text';
 import FailCard from '@/components/status/fail-card';
 import SuccessModal from '@/components/status/success-modal';
 
+interface Password {
+  new_password: string;
+  confirm_new_password: string;
+}
 const ResetPassword: React.FC = () => {
-  const [newPassword, setNewPassword] = useState<string>('');
-  const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
+  const [newPassword, setNewPassword] = useState<Password>({
+    new_password: '',
+    confirm_new_password: '',
+  });
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<string>('');
   const [attemptedSubmit, setAttemptedSubmit] = useState<boolean>(false);
@@ -28,11 +36,16 @@ const ResetPassword: React.FC = () => {
     { regex: /[\d\W]/, label: 'Satu angka, simbol, atau karakter spasi' },
   ];
 
-  const isPasswordValid = rules.every((rule) => rule.regex.test(newPassword));
+  const isPasswordValid = rules.every((rule) =>
+    rule.regex.test(newPassword.new_password)
+  );
 
   const handleResetPassword = async () => {
     setAttemptedSubmit(true);
-    if (!isPasswordValid || newPassword !== passwordConfirmation) {
+    if (
+      !isPasswordValid ||
+      newPassword.new_password !== newPassword.confirm_new_password
+    ) {
       return;
     }
 
@@ -48,7 +61,7 @@ const ResetPassword: React.FC = () => {
           body: JSON.stringify({
             token,
             email,
-            new_password: newPassword,
+            ...newPassword,
           }),
         }
       );
@@ -57,7 +70,8 @@ const ResetPassword: React.FC = () => {
       if (data.success) {
         setStatus('success');
       } else {
-        setStatus(data.message);
+        console.error(data.message);
+        // setStatus(data.message);
       }
     } catch (Exception) {
       console.error(Exception);
@@ -69,12 +83,11 @@ const ResetPassword: React.FC = () => {
   return (
     <div className="flex flex-row min-h-screen justify-center">
       <div className="sm:w-1/2 hidden md:block">
-        <IconForget />
+        <AuthLeftSection />
       </div>
-      <div className="flex flex-col p-4 lg:p-10 w-full sm:w-1/2">
-        <div className="bg-font-white w-full h-full rounded-lg px-4 sm:p-10 lg:px-20 lg:py-4">
+      <div className="sm:w-1/2 flex flex-col w-full p-4 lg:px-10 lg:py-5">
+        <AuthRightSection>
           <FormHeader
-            logoText="Logo"
             title=" Atur Ulang Kata Sandi"
             subtitle=" Atur Kata Sandi"
             description="Silakan masukkan kata sandi yang baru"
@@ -86,25 +99,27 @@ const ResetPassword: React.FC = () => {
           )}
 
           <label
-            htmlFor="password"
+            htmlFor="new_password"
             className="block text-black text-xs font-custom font-medium my-3 md:text-base"
           >
             Kata Sandi
           </label>
           <input
             required
-            name="password"
+            name="new_password"
             type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
+            value={newPassword.new_password}
+            onChange={(e) =>
+              setNewPassword({ ...newPassword, new_password: e.target.value })
+            }
             placeholder="Masukkan kata sandi"
             className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black focus:outline-none rounded-lg bg-light-white focus:border-dark-navy ${
-              attemptedSubmit && !newPassword
+              attemptedSubmit && !newPassword.new_password
                 ? 'error-fields'
                 : 'border-font-gray'
             }`}
           />
-          {attemptedSubmit && newPassword === '' && (
+          {attemptedSubmit && newPassword.new_password === '' && (
             <FailText message="Kata sandi tidak boleh kosong" />
           )}
 
@@ -118,27 +133,32 @@ const ResetPassword: React.FC = () => {
             required
             name="password_confirmation"
             type="password"
-            value={passwordConfirmation}
-            onChange={(e) => setPasswordConfirmation(e.target.value)}
+            value={newPassword.confirm_new_password}
+            onChange={(e) =>
+              setNewPassword({
+                ...newPassword,
+                confirm_new_password: e.target.value,
+              })
+            }
             placeholder="Masukkan kembali kata sandi"
             className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black focus:outline-none rounded-lg bg-light-white focus:border-dark-navy ${
-              attemptedSubmit && !passwordConfirmation
+              attemptedSubmit && !newPassword.confirm_new_password
                 ? 'error-fields'
                 : 'border-font-gray'
             }`}
           />
-          {attemptedSubmit && passwordConfirmation === '' && (
+          {attemptedSubmit && newPassword.confirm_new_password === '' && (
             <FailText message="Ketik ulang kata sandi" />
           )}
           {attemptedSubmit &&
-            passwordConfirmation !== '' &&
-            passwordConfirmation !== newPassword && (
+            newPassword.confirm_new_password !== '' &&
+            newPassword.confirm_new_password !== newPassword.new_password && (
               <FailText message="Kata sandi tidak sama" />
             )}
 
           <ul className="list-none space-y-2 mt-4">
             {rules.map((rule, index) => {
-              const isValid = rule.regex.test(newPassword);
+              const isValid = rule.regex.test(newPassword.new_password);
               return (
                 <li key={index} className="flex items-center">
                   <Image
@@ -180,7 +200,7 @@ const ResetPassword: React.FC = () => {
               actionButton_name="Login"
             />
           )}
-        </div>
+        </AuthRightSection>
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ interface SendEmailProps {
   setEmail: (email: string) => void;
   onNext: () => void;
   validation: string;
-  isLoading: boolean;
+  isLoading: string;
 }
 
 const SendEmail: React.FC<SendEmailProps> = ({
@@ -22,7 +22,6 @@ const SendEmail: React.FC<SendEmailProps> = ({
   return (
     <div>
       <FormHeader
-        logoText="Logo"
         title="Daftar Akun"
         subtitle="Masukkan Email"
         description="Masukan email untuk verifikasi"
@@ -45,10 +44,10 @@ const SendEmail: React.FC<SendEmailProps> = ({
       />
       <button
         onClick={onNext}
-        disabled={isLoading}
+        disabled={isLoading == 'Send OTP'}
         className="mt-4 w-full px-1 h-12 lg:h-15 font-custom  bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
       >
-        {isLoading ? 'Mengirim OTP...' : 'Kirim OTP'}
+        {isLoading == 'Send OTP' ? 'Mengirim OTP...' : 'Kirim OTP'}
       </button>
     </div>
   );

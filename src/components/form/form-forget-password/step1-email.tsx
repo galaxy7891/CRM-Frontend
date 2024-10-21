@@ -1,7 +1,6 @@
 import FormHeader from '@/components/form/form-header';
 import FailText from '@/components/status/fail-text';
 
-
 interface SendEmailProps {
   email: string;
   step: number;
@@ -22,7 +21,6 @@ const SendEmail: React.FC<SendEmailProps> = ({
   return (
     <div>
       <FormHeader
-        logoText="Logo"
         title="Atur Ulang kata Sandi"
         subtitle="Masukkan Email"
         description="Silakan masukkan email anda untuk reset kata sandi"

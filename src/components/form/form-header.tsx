@@ -1,9 +1,9 @@
 import React from 'react';
 import Stepper_register from '@/components/stepper/stepper-register';
 import Stepper_forget_password from '@/components/stepper/stepper-forget-password';
+import Image from 'next/image';
 
 interface HeaderProps {
-  logoText: string;
   title: string;
   subtitle: string;
   description: string;
@@ -12,7 +12,6 @@ interface HeaderProps {
 }
 
 const FormHeader: React.FC<HeaderProps> = ({
-  logoText,
   title,
   subtitle,
   description,
@@ -21,11 +20,8 @@ const FormHeader: React.FC<HeaderProps> = ({
 }) => {
   return (
     <div>
-      <p className="text-2xl lg:text-4xl text-font-brown font-custom pb-2">
-        {logoText}
-      </p>
-      <div className="pb-2">
-        <h1 className="text-2xl md:text-[28px] font-bold text-font-brown lg:mt-5">
+      <div className="pb-2 pt-3">
+        <h1 className="text-2xl md:text-[28px] font-semibold  text-black">
           {title}
         </h1>
         <div className=" flex justify-center my-4 pb-6">

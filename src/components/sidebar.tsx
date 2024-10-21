@@ -1,10 +1,11 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { MENU } from "@/constants/page";
+import { useEffect, useState } from 'react';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { MENU } from '@/constants/page';
+import Image from 'next/image';
 
 interface MenuItem {
   id: number;
@@ -67,98 +68,109 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
     };
 
     handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, [setIsOpen]);
 
   return (
-    <div className="relative">
+    <div className="relative ">
       <nav
         id="logo-sidebar"
         aria-label="Sidebar"
         className={`${
           isOpen || isDesktop
-            ? "translate-x-0 opacity-100"
-            : "-translate-x-full opacity-0"
-        } fixed top-0 left-0 h-screen transition-all duration-300 bg-dark-navy border-r border-gray-700 z-40 md:translate-x-0 md:opacity-100 md:static w-full md:w-64 flex flex-col gap-6 py-10`}
+            ? 'translate-x-0 opacity-100'
+            : '-translate-x-full opacity-0'
+        } fixed top-0 left-0 h-screen transition-all duration-300 bg-dark-navy z-40 md:translate-x-0 md:opacity-100 md:static w-[190px] md:min-w-[200px]  flex flex-col pt-4`}
         style={{
-          visibility: isOpen || isDesktop ? "visible" : "hidden",
-          maxWidth: isOpen && !isDesktop ? "50vw" : isDesktop ? "none" : "0",
+          visibility: isOpen || isDesktop ? 'visible' : 'hidden',
+          maxWidth: isOpen && !isDesktop ? '50vw' : isDesktop ? 'none' : '0',
         }}
       >
-        <div className="flex flex-col gap-[16px]">
-          <h1 className="px-6 mb-4">Logo</h1>
-          <div className="flex flex-col items-start gap-4 h-screen">
+        <div className="flex flex-col  gap-[8px] md:gap-4">
+          <Image
+            src="icons/logo.svg"
+            alt="logo"
+            width={188}
+            height={369}
+            className="mx-auto px-4 "
+          />
+
+          <div className="flex flex-col items-start h-screen">
             {MENU.map((item: MenuItem) =>
-            item.id === 9 ? (
-              <div key={item.id} className="w-full">
-                <div className="border-t border-white">
-                  <Link
-                    href={item.link || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`group w-full ${
-                      activeLink === item.link
-                        ? "text-font-white font-bold"
-                        : "text-font-white font-medium"
-                    } font-custom text-base flex flex-row px-4 py-3 gap-2 items-center`}
-                  >
-                    <Image
-                      src={activeLink === item.link ? item.iconHover! : item.icon}
-                      alt={item.alt}
-                      width={25}
-                      height={25}
-                      className={`${
-                        activeLink === item.link ? "block" : "group-hover:hidden"
-                      }`}
-                    />
-                    <Image
-                      src={item.iconHover!}
-                      alt={item.alt + " hover"}
-                      width={25}
-                      height={25}
-                      className={`${
+              item.id === 9 ? (
+                <div key={item.id} className="w-full">
+                  <div className="border-t border-white">
+                    <Link
+                      href={item.link || '#'}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`group w-full ${
                         activeLink === item.link
-                          ? "hidden"
-                          : "hidden group-hover:block"
-                      }`}
-                    />
-                    <p
-                      className={`font-custom text-base ${
-                        activeLink === item.link
-                          ? "font-bold"
-                          : "font-medium group-hover:font-bold"
-                      }`}
+                          ? 'text-font-white font-bold'
+                          : 'text-font-white font-medium'
+                      } font-custom text-base flex flex-row px-4 md:px-10  py-4 md:py-6 gap-2 items-center`}
                     >
-                      {item.title}
-                    </p>
-                  </Link>
+                      <Image
+                        src={
+                          activeLink === item.link ? item.iconHover! : item.icon
+                        }
+                        alt={item.alt}
+                        width={25}
+                        height={25}
+                        className={`${
+                          activeLink === item.link
+                            ? 'block'
+                            : 'group-hover:hidden'
+                        }`}
+                      />
+                      <Image
+                        src={item.iconHover!}
+                        alt={item.alt + ' hover'}
+                        width={25}
+                        height={25}
+                        className={`${
+                          activeLink === item.link
+                            ? 'hidden'
+                            : 'hidden group-hover:block'
+                        }`}
+                      />
+                      <p
+                        className={`font-custom text-xs lg:text-base  ${
+                          activeLink === item.link
+                            ? 'font-bold'
+                            : 'font-medium group-hover:font-bold'
+                        }`}
+                      >
+                        {item.title}
+                      </p>
+                    </Link>
                   </div>
-              </div>
-            ) : item.subItems ? (
+                </div>
+              ) : item.subItems ? (
                 <div className="flex flex-col w-full gap-2" key={item.id}>
                   <button
                     type="button"
                     onClick={() => handleDropdownClick(item.id)}
                     onMouseEnter={() => setHoveredDropdown(item.id)}
                     onMouseLeave={() => setHoveredDropdown(null)}
-                    className={`group w-full flex flex-row px-4 py-3 gap-2 items-center ${
+                    className={`group w-full flex flex-row px-4 md:px-10  py-4 md:py-6 gap-2 items-center ${
                       (openDropdown === item.id &&
-                        activeLink?.startsWith(item.link || "")) ||
+                        activeLink?.startsWith(item.link || '')) ||
                       (openDropdown === item.id &&
                         item.subItems.some(
                           (subItem) => subItem.link === activeLink
                         ))
-                        ? "bg-dark-goldLight text-font-brown font-bold"
+                        ? 'bg-dark-goldLight text-font-brown font-bold'
                         : openDropdown === item.id
-                        ? "text-dark-goldLight font-bold"
-                        : "text-font-light font-medium"
+                        ? 'text-dark-goldLight font-bold'
+                        : 'text-font-light font-medium'
                     } font-custom text-base`}
                   >
                     <Image
                       src={
                         (openDropdown === item.id &&
-                          activeLink?.startsWith(item.link || "")) ||
+                          activeLink?.startsWith(item.link || '')) ||
                         (openDropdown === item.id &&
                           item.subItems.some(
                             (subItem) => subItem.link === activeLink
@@ -176,23 +188,23 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                       className="block"
                     />
                     <p
-                      className={`font-custom text-base ${
+                      className={`font-custom   text-xs lg:text-base ${
                         (openDropdown === item.id &&
-                          activeLink?.startsWith(item.link || "")) ||
+                          activeLink?.startsWith(item.link || '')) ||
                         (openDropdown === item.id &&
                           item.subItems.some(
                             (subItem) => subItem.link === activeLink
                           ))
-                          ? "text-font-brown font-bold"
+                          ? 'text-font-brown font-bold'
                           : openDropdown === item.id
-                          ? "text-dark-goldLight font-bold"
-                          : "text-font-light font-medium group-hover:text-dark-goldLight group-hover:font-bold"
+                          ? 'text-dark-goldLight font-bold'
+                          : 'text-font-light font-medium group-hover:text-dark-goldLight group-hover:font-bold'
                       }`}
                     >
                       {item.title}
                     </p>
                     {openDropdown === item.id ? (
-                      activeLink?.startsWith(item.link || "") ||
+                      activeLink?.startsWith(item.link || '') ||
                       item.subItems.some(
                         (subItem) => subItem.link === activeLink
                       ) ? (
@@ -220,7 +232,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                           width={20}
                           height={20}
                           className={`${
-                            hoveredDropdown === item.id ? "hidden" : "block"
+                            hoveredDropdown === item.id ? 'hidden' : 'block'
                           } group-hover:hidden`}
                         />
                         <Image
@@ -229,7 +241,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                           width={20}
                           height={20}
                           className={`${
-                            hoveredDropdown === item.id ? "block" : "hidden"
+                            hoveredDropdown === item.id ? 'block' : 'hidden'
                           }`}
                         />
                       </>
@@ -238,8 +250,8 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                   <div
                     className={`${
                       openDropdown === item.id
-                        ? "block bg-dropdown-navy"
-                        : "hidden"
+                        ? 'block bg-dropdown-navy'
+                        : 'hidden'
                     } gap-2 flex flex-col overflow-hidden`}
                   >
                     {item.subItems.map((subItem: SubMenuItem) => (
@@ -249,10 +261,10 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                         className="flex flex-row w-full items-center"
                       >
                         <p
-                          className={`font-custom text-base w-full py-2 px-12 ${
+                          className={`font-custom text-xs lg:text-base w-full py-2 px-12 ${
                             activeLink === subItem.link
-                              ? "text-dark-navy font-bold bg-dropdown-gold"
-                              : "text-font-white font-medium hover:text-dark-goldLight hover:font-bold"
+                              ? 'text-dark-navy font-bold bg-dropdown-gold'
+                              : 'text-font-white font-medium hover:text-dark-goldLight hover:font-bold'
                           }`}
                         >
                           {subItem.title}
@@ -264,12 +276,12 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
               ) : (
                 <Link
                   key={item.id}
-                  href={item.link || "#"}
+                  href={item.link || '#'}
                   className={`group w-full ${
                     activeLink === item.link
-                      ? "bg-dark-goldLight text-font-brown font-bold"
-                      : "text-font-white font-medium"
-                  } font-custom text-base flex flex-row px-4 py-3 gap-2 items-center`}
+                      ? 'bg-dark-goldLight text-font-brown font-bold'
+                      : 'text-font-white font-medium'
+                  } font-custom text-base flex flex-row px-4 md:px-10 py-4 md:py-6 gap-2 items-center`}
                 >
                   <Image
                     src={
@@ -279,25 +291,25 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                     width={25}
                     height={25}
                     className={`${
-                      activeLink === item.link ? "block" : "group-hover:hidden"
+                      activeLink === item.link ? 'block' : 'group-hover:hidden'
                     }`}
                   />
                   <Image
                     src={item.iconHover!}
-                    alt={item.alt + " hover"}
+                    alt={item.alt + ' hover'}
                     width={25}
                     height={25}
                     className={`${
                       activeLink === item.link
-                        ? "hidden"
-                        : "hidden group-hover:block"
+                        ? 'hidden'
+                        : 'hidden group-hover:block'
                     }`}
                   />
                   <p
-                    className={`font-custom text-base ${
+                    className={`font-custom text-xs lg:text-base ${
                       activeLink === item.link
-                        ? "text-font-brown font-bold"
-                        : "text-font-white group-hover:text-dark-goldLight group-hover:font-bold"
+                        ? 'text-font-brown font-bold'
+                        : 'text-font-white group-hover:text-dark-goldLight group-hover:font-bold'
                     }`}
                   >
                     {item.title}

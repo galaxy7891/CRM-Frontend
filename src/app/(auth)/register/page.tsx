@@ -7,8 +7,11 @@ import Step2_otp from '@/components/form/form-register/step2-otp';
 import Step3_password from '@/components/form/form-register/step3-password';
 import Step4_personal_data from '@/components/form/form-register/step4-personal-data';
 import Step5_company_data from '@/components/form/form-register/step5-company-data';
-import LeftIconSection from '@/components/icon-left';
+import AuthLeftSection from '@/components/auth-left-section';
+import RightAuthSection from '@/components/auth-right-section';
 import SuccessModal from '@/components/status/success-modal';
+import { useOtpCountdown } from '@/hook/useOtpCountdown';
+import AuthRightSection from '@/components/auth-right-section';
 
 interface PersonalData {
   first_name: string;
@@ -28,9 +31,10 @@ interface Password {
 }
 
 const Register = () => {
-  const [step, setStep] = useState<number>(1);
+  const [step, setStep] = useState<number>(4);
+  const { countdown, startCountdown } = useOtpCountdown(60); // Use countdown hook
   const [validation, setValidation] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<string>('');
   const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<Password>({
@@ -50,8 +54,8 @@ const Register = () => {
   });
   const router = useRouter();
 
-  const handleSendOtp = async () => {
-    setIsLoading(true);
+  const handleSendOTP = async () => {
+    setIsLoading('Send OTP');
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/otp/send`,
@@ -66,6 +70,7 @@ const Register = () => {
       const data = await response.json();
       if (data.success) {
         setValidation('');
+        startCountdown();
         setStep(2); // Continue to step 2 (verifikasi OTP)
       } else {
         if (data.message.email) {
@@ -77,12 +82,13 @@ const Register = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      setIsLoading(false);
+      setIsLoading('');
     }
   };
 
   const handleVerifyOtp = async () => {
-    setIsLoading(true);
+    setIsLoading('Verify OTP');
+
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/otp/verify`,
@@ -102,6 +108,8 @@ const Register = () => {
       } else {
         if (data.message.code) {
           setValidation(data.message.code[0]);
+        } else if (data.message.email) {
+          setValidation(data.message.email[0]);
         } else {
           setValidation(data.message);
         }
@@ -109,12 +117,12 @@ const Register = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      setIsLoading(false);
+      setIsLoading('');
     }
   };
 
   const handleRegister = async () => {
-    setIsLoading(true);
+    setIsLoading('Register');
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`,
@@ -146,77 +154,86 @@ const Register = () => {
     } catch (error) {
       setIsSuccess(false);
     } finally {
-      setIsLoading(false);
+      setIsLoading('');
     }
+  };
+
+  const handleBackButton = () => {
+    setValidation('');
+    setStep(step - 1);
   };
 
   return (
     <div className="flex flex-row min-h-screen justify-center">
       <div className="sm:w-1/2 hidden md:block ">
-        <LeftIconSection />
+        <AuthLeftSection />
       </div>
-      <div className="flex flex-col p-4 lg:p-10 w-full sm:w-1/2">
-        <div className="bg-font-white w-full h-full rounded-lg px-4 sm:p-10 lg:px-20 lg:py-4">
-          <div className="w-full">
-            {(() => {
-              switch (step) {
-                case 1:
-                  return (
-                    <Step1_email
-                      email={email}
-                      setEmail={setEmail}
-                      onNext={handleSendOtp}
-                      step={step}
-                      validation={validation}
-                      isLoading={isLoading}
-                    />
-                  );
+      <div className="sm:w-1/2 flex flex-col w-full p-4 lg:px-10 lg:py-5">
+        <RightAuthSection>
+          {(() => {
+            switch (step) {
+              case 1:
+                return (
+                  <Step1_email
+                    email={email}
+                    setEmail={setEmail}
+                    onNext={handleSendOTP}
+                    step={step}
+                    validation={validation}
+                    isLoading={isLoading}
+                  />
+                );
 
-                case 2:
-                  return (
-                    <Step2_otp
-                      otp={otp}
-                      setOtp={setOtp}
-                      onVerify={handleVerifyOtp}
-                      step={step}
-                      validation={validation}
-                      isLoading={isLoading}
-                    />
-                  );
-                case 3:
-                  return (
-                    <Step3_password
-                      email={email}
-                      password={password}
-                      onNext={() => setStep(4)}
-                      setPassword={setPassword}
-                      step={step}
-                      setValidation={setValidation}
-                      validation={validation}
-                    />
-                  );
-                case 4:
-                  return (
-                    <Step4_personal_data
-                      personalData={personalData}
-                      setPersonalData={setPersonalData}
-                      onNext={() => setStep(5)}
-                      step={step}
-                    />
-                  );
-                case 5:
-                  return (
-                    <Step5_company_data
-                      companyData={companyData}
-                      setCompanyData={setCompanyData}
-                      onNext={handleRegister}
-                      step={step}
-                      isLoading={isLoading}
-                    />
-                  );
-              }
-            })()}
-          </div>
+              case 2:
+                return (
+                  <Step2_otp
+                    email={email}
+                    countdown={countdown}
+                    otp={otp}
+                    setOtp={setOtp}
+                    step={step}
+                    validation={validation}
+                    isLoading={isLoading}
+                    handleSendOTP={handleSendOTP}
+                    handleVerifyOTP={handleVerifyOtp}
+                    handleBackButton={handleBackButton}
+                  />
+                );
+              case 3:
+                return (
+                  <Step3_password
+                    email={email}
+                    password={password}
+                    onNext={() => setStep(4)}
+                    setPassword={setPassword}
+                    step={step}
+                    setValidation={setValidation}
+                    validation={validation}
+                  />
+                );
+              case 4:
+                return (
+                  <Step4_personal_data
+                    personalData={personalData}
+                    setPersonalData={setPersonalData}
+                    onNext={() => setStep(5)}
+                    step={step}
+                  />
+                );
+              case 5:
+                return (
+                  <Step5_company_data
+                    companyData={companyData}
+                    step={step}
+                    isLoading={isLoading}
+                    setCompanyData={setCompanyData}
+                    handleRegister={handleRegister}
+                    handleBackButton={handleBackButton}
+                  />
+                );
+            }
+          })()}
+
           <div className="mt-5 text-center">
             <p className="text-xs md:text-base  font-custom font-medium">
               Sudah punya akun?{' '}
@@ -228,7 +245,7 @@ const Register = () => {
               </a>
             </p>
           </div>
-        </div>
+        </RightAuthSection>
       </div>
       {isSuccess && (
         <SuccessModal

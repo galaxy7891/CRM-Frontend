@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-import { MENU } from "@/constants/page";
-import Image from "next/image";
+import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { MENU } from '@/constants/page';
+import Image from 'next/image';
 
 interface HeaderProps {
   onToggleSidebar: () => void;
@@ -22,10 +22,11 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
       undefined;
 
     // Pengecekan untuk halaman tanpa sidebar
-    if (pathName === "/detail-user" || pathName === "/detail-company") {
+    if (pathName === '/detail-user' || pathName === '/detail-company') {
       matchedPage = {
-        title: "Detail Pengguna",
-        description: "Lihat informasi akun anda meliputi data profil, perusahaan, dan aktivitas yang telah anda lakukan.",
+        title: 'Detail Pengguna',
+        description:
+          'Lihat informasi akun anda meliputi data profil, perusahaan, dan aktivitas yang telah anda lakukan.',
       };
     } else {
       MENU.forEach((menuItem) => {
@@ -57,12 +58,12 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
 
   return (
     <div className="relative">
-      <header className="sticky top-0 z-50 flex items-center justify-between px-8 py-4 bg-dark-navy border-b border-gray-700">
+      <header className="sticky top-0 z-50 flex items-center justify-between ps-3 pe-4 py-3 lg:pe-12 md:py-4  bg-dark-navy  shadow-lg">
         <div className="flex items-center gap-2">
           {/* Hanya tampilkan sidebar toggle jika bukan di halaman detail */}
-          {pathName !== "/detail-user" && pathName !== "/detail-company" && (
+          {pathName !== '/detail-user' && pathName !== '/detail-company' && (
             <button
-              className="md:hidden inline-flex items-center p-2"
+              className="md:hidden inline-flex items-center"
               onClick={onToggleSidebar}
             >
               <Image
@@ -73,8 +74,8 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
               />
             </button>
           )}
-          <p className="text-base lg:text-2xl font-custom text-font-light">
-            {currentPage ? currentPage.title : "Page"}
+          <p className="text-base lg:text-xl font-custom text-font-light">
+            {currentPage ? currentPage.title : 'Page'}
           </p>
 
           <div className="relative group">
@@ -133,7 +134,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
               id="avatarButton"
               onClick={toggleDropdown}
               className="w-10 h-10 rounded-full cursor-pointer"
-              src="/images/barantam.png"
+              src="/icons/profile/freya.jpg"
               alt="User dropdown"
               width={40}
               height={40}

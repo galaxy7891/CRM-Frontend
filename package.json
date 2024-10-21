@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "@react-oauth/google": "^0.12.1",
-    "axios": "^0.27.2",
-    "flowbite-react": "^0.10.2",
+    "axios": "^1.7.7",
+    "buffer": "^6.0.3",
     "flowbite": "^2.5.2",
+    "flowbite-react": "^0.10.2",
     "js-cookie": "^3.0.5",
     "next": "14.2.13",
+    "next-auth": "^4.24.8",
     "react": "^18",
     "react-dom": "^18",
     "react-form-stepper": "^2.0.3"
