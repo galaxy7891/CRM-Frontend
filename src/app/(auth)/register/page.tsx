@@ -2,16 +2,15 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Step1_email from '@/components/form/form-register/step1-email';
-import Step2_otp from '@/components/form/form-register/step2-otp';
-import Step3_password from '@/components/form/form-register/step3-password';
-import Step4_personal_data from '@/components/form/form-register/step4-personal-data';
-import Step5_company_data from '@/components/form/form-register/step5-company-data';
+import Step1_email from '@/app/(auth)/register/step1-email';
+import Step2_otp from '@/app/(auth)/register/step2-otp';
+import Step3_password from '@/app/(auth)/register/step3-password';
+import Step4_personal_data from '@/app/(auth)/register/step4-personal-data';
+import Step5_company_data from '@/app/(auth)/register/step5-company-data';
 import AuthLeftSection from '@/components/auth-left-section';
 import RightAuthSection from '@/components/auth-right-section';
 import SuccessModal from '@/components/status/success-modal';
 import { useOtpCountdown } from '@/hook/useOtpCountdown';
-import AuthRightSection from '@/components/auth-right-section';
 
 interface PersonalData {
   first_name: string;
@@ -31,17 +30,17 @@ interface Password {
 }
 
 const Register = () => {
-  const [step, setStep] = useState<number>(4);
-  const { countdown, startCountdown } = useOtpCountdown(60); // Use countdown hook
-  const [validation, setValidation] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<string>(''); // Loading state at where procces
   const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
+  const [OTP, setOTP] = useState<string>('');
+  const [step, setStep] = useState<number>(1);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const { countdown, startCountdown } = useOtpCountdown(60); // Use countdown hook
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<Password>({
     password: '',
     password_confirmation: '',
   });
-  const [otp, setOtp] = useState<string>('');
   const [personalData, setPersonalData] = useState<PersonalData>({
     first_name: '',
     last_name: '',
@@ -52,6 +51,7 @@ const Register = () => {
     industry: '',
     job_position: '',
   });
+
   const router = useRouter();
 
   const handleSendOTP = async () => {
@@ -69,14 +69,14 @@ const Register = () => {
       );
       const data = await response.json();
       if (data.success) {
-        setValidation('');
+        setErrorMessage('');
         startCountdown();
         setStep(2); // Continue to step 2 (verifikasi OTP)
       } else {
         if (data.message.email) {
-          setValidation(data.message.email[0]);
+          setErrorMessage(data.message.email[0]);
         } else {
-          setValidation(data.message);
+          setErrorMessage(data.message);
         }
       }
     } catch (error) {
@@ -97,21 +97,21 @@ const Register = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ email, code: otp }),
+          body: JSON.stringify({ email, code: OTP }),
         }
       );
 
       const data = await response.json();
       if (data.success) {
-        setValidation('');
+        setErrorMessage('');
         setStep(3); // Continue to step 3 (input password)
       } else {
         if (data.message.code) {
-          setValidation(data.message.code[0]);
+          setErrorMessage(data.message.code[0]);
         } else if (data.message.email) {
-          setValidation(data.message.email[0]);
+          setErrorMessage(data.message.email[0]);
         } else {
-          setValidation(data.message);
+          setErrorMessage(data.message);
         }
       }
     } catch (error) {
@@ -142,24 +142,24 @@ const Register = () => {
 
       const data = await response.json();
       if (data.success) {
-        setValidation('');
+        setErrorMessage('');
         setIsSuccess(true);
         setTimeout(() => {
           router.push('/login');
         }, 3000);
       } else {
-        setValidation(data.message);
+        setErrorMessage(data.message);
         console.error(data.message);
       }
     } catch (error) {
-      setIsSuccess(false);
+      console.error(error);
     } finally {
       setIsLoading('');
     }
   };
 
   const handleBackButton = () => {
-    setValidation('');
+    setErrorMessage('');
     setStep(step - 1);
   };
 
@@ -179,7 +179,7 @@ const Register = () => {
                     setEmail={setEmail}
                     onNext={handleSendOTP}
                     step={step}
-                    validation={validation}
+                    errorMessage={errorMessage}
                     isLoading={isLoading}
                   />
                 );
@@ -189,10 +189,10 @@ const Register = () => {
                   <Step2_otp
                     email={email}
                     countdown={countdown}
-                    otp={otp}
-                    setOtp={setOtp}
+                    OTP={OTP}
+                    setOTP={setOTP}
                     step={step}
-                    validation={validation}
+                    errorMessage={errorMessage}
                     isLoading={isLoading}
                     handleSendOTP={handleSendOTP}
                     handleVerifyOTP={handleVerifyOtp}
@@ -207,8 +207,8 @@ const Register = () => {
                     onNext={() => setStep(4)}
                     setPassword={setPassword}
                     step={step}
-                    setValidation={setValidation}
-                    validation={validation}
+                    setErrorMessage={setErrorMessage}
+                    errorMessage={errorMessage}
                   />
                 );
               case 4:

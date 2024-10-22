@@ -28,9 +28,11 @@ const config: Config = {
           green: '#2D9D47',
           greenLight: '#ACFFC8',
           greenBright: '#28A745',
+          greenGlow: '#15DD43',
           red: '#BD2F3D',
           redDark: '#CB1627',
           redLight: '#FFCACA',
+          redGlow: '#FF4040',
           blue: '#1976D2',
         },
         light: {
@@ -70,6 +72,6 @@ const config: Config = {
     require('flowbite/plugin'),
     flowbite.plugin(),
   ],
-  darkMode: "class",
+  darkMode: 'class',
 };
 export default config;

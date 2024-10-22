@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
@@ -70,26 +69,6 @@ const LoginPage: React.FC = () => {
     }
   };
 
-  // const googleLogin = useGoogleLogin({
-  //   onSuccess: async (tokenResponse) => {
-  //     try {
-  //       // Send the token to your backend
-  //       const response = await axios.get(
-  //         `${process.env.NEXT_PUBLIC_API_URL}/api/oauth/google`,
-  //         {
-  //           token: tokenResponse.access_token, // Send the access token
-  //         }
-  //       );
-  //       console.log(response); // Debugging log
-  //     } catch (error) {
-  //       console.error('Google login error:', error); // Handle error
-  //     }
-  //   },
-  //   onError: (error) => {
-  //     console.error('Google login failed:', error); // Handle login error
-  //   },
-  // });
-
   useEffect(() => {
     //Check if token exists
     const token = localStorage.getItem('token');
@@ -129,7 +108,7 @@ const LoginPage: React.FC = () => {
             <p>Atau</p>
           </div>
 
-          <GoogleLoginButton/>
+          <GoogleLoginButton />
           <div className="mt-5 text-center">
             <p className="text-xs md:text-base font-custom font-medium">
               Belum punya akun?{' '}

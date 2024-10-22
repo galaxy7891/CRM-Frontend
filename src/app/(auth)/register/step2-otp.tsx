@@ -5,12 +5,12 @@ import BackButton from '@/components/button/back-button';
 
 interface SendOtpProps {
   email: string;
-  otp: string; // Current OTP value
+  OTP: string; // Current OTP value
   step: number;
-  setOtp: (otp: string) => void; // Function to set the OTP
-  validation: string;
+  setOTP: (OTP: string) => void; // Function to set the OTP
+  errorMessage: string;
   isLoading: string;
-  countdown: any;
+  countdown: number | null;
   handleVerifyOTP: () => void; // Function to call on OTP verification
   handleBackButton: () => void; // Function for back to prev step
   handleSendOTP: () => void;
@@ -19,8 +19,8 @@ interface SendOtpProps {
 const SendOtp: React.FC<SendOtpProps> = ({
   email,
   step,
-  setOtp,
-  validation,
+  setOTP,
+  errorMessage,
   isLoading,
   countdown,
   handleVerifyOTP,
@@ -28,7 +28,7 @@ const SendOtp: React.FC<SendOtpProps> = ({
   handleSendOTP,
 }) => {
   //otp -
-  const [otpValues, setOtpValues] = useState<string[]>(Array(6).fill('')); // Initialize OTP values for 6 digits
+  const [otpValues, setOTPValues] = useState<string[]>(Array(6).fill('')); // Initialize OTP values for 6 digits
 
   const handleInputChange = (index: number, value: string) => {
     if (!/^\d*$/.test(value) || value.length > 1) return; // Only allow single digits
@@ -48,8 +48,8 @@ const SendOtp: React.FC<SendOtpProps> = ({
       )?.focus();
     }
 
-    setOtpValues(newOtpValues);
-    setOtp(newOtpValues.join('')); // Join to create the full OTP
+    setOTPValues(newOtpValues);
+    setOTP(newOtpValues.join('')); // Join to create the full OTP
   };
 
   const handleKeyDown = (
@@ -84,16 +84,15 @@ const SendOtp: React.FC<SendOtpProps> = ({
             maxLength={1}
             onChange={(e) => handleInputChange(index, e.target.value)}
             onKeyDown={(e) => handleKeyDown(index, e)}
-            className={`w-10 h-10 lg:w-12 lg:h-12  text-center border-2  rounded-2xl text-lg focus:outline-none focus:border-dark-navy mx-1 ${
-              validation ? 'error-fields' : 'border-font-gray bg-light-white'
+            className={`w-10 h-10 lg:w-12 lg:h-12 text-center border-2 rounded-2xl text-lg focus:outline-none bg-light-white focus:border-dark-navy mx-1 ${
+              errorMessage && !value ? 'error-fields' : 'border-font-gray '
             }`}
           />
         ))}
       </div>
       <div className="grid grid-cols-12 pb-8">
         <div className="col-span-11">
-          {' '}
-          {validation && <FailText message={validation} />}
+          {errorMessage && <FailText message={errorMessage} />}
         </div>
         <div className="col-span-1 flex justify-end pt-1">
           {countdown !== null && countdown > 0 && (

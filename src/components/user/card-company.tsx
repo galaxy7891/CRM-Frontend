@@ -1,12 +1,11 @@
-import { USERDATA } from "@/constants/page";
-import Image from "next/image";
+'use client';
 
-interface UserData {
-  label: string;
-  value: string;
+import Image from 'next/image';
+
+interface CardCompanyProps {
+  data: any;
 }
-
-const CardProfile = () => {
+const CardCompany: React.FC<CardCompanyProps> = ({ data }) => {
   return (
     <div className="grid grid-rows">
       <div className="p-4">
@@ -17,7 +16,7 @@ const CardProfile = () => {
                 <div className="flex flex-col items-center">
                   <div className="relative">
                     <Image
-                      src="/images/barantam.png"
+                      src={data?.company?.image_url || '/images/default.jpg'}
                       alt="image"
                       width={160}
                       height={160}
@@ -33,7 +32,7 @@ const CardProfile = () => {
                     />
                   </div>
                   <p className="text-black dark:text-font-white text-lg font-medium font-custom md:text-lg">
-                    Nama Lengkap
+                    {data?.company?.name}
                   </p>
                 </div>
               </div>
@@ -42,7 +41,7 @@ const CardProfile = () => {
               <div className="col-span-12 md:col-start-5 md:col-span-8">
                 <div className="flex justify-between items-center mb-4">
                   <p className="dark:text-font-white text-base font-medium md:text-2xl font-custom tex-font-black">
-                    Data Diri
+                    Data Perusahaan
                   </p>
                   <Image
                     src="/icons/profile/edits.svg"
@@ -53,15 +52,19 @@ const CardProfile = () => {
                   />
                 </div>
 
-                {/* Mapping Data Diri */}
                 <div className="p-4 bg-light-white dark:bg-dark-darkGray rounded-[10px]">
-                  {USERDATA.map((item: UserData, index: number) => (
+                  {[
+                    { label: 'Jenis Industri', value: data?.company?.industry },
+                    { label: 'Email', value: data?.company?.email },
+                    { label: 'Nomor Telepon', value: data?.company?.phone },
+                    { label: 'Website', value: data?.company?.website },
+                  ].map((item, index) => (
                     <div key={index} className="mb-4">
                       <p className="font-bold dark:text-font-white font-custom text-font-black text-xs md:text-base mb-1">
                         {item.label}
                       </p>
                       <p className="font-custom dark:text-font-white text-font-black text-xs md:text-base">
-                        {item.value}
+                        {item.value || 'N/A'}
                       </p>
                     </div>
                   ))}
@@ -75,4 +78,4 @@ const CardProfile = () => {
   );
 };
 
-export default CardProfile;
+export default CardCompany;

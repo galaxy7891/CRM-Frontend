@@ -1,31 +1,34 @@
 'use client';
 
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-import { MENU } from "@/constants/page";
-import Image from "next/image";
-import useTheme from "./dark-mode";
+import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { MENU } from '@/constants/page';
+import Image from 'next/image';
+import useTheme from './dark-mode';
 
 interface HeaderProps {
   onToggleSidebar: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
-  const [currentPage, setCurrentPage] = useState<{ title: string; description?: string } | undefined>(undefined);
+  const [currentPage, setCurrentPage] = useState<
+    { title: string; description?: string } | undefined
+  >(undefined);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const pathName = usePathname();
   const { isDarkMode, toggleTheme } = useTheme(); // Custom hook for theme handling
 
   useEffect(() => {
-    let matchedPage: { title: string; description?: string } | undefined = undefined;
+    let matchedPage: { title: string; description?: string } | undefined =
+      undefined;
 
-    const customPages = ["/detail-user", "/detail-company"];
+    const customPages = ['/user'];
     if (customPages.includes(pathName)) {
       matchedPage = {
-        title: "Detail Pengguna",
+        title: 'Detail Pengguna',
         description:
-          "Atur preferensi akun Anda secara personal dan perusahaan serta memantau aktivitas Anda. Edit untuk memperbarui data.",
+          'Atur preferensi akun Anda secara personal dan perusahaan serta memantau aktivitas Anda. Edit untuk memperbarui data.',
       };
     } else {
       MENU.forEach((menuItem) => {
@@ -36,7 +39,9 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
           };
         }
         if (menuItem.subItems) {
-          const matchedSubItem = menuItem.subItems.find((subItem) => subItem.link === pathName);
+          const matchedSubItem = menuItem.subItems.find(
+            (subItem) => subItem.link === pathName
+          );
           if (matchedSubItem) {
             matchedPage = {
               title: menuItem.title,
@@ -57,16 +62,35 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
     <div className="relative">
       <header className="sticky top-0 z-50 flex items-center justify-between ps-3 pe-4 py-3 lg:pe-12 md:py-4  bg-dark-navy  shadow-lg">
         <div className="flex items-center gap-2">
-          <button className="md:hidden inline-flex items-center p-2" onClick={onToggleSidebar}>
-            <Image src="/icons/header/sidebar.svg" alt="sidebar" width={20} height={20} />
+          <button
+            className="md:hidden inline-flex items-center"
+            onClick={onToggleSidebar}
+          >
+            <Image
+              src="/icons/header/sidebar.svg"
+              alt="sidebar"
+              width={20}
+              height={20}
+            />
           </button>
-          <p className="text-base lg:text-2xl font-bold font-custom text-font-light">
-            {currentPage ? currentPage.title : "Page"}
+
+          <p className="text-base lg:text-xl font-custom text-font-light">
+            {currentPage ? currentPage.title : 'Page'}
           </p>
 
           <div className="relative group">
-            <button type="button" className="flex items-center justify-center lg:hidden" onClick={toggleTooltip}>
-              <Image src="/icons/header/info-off.svg" alt="info-off" width={24} height={24} className="h-3 w-3 lg:h-6 lg:w-6" />
+            <button
+              type="button"
+              className="flex items-center justify-center lg:hidden"
+              onClick={toggleTooltip}
+            >
+              <Image
+                src="/icons/header/info-off.svg"
+                alt="info-off"
+                width={24}
+                height={24}
+                className="h-3 w-3 lg:h-6 lg:w-6"
+              />
             </button>
 
             <button
@@ -75,8 +99,20 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
               onMouseEnter={() => setIsTooltipVisible(true)}
               onMouseLeave={() => setIsTooltipVisible(false)}
             >
-              <Image src="/icons/header/info-off.svg" alt="info-off" width={24} height={24} className="h-6 w-6 group-hover:hidden" />
-              <Image src="/icons/header/info-on.svg" alt="info-on" width={24} height={24} className="h-6 w-6 hidden group-hover:block" />
+              <Image
+                src="/icons/header/info-off.svg"
+                alt="info-off"
+                width={24}
+                height={24}
+                className="h-6 w-6 group-hover:hidden"
+              />
+              <Image
+                src="/icons/header/info-on.svg"
+                alt="info-on"
+                width={24}
+                height={24}
+                className="h-6 w-6 hidden group-hover:block"
+              />
             </button>
 
             {currentPage?.description && isTooltipVisible && (
@@ -98,7 +134,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
               id="avatarButton"
               onClick={toggleDropdown}
               className="w-10 h-10 rounded-full cursor-pointer"
-              src="/icons/profile/freya.jpg"
+              src="/images/default.jpg"
               alt="User dropdown"
               width={40}
               height={40}
@@ -107,22 +143,39 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
             {isDropdownOpen && (
               <div
                 id="userDropdown"
-                className="absolute right-0 mt-2 z-10 bg-font-white dark:bg-dark-navy divide-y divide-font-gray rounded-md shadow w-44 dark:divide-font-white"
+                className="absolute right-0 mt-2 z-10 bg-font-white dark:bg-dark-navy divide-y divide-font-gray rounded-md shadow dark:shadow-md dark:shadow-gray-700 w-44 dark:divide-font-white"
               >
-                <ul className="text-sm text-font-black font-custom" aria-labelledby="avatarButton">
+                <ul
+                  className="text-sm text-font-black font-custom"
+                  aria-labelledby="avatarButton"
+                >
                   <li>
-                    <a href="#" className="flex items-center justify-between px-2 py-2 bg-light-gold rounded-t-md">
+                    <a
+                      href="#"
+                      className="flex items-center justify-between px-2 py-2 bg-light-gold rounded-t-md"
+                    >
                       <span>Percobaan 7 hari</span>
-                      <Image src="/icons/header/trial.svg" alt="Trial Icon" width={20} height={20} />
+                      <Image
+                        src="/icons/header/trial.svg"
+                        alt="Trial Icon"
+                        width={20}
+                        height={20}
+                      />
                     </a>
                   </li>
                   <li>
-                    <a href="/detail-user" className="dark:text-font-white block px-2 py-2 hover:bg-light-white dark:hover:bg-dark-darkGray">
+                    <a
+                      href="/user"
+                      className="dark:text-font-white block px-2 py-2 hover:bg-light-white dark:hover:bg-dark-darkGray"
+                    >
                       Detail Pengguna
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="dark:text-font-white block px-2 py-2 hover:bg-light-white dark:hover:bg-dark-darkGray">
+                    <a
+                      href="#"
+                      className="dark:text-font-white block px-2 py-2 hover:bg-light-white dark:hover:bg-dark-darkGray"
+                    >
                       Ubah Password
                     </a>
                   </li>
@@ -140,7 +193,10 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
                   </li>
                 </ul>
                 <div className="py-1">
-                  <a href="#" className="block w-max px-2 py-2 text-sm text-dark-red dark:text-dark-redLight">
+                  <a
+                    href="#"
+                    className="block w-max px-2 py-2 text-sm text-dark-red dark:text-dark-redLight"
+                  >
                     Keluar
                   </a>
                 </div>

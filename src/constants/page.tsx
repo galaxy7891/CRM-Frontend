@@ -90,18 +90,3 @@ export const MENU = [
     alt: 'Hubungi Kami',
   },
 ];
-
-export const USERDATA = [
-  { label: 'Jabatan', value: 'Manager' },
-  { label: 'Nomor Telepon', value: '+6282892879286' },
-  { label: 'Email', value: 'karyawan@gmail.com' },
-  { label: 'Akses', value: 'Karyawan' },
-  { label: 'Jenis Kelamin', value: 'Perempuan' },
-];
-
-export const COMPANYDATA = [
-  { label: 'Jenis Industri', value: 'PT. 123' },
-  { label: 'Email', value: 'karyawan@gmail.com' },
-  { label: 'Nomor Telepon', value: '+6282892879286' },
-  { label: 'Website', value: 'www.123.go.id' },
-];

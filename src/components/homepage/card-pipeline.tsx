@@ -21,17 +21,17 @@ const CardDeals: FC<CardProps> = ({ title, total_pipeline, funds }) => {
   // Change colour based on title
   const titleColor =
     title === 'Tercapai'
-      ? 'text-dark-green'
+      ? 'text-dark-green dark:text-dark-greenGlow'
       : title === 'Gagal'
-      ? 'text-dark-red'
-      : 'text-font-black';
+      ? 'text-dark-red dark:text-dark-redGlow'
+      : 'text-font-black dark:text-font-white';
 
   return (
     <Link href="/deals">
       <div className="flex flex-col p-4 rounded-lg bg-light-white dark:bg-dark-darkGray w-full  transform transition-transform duration-500 hover:scale-105 hover:shadow-lg">
         {/* colour change depends on title */}
         <p
-          className={`text-xs lg:text-base font-custom ${titleColor} transition-opacity duration-300 delay-100 hover:opacity-100`}
+          className={`text-xs lg:text-base font-custom ${titleColor} transition-opacity duration-300 delay-100 hover:opacity-100 text-black `}
         >
           {title}
         </p>

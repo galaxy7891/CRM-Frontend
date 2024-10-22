@@ -1,13 +1,13 @@
 import React from 'react';
 import FormHeader from '@/components/form/form-header';
-import FailPopUp from '@/components/status/fail-card';
+import FailText from '@/components/status/fail-text';
 
 interface SendEmailProps {
   email: string;
   step: number;
   setEmail: (email: string) => void;
   onNext: () => void;
-  validation: string;
+  errorMessage: string;
   isLoading: string;
 }
 
@@ -16,7 +16,7 @@ const SendEmail: React.FC<SendEmailProps> = ({
   setEmail,
   onNext,
   step,
-  validation,
+  errorMessage,
   isLoading,
 }) => {
   return (
@@ -28,7 +28,7 @@ const SendEmail: React.FC<SendEmailProps> = ({
         step={step}
         page_name="register"
       />
-      {validation && <FailPopUp message={validation} />}
+
       <label
         htmlFor="email"
         className="block text-black text-xs font-custom font-medium my-3 md:text-base"
@@ -40,9 +40,15 @@ const SendEmail: React.FC<SendEmailProps> = ({
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="user@example.com"
-        className="w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black text-opacity-50 focus:outline-none border-font-gray rounded-lg bg-light-white focus:border-dark-navy "
+        required
+        className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black text-opacity-50 focus:outline-none  rounded-lg bg-light-white focus:border-dark-navy ${
+          errorMessage && !email ? 'border-red-500' : 'border-font-gray'
+        }`}
       />
+
+      {errorMessage && <FailText message={errorMessage} />}
       <button
+        type="submit"
         onClick={onNext}
         disabled={isLoading == 'Send OTP'}
         className="mt-4 w-full px-1 h-12 lg:h-15 font-custom  bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"

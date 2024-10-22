@@ -37,11 +37,13 @@ const Dashboard: FC = () => {
   return (
     <>
       {/* Card Activity */}
-      <div className="bg-font-white dark:text-font-white shadow-lg rounded-lg p-6 lg:m-4 grid grid-rows-1  ">
+      <div className="bg-font-white  dark:bg-dark-navy shadow-lg rounded-lg p-6 grid grid-rows-1">
         <section className="row-span-1">
-          {data?.date || 'Loading...'}
-          <h1 className="font-custom font-bold lg:text-2xl text-base text-font-black pt-1">
-            {data?.user || 'Loading...'}{' '}
+          <p className="text-base font-custom dark:text-font-white">
+            {data?.date || 'Loading...'}
+          </p>
+          <h1 className="font-custom font-bold lg:text-2xl text-base text-font-black dark:text-font-white pt-1">
+            {data?.greeting || 'Loading...'}{' '}
             <span className="text-light-gold lg:text-2xl text-base font-bold font-custom">
               {data?.user || 'Loading..'}
             </span>
@@ -52,6 +54,7 @@ const Dashboard: FC = () => {
           <p className="text-xs lg:text-base font-custom text-font-black dark:text-font-white pt-1">
             Ringkasan data pelanggan Anda
           </p>
+
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <CardActivity
               title="Leads"
@@ -74,7 +77,7 @@ const Dashboard: FC = () => {
 
       {/* Card Pipeline */}
 
-      <div className="bg-font-white dark:bg-dark-navy shadow-lg rounded-lg p-6 lg:mx-4 my-4 lg:my-8 grid grid-rows-1 ">
+      <div className="bg-font-white dark:bg-dark-navy shadow-lg rounded-lg p-6 my-4 lg:my-8 grid grid-rows-1 ">
         <div className="row-span-1">
           <div className="grid grid-cols-12 ">
             <div className="col-span-8 lg:col-span-6">

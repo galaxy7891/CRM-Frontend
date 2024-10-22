@@ -81,7 +81,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
           isOpen || isDesktop
             ? 'translate-x-0 opacity-100'
             : '-translate-x-full opacity-0'
-        } fixed top-0 left-0 h-screen transition-all duration-300 bg-dark-navy z-40 md:translate-x-0 md:opacity-100 md:static w-[190px] md:min-w-[200px]  flex flex-col pt-4`}
+        } fixed top-0 left-0 h-screen transition-all duration-300 bg-dark-navy z-40 md:translate-x-0 md:opacity-100 md:static w-[190px] md:min-w-[200px] shadow-lg md:shadow-none shadow-gray-600 flex flex-col pt-4`}
         style={{
           visibility: isOpen || isDesktop ? 'visible' : 'hidden',
           maxWidth: isOpen && !isDesktop ? '50vw' : isDesktop ? 'none' : '0',
@@ -146,8 +146,6 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                       </p>
                     </Link>
                   </div>
-                </div>
-              ) : item.subItems ? (
                 </div>
               ) : item.subItems ? (
                 <div className="flex flex-col w-full gap-2" key={item.id}>

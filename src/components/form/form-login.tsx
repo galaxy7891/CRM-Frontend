@@ -70,7 +70,6 @@ const FormComponent: React.FC<FormComponentProps> = ({
             value={formData[field.name]}
             onChange={handleChange}
             required={field.required}
-            autoComplete="off"
             className="w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black text-opacity-50 focus:outline-none border-font-gray rounded-lg bg-light-white focus:border-dark-navy "
           />
 

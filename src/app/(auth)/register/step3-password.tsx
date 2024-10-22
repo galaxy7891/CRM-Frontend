@@ -13,8 +13,8 @@ interface PasswordProps {
   password: Password;
   step: number;
   setPassword: (data: Password) => void;
-  validation: string;
-  setValidation: React.Dispatch<React.SetStateAction<string>>;
+  errorMessage: string;
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
   onNext: () => void;
 }
 const Password: React.FC<PasswordProps> = ({
@@ -22,8 +22,8 @@ const Password: React.FC<PasswordProps> = ({
   password,
   setPassword,
   email,
-  validation,
-  setValidation,
+  errorMessage,
+  setErrorMessage,
   onNext,
 }) => {
   const rules = [
@@ -42,10 +42,9 @@ const Password: React.FC<PasswordProps> = ({
     setIsOnClick(true);
     if (
       isPasswordValid &&
-      password.password &&
-      password.password_confirmation
+      password.password === password.password_confirmation
     ) {
-      setValidation('');
+      setErrorMessage('');
       onNext();
     }
   };
@@ -60,7 +59,7 @@ const Password: React.FC<PasswordProps> = ({
         step={step}
         page_name="register"
       />
-      {validation && <FailCard message={validation} />}
+      {errorMessage && <FailCard message={errorMessage} />}
       {/* email */}
       <label
         htmlFor="email"
