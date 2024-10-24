@@ -10,8 +10,29 @@ import CardUserActivityLog from '@/app/(dashboard)/user/partials/log-activity';
 import CardUserInfo from './partials/card-profile';
 import CardCompany from './partials/card-company';
 
+interface DataUser {
+  image_url: string;
+  first_name: string;
+  last_name: string;
+  job_position: string;
+  email: string;
+  phone: string;
+  gender: string;
+  role: string;
+}
+
+interface DataCompany {
+  name: string;
+  description: string;
+  image_url: string;
+  industry: string;
+  email: string;
+  phone: string;
+  website: string;
+}
 const User = () => {
-  const [data, setData] = useState<any | null>(null);
+  const [dataUser, setDataUser] = useState<DataUser>();
+  const [dataCompany, setDataCompany] = useState<DataCompany>();
   const [showProfile, setShowProfile] = useState<boolean>(true);
   const { isDarkMode } = useTheme();
   const router = useRouter();
@@ -23,14 +44,14 @@ const User = () => {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/api/user`,
           {
-            cache: 'no-store',
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
         if (response.data.success) {
-          setData(response.data.data); // Set dashboard data
+          setDataUser(response.data.data); // Set dashboard data
+          setDataCompany(response.data.data.company);
           console.log(response.data.data);
         }
       } catch (error) {
@@ -90,7 +111,11 @@ const User = () => {
         </div>
       </div>
 
-      {showProfile ? <CardUserInfo data={data} /> : <CardCompany data={data} />}
+      {showProfile ? (
+        <CardUserInfo data={dataUser!} />
+      ) : (
+        <CardCompany data={dataCompany!} />
+      )}
 
       <CardUserActivityLog />
     </>

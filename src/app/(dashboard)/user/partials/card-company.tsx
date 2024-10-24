@@ -7,7 +7,17 @@ import EditImageCompany from './edit-image-company';
 import EditUserButton from '@/components/button/edit-user-button';
 
 interface CardCompanyProps {
-  data: any;
+  data: DataCompany;
+}
+
+interface DataCompany {
+  name: string;
+  description: string;
+  image_url: string;
+  industry: string;
+  email: string;
+  phone: string;
+  website: string;
 }
 
 const CardCompany: React.FC<CardCompanyProps> = ({ data }) => {
@@ -37,7 +47,7 @@ const CardCompany: React.FC<CardCompanyProps> = ({ data }) => {
               <div className="flex flex-col items-center">
                 <div className="relative">
                   <Image
-                    src={data?.company?.image_url || '/images/default.jpg'}
+                    src={data?.image_url || '/images/default.jpg'}
                     alt="image"
                     width={160}
                     height={160}
@@ -57,7 +67,7 @@ const CardCompany: React.FC<CardCompanyProps> = ({ data }) => {
                   </button>
                 </div>
                 <p className="text-black dark:text-font-white text-lg font-medium font-custom md:text-lg">
-                  {data?.company?.name || 'N/A'}
+                  {data?.name || 'N/A'}
                 </p>
               </div>
             </div>
@@ -73,10 +83,10 @@ const CardCompany: React.FC<CardCompanyProps> = ({ data }) => {
 
               <div className="p-4 bg-light-white dark:bg-dark-darkGray rounded-[10px]">
                 {[
-                  { label: 'Jenis Industri', value: data?.company?.industry },
-                  { label: 'Email', value: data?.company?.email },
-                  { label: 'Nomor Telepon', value: data?.company?.phone },
-                  { label: 'Website', value: data?.company?.website },
+                  { label: 'Jenis Industri', value: data?.industry },
+                  { label: 'Email', value: data?.email },
+                  { label: 'Nomor Telepon', value: data?.phone },
+                  { label: 'Website', value: data?.website },
                 ].map((item, index) => (
                   <div key={index} className="mb-4">
                     <p className="font-bold dark:text-font-white font-custom text-font-black text-xs md:text-base mb-1">

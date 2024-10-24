@@ -129,6 +129,7 @@ const EditUser: React.FC<FormEditProps> = ({ onClose, data }) => {
               <input
                 className="w-full mt-2 p-2 text-xs md:text-base font-custom border focus:border-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
                 defaultValue={data?.role}
+                onChange={(e) => setRole(e.target.value)}
                 disabled
               ></input>
             </div>

@@ -8,8 +8,43 @@ import DashboardPositiveButton from '@/components/button/dashboard-positive-butt
 import CardActivity from './partials/card-activity';
 import CardDeals from '@/app/(dashboard)/homepage/partials/card-pipeline';
 
+interface ActivityData {
+  leads: number;
+  contacts: number;
+  organizations: number;
+}
+
+interface DealsPipelineCount {
+  qualification: number;
+  proposal: number;
+  negotiation: number;
+  won: number;
+  lose: number;
+}
+
+interface DealsPipelineValue {
+  qualification: string;
+  proposal: string;
+  negotiation: string;
+  won: string;
+  lose: string;
+}
+
+interface DealsPipeline {
+  count: DealsPipelineCount;
+  value: DealsPipelineValue;
+}
+
+interface Data {
+  date: string;
+  greeting: string;
+  user: string;
+  activities: ActivityData;
+  deals_pipeline: DealsPipeline;
+}
+
 const Dashboard: FC = () => {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<Data>();
   const router = useRouter();
   useEffect(() => {
     const fetchData = async () => {
@@ -99,27 +134,27 @@ const Dashboard: FC = () => {
             <CardDeals
               title="Kualifikasi"
               total_pipeline={data?.deals_pipeline?.count?.qualification || 0}
-              funds={data?.deals_pipeline?.value?.qualification || 0}
+              funds={data?.deals_pipeline?.value?.qualification || '0'}
             />
             <CardDeals
               title="Proposal"
               total_pipeline={data?.deals_pipeline?.count?.proposal || 0}
-              funds={data?.deals_pipeline?.value?.proposal || 0}
+              funds={data?.deals_pipeline?.value?.proposal || '0'}
             />
             <CardDeals
               title="Negosiasi"
               total_pipeline={data?.deals_pipeline?.count?.negotiation || 0}
-              funds={data?.deals_pipeline?.value?.negotiation || 0}
+              funds={data?.deals_pipeline?.value?.negotiation || '0'}
             />
             <CardDeals
               title="Tercapai"
               total_pipeline={data?.deals_pipeline?.count?.won || 0}
-              funds={data?.deals_pipeline?.value?.won || 0}
+              funds={data?.deals_pipeline?.value?.won || '0'}
             />
             <CardDeals
               title="Gagal"
               total_pipeline={data?.deals_pipeline?.count?.lose || 0}
-              funds={data?.deals_pipeline?.value?.lose || 0}
+              funds={data?.deals_pipeline?.value?.lose || '0'}
             />
           </div>
         </div>
