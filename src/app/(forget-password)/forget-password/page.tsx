@@ -3,9 +3,9 @@
 import { useState } from 'react';
 
 import AuthLeftSection from '@/components/icon-forget';
-import AuthRightSection from '@/components/auth-right-section';
-import Step1_email from '@/components/form/form-forget-password/step1-email';
-import Step2_send_status from '@/components/form/form-forget-password/step2-send-status';
+import AuthRightSection from '@/components/layout/auth-right-section';
+import Step1_email from '@/app/(forget-password)/forget-password/partials/step1-email';
+import Step2_send_status from '@/app/(forget-password)/forget-password/partials/step2-send-status';
 
 const ForgetPassword = () => {
   const [step, setStep] = useState<number>(1);

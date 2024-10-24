@@ -1,4 +1,4 @@
-import FormHeader from '@/components/form/form-header';
+import FormHeader from '@/components/layout/auth-form-header';
 import FailCard from '@/components/status/fail-card';
 import FailText from '@/components/status/fail-text';
 import Image from 'next/image';

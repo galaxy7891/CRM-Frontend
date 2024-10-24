@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-import { MENU } from "@/constants/page";
-import Image from "next/image";
-import useTheme from "./dark-mode";
-import ChangePassword from "@/app/(dashboard)/change-password/page";
+import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { MENU } from '@/constants/page';
+import Image from 'next/image';
+import useTheme from '../dark-mode';
+import ChangePassword from '@/app/(dashboard)/change-password/page';
 
 interface HeaderProps {
   onToggleSidebar: () => void;
@@ -70,7 +70,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
 
   return (
     <div className="relative">
-      <header className="sticky top-0 z-50 flex items-center justify-between ps-3 pe-4 py-3 lg:pe-12 md:py-4  bg-dark-navy  shadow-lg">
+      <header className="sticky top-0 z-30 flex items-center justify-between ps-3 pe-4 py-3 lg:pe-12 md:py-4  bg-dark-navy  shadow-lg">
         <div className="flex items-center gap-2">
           <button
             className="md:hidden inline-flex items-center"
@@ -204,7 +204,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
                 </ul>
                 <div className="py-1">
                   <a
-                    href="#"
+                    href="/login"
                     className="block w-max px-2 py-2 text-sm text-dark-red dark:text-dark-redLight"
                   >
                     Keluar

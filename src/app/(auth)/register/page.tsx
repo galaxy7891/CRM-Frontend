@@ -2,13 +2,13 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Step1_email from '@/app/(auth)/register/step1-email';
-import Step2_otp from '@/app/(auth)/register/step2-otp';
-import Step3_password from '@/app/(auth)/register/step3-password';
-import Step4_personal_data from '@/app/(auth)/register/step4-personal-data';
-import Step5_company_data from '@/app/(auth)/register/step5-company-data';
-import AuthLeftSection from '@/components/auth-left-section';
-import RightAuthSection from '@/components/auth-right-section';
+import Step1_email from '@/app/(auth)/register/partials/step1-email';
+import Step2_otp from '@/app/(auth)/register/partials/step2-otp';
+import Step3_password from '@/app/(auth)/register/partials/step3-password';
+import Step4_personal_data from '@/app/(auth)/register/partials/step4-personal-data';
+import Step5_company_data from '@/app/(auth)/register/partials/step5-company-data';
+import AuthLeftSection from '@/components/layout/auth-left-section';
+import RightAuthSection from '@/components/layout/auth-right-section';
 import SuccessModal from '@/components/status/success-modal';
 import { useOtpCountdown } from '@/hook/useOtpCountdown';
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import FormHeader from '@/components/form/form-header';
+import FormHeader from '@/components/layout/auth-form-header';
 import FailText from '@/components/status/fail-text';
 import BackButton from '@/components/button/back-button';
 

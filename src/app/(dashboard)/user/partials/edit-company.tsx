@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import useTheme from '../dark-mode';
+import useTheme from '@/components/dark-mode';
 
 interface FormEditProps {
   onClose: () => void;

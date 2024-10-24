@@ -1,7 +1,7 @@
 // components/PersonalDataStep.tsx
 import React from 'react';
 import { useState } from 'react';
-import FormHeader from '@/components/form/form-header';
+import FormHeader from '@/components/layout/auth-form-header';
 import FailText from '@/components/status/fail-text';
 
 interface PersonalData {

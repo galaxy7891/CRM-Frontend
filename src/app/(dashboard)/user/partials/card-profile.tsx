@@ -3,6 +3,8 @@ import { useState } from 'react';
 import Image from 'next/image';
 import FormEdit from './edit-user';
 import EditImageUser from './edit-image-user';
+import EditUserButton from '@/components/button/edit-user-button';
+
 interface CardProfileProps {
   data: any;
 }
@@ -23,6 +25,7 @@ const CardProfile: React.FC<CardProfileProps> = ({ data }) => {
     setIsEditing(false);
     setIsEditingImage(false); // Tutup kedua form
   };
+
   return (
     <div className="grid grid-rows">
       <div className="bg-font-white dark:bg-dark-navy shadow-lg rounded-lg p-6 h-full">
@@ -31,25 +34,30 @@ const CardProfile: React.FC<CardProfileProps> = ({ data }) => {
             <div className="col-span-12 md:col-span-4 flex items-center justify-center relative">
               <div className="flex flex-col items-center">
                 <div className="relative">
-                  <Image
-                    src={data?.image_url || '/images/default.jpg'}
-                    alt="image"
-                    width={160}
-                    height={160}
-                    className="rounded-full mb-2 w-[100px] h-[100px] md:w-[160px] md:h-[160px]"
-                  />
-                  <button onClick={handleEditImageClick}>
+                  <div
+                    className="relative cursor-pointer"
+                    onClick={handleEditImageClick}
+                  >
                     <Image
-                      src="/icons/profile/camera.svg"
-                      alt="camera"
-                      width={24}
-                      height={24}
-                      className="absolute bottom-[-10px] right-0 w-[50px] h-[50px] md:w-[70px] md:h-[70px]"
+                      src={data?.image_url || '/images/default.jpg'}
+                      alt="image"
+                      width={160}
+                      height={160}
+                      className="rounded-full mb-2 w-[100px] h-[100px] md:w-[160px] md:h-[160px] "
                     />
-                  </button>
+                    <div className="absolute bottom-[-15px] right-[-18px]">
+                      <Image
+                        src="/icons/profile/camera.svg"
+                        alt="camera"
+                        width={24}
+                        height={24}
+                        className="w-[50px] h-[50px] md:w-[70px] md:h-[70px]"
+                      />
+                    </div>
+                  </div>
                 </div>
                 <p className="text-black dark:text-font-white text-lg font-medium font-custom md:text-lg">
-                  {data?.first_name} {data?.last_name}
+                  {data?.first_name || 'N/A'} {data?.last_name}
                 </p>
               </div>
             </div>
@@ -60,22 +68,15 @@ const CardProfile: React.FC<CardProfileProps> = ({ data }) => {
                 <p className="dark:text-font-white text-base font-medium md:text-2xl font-custom tex-font-black">
                   Data Diri
                 </p>
-                <button onClick={handleEditClick}>
-                  <Image
-                    src="/icons/profile/edits.svg"
-                    alt="editbtn"
-                    width={32}
-                    height={32}
-                    className="w-[18px] h-[18px] md:w-8 md:h-8"
-                  />
-                </button>
+                <EditUserButton onClick={handleEditClick} />
               </div>
 
               <div className="p-4 bg-light-white dark:bg-dark-darkGray rounded-[10px]">
                 {[
-                  { label: 'Jabatan', value: data?.role },
-                  { label: 'Nomor Telepon', value: data?.phone_number },
+                  { label: 'Jabatan', value: data?.job_position },
+                  { label: 'Nomor Telepon', value: data?.phone },
                   { label: 'Email', value: data?.email },
+                  { label: 'Akses', value: data?.role },
                   { label: 'Jenis Kelamin', value: data?.gender },
                 ].map((item, index) => (
                   <div key={index} className="mb-4">
@@ -92,8 +93,10 @@ const CardProfile: React.FC<CardProfileProps> = ({ data }) => {
           </div>
         </div>
       </div>
-      {isEditing && <FormEdit onClose={handleCloseForm} />}
-      {isEditingImage && <EditImageUser onClose={handleCloseForm} />}
+      {isEditing && <FormEdit onClose={handleCloseForm} data={data} />}
+      {isEditingImage && (
+        <EditImageUser onClose={handleCloseForm} data={data} />
+      )}
     </div>
   );
 };

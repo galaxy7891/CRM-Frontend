@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
 import GoogleLoginButton from '@/components/button/google-login-button';
-import FormComponent from '@/components/form/form-login';
-import AuthLeftSection from '@/components/auth-left-section';
-import AuthRightSection from '@/components/auth-right-section';
+import FormComponent from '@/app/(auth)/login/partials/form-login';
+import AuthLeftSection from '@/components/layout/auth-left-section';
+import AuthRightSection from '@/components/layout/auth-right-section';
 import FailPopUp from '@/components/status/fail-card';
 
 const LoginPage: React.FC = () => {

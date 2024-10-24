@@ -2,7 +2,7 @@
 import React from 'react';
 import { useState } from 'react';
 import FailText from '@/components/status/fail-text';
-import FormHeader from '@/components/form/form-header';
+import FormHeader from '@/components/layout/auth-form-header';
 import BackButton from '@/components/button/back-button';
 
 interface CompanyDataStepProps {

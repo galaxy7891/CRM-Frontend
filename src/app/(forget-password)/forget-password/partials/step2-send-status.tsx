@@ -1,4 +1,4 @@
-import FormHeader from '@/components/form/form-header';
+import FormHeader from '@/components/layout/auth-form-header';
 import Image from 'next/image';
 interface SendStatusProps {
   step: number;

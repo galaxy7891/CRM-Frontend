@@ -10,7 +10,7 @@ interface CardProps {
 
 const CardActivityLog = ({ title, description, date }: CardProps) => {
   return (
-    <div className="bg-light-white dark:bg-dark-darkGray p-2 md:p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 hover:border hover:border-light-gold">
+    <div className="bg-light-white dark:bg-dark-darkGray p-2 md:p-4 rounded-lg hover:shadow-lg transition-shadow duration-300 hover:border hover:border-light-gold">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-2">
         <h2 className="text-font-black dark:text-font-white font-custom font-bold text-xs md:text-base">
           {title}

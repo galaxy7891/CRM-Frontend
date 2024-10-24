@@ -2,9 +2,11 @@
 
 import { FC, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import CardActivity from '../../../components/homepage/card-activity';
-import CardDeals from '@/components/homepage/card-pipeline';
 import axios from 'axios';
+
+import DashboardPositiveButton from '@/components/button/dashboard-positive-button';
+import CardActivity from './partials/card-activity';
+import CardDeals from '@/app/(dashboard)/homepage/partials/card-pipeline';
 
 const Dashboard: FC = () => {
   const [data, setData] = useState<any>(null);
@@ -77,10 +79,10 @@ const Dashboard: FC = () => {
 
       {/* Card Pipeline */}
 
-      <div className="bg-font-white dark:bg-dark-navy shadow-lg rounded-lg p-6 my-4 lg:my-8 grid grid-rows-1 ">
+      <div className="bg-font-white dark:bg-dark-navy shadow-lg rounded-lg p-6 mt-4 lg:mt-8 grid grid-rows-1 ">
         <div className="row-span-1">
           <div className="grid grid-cols-12 ">
-            <div className="col-span-8 lg:col-span-6">
+            <div className="col-span-7 lg:col-span-6">
               <p className="font-custom text-font-black dark:text-font-white font-medium lg:text-2xl text-sm">
                 Deals Pipeline
               </p>
@@ -88,10 +90,8 @@ const Dashboard: FC = () => {
                 Ringkasan data deals Anda
               </p>
             </div>
-            <div className="col-span-4 lg:col-span-6 flex justify-end items-center ">
-              <button className="bg-light-gold hover:opacity-80 transition-opacity duration-200 hover:shadow-md text-font-brown font-medium px-8  py-3 md:py-2 text-xs lg:text-base rounded-xl">
-                Detail
-              </button>
+            <div className="col-span-5 lg:col-span-6 flex justify-end items-center ">
+              <DashboardPositiveButton>Detail</DashboardPositiveButton>
             </div>
           </div>
 
