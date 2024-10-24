@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Sidebar from "@/components/sidebar";
-import Header from "@/components/header";
-import { ReactNode, useEffect, useState } from "react";
+import Sidebar from '@/components/layout/sidebar';
+import Header from '@/components/layout/header';
+import { ReactNode, useEffect, useState } from 'react';
 
 interface LayoutDashboardProps {
   children: ReactNode;
@@ -36,9 +36,7 @@ const LayoutDashboard: React.FC<LayoutDashboardProps> = ({ children }) => {
       <div className="flex flex-1 flex-col">
         <Header onToggleSidebar={toggleSidebar} />
 
-        <div className="flex-1 overflow-auto">
-          <main className="p-4">{children}</main>
-        </div>
+        <div className="flex-1 overflow-auto p-4 lg:p-8">{children}</div>
       </div>
     </section>
   );
