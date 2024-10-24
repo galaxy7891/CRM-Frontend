@@ -1,7 +1,6 @@
 import React from 'react';
 import Stepper_register from '@/components/stepper/stepper-register';
 import Stepper_forget_password from '@/components/stepper/stepper-forget-password';
-import Image from 'next/image';
 
 interface HeaderProps {
   title: string;

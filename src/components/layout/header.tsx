@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 import { MENU } from '@/constants/page';
 import Image from 'next/image';
 import useTheme from '../dark-mode';
-import ChangePassword from '@/app/(dashboard)/change-password/page';
 
 interface HeaderProps {
   onToggleSidebar: () => void;
@@ -19,15 +18,15 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const pathName = usePathname();
   const { isDarkMode, toggleTheme } = useTheme(); // Custom hook for theme handling
-  const [isEditing, setIsEditing] = useState(false); // State untuk mengontrol tampilan form edit
+  // const [isEditing, setIsEditing] = useState(false); // State untuk mengontrol tampilan form edit
 
-  const handleEditClick = () => {
-    setIsEditing(true);
-  };
+  // const handleEditClick = () => {
+  //   setIsEditing(true);
+  // };
 
-  const handleCloseForm = () => {
-    setIsEditing(false);
-  };
+  // const onClose = () => {
+  //   setIsEditing(false);
+  // };
 
   useEffect(() => {
     let matchedPage: { title: string; description?: string } | undefined =
@@ -182,12 +181,12 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
                     </a>
                   </li>
                   <li>
-                    <button
+                    {/* <button 
                       onClick={handleEditClick}
                       className="dark:text-font-white block w-full text-left px-2 py-2 hover:bg-light-white dark:hover:bg-dark-darkGray"
                     >
                       Ubah Password
-                    </button>
+                    </button> */}
                   </li>
                   <li className="dark:text-font-white flex items-center justify-between px-2 py-2 hover:bg-light-white dark:hover:bg-dark-darkGray">
                     <span>Tema Gelap</span>
@@ -215,7 +214,6 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
           </div>
         </div>
       </header>
-      {isEditing && <ChangePassword onClose={handleCloseForm} />}
     </div>
   );
 };

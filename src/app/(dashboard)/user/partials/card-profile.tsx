@@ -6,7 +6,16 @@ import EditImageUser from './edit-image-user';
 import EditUserButton from '@/components/button/edit-user-button';
 
 interface CardProfileProps {
-  data: any;
+  data: {
+    image_url: string;
+    first_name: string;
+    last_name: string;
+    job_position: string;
+    email: string;
+    phone: string;
+    gender: string;
+    role: string;
+  };
 }
 
 const CardProfile: React.FC<CardProfileProps> = ({ data }) => {

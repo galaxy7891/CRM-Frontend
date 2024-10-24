@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import AuthLeftSection from '@/components/icon-forget';
@@ -14,6 +14,7 @@ interface Password {
   new_password: string;
   confirm_new_password: string;
 }
+
 const ResetPassword: React.FC = () => {
   const [newPassword, setNewPassword] = useState<Password>({
     new_password: '',
@@ -88,8 +89,8 @@ const ResetPassword: React.FC = () => {
       <div className="sm:w-1/2 flex flex-col w-full p-4 lg:px-10 lg:py-5">
         <AuthRightSection>
           <FormHeader
-            title=" Atur Ulang Kata Sandi"
-            subtitle=" Atur Kata Sandi"
+            title="Atur Ulang Kata Sandi"
+            subtitle="Atur Kata Sandi"
             description="Silakan masukkan kata sandi yang baru"
             step={4}
             page_name="forget-password"
@@ -206,4 +207,11 @@ const ResetPassword: React.FC = () => {
   );
 };
 
-export default ResetPassword;
+// Wrap the ResetPassword component with Suspense when rendering it
+const PageWrapper = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <ResetPassword />
+  </Suspense>
+);
+
+export default PageWrapper;

@@ -8,9 +8,26 @@ import CardActivityLog from './card-activitylog';
 import CurrentMonthYear from './current-month';
 import DashboardPositiveButton from '../../../../components/button/dashboard-positive-button';
 
+// Definisikan interface untuk Activity
+interface Activity {
+  title: string;
+  datetime: string;
+  description: string;
+}
+
+// Definisikan interface untuk pagination
+interface Pagination {
+  current_page: number;
+  last_page: number;
+  total: number;
+  per_page: number;
+  next_page_url: string | null;
+  prev_page_url: string | null;
+}
+
 const ActivityLog = () => {
-  const [activity, setActivity] = useState<any>([]);
-  const [pagination, setPagination] = useState({
+  const [activity, setActivity] = useState<Activity[]>([]); // Ubah tipe menjadi Activity[]
+  const [pagination, setPagination] = useState<Pagination>({
     current_page: 1,
     last_page: 1,
     total: 0,
@@ -31,9 +48,8 @@ const ActivityLog = () => {
         }
       );
       if (response.data.success) {
-        // Set dashboard data
         const activityData = response.data.data[0];
-        setActivity(activityData.data[0].activities);
+        setActivity(activityData.data[0].activities); // Pastikan tipe data yang diterima sesuai
         setPagination({
           current_page: activityData.current_page,
           last_page: activityData.last_page,
@@ -43,7 +59,6 @@ const ActivityLog = () => {
           prev_page_url: activityData.prev_page_url,
         });
       } else {
-        // alert('Failed to fetch activity logs.');
         console.error(response.data.message);
       }
     } catch (error) {
@@ -83,12 +98,12 @@ const ActivityLog = () => {
             <div className="col-span-12 space-y-4">
               <CurrentMonthYear />
 
-              {activity.map((a: any, index: number) => (
+              {activity.map((a: Activity, index: number) => (
                 <CardActivityLog
                   key={index}
-                  title={a?.title}
-                  date={a?.datetime}
-                  description={a?.description}
+                  title={a.title}
+                  date={a.datetime}
+                  description={a.description}
                 />
               ))}
               <div className="flex justify-center ">
