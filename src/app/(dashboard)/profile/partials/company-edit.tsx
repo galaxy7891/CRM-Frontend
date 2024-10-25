@@ -1,59 +1,82 @@
-import Image from 'next/image';
-import useTheme from '@/components/dark-mode';
+import { useState } from 'react';
+
+import SidebarModal from '@/components/layout/sidebar-modal';
+import SidebarFooter from '@/components/layout/sidebar-footer';
+import Asterisk from '@/components/status/required-asterisk';
+import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
+import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
 
 interface FormEditProps {
   onClose: () => void;
+  data: data;
 }
 
-const EditCompany = ({ onClose }: FormEditProps) => {
-  const { isDarkMode } = useTheme();
+interface data {
+  name: string;
+  email: string;
+  industry: string;
+  phone: string;
+  website: string;
+}
 
+const EditCompany = ({ onClose, data }: FormEditProps) => {
+  const [errorMessage, setErrorMessage] = useState<data | null>(null);
+  const [name, setName] = useState(data?.name || '');
+  const [email, setEmail] = useState(data?.email || '');
+  const [industry, setIndustry] = useState(data?.industry || '');
+  const [phone, setPhone] = useState(data?.phone || '');
+  const [website, setWebsite] = useState(data?.website || '');
+
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+
+  //   const formData = new FormData();
+  //   formData.append('name', name);
+  //   formData.append('email', email);
+  //   formData.append('industry', industry);
+  //   formData.append('phone', phone);
+  //   formData.append('website', website);
+
+  //   try {
+  //     const token = localStorage.getItem('token');
+
+  //     const response = await axios.post(
+  //       `${process.env.NEXT_PUBLIC_API_URL}/api/user`,
+  // }
   return (
-    <div className="fixed top-0 right-0 md:w-1/2 w-full h-full bg-light-white dark:bg-dark-darkGray shadow-lg z-50 flex flex-col overflow-hidden">
+    <SidebarModal onClose={onClose} SidebarModalTitle="Edit Perusahaan">
       {/* Sticky Header */}
-      <div className="sticky top-0 bg-light-white dark:bg-dark-darkGray z-10 p-4 md:p-8">
-        <div className="flex space-x-6 items-center">
-          <button onClick={onClose}>
-            <Image
-              src={
-                isDarkMode
-                  ? '/icons/profile/back-white.svg'
-                  : '/icons/profile/back.svg'
-              }
-              alt="back"
-              width={24}
-              height={24}
-              className="w-[12px] h-[12px] md:w-[15px] md:h-[15px]"
-            />
-          </button>
-          <h2 className="md:text-2xl text-base font-medium text-font-black dark:text-font-white">
-            Edit Perusahaan Karyawan
-          </h2>
-        </div>
-      </div>
 
       {/* Scrollable Form */}
       <form className="flex-grow overflow-y-auto p-2 md:p-4 space-y-4">
         {/* Nama Perusahaan dan Email */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex-1">
-            <label className="block text-xs md:text-base font-custom text-font-black dark:text-font-white">
+            <label
+              htmlFor="name"
+              className="block text-xs md:text-base font-custom text-font-black dark:text-font-white"
+            >
               Nama Perusahaan
-              <span className="font-custom text-dark-red md:text-base text-xs">
-                *
-              </span>
+              <Asterisk />
             </label>
             <input
+              value={name}
+              name="name"
               type="text"
               className="w-full mt-2 p-2 text-xs md:text-base border focus:border-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
               placeholder="Nama Perusahaan"
             />
           </div>
           <div className="flex-1">
-            <label className="block text-xs md:text-base font-custom text-font-black dark:text-font-white">
+            <label
+              htmlFor="email"
+              className="block text-xs md:text-base font-custom text-font-black dark:text-font-white"
+            >
               Email
             </label>
             <input
+              name="email"
+              value={email}
               type="text"
               className="w-full mt-2 p-2 text-xs md:text-base border focus:border-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
               placeholder="Email"
@@ -64,15 +87,17 @@ const EditCompany = ({ onClose }: FormEditProps) => {
         {/* Jenis Industri dan Nomor Telepon */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex-1">
-            <label className="block text-xs md:text-base font-custom text-font-black dark:text-font-white">
+            <label
+              htmlFor="industry"
+              className="block text-xs md:text-base font-custom text-font-black dark:text-font-white"
+            >
               Jenis Industri
-              <span className="font-custom text-dark-red md:text-base text-xs">
-                *
-              </span>
+              <Asterisk />
             </label>
             <select
+              name="industry"
               className="w-full mt-2 p-2 text-xs md:text-base border focus:border-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
-              defaultValue=""
+              defaultValue={industry}
             >
               <option value="Manufaktur">Manufaktur</option>
               <option value="Teknologi">Teknologi</option>
@@ -81,17 +106,20 @@ const EditCompany = ({ onClose }: FormEditProps) => {
             </select>
           </div>
           <div className="flex-1">
-            <label className="block text-xs md:text-base font-custom text-font-black dark:text-font-white">
+            <label
+              htmlFor="phone"
+              className="block text-xs md:text-base font-custom text-font-black dark:text-font-white"
+            >
               Nomor Telepon
-              <span className="font-custom text-dark-red md:text-base text-xs">
-                *
-              </span>
+              <Asterisk />
             </label>
             <div className="flex mt-2">
               <span className="inline-flex items-center px-3 text-xs md:text-sm border border-r-0 rounded-l-[4px] bg-gray-200 dark:bg-dark-navy dark:text-font-white border-font-black">
                 +62
               </span>
               <input
+                name="phone"
+                value={phone}
                 type="tel"
                 className="w-full p-2 text-xs md:text-base border focus:border-dark-navy focus:outline-none border-font-black rounded-r-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
                 placeholder="81234567890"
@@ -103,10 +131,15 @@ const EditCompany = ({ onClose }: FormEditProps) => {
         {/* Website */}
         <div className="grid md:grid-cols-2 gap-x-4">
           <div className="flex-1">
-            <label className="block text-xs md:text-base font-custom text-font-black dark:text-font-white">
+            <label
+              htmlFor="website"
+              className="block text-xs md:text-base font-custom text-font-black dark:text-font-white"
+            >
               Website
             </label>
             <input
+              name="website"
+              value={website}
               type="text"
               className="w-full mt-2 p-2 text-xs md:text-base border focus:border-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
               placeholder="Website"
@@ -116,22 +149,15 @@ const EditCompany = ({ onClose }: FormEditProps) => {
       </form>
 
       {/* Sticky Footer */}
-      <div className="sticky bottom-0 bg-dark-navy dark:bg-dark-navy z-10 p-4 flex justify-end space-x-2">
-        <button
-          type="button"
-          onClick={onClose}
-          className="px-4 py-2 text-dark-red bg-dark-redLight font-medium rounded-[10px]"
-        >
-          Hapus Semua
-        </button>
-        <button
-          type="submit"
-          className="px-4 py-2 rounded-[10px] bg-light-gold text-font-brown font-custom font-medium"
-        >
+      <SidebarFooter>
+        <DashboardSidebarRedButton onClick={onClose}>
+          Hapus semua
+        </DashboardSidebarRedButton>
+        <DashboardSidebarYellowButton onClick={'#'}>
           Simpan
-        </button>
-      </div>
-    </div>
+        </DashboardSidebarYellowButton>
+      </SidebarFooter>
+    </SidebarModal>
   );
 };
 

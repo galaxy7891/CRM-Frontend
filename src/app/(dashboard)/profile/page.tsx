@@ -6,9 +6,9 @@ import { useRouter } from 'next/navigation';
 import useTheme from '@/components/dark-mode';
 import Image from 'next/image';
 
-import CardUserActivityLog from '@/app/(dashboard)/user/partials/log-activity';
-import CardUserInfo from './partials/card-profile';
-import CardCompany from './partials/card-company';
+import CardUserActivityLog from '@/app/(dashboard)/profile/partials/activity-info';
+import CardUserInfo from './partials/user-info';
+import CardCompany from './partials/company-info';
 
 interface DataUser {
   image_url: string;
@@ -30,6 +30,7 @@ interface DataCompany {
   phone: string;
   website: string;
 }
+
 const User = () => {
   const [dataUser, setDataUser] = useState<DataUser>();
   const [dataCompany, setDataCompany] = useState<DataCompany>();

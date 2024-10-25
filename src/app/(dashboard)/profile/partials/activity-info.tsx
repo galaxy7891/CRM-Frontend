@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
 import Link from 'next/link';
-import CardActivityLog from './card-activitylog';
-import CurrentMonthYear from './current-month';
+import CardActivityLog from './activity-card';
 import DashboardPositiveButton from '../../../../components/button/dashboard-positive-button';
 
 // Definisikan interface untuk Activity
@@ -96,8 +95,6 @@ const ActivityLog = () => {
               </Link>
             </div>
             <div className="col-span-12 space-y-4">
-              <CurrentMonthYear />
-
               {activity.map((a: Activity, index: number) => (
                 <CardActivityLog
                   key={index}

@@ -96,7 +96,7 @@ const ResetPassword: React.FC = () => {
             page_name="forget-password"
           />
           {attemptedSubmit && status !== '' && status !== 'success' && (
-            <FailCard message={status} />
+            <FailCard>{status}</FailCard>
           )}
 
           <label
@@ -121,7 +121,7 @@ const ResetPassword: React.FC = () => {
             }`}
           />
           {attemptedSubmit && newPassword.new_password === '' && (
-            <FailText message="Kata sandi tidak boleh kosong" />
+            <FailText>Kata sandi tidak boleh kosong</FailText>
           )}
 
           <label
@@ -149,12 +149,12 @@ const ResetPassword: React.FC = () => {
             }`}
           />
           {attemptedSubmit && newPassword.confirm_new_password === '' && (
-            <FailText message="Ketik ulang kata sandi" />
+            <FailText>Ketikkan kembali kata sandi</FailText>
           )}
           {attemptedSubmit &&
             newPassword.confirm_new_password !== '' &&
             newPassword.confirm_new_password !== newPassword.new_password && (
-              <FailText message="Kata sandi tidak sama" />
+              <FailText>Kata sandi tidak sama</FailText>
             )}
 
           <ul className="list-none space-y-2 mt-4">

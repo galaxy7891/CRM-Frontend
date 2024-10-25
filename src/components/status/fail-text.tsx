@@ -1,11 +1,13 @@
+import React from 'react';
+
 interface FailTextProps {
-  message: string;
+  children: React.ReactNode;
 }
 
-const FailText: React.FC<FailTextProps> = ({ message }) => {
+const FailText: React.FC<FailTextProps> = ({ children }) => {
   return (
     <>
-      <p className="text-red-500 text-xs md:text-base pt-1">{message}</p>
+      <p className="text-dark-redGlow text-xs md:text-base pt-1">{children}</p>
     </>
   );
 };

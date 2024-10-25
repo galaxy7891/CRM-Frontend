@@ -16,17 +16,8 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
   >(undefined);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
-  const pathName = usePathname();
   const { isDarkMode, toggleTheme } = useTheme(); // Custom hook for theme handling
-  // const [isEditing, setIsEditing] = useState(false); // State untuk mengontrol tampilan form edit
-
-  // const handleEditClick = () => {
-  //   setIsEditing(true);
-  // };
-
-  // const onClose = () => {
-  //   setIsEditing(false);
-  // };
+  const pathName = usePathname();
 
   useEffect(() => {
     let matchedPage: { title: string; description?: string } | undefined =
@@ -76,8 +67,8 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
             onClick={onToggleSidebar}
           >
             <Image
-              src="/icons/header/sidebar.svg"
-              alt="sidebar"
+              src="icons/header/sidebar.svg"
+              alt="tes"
               width={20}
               height={20}
             />
@@ -174,19 +165,16 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
                   </li>
                   <li>
                     <a
-                      href="/user"
+                      href="/profile"
                       className="dark:text-font-white block px-2 py-2 hover:bg-light-white dark:hover:bg-dark-darkGray"
                     >
                       Detail Pengguna
                     </a>
                   </li>
                   <li>
-                    {/* <button 
-                      onClick={handleEditClick}
-                      className="dark:text-font-white block w-full text-left px-2 py-2 hover:bg-light-white dark:hover:bg-dark-darkGray"
-                    >
+                    <button className="dark:text-font-white block w-full text-left px-2 py-2 hover:bg-light-white dark:hover:bg-dark-darkGray">
                       Ubah Password
-                    </button> */}
+                    </button>
                   </li>
                   <li className="dark:text-font-white flex items-center justify-between px-2 py-2 hover:bg-light-white dark:hover:bg-dark-darkGray">
                     <span>Tema Gelap</span>
