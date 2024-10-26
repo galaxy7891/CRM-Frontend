@@ -1,7 +1,10 @@
-// import NotFound from "@/components/404";
+import React from 'react'
+import LoginPage from './(auth)/login/page'
 
-import ServerError from '@/components/error/500';
-
-export default function Home() {
-  return <ServerError />;
+const Home = () => {
+  return (
+    <LoginPage/>
+  )
 }
+
+export default Home;

@@ -60,6 +60,8 @@ const config: Config = {
           gold: '#B67E17',
           lightYellow: '#FFE495',
           navy: '#132934',
+          gray: '#ECECEC',
+          darkBlue: '#112D3A'
         },
       },
     },
