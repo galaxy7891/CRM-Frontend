@@ -93,6 +93,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
             alt="logo"
             width={188}
             height={369}
+            priority
             className="mx-auto px-4 "
           />
 

@@ -92,7 +92,7 @@ const LoginPage: React.FC = () => {
               Selamat datang kembali! Silahkan masuk ke dalam akun Anda.
             </p>
           </div>
-          {validation && <FailPopUp message={validation} />}
+          {validation && <FailPopUp>{validation}</FailPopUp>}
           <div className="w-full">
             <FormComponent
               fields={fields}

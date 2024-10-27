@@ -66,7 +66,7 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
         } rounded-lg bg-light-white focus:border-dark-navy `}
       />
       {isOnClick && !companyData?.name && (
-        <FailText message="Nama perushaan tidak boleh kosong" />
+        <FailText>Nama perushaan tidak boleh kosong</FailText>
       )}
 
       {/* Industry */}
@@ -110,7 +110,7 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
         </option>
       </select>
       {isOnClick && companyData?.job_position == '' && (
-        <FailText message="Jabatan tidak boleh kosong" />
+        <FailText>Jabatan tidak boleh kosong</FailText>
       )}
       {/* Job Position */}
       <label
@@ -147,7 +147,7 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
         </option>
       </select>
       {isOnClick && companyData?.industry == '' && (
-        <FailText message="Jenis industri tidak boleh kosong" />
+        <FailText>Jenis industri tidak boleh kosong</FailText>
       )}
 
       <button

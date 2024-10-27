@@ -46,7 +46,7 @@ const SendEmail: React.FC<SendEmailProps> = ({
         }`}
       />
 
-      {errorMessage && <FailText message={errorMessage} />}
+      {errorMessage && <FailText>{errorMessage}</FailText>}
       <button
         type="submit"
         onClick={onNext}

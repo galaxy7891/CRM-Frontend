@@ -92,7 +92,7 @@ const SendOtp: React.FC<SendOtpProps> = ({
       </div>
       <div className="grid grid-cols-12 pb-8">
         <div className="col-span-11">
-          {errorMessage && <FailText message={errorMessage} />}
+          {errorMessage && <FailText>{errorMessage} </FailText>}
         </div>
         <div className="col-span-1 flex justify-end pt-1">
           {countdown !== null && countdown > 0 && (

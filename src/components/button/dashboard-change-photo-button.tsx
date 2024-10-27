@@ -20,7 +20,7 @@ const DashboardChangePhotoButton: React.FC<DashboardChangePhotoButtonProps> = ({
       <button
         type="button"
         onClick={handleButtonClick}
-        className="px-4 py-2 text-dark-gold bg-font-white border-2 border-light-brownLight  font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-brownLight"
+        className="px-4 py-2 text-font-brown bg-font-white border-2 border-light-brownLight  font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-brownLight"
       >
         Ganti Foto
       </button>

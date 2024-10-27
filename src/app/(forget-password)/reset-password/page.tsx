@@ -3,6 +3,7 @@
 import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
+import axios from 'axios';
 import AuthLeftSection from '@/components/icon-forget';
 import AuthRightSection from '@/components/layout/auth-right-section';
 import FormHeader from '@/components/layout/auth-form-header';
@@ -10,13 +11,13 @@ import FailText from '@/components/status/fail-text';
 import FailCard from '@/components/status/fail-card';
 import SuccessModal from '@/components/status/success-modal';
 
-interface Password {
+interface newPassword {
   new_password: string;
   confirm_new_password: string;
 }
 
 const ResetPassword: React.FC = () => {
-  const [newPassword, setNewPassword] = useState<Password>({
+  const [newPassword, setNewPassword] = useState<newPassword>({
     new_password: '',
     confirm_new_password: '',
   });
@@ -52,30 +53,28 @@ const ResetPassword: React.FC = () => {
 
     setIsLoading(true);
     try {
-      const res = await fetch(
+      const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/password/reset`,
         {
-          method: 'POST',
+          token,
+          email,
+          ...newPassword,
+        },
+        {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            token,
-            email,
-            ...newPassword,
-          }),
         }
       );
 
-      const data = await res.json();
-      if (data.success) {
+      if (response.data.success) {
         setStatus('success');
       } else {
-        console.error(data.message);
-        // setStatus(data.message);
+        console.error(response.data.message);
+        // setStatus(res.data.message);
       }
-    } catch (Exception) {
-      console.error(Exception);
+    } catch (error) {
+      console.error(error);
     } finally {
       setIsLoading(false);
     }

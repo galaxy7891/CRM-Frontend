@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 import { MENU } from '@/constants/page';
 import Image from 'next/image';
 import useTheme from '../dark-mode';
@@ -18,6 +19,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const { isDarkMode, toggleTheme } = useTheme(); // Custom hook for theme handling
   const pathName = usePathname();
+  const profilePhoto = localStorage.getItem('image_url');
 
   useEffect(() => {
     let matchedPage: { title: string; description?: string } | undefined =
@@ -134,7 +136,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
               id="avatarButton"
               onClick={toggleDropdown}
               className="w-10 h-10 rounded-full cursor-pointer"
-              src="/images/default.jpg"
+              src={profilePhoto || '/images/adefltu.jpg'}
               alt="User dropdown"
               width={40}
               height={40}
@@ -164,17 +166,20 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
                     </a>
                   </li>
                   <li>
-                    <a
+                    <Link
                       href="/profile"
                       className="dark:text-font-white block px-2 py-2 hover:bg-light-white dark:hover:bg-dark-darkGray"
                     >
                       Detail Pengguna
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <button className="dark:text-font-white block w-full text-left px-2 py-2 hover:bg-light-white dark:hover:bg-dark-darkGray">
-                      Ubah Password
-                    </button>
+                    <Link
+                      href="/change-password"
+                      className="dark:text-font-white block w-full text-left px-2 py-2 hover:bg-light-white dark:hover:bg-dark-darkGray"
+                    >
+                      Ubah Kata Sandi
+                    </Link>
                   </li>
                   <li className="dark:text-font-white flex items-center justify-between px-2 py-2 hover:bg-light-white dark:hover:bg-dark-darkGray">
                     <span>Tema Gelap</span>
@@ -190,12 +195,12 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
                   </li>
                 </ul>
                 <div className="py-1">
-                  <a
+                  <Link
                     href="/login"
                     className="block w-max px-2 py-2 text-sm text-dark-red dark:text-dark-redLight"
                   >
                     Keluar
-                  </a>
+                  </Link>
                 </div>
               </div>
             )}
