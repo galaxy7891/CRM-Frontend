@@ -1,5 +1,6 @@
 import { useState } from 'react';
-
+import axios from 'axios';
+import FailText from '@/components/status/fail-text';
 import SidebarModal from '@/components/layout/sidebar-modal';
 import SidebarFooter from '@/components/layout/sidebar-footer';
 import Asterisk from '@/components/status/required-asterisk';
@@ -27,26 +28,43 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
   const [phone, setPhone] = useState(data?.phone || '');
   const [website, setWebsite] = useState(data?.website || '');
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    const company_id = localStorage.getItem('company_id');
 
-  //   const formData = new FormData();
-  //   formData.append('name', name);
-  //   formData.append('email', email);
-  //   formData.append('industry', industry);
-  //   formData.append('phone', phone);
-  //   formData.append('website', website);
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('industry', industry);
+    formData.append('phone', phone);
+    formData.append('website', website);
 
-  //   try {
-  //     const token = localStorage.getItem('token');
+    try {
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/companies/${company_id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!response.data.success) {
+        setErrorMessage(response.data.message);
+      } else {
+        console.error(response.data);
+      }
 
-  //     const response = await axios.post(
-  //       `${process.env.NEXT_PUBLIC_API_URL}/api/user`,
-  // }
+      // onClose();
+      // window.location.reload();
+      // console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Edit Perusahaan">
-      {/* Sticky Header */}
-
       {/* Scrollable Form */}
       <form className="flex-grow overflow-y-auto p-2 md:p-4 space-y-4">
         {/* Nama Perusahaan dan Email */}
@@ -63,9 +81,11 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
               value={name}
               name="name"
               type="text"
+              onChange={(e) => setName(e.target.value)}
               className="w-full mt-2 p-2 text-xs md:text-base border focus:border-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
               placeholder="Nama Perusahaan"
             />
+            {errorMessage && <FailText>{errorMessage?.name}</FailText>}
           </div>
           <div className="flex-1">
             <label
@@ -78,6 +98,7 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
               name="email"
               value={email}
               type="text"
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full mt-2 p-2 text-xs md:text-base border focus:border-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
               placeholder="Email"
             />
@@ -92,10 +113,10 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
               className="block text-xs md:text-base font-custom text-font-black dark:text-font-white"
             >
               Jenis Industri
-              <Asterisk />
             </label>
             <select
               name="industry"
+              onChange={(e) => setIndustry(e.target.value)}
               className="w-full mt-2 p-2 text-xs md:text-base border focus:border-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
               defaultValue={industry}
             >
@@ -120,11 +141,13 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
               <input
                 name="phone"
                 value={phone}
+                onChange={(e) => setPhone(e.target.value)}
                 type="tel"
                 className="w-full p-2 text-xs md:text-base border focus:border-dark-navy focus:outline-none border-font-black rounded-r-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
                 placeholder="81234567890"
               />
             </div>
+            {errorMessage?.phone && <FailText>{errorMessage?.phone}</FailText>}
           </div>
         </div>
 
@@ -140,6 +163,7 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
             <input
               name="website"
               value={website}
+              onChange={(e) => setWebsite(e.target.value)}
               type="text"
               className="w-full mt-2 p-2 text-xs md:text-base border focus:border-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
               placeholder="Website"
@@ -153,7 +177,7 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
         <DashboardSidebarRedButton onClick={onClose}>
           Hapus semua
         </DashboardSidebarRedButton>
-        <DashboardSidebarYellowButton onClick={'#'}>
+        <DashboardSidebarYellowButton onClick={handleSubmit}>
           Simpan
         </DashboardSidebarYellowButton>
       </SidebarFooter>

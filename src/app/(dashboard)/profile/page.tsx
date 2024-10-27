@@ -54,6 +54,7 @@ const User = () => {
           setDataUser(response.data.data); // Set dashboard data
           setDataCompany(response.data.data.company);
           console.log(response.data.data);
+          localStorage.setItem('company_id', response.data.data.company.id);
         }
       } catch (error) {
         console.error('Error fetching dashboard data:', error);

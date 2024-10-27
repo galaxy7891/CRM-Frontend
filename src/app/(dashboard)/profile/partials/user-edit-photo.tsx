@@ -35,6 +35,8 @@ const EditImageUser = ({ onClose, data }: FormEditProps) => {
 
   const handleUpdatePhoto = async (e: React.FormEvent) => {
     e.preventDefault();
+    const token = localStorage.getItem('token');
+    
     const formData = new FormData();
 
     if (photo) {
@@ -43,7 +45,6 @@ const EditImageUser = ({ onClose, data }: FormEditProps) => {
 
     try {
       setIsLoading(true);
-      const token = localStorage.getItem('token');
 
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/user/profile`,
@@ -90,7 +91,9 @@ const EditImageUser = ({ onClose, data }: FormEditProps) => {
       </div>
 
       <SidebarFooter>
-        <DashboardChangePhotoButton onChange={handleFileChange} />
+        <DashboardChangePhotoButton onChange={handleFileChange}>
+          Ganti Foto
+        </DashboardChangePhotoButton>
         <DashboardSidebarYellowButton onClick={handleUpdatePhoto}>
           {isLoading ? 'Menyimpan...' : 'Simpan'}
         </DashboardSidebarYellowButton>

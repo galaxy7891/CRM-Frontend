@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
 import SidebarModal from '@/components/layout/sidebar-modal';
 import SidebarFooter from '@/components/layout/sidebar-footer';
 import FailText from '@/components/status/fail-text';
@@ -35,6 +34,7 @@ const EditUser: React.FC<FormEditProps> = ({ onClose, data }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const token = localStorage.getItem('token');
 
     const formData = new FormData();
     formData.append('first_name', firstName);
@@ -46,8 +46,6 @@ const EditUser: React.FC<FormEditProps> = ({ onClose, data }) => {
     formData.append('gender', gender);
 
     try {
-      const token = localStorage.getItem('token');
-
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/user`,
         formData,
@@ -62,7 +60,7 @@ const EditUser: React.FC<FormEditProps> = ({ onClose, data }) => {
       }
 
       // onClose();
-       window.location.reload();
+      window.location.reload();
       // console.log(response.data);
     } catch (error) {
       console.error(error);
