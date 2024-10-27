@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import Link from 'next/link';
 import { MENU } from '@/constants/page';
 import Image from 'next/image';
 import useTheme from '../dark-mode';
+import Link from 'next/link';
 
 interface HeaderProps {
   onToggleSidebar: () => void;

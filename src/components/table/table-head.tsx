@@ -1,21 +1,31 @@
-import React from "react";
-
-interface TableHeadProps {
+interface TableHeaderProps {
   headers: string[];
 }
 
-const TableHead: React.FC<TableHeadProps> = ({ headers }) => {
+const TableHeader: React.FC<TableHeaderProps> = ({ headers }) => {
   return (
-    <thead>
+    <thead className="bg-light-grayBright dark:bg-dark-darkGray sticky top-0 z-10">
       <tr>
-        <th className="p-4">
+        {/* Kolom Checkbox (Sticky Vertikal dan Horizontal) */}
+        <th
+          className="border-r border-font-gray p-6 rounded-tl-lg dark:rounded-tl-lg
+          sticky left-0 top-0 z-20 bg-light-grayBright dark:bg-dark-darkGray"
+        >
           <input
             type="checkbox"
-            className="w-4 h-4 bg-font-white border-dark-navy rounded-[5px] focus:ring-0"
+            value=""
+            className="w-4 h-4 flex items-start bg-font-white border-dark-navy 
+            rounded-[5px] checked:bg-dark-greenBright focus:ring-0"
           />
         </th>
         {headers.map((header, index) => (
-          <th key={index} className="text-left p-4 text-font-black dark:text-font-white">
+          <th
+            key={index}
+            className={`p-3 font-custom text-dark-darkGray dark:text-font-white font-bold 
+            text-base text-left ${
+              index === headers.length - 1 ? "rounded-tr-lg" : ""
+            }`}
+          >
             {header}
           </th>
         ))}
@@ -24,4 +34,4 @@ const TableHead: React.FC<TableHeadProps> = ({ headers }) => {
   );
 };
 
-export default TableHead;
+export default TableHeader;

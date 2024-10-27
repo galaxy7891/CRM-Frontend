@@ -3,7 +3,7 @@ import React from "react";
 
 const TableAction = () => {
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex space-x-2">
       <input
         id="default-checkbox"
         type="checkbox"

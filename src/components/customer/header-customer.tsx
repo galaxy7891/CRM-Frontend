@@ -4,13 +4,20 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { MENU } from "@/constants/page";
 import Image from "next/image";
+import useTheme from "../dark-mode";
+import SidebarModal from "@/components/layout/sidebar-modal";
+import NewLeads from "../../app/(dashboard)/(customer)/leads/partials/new-leads";
+import NewContact from "../../app/(dashboard)/(customer)/contact/partials/new-contact";
+import NewCompany from "../../app/(dashboard)/(customer)/company/partials/new-company";
 
 const HeaderCustomer: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<
     { title: string; description?: string } | undefined
   >(undefined);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); 
   const pathName = usePathname();
+  const { isDarkMode } = useTheme();
 
   useEffect(() => {
     let matchedPage: { title: string; description?: string } | undefined =
@@ -29,8 +36,8 @@ const HeaderCustomer: React.FC = () => {
         );
         if (matchedSubItem) {
           matchedPage = {
-            title: matchedSubItem.title, // Mengambil title dari subItem
-            description: matchedSubItem.description, // Mengambil description dari subItem
+            title: matchedSubItem.title,
+            description: matchedSubItem.description,
           };
         }
       }
@@ -41,11 +48,19 @@ const HeaderCustomer: React.FC = () => {
 
   const toggleTooltip = () => setIsTooltipVisible(!isTooltipVisible);
 
+  const handleAddDataClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="relative">
-      <header className="sticky top-0 z-50 flex items-center justify-between px-8 py-4">
+      <header className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <p className="text-base lg:text-3xl font-custom text-font-black">
+          <p className="text-base lg:text-3xl font-custom text-font-black dark:text-font-white">
             {currentPage ? currentPage.title : "Page"}
           </p>
 
@@ -56,7 +71,12 @@ const HeaderCustomer: React.FC = () => {
               onClick={toggleTooltip}
             >
               <Image
-                src="/icons/table/tooltip-off.svg"
+                key={isDarkMode ? "dark-mode-icon" : "light-mode-icon"}
+                src={
+                  isDarkMode
+                    ? "/icons/header/info-off.svg"
+                    : "/icons/table/tooltip-off.svg"
+                }
                 alt="info-off"
                 width={24}
                 height={24}
@@ -71,18 +91,20 @@ const HeaderCustomer: React.FC = () => {
               onMouseLeave={() => setIsTooltipVisible(false)}
             >
               <Image
-                src="/icons/table/tooltip-off.svg"
-                alt="info-off"
+                key={isTooltipVisible ? "tooltip-visible" : "tooltip-hidden"}
+                src={
+                  isTooltipVisible
+                    ? isDarkMode
+                      ? "/icons/header/info-on.svg"
+                      : "/icons/table/tooltip-on.svg"
+                    : isDarkMode
+                    ? "/icons/header/info-off.svg"
+                    : "/icons/table/tooltip-off.svg"
+                }
+                alt="info-icon"
                 width={24}
                 height={24}
-                className="h-6 w-6 group-hover:hidden"
-              />
-              <Image
-                src="/icons/table/tooltip-on.svg"
-                alt="info-on"
-                width={24}
-                height={24}
-                className="h-6 w-6 hidden group-hover:block"
+                className="h-6 w-6"
               />
             </button>
 
@@ -100,14 +122,25 @@ const HeaderCustomer: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-5">
-          <button className="bg-light-gold hover:opacity-80 transition-opacity duration-200 hover:shadow-md text-font-brown text-base font-medium py-1 px-4 lg:text-sm lg:py-3 lg:px-6 rounded-xl">
+          <button className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold">
             Impor Data
           </button>
-          <button className="bg-light-gold hover:opacity-80 transition-opacity duration-200 hover:shadow-md text-font-brown text-base font-medium py-1 px-4 lg:text-sm lg:py-3 lg:px-6 rounded-xl">
-           Tambah Data
+          <button
+            onClick={handleAddDataClick}
+            className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
+          >
+            Tambah Data
           </button>
         </div>
       </header>
+
+      {isModalOpen && (
+        <SidebarModal onClose={handleCloseModal} SidebarModalTitle={currentPage?.title ?? "Tambah Data"}>
+          {pathName === "/leads" && <NewLeads onClose={handleCloseModal} />}
+          {pathName === "/contact" && <NewContact onClose={handleCloseModal} />}
+          {pathName === "/company" && <NewCompany onClose={handleCloseModal} />}
+        </SidebarModal>
+      )}
     </div>
   );
 };
