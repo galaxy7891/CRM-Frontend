@@ -18,7 +18,7 @@ const LayoutDashboard: React.FC<LayoutDashboardProps> = ({ children }) => {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
-        setIsSidebarOpen(false); // Tutup sidebar saat berpindah ke mobile
+        setIsSidebarOpen(false); 
       }
     };
 
@@ -30,10 +30,11 @@ const LayoutDashboard: React.FC<LayoutDashboardProps> = ({ children }) => {
   }, []);
 
   return (
-    <section className="flex h-screen overflow-hidden">
-      <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-
-      <div className="flex flex-1 flex-col">
+    <section className="flex h-screen ">
+      <div className='overflow-hidden'>
+      <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen}/>
+      </div>
+      <div className="flex flex-1 flex-col overflow-hidden">
         <Header onToggleSidebar={toggleSidebar} />
 
         <div className="flex-1 overflow-auto p-4 lg:p-8">{children}</div>

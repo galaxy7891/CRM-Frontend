@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { MENU } from '@/constants/page';
 import Image from 'next/image';
 import useTheme from '../dark-mode';
+import Link from 'next/link';
 
 interface HeaderProps {
   onToggleSidebar: () => void;
@@ -173,12 +174,12 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
                     </a>
                   </li>
                   <li>
-                    <a
+                    <Link
                       href="/user"
                       className="dark:text-font-white block px-2 py-2 hover:bg-light-white dark:hover:bg-dark-darkGray"
                     >
                       Detail Pengguna
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     {/* <button 
