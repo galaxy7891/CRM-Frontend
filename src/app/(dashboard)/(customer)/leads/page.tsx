@@ -1,29 +1,73 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import StatusBadge from "@/components/table/status-badge";
+import { useState, useEffect } from 'react';
+import StatusBadge from '@/components/table/status-badge';
 // import Table from "@/components/table/table";
-import TableHeader from "@/components/table/table-head";
-import React from "react";
-import Data from "./data.json";
-import Image from "next/image";
-import ButtonFilter from "@/components/button/button-filter";
-import useTheme from "@/components/dark-mode";
+import TableHeader from '@/components/table/table-head';
+import axios from 'axios';
+import React from 'react';
+// import Data from './data.json';
+import Image from 'next/image';
+import ButtonFilter from '@/components/button/button-filter';
+import useTheme from '@/components/dark-mode';
 
+interface leadsData {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  status: string;
+  owner: string;
+}
 const Leads = () => {
-  const [userData] = useState<
-    {
-      Nama: string;
-      Email: string;
-      NoTelpon: string;
-      Status: string;
-      PenanggungJawab: string;
-    }[]
-  >(Data);
   const { isDarkMode } = useTheme();
+  const [leadsData, setLeadsData] = useState<leadsData[]>([]);
 
-  const headers = ["Nama", "Email", "No Telpon", "Status", "Penanggung Jawab"];
+  const headers = ['Nama', 'Email', 'No Telpon', 'Status', 'Penanggung Jawab'];
+  const deleteLead = async (id: string) => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/leads/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.data.success) {
+        alert('Berhasi!');
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('Error deleting lead:', error);
+    }
+  };
 
+  useEffect(() => {
+    const getLeadsData = async () => {
+      const token = localStorage.getItem('token');
+
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/leads?sort=terlama&status=rendah`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.data.success) {
+          setLeadsData(response.data.data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching leads data:', error);
+      }
+    };
+
+    getLeadsData();
+  }, []); // Only run once when the component mounts
   return (
     <div className="bg-font-white dark:bg-dark-navy shadow-lg rounded-lg p-6">
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-4">
@@ -51,8 +95,8 @@ const Leads = () => {
             <Image
               src={
                 isDarkMode
-                  ? "/icons/table/dustbin-dark.svg"
-                  : "/icons/table/trash.svg"
+                  ? '/icons/table/dustbin-dark.svg'
+                  : '/icons/table/trash.svg'
               }
               alt="deletebtn"
               width={44}
@@ -68,61 +112,66 @@ const Leads = () => {
       </div>
 
       <div className="relative h-[320px] overflow-auto">
-        <table>
-          <TableHeader headers={headers} />
-          <tbody>
-            {userData.map((item, index) => (
-              <tr
-                key={index}
-                className="border-l border-r border-b border-font-gray hover:bg-dropdown-gray dark:hover:bg-dropdown-darkBlue group"
-              >
-                <td className="border px-2 border-font-gray bg-font-white dark:bg-dark-navy sticky top-o left-0 group-hover:bg-dropdown-gray dark:group-hover:bg-dropdown-darkBlue">
-                  <div className="flex items-center space-x-1">
-                    <input
-                      id="default-checkbox"
-                      type="checkbox"
-                      value=""
-                      className="w-4 h-4 bg-font-white border-dark-navy rounded-[5px] checked:bg-dark-greenBright focus:ring-0"
-                    />
-                    <button>
-                      <Image
-                        src="/icons/table/editbrown.svg"
-                        alt="editbtn"
-                        width={16}
-                        height={16}
-                        className="w-5 h-5"
+        {leadsData.length == 0 ? (
+          'Loading...'
+        ) : (
+          <table>
+            <TableHeader headers={headers} />
+            <tbody>
+              {leadsData.map((lead, index) => (
+                <tr
+                  key={index}
+                  className="border-l border-r border-b border-font-gray hover:bg-dropdown-gray dark:hover:bg-dropdown-darkBlue group"
+                >
+                  <td className="border px-2 border-font-gray bg-font-white dark:bg-dark-navy sticky top-o left-0 group-hover:bg-dropdown-gray dark:group-hover:bg-dropdown-darkBlue">
+                    <div className="flex items-center space-x-1">
+                      <input
+                        id="default-checkbox"
+                        type="checkbox"
+                        value=""
+                        className="w-4 h-4 bg-font-white border-dark-navy rounded-[5px] checked:bg-dark-greenBright focus:ring-0"
                       />
-                    </button>
-                    <button>
-                      <Image
-                        src="/icons/table/dustbin.svg"
-                        alt="deletebtn"
-                        width={16}
-                        height={16}
-                        className="w-5 h-5"
-                      />
-                    </button>
-                  </div>
-                </td>
-                <td className="px-3 py-2 min-w-[200px] border-font-gray fpnt text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs">
-                  {item.Nama}
-                </td>
-                <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs">
-                  {item.Email}
-                </td>
-                <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs">
-                  {item.NoTelpon}
-                </td>
-                <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs">
-                  <StatusBadge status={item.Status} />
-                </td>
-                <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs">
-                  {item.PenanggungJawab}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                      <button>
+                        <Image
+                          src="/icons/table/editbrown.svg"
+                          alt="editbtn"
+                          width={16}
+                          height={16}
+                          className="w-5 h-5"
+                        />
+                      </button>
+                      <button>
+                        <Image
+                          src="/icons/table/dustbin.svg"
+                          alt="deletebtn"
+                          width={16}
+                          height={16}
+                          className="w-5 h-5"
+                          onClick={() => deleteLead(lead.id)}
+                        />
+                      </button>
+                    </div>
+                  </td>
+                  <td className="px-3 py-2 min-w-[200px] border-font-gray fpnt text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs">
+                    {lead.first_name} {lead.last_name}
+                  </td>
+                  <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs">
+                    {lead.email}
+                  </td>
+                  <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs">
+                    {lead.phone}
+                  </td>
+                  <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs">
+                    <StatusBadge status={lead.status} />
+                  </td>
+                  <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs">
+                    {lead.owner}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );

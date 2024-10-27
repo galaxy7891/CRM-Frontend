@@ -1,5 +1,5 @@
-import React from "react";
-
+import React from 'react';
+import Asterisk from '../status/required-asterisk';
 interface TextInputProps {
   label: string;
   placeholder: string;
@@ -19,11 +19,7 @@ const TextInput: React.FC<TextInputProps> = ({
   <div className="flex-1">
     <label className="block text-xs md:text-base font-custom text-font-black dark:text-font-white">
       {label}
-      {required && (
-        <span className="font-custom text-dark-red dark:text-dark-redGlow md:text-base text-xs">
-          *
-        </span>
-      )}
+      {required && <Asterisk />}
     </label>
     <input
       type="text"

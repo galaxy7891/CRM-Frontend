@@ -16,15 +16,18 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
     { title: string; description?: string } | undefined
   >(undefined);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const { isDarkMode, toggleTheme } = useTheme(); // Custom hook for theme handling
   const pathName = usePathname();
-  const profilePhoto = localStorage.getItem('image_url');
 
   useEffect(() => {
     let matchedPage: { title: string; description?: string } | undefined =
       undefined;
-
+    const photo = localStorage.getItem('image_url');
+    if (photo) {
+      setProfilePhoto(photo);
+    }
     const customPages = ['/user'];
     if (customPages.includes(pathName)) {
       matchedPage = {
@@ -136,7 +139,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
               id="avatarButton"
               onClick={toggleDropdown}
               className="w-10 h-10 rounded-full cursor-pointer"
-              src={profilePhoto ? profilePhoto : '/images/default.jpg'}
+              src={'/images/default.jpg'}
               alt="User dropdown"
               width={40}
               height={40}
