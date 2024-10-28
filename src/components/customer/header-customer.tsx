@@ -61,7 +61,7 @@ const HeaderCustomer: React.FC = () => {
   }, [pathName]);
 
   return (
-    <div className="relative">
+    <div className="relative mb-4">
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <p className="text-base lg:text-3xl font-custom text-font-black dark:text-font-white">
@@ -125,7 +125,7 @@ const HeaderCustomer: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-2">
           <button className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold">
             Impor Data
           </button>

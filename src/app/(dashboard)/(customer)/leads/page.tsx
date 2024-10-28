@@ -133,9 +133,9 @@ const Leads = () => {
       {leadsData.length == 0 ? (
         <EmptyTable />
       ) : (
-        <div className="bg-font-white dark:bg-dark-navy shadow-lg rounded-lg p-6 ">
-          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-4">
-            <div className="relative w-full lg:w-auto mb-4">
+        <>
+          <div className="lg:items-center mb-4 grid grid-cols-12">
+            <div className="col-span-12 md:col-span-4 relative">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3">
                 <Image
                   src="/icons/table/search.svg"
@@ -148,12 +148,13 @@ const Leads = () => {
               <input
                 type="text"
                 placeholder="Cari Leads"
-                className="pl-10 p-2 border-2 font-custom text-xs lg:text-base border-font-gray bg-light-white rounded-[10px] focus:outline-none w-full dark:bg-dark-darkGray"
+                className="pl-10 p-2 border-2 font-custom text-xs lg:text-base border-font-gray bg-light-white rounded-[10px] focus:outline-none  dark:bg-dark-darkGray w-full"
               />
             </div>
 
             {/* Trash Icon, Export, and Filter Buttons */}
-            <div className="flex items-center space-x-2 ml-auto lg:self-start">
+            <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
+              {/* Delete Button */}
               <button className="hover:shadow-[0_4px_8px_rgba(255,202,202,0.5)] transition-shadow duration-200">
                 <Image
                   src={
@@ -164,18 +165,21 @@ const Leads = () => {
                   alt="deletebtn"
                   width={44}
                   height={44}
-                  className="w-6 h-6 lg:w-[44px] lg:h-[44px]"
+                  className="w-7 h-7 lg:w-[44px] lg:h-[44px]"
                 />
               </button>
-              <button className="p-[6px] lg:p-[10px]  rounded-[10px] font-medium text-xs lg:text-base border border-dark-gold text-dark-gold duration-200 hover:shadow-md hover:shadow-dark-gold">
+
+              <button className="p-[6px] lg:p-[10px] rounded-[10px] font-medium text-xs md:text-base border border-dark-gold text-dark-gold duration-200 hover:shadow-md hover:shadow-dark-gold">
                 Ekspor Data
               </button>
+
               <ButtonFilter setSortBy={setSortBy} setStatusBy={setStatusBy} />
             </div>
           </div>
+
           {/* Table */}
-          <div className="relative h-[320px] overflow-auto">
-            <table>
+          <div className="relative h-full overflow-auto lg:overflow-x-hidden lg:w-full ">
+            <table className="w-full ">
               <TableHeader headers={headers} />
               <tbody>
                 {leadsData.map((lead, index) => (
@@ -214,19 +218,19 @@ const Leads = () => {
                         </button>
                       </div>
                     </td>
-                    <td className="px-3 py-2 min-w-[200px] border-font-gray fpnt text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs">
+                    <td className="px-3 py-2 min-w-[200px] border-font-gray fpnt text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs md:text-base">
                       {lead.first_name} {lead.last_name}
                     </td>
-                    <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs">
+                    <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
                       {lead.email}
                     </td>
-                    <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs">
+                    <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
                       {lead.phone}
                     </td>
-                    <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs">
+                    <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
                       <StatusBadge status={lead.status} />
                     </td>
-                    <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs">
+                    <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
                       {lead.owner}
                     </td>
                   </tr>
@@ -237,7 +241,7 @@ const Leads = () => {
           {isEditLead && (
             <EditLeads onClose={handleCloseEdit} leadData={leadDataProps} />
           )}
-        </div>
+        </>
       )}
     </>
   );

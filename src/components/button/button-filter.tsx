@@ -65,7 +65,7 @@ const ButtonFilter: React.FC<ButtonFilterProps> = ({
       {/* Button Filter */}
       <button
         onClick={toggleDropdown}
-        className="p-[6px] lg:p-[10px]  rounded-[10px] font-medium text-xs lg:text-base border border-dark-gold text-dark-gold flex items-center space-x-1 duration-200 hover:shadow-md hover:shadow-dark-gold"
+        className="p-[6px] lg:p-[10px] rounded-[10px] font-medium text-xs md:text-base border border-dark-gold text-dark-gold flex items-center space-x-1 duration-200 hover:shadow-md hover:shadow-dark-gold"
       >
         <Image
           src="/icons/table/filter-yellow.svg"

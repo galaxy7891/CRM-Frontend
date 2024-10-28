@@ -39,7 +39,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="bg-font-white  dark:bg-dark-navy shadow-lg rounded-lg p-6 grid grid-rows-1 h-full">
+    <div className="bg-font-white  dark:bg-dark-navy shadow-lg rounded-lg p-6 h-full">
       {step === 1 && <ChangePasswordForm handleSendEmail={handleSendEmail} />}
       {step === 2 && (
         <EmailSend
