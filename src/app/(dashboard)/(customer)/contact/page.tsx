@@ -32,28 +32,27 @@ const Leads = () => {
     'Status',
     'Penanggung Jawab',
   ];
+  const getContactsData = async () => {
+    const token = localStorage.getItem('token');
+
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/contact?sort=terlama&status=rendah`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.data.success) {
+        setContactsData(response.data.data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching leads data:', error);
+    }
+  };
 
   useEffect(() => {
-    const getContactsData = async () => {
-      const token = localStorage.getItem('token');
-
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/contact?sort=terlama&status=rendah`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (response.data.success) {
-          setContactsData(response.data.data.data);
-        }
-      } catch (error) {
-        console.error('Error fetching leads data:', error);
-      }
-    };
-
     getContactsData();
   }, []); // Only run once when the component mounts
   return (

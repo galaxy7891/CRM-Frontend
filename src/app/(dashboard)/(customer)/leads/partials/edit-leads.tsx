@@ -128,7 +128,7 @@ const EditLeads: React.FC<FormEditProps> = ({ onClose, leadData }) => {
             value={lead.status}
             options={[
               { label: 'Pilih Status', value: '', hidden: true },
-              { label: 'Cool', value: 'cool' },
+              { label: 'Cold', value: 'cold' },
               { label: 'Warm', value: 'warm' },
               { label: 'Hot', value: 'hot' },
             ]}

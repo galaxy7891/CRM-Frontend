@@ -45,8 +45,10 @@ interface leadData {
 
 const Leads = () => {
   const { isDarkMode } = useTheme();
-  const [leadsData, setLeadsData] = useState<leadsData[]>([]);
+  const [sortBy, setSortBy] = useState<string>('terbaru');
+  const [statusBy, setStatusBy] = useState<string>('rendah');
   const [isEditLead, setIsEditLead] = useState<boolean>(false);
+  const [leadsData, setLeadsData] = useState<leadsData[]>([]);
   const [leadDataProps, setLeadDataProps] = useState<leadData>({} as leadData);
   const headers = ['Nama', 'Email', 'No Telpon', 'Status', 'Penanggung Jawab'];
   let getLeadData: leadData | null = null;
@@ -93,7 +95,6 @@ const Leads = () => {
       );
       if (response.data.success) {
         getLeadData = response.data.data;
-        console.log(getLeadData);
       } else {
         console.error(response.data.message);
       }
@@ -107,7 +108,7 @@ const Leads = () => {
 
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/leads?sort=terlama&status=sedang`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/leads?sort=${sortBy}&status=${statusBy}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -116,6 +117,7 @@ const Leads = () => {
       );
       if (response.data.success) {
         setLeadsData(response.data.data.data);
+        console.log(response.data.data.data);
       }
     } catch (error) {
       console.error('Error fetching leads data:', error);
@@ -124,7 +126,7 @@ const Leads = () => {
 
   useEffect(() => {
     getLeadsData();
-  }, []); // Only run once when the component mounts
+  }, [sortBy, statusBy]); // Only run once when the component mounts
   return (
     <>
       {/* Search Input */}
@@ -168,7 +170,7 @@ const Leads = () => {
               <button className="p-[6px] lg:p-[10px]  rounded-[10px] font-medium text-xs lg:text-base border border-dark-gold text-dark-gold duration-200 hover:shadow-md hover:shadow-dark-gold">
                 Ekspor Data
               </button>
-              <ButtonFilter />
+              <ButtonFilter setSortBy={setSortBy} setStatusBy={setStatusBy} />
             </div>
           </div>
           {/* Table */}
