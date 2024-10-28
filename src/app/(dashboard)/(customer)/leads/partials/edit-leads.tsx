@@ -1,3 +1,5 @@
+import React, { useState } from 'react';
+import axios from 'axios';
 import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
 import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
 import SelectInput from '@/components/form-input/dropdown-input';
@@ -7,7 +9,6 @@ import TextInput from '@/components/form-input/text-input';
 import SidebarFooter from '@/components/layout/sidebar-footer';
 import SidebarModal from '@/components/layout/sidebar-modal';
 import FailText from '@/components/status/fail-text';
-import React, { useState } from 'react';
 
 interface FormEditProps {
   onClose: () => void;
@@ -15,6 +16,7 @@ interface FormEditProps {
 }
 
 interface leadData {
+  id: string;
   first_name: string;
   last_name: string;
   customerCategory: string;
@@ -36,6 +38,7 @@ interface leadData {
 const EditLeads: React.FC<FormEditProps> = ({ onClose, leadData }) => {
   const [errorMessage, setErrorMessage] = useState<leadData | null>(null);
   const [lead, setLead] = useState<leadData>({
+    id: leadData?.id,
     first_name: leadData?.first_name,
     last_name: leadData?.last_name,
     customerCategory: leadData?.customerCategory,
@@ -54,7 +57,30 @@ const EditLeads: React.FC<FormEditProps> = ({ onClose, leadData }) => {
     village: leadData?.village,
     zip_code: leadData?.zip_code,
   });
-  
+
+  const handleSubmit = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/leads/${leadData?.id}`,
+        lead,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.data.success) {
+        alert('Berhasil!');
+        onClose();
+      } else {
+        setErrorMessage(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Edit Leads">
       <form className="flex-grow overflow-y-auto px-4 grid grid-cols-1 gap-4 md:grid-cols-2 p-2">
@@ -66,7 +92,9 @@ const EditLeads: React.FC<FormEditProps> = ({ onClose, leadData }) => {
             onChange={(e) => setLead({ ...lead, first_name: e.target.value })}
             required
           />
+          {errorMessage && <FailText>{errorMessage.first_name}</FailText>}
         </div>
+
         <div className="order-2">
           <TextInput
             label="Nama Belakang"
@@ -83,8 +111,6 @@ const EditLeads: React.FC<FormEditProps> = ({ onClose, leadData }) => {
             type="date"
             className="w-full mt-2 p-2 border text-xs md:text-base font-custom focus:ring-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
             placeholder="Tanggal Lahir"
-            // value={lead.birthdate}
-            // onChange={(e) => setLead({ ...lead, birthdate: e.target.value })}
           />
         </div>
         <div className="order-4">
@@ -96,33 +122,31 @@ const EditLeads: React.FC<FormEditProps> = ({ onClose, leadData }) => {
           />
           {errorMessage && <FailText>{errorMessage.email}</FailText>}
         </div>
-
         <div className="order-5">
           <SelectInput
             label="Status Kontak"
             value={lead.status}
             options={[
               { label: 'Pilih Status', value: '', hidden: true },
-              { label: 'Rendah', value: 'Rendah' },
-              { label: 'Sedang', value: 'Sedang' },
-              { label: 'Tinggi', value: 'Tinggi' },
+              { label: 'Cool', value: 'cool' },
+              { label: 'Warm', value: 'warm' },
+              { label: 'Hot', value: 'hot' },
             ]}
             onChange={(e) => setLead({ ...lead, status: e.target.value })}
             required
           />
+          {errorMessage && <FailText>{errorMessage.status}</FailText>}
         </div>
         <div className="order-5 md:order-8">
-          <SelectInput
+          <TextInput
             label="Penanggung Jawab"
+            disabled={true}
+            placeholder="Penanggung Jawab"
             value={lead.owner}
-            options={
-              [
-                // get data from karyawan
-              ]
-            }
             onChange={(e) => setLead({ ...lead, owner: e.target.value })}
             required
           />
+          {errorMessage && <FailText>{errorMessage.owner}</FailText>}
         </div>
         <div className="order-6 md:order-7">
           <TextInput
@@ -138,14 +162,7 @@ const EditLeads: React.FC<FormEditProps> = ({ onClose, leadData }) => {
             onChange={(e) => setLead({ ...lead, phone: e.target.value })}
             required
           />
-        </div>
-        <div className="order-9">
-          <TextArea
-            label="Alamat"
-            placeholder="Jl. Kemenangan No.99"
-            value={lead.address}
-            onChange={(e) => setLead({ ...lead, address: e.target.value })}
-          />
+          {errorMessage && <FailText>{errorMessage.phone}</FailText>}
         </div>
         <div className="order-9">
           <TextArea
@@ -235,7 +252,9 @@ const EditLeads: React.FC<FormEditProps> = ({ onClose, leadData }) => {
           Hapus Semua
         </DashboardSidebarRedButton>
         {/* Tambah button is used  */}
-        <DashboardSidebarYellowButton>Tambah</DashboardSidebarYellowButton>
+        <DashboardSidebarYellowButton onClick={handleSubmit}>
+          Simpan
+        </DashboardSidebarYellowButton>
       </SidebarFooter>
     </SidebarModal>
   );

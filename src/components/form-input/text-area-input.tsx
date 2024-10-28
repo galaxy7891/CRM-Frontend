@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react';
+import Asterisk from '../status/required-asterisk';
 
 interface TextAreaProps {
   label: string;
@@ -20,11 +21,7 @@ const TextArea: React.FC<TextAreaProps> = ({
   <div>
     <label className="block text-xs md:text-base font-custom text-font-black dark:text-font-white">
       {label}
-      {required && (
-        <span className="font-custom text-dark-red dark:text-dark-redGlow md:text-base text-xs">
-          *
-        </span>
-      )}
+      {required && <Asterisk />}
     </label>
     <textarea
       className="w-full mt-2 p-2 border text-xs md:text-base font-custom focus:ring-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"

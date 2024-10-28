@@ -127,6 +127,7 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
             label="Status Kontak"
             value={lead.status}
             options={[
+              { label: 'Pilih Status', value: '', hidden: true },
               { label: 'Cool', value: 'cool' },
               { label: 'Warm', value: 'warm' },
               { label: 'Hot', value: 'hot' },

@@ -23,6 +23,7 @@ interface leadsData {
 }
 
 interface leadData {
+  id: string;
   first_name: string;
   last_name: string;
   customerCategory: string;
@@ -47,6 +48,7 @@ const Leads = () => {
   const [leadsData, setLeadsData] = useState<leadsData[]>([]);
   const [isEditLead, setIsEditLead] = useState<boolean>(false);
   const [leadDataProps, setLeadDataProps] = useState<leadData>({} as leadData);
+  const headers = ['Nama', 'Email', 'No Telpon', 'Status', 'Penanggung Jawab'];
   let getLeadData: leadData | null = null;
 
   const handleEdit = async (id: string) => {
@@ -59,7 +61,6 @@ const Leads = () => {
     setIsEditLead(false);
   };
 
-  const headers = ['Nama', 'Email', 'No Telpon', 'Status', 'Penanggung Jawab'];
   const deleteLead = async (id: string) => {
     const token = localStorage.getItem('token');
     try {
@@ -72,8 +73,7 @@ const Leads = () => {
         }
       );
       if (response.data.success) {
-        alert('Berhasi!');
-        window.location.reload();
+        getLeadsData();
       }
     } catch (error) {
       console.error('Error deleting lead:', error);
@@ -93,6 +93,7 @@ const Leads = () => {
       );
       if (response.data.success) {
         getLeadData = response.data.data;
+        console.log(getLeadData);
       } else {
         console.error(response.data.message);
       }
@@ -101,27 +102,27 @@ const Leads = () => {
     }
   };
 
-  useEffect(() => {
-    const getLeadsData = async () => {
-      const token = localStorage.getItem('token');
+  const getLeadsData = async () => {
+    const token = localStorage.getItem('token');
 
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/leads?sort=terlama&status=sedang`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (response.data.success) {
-          setLeadsData(response.data.data.data);
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/leads?sort=terlama&status=sedang`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      } catch (error) {
-        console.error('Error fetching leads data:', error);
+      );
+      if (response.data.success) {
+        setLeadsData(response.data.data.data);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching leads data:', error);
+    }
+  };
 
+  useEffect(() => {
     getLeadsData();
   }, []); // Only run once when the component mounts
   return (
