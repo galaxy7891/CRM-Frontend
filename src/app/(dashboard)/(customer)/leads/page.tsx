@@ -179,7 +179,7 @@ const Leads = () => {
           </div>
 
           {/* Table */}
-          <div className="relative h-screen overflow-auto lg:overflow-x-hidden lg:w-full ">
+          <div className="relative h-screen overflow-auto  lg:w-full ">
             <table className="w-full ">
               <TableHeader headers={headers} />
               <tbody>
