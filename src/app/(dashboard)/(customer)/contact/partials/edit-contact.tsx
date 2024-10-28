@@ -1,31 +1,58 @@
-import DashboardSidebarRedButton from "@/components/button/dashboard-sidebar-red-button";
-import DashboardSidebarYellowButton from "@/components/button/dashboard-sidebar-yellow-button";
-import SelectInput from "@/components/form-input/dropdown-input";
-import PhoneInput from "@/components/form-input/phone-input";
-import TextArea from "@/components/form-input/text-area-input";
-import TextInput from "@/components/form-input/text-input";
-import SidebarFooter from "@/components/layout/sidebar-footer";
-import SidebarModal from "@/components/layout/sidebar-modal";
-import React, { useState } from "react";
+import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
+import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
+import SelectInput from '@/components/form-input/dropdown-input';
+import PhoneInput from '@/components/form-input/phone-input';
+import TextArea from '@/components/form-input/text-area-input';
+import TextInput from '@/components/form-input/text-input';
+import SidebarFooter from '@/components/layout/sidebar-footer';
+import SidebarModal from '@/components/layout/sidebar-modal';
+import React, { useState } from 'react';
 
 interface FormEditProps {
   onClose: () => void;
   data: data;
 }
 
-interface data {
+interface dataContacts {
   first_name: string;
   last_name: string;
-  email: string;
+  customerCategory: string;
+  job: string;
+  description: string;
   status: string;
+  birthdate: null;
+  email: string;
   phone: string;
+  owner: string;
+  address: string;
+  country: string;
+  province: string;
+  city: string;
+  subdistrict: string;
+  village: string;
+  zip_code: string;
 }
+
 const EditContact: React.FC<FormEditProps> = ({ onClose, data }) => {
-  const [firstName, setFirstName] = useState(data?.first_name);
-  const [lastName, setLastName] = useState(data?.last_name);
-  const [email, setEmail] = useState(data?.email);
-  const [status, setStatus] = useState(data?.status);
-  const [phone, setPhone] = useState(data?.phone);
+  const [contacts, setContacts] = useState<dataContacts>({
+    first_name: '',
+    last_name: '',
+    customerCategory: '',
+    job: '',
+    description: '',
+    status: '',
+    birthdate: null,
+    email: '',
+    phone: '',
+    owner: '',
+    address: '',
+    country: '',
+    province: '',
+    city: '',
+    subdistrict: '',
+    village: '',
+    zip_code: '',
+  });
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Tambah Leads">
       <form className="flex-grow overflow-y-auto px-4 grid grid-cols-1 gap-4 md:grid-cols-2 p-2">
@@ -69,9 +96,9 @@ const EditContact: React.FC<FormEditProps> = ({ onClose, data }) => {
             label="Status Kontak"
             value={status}
             options={[
-              { label: "Rendah", value: "Rendah" },
-              { label: "Sedang", value: "Sedang" },
-              { label: "Tinggi", value: "Tinggi" },
+              { label: 'Rendah', value: 'Rendah' },
+              { label: 'Sedang', value: 'Sedang' },
+              { label: 'Tinggi', value: 'Tinggi' },
             ]}
             onChange={(e) => setStatus(e.target.value)}
             required

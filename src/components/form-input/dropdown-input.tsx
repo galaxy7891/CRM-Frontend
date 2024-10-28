@@ -4,7 +4,7 @@ import React from 'react';
 interface SelectInputProps {
   label: string;
   value: string;
-  options: { label: string; value: string; hidden: boolean }[];
+  options: { label: string; value: string; hidden?: boolean }[];
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   required?: boolean;
   disabled?: boolean;

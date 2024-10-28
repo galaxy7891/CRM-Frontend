@@ -13,6 +13,7 @@ const TextInput: React.FC<TextInputProps> = ({
   label,
   placeholder,
   value,
+  disabled,
   onChange,
   required = false,
 }) => (
@@ -22,8 +23,11 @@ const TextInput: React.FC<TextInputProps> = ({
       {required && <Asterisk />}
     </label>
     <input
+      disabled={disabled}
       type="text"
-      className="w-full mt-2 p-2 border text-xs md:text-base font-custom focus:border-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
+      className={`w-full mt-2 p-2 border text-xs md:text-base font-custom focus:border-dark-navy focus:outline-none border-font-black rounded-[4px]  dark:bg-dark-navy dark:border-none dark:text-font-white ${
+        disabled ? 'dark:bg-gray-800 bg-gray-300' : 'bg-font-white'
+      }`}
       placeholder={placeholder}
       value={value}
       onChange={onChange}

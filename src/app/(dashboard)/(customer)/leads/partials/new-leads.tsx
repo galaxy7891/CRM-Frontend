@@ -10,8 +10,9 @@ import SidebarFooter from '@/components/layout/sidebar-footer';
 import SidebarModal from '@/components/layout/sidebar-modal';
 import FailText from '@/components/status/fail-text';
 
-interface FormEditProps {
+interface newLeadsProps {
   onClose: () => void;
+  emailLocal: string;
 }
 
 interface dataLeads {
@@ -34,7 +35,7 @@ interface dataLeads {
   zip_code: string;
 }
 
-const NewLeads: React.FC<FormEditProps> = ({ onClose }) => {
+const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
   const [errorMessage, setErrorMessage] = useState<dataLeads | null>(null);
   const [lead, setLead] = useState<dataLeads>({
     first_name: '',
@@ -46,7 +47,7 @@ const NewLeads: React.FC<FormEditProps> = ({ onClose }) => {
     birthdate: null,
     email: '',
     phone: '',
-    owner: '',
+    owner: emailLocal,
     address: '',
     country: '',
     province: '',
@@ -75,6 +76,8 @@ const NewLeads: React.FC<FormEditProps> = ({ onClose }) => {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      console.log(lead);
     }
   };
 
@@ -117,15 +120,16 @@ const NewLeads: React.FC<FormEditProps> = ({ onClose }) => {
             value={lead.email}
             onChange={(e) => setLead({ ...lead, email: e.target.value })}
           />
+          {errorMessage && <FailText>{errorMessage.email}</FailText>}
         </div>
         <div className="order-5">
           <SelectInput
             label="Status Kontak"
             value={lead.status}
             options={[
-              { label: 'Cool', value: 'cool', hidden: false },
-              { label: 'Warm', value: 'warm', hidden: false },
-              { label: 'Hot', value: 'hot', hidden: false },
+              { label: 'Cool', value: 'cool' },
+              { label: 'Warm', value: 'warm' },
+              { label: 'Hot', value: 'hot' },
             ]}
             onChange={(e) => setLead({ ...lead, status: e.target.value })}
             required
@@ -133,26 +137,11 @@ const NewLeads: React.FC<FormEditProps> = ({ onClose }) => {
           {errorMessage && <FailText>{errorMessage.status}</FailText>}
         </div>
         <div className="order-5 md:order-8">
-          <SelectInput
+          <TextInput
             label="Penanggung Jawab"
+            disabled={true}
+            placeholder="Penanggung Jawab"
             value={lead.owner}
-            options={[
-              {
-                label: 'Pilih Penanggung Jawab',
-                value: '',
-                hidden: true,
-              },
-              {
-                label: 'user_satu@gmail.com',
-                value: 'user_satu@gmail.com',
-                hidden: false,
-              },
-              {
-                label: 'user_dua@gmail.com',
-                value: 'use_dua@gmail.com',
-                hidden: false,
-              },
-            ]}
             onChange={(e) => setLead({ ...lead, owner: e.target.value })}
             required
           />
@@ -188,7 +177,7 @@ const NewLeads: React.FC<FormEditProps> = ({ onClose }) => {
             value={lead.province}
             options={[
               { label: 'Pilih Provinsi', value: '', hidden: true },
-              { label: 'Jawa Tengah', value: 'Jawa Tengah', hidden: false },
+              { label: 'Jawa Tengah', value: 'Jawa Tengah' },
             ]}
             onChange={(e) => setLead({ ...lead, province: e.target.value })}
           />
@@ -199,7 +188,7 @@ const NewLeads: React.FC<FormEditProps> = ({ onClose }) => {
             value={lead.city}
             options={[
               { label: 'Pilih Kota', value: '', hidden: true },
-              { label: 'Kota Semarang', value: 'Kota Semarang', hidden: false },
+              { label: 'Kota Semarang', value: 'Kota Semarang' },
             ]}
             onChange={(e) => setLead({ ...lead, city: e.target.value })}
           />
@@ -240,9 +229,9 @@ const NewLeads: React.FC<FormEditProps> = ({ onClose }) => {
             value={lead.zip_code}
             options={[
               { label: 'Pilih Kode Pos', value: '', hidden: true },
-              { label: '12345', value: '12345', hidden: false },
-              { label: '23456', value: '23456', hidden: false },
-              { label: '34567', value: '34567', hidden: false },
+              { label: '12345', value: '12345' },
+              { label: '23456', value: '23456' },
+              { label: '34567', value: '34567' },
             ]}
             onChange={(e) => setLead({ ...lead, zip_code: e.target.value })}
           />

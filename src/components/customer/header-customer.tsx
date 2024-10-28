@@ -1,25 +1,39 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-import { MENU } from "@/constants/page";
-import Image from "next/image";
-import useTheme from "../dark-mode";
-import SidebarModal from "@/components/layout/sidebar-modal";
-import NewLeads from "../../app/(dashboard)/(customer)/leads/partials/new-leads";
-import NewContact from "../../app/(dashboard)/(customer)/contact/partials/new-contact";
-import NewCompany from "../../app/(dashboard)/(customer)/company/partials/new-company";
+import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { MENU } from '@/constants/page';
+import Image from 'next/image';
+import useTheme from '../dark-mode';
+import SidebarModal from '@/components/layout/sidebar-modal';
+import NewLeads from '../../app/(dashboard)/(customer)/leads/partials/new-leads';
+
+// import NewContact from '../../app/(dashboard)/(customer)/contact/partials/new-contact';
+// import NewCompany from '../../app/(dashboard)/(customer)/company/partials/new-company';
 
 const HeaderCustomer: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<
     { title: string; description?: string } | undefined
   >(undefined);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const pathName = usePathname();
   const { isDarkMode } = useTheme();
+  const [emailLocal, setEmailLocal] = useState<string>('');
+
+  const toggleTooltip = () => setIsTooltipVisible(!isTooltipVisible);
+
+  const handleAddDataClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
+    setEmailLocal(localStorage.getItem('email') || '');
+
     let matchedPage: { title: string; description?: string } | undefined =
       undefined;
 
@@ -46,22 +60,12 @@ const HeaderCustomer: React.FC = () => {
     setCurrentPage(matchedPage);
   }, [pathName]);
 
-  const toggleTooltip = () => setIsTooltipVisible(!isTooltipVisible);
-
-  const handleAddDataClick = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
   return (
     <div className="relative">
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <p className="text-base lg:text-3xl font-custom text-font-black dark:text-font-white">
-            {currentPage ? currentPage.title : "Page"}
+            {currentPage ? currentPage.title : 'Page'}
           </p>
 
           <div className="relative group">
@@ -71,11 +75,11 @@ const HeaderCustomer: React.FC = () => {
               onClick={toggleTooltip}
             >
               <Image
-                key={isDarkMode ? "dark-mode-icon" : "light-mode-icon"}
+                key={isDarkMode ? 'dark-mode-icon' : 'light-mode-icon'}
                 src={
                   isDarkMode
-                    ? "/icons/header/info-off.svg"
-                    : "/icons/table/tooltip-off.svg"
+                    ? '/icons/header/info-off.svg'
+                    : '/icons/table/tooltip-off.svg'
                 }
                 alt="info-off"
                 width={24}
@@ -91,15 +95,15 @@ const HeaderCustomer: React.FC = () => {
               onMouseLeave={() => setIsTooltipVisible(false)}
             >
               <Image
-                key={isTooltipVisible ? "tooltip-visible" : "tooltip-hidden"}
+                key={isTooltipVisible ? 'tooltip-visible' : 'tooltip-hidden'}
                 src={
                   isTooltipVisible
                     ? isDarkMode
-                      ? "/icons/header/info-on.svg"
-                      : "/icons/table/tooltip-on.svg"
+                      ? '/icons/header/info-on.svg'
+                      : '/icons/table/tooltip-on.svg'
                     : isDarkMode
-                    ? "/icons/header/info-off.svg"
-                    : "/icons/table/tooltip-off.svg"
+                    ? '/icons/header/info-off.svg'
+                    : '/icons/table/tooltip-off.svg'
                 }
                 alt="info-icon"
                 width={24}
@@ -135,10 +139,15 @@ const HeaderCustomer: React.FC = () => {
       </header>
 
       {isModalOpen && (
-        <SidebarModal onClose={handleCloseModal} SidebarModalTitle={currentPage?.title ?? "Tambah Data"}>
-          {pathName === "/leads" && <NewLeads onClose={handleCloseModal} />}
-          {pathName === "/contact" && <NewContact onClose={handleCloseModal} />}
-          {pathName === "/company" && <NewCompany onClose={handleCloseModal} />}
+        <SidebarModal
+          onClose={handleCloseModal}
+          SidebarModalTitle={currentPage?.title ?? 'Tambah Data'}
+        >
+          {pathName === '/leads' && (
+            <NewLeads onClose={handleCloseModal} emailLocal={emailLocal} />
+          )}
+          {/* {pathName === '/contact' && <NewContact onClose={handleCloseModal} />} */}
+          {/* {pathName === '/company' && <NewCompany onClose={handleCloseModal} />} */}
         </SidebarModal>
       )}
     </div>
