@@ -135,8 +135,9 @@ const Leads = () => {
       ) : (
         <>
           <div className="lg:items-center mb-4 grid grid-cols-12">
+            {/* Search Bar */}
             <div className="col-span-12 md:col-span-4 relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+              {/* <div className="absolute inset-y-0 left-0 flex items-center pl-3">
                 <Image
                   src="/icons/table/search.svg"
                   alt="search icon"
@@ -149,11 +150,11 @@ const Leads = () => {
                 type="text"
                 placeholder="Cari Leads"
                 className="pl-10 p-2 border-2 font-custom text-xs lg:text-base border-font-gray bg-light-white rounded-[10px] focus:outline-none  dark:bg-dark-darkGray w-full"
-              />
+              /> */}
             </div>
 
-            {/* Trash Icon, Export, and Filter Buttons */}
             <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
+              {/* Trash Icon, Export, and Filter Buttons */}
               {/* Delete Button */}
               <button className="hover:shadow-[0_4px_8px_rgba(255,202,202,0.5)] transition-shadow duration-200">
                 <Image
@@ -178,7 +179,7 @@ const Leads = () => {
           </div>
 
           {/* Table */}
-          <div className="relative h-full overflow-auto lg:overflow-x-hidden lg:w-full ">
+          <div className="relative h-screen overflow-auto lg:overflow-x-hidden lg:w-full ">
             <table className="w-full ">
               <TableHeader headers={headers} />
               <tbody>
