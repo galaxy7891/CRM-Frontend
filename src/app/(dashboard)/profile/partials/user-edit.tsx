@@ -56,6 +56,7 @@ const EditUser: React.FC<FormEditProps> = ({ onClose, data }) => {
         }
       );
       if (!response.data.success) {
+        console.log(response.data);
         setErrorMessage(response.data.message);
       }
 

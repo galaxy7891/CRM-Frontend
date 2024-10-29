@@ -75,7 +75,7 @@ const EditImageCompany = ({ onClose, data }: FormEditProps) => {
               ? preview
               : data?.image_url
               ? data?.image_url
-              : 'images/default.jpg'
+              : '/images/default.jpg'
           }
           alt="image"
           width={160}

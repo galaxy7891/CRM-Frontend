@@ -1,8 +1,6 @@
 import Image from 'next/image';
 import { useState } from 'react';
-
 import axios from 'axios';
-
 import SidebarModal from '@/components/layout/sidebar-modal';
 import SidebarFooter from '@/components/layout/sidebar-footer';
 import FailText from '@/components/status/fail-text';

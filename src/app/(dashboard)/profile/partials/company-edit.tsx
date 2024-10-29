@@ -41,7 +41,7 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
     formData.append('website', website);
 
     try {
-      const response = await axios.put(
+      const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/companies/${company_id}`,
         formData,
         {

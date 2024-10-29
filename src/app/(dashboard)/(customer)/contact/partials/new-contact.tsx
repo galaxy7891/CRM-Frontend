@@ -82,7 +82,7 @@ const NewContact: React.FC<FormEditProps> = ({ onClose, emailLocal }) => {
   };
 
   return (
-    <SidebarModal onClose={onClose} SidebarModalTitle="Tambah Contact">
+    <SidebarModal onClose={onClose} SidebarModalTitle="Tambah Kontak">
       <form className="flex-grow overflow-y-auto px-4 grid grid-cols-1 gap-4 md:grid-cols-2 p-2">
         <div className="order-1">
           <TextInput
