@@ -20,60 +20,53 @@ interface data {
   status: string;
   phone: string;
 }
-const NewCompany: React.FC<FormEditProps> = ({ onClose, data }) => {
+const ConvertLeads: React.FC<FormEditProps> = ({ onClose, data }) => {
   const [firstName, setFirstName] = useState(data?.first_name);
+  const [lastName, setLastName] = useState(data?.last_name);
   const [email, setEmail] = useState(data?.email);
   const [status, setStatus] = useState(data?.status);
   const [phone, setPhone] = useState(data?.phone);
   return (
-    <SidebarModal onClose={onClose} SidebarModalTitle="Tambah Perusahaan">
+    <SidebarModal onClose={onClose} SidebarModalTitle="Tambah Leads">
       <form className="flex-grow overflow-y-auto px-4 grid grid-cols-1 gap-4 md:grid-cols-2 p-2">
         <div className="order-1">
           <TextInput
-            label="Nama Perusahaan"
-            placeholder="Pt Loyal Cust"
+            label="Nama Depan"
+            placeholder="Nama Depan"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
           />
         </div>
         <div className="order-2">
-          <SelectInput
-            label="Jenis Industri"
-            value={status}
-            options={[
-              { label: "Manufaktur", value: "Manufaktur" },
-              { label: "Teknologi", value: "Teknologi" },
-              { label: "Lainnya", value: "Lainnya" },
-            ]}
-            onChange={(e) => setStatus(e.target.value)}
+          <TextInput
+            label="Nama Belakang"
+            placeholder="Nama Belakang"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
           />
         </div>
-        <div className="order-3">
-          <TextInput
-            label="Email"
-            placeholder="loyalcust@gmail.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+        <div className="order-3 md:order-6">
+          <label className="block text-xs md:text-base font-custom text-font-black dark:text-font-white">
+            Tanggal Lahir
+          </label>
+          <input
+            type="date"
+            className="w-full mt-2 p-2 border text-xs md:text-base font-custom focus:ring-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
+            placeholder="Tanggal Lahir"
           />
         </div>
         <div className="order-4">
-          <PhoneInput
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-        </div>
-        <div className="order-5 ">
           <TextInput
-            label="Website"
-            placeholder="www.loyalcust.com"
+            label="Email"
+            placeholder="user@gmail.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="order-6">
+        <div className="order-5">
           <SelectInput
-            label="Status Perusahaan"
+            label="Status Kontak"
             value={status}
             options={[
               { label: "Rendah", value: "Rendah" },
@@ -84,15 +77,7 @@ const NewCompany: React.FC<FormEditProps> = ({ onClose, data }) => {
             required
           />
         </div>
-        <div className="order-7">
-          <TextArea
-            label="Alamat"
-            placeholder="Jl. Kemenangan No.99"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className="order-8 ">
+        <div className="order-6 md:order-10">
           <SelectInput
             label="Penanggung Jawab"
             value={status}
@@ -105,8 +90,43 @@ const NewCompany: React.FC<FormEditProps> = ({ onClose, data }) => {
             required
           />
         </div>
-
-        <div className="order-9">
+        <div className="order-7 md:order-7">
+          <TextInput
+            label="Pekerjaan"
+            placeholder="Manager"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="order-8 md:order-8">
+          <SelectInput
+            label="Perusahaan"
+            value={status}
+            options={
+              [
+                // get data from perusahaan
+              ]
+            }
+            onChange={(e) => setStatus(e.target.value)}
+            required
+          />
+        </div>
+        <div className="order-9 md:order-3">
+          <PhoneInput
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            required
+          />
+        </div>
+        <div className="order-10 md:order-9">
+          <TextArea
+            label="Alamat"
+            placeholder="Jl. Kemenangan No.99"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="order-11">
           <SelectInput
             label="Provinsi"
             value={status}
@@ -118,7 +138,7 @@ const NewCompany: React.FC<FormEditProps> = ({ onClose, data }) => {
             onChange={(e) => setStatus(e.target.value)}
           />
         </div>
-        <div className="order-10 ">
+        <div className="order-12 ">
           <SelectInput
             label="Kota"
             value={status}
@@ -130,7 +150,7 @@ const NewCompany: React.FC<FormEditProps> = ({ onClose, data }) => {
             onChange={(e) => setStatus(e.target.value)}
           />
         </div>
-        <div className="order-11">
+        <div className="order-[13]">
           <SelectInput
             label="Kecamatan"
             value={status}
@@ -142,7 +162,7 @@ const NewCompany: React.FC<FormEditProps> = ({ onClose, data }) => {
             onChange={(e) => setStatus(e.target.value)}
           />
         </div>
-        <div className="order-12">
+        <div className="order-[14]">
           <SelectInput
             label="Kelurahan"
             value={status}
@@ -154,7 +174,7 @@ const NewCompany: React.FC<FormEditProps> = ({ onClose, data }) => {
             onChange={(e) => setStatus(e.target.value)}
           />
         </div>
-        <div className="order-[13]">
+        <div className="order-[15]">
           <SelectInput
             label="Kode Pos"
             value={status}
@@ -164,6 +184,14 @@ const NewCompany: React.FC<FormEditProps> = ({ onClose, data }) => {
               ]
             }
             onChange={(e) => setStatus(e.target.value)}
+          />
+        </div>
+        <div className="order-[16]">
+          <TextArea
+            label="Deskripsi"
+            placeholder="Deskripsi"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
       </form>
@@ -181,4 +209,4 @@ const NewCompany: React.FC<FormEditProps> = ({ onClose, data }) => {
   );
 };
 
-export default NewCompany;
+export default ConvertLeads;
