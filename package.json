@@ -15,6 +15,7 @@
     "flowbite": "^2.5.2",
     "flowbite-react": "^0.10.2",
     "js-cookie": "^3.0.5",
+    "json2csv": "^6.0.0-alpha.2",
     "next": "14.2.13",
     "next-auth": "^4.24.8",
     "react": "^18",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
+    "@types/json2csv": "^5.0.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

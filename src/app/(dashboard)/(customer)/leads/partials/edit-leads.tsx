@@ -58,7 +58,7 @@ const EditLeads: React.FC<FormEditProps> = ({ onClose, leadData }) => {
     zip_code: leadData?.zip_code,
   });
 
-  const handleSubmit = async () => {
+  const handleEditLead = async () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
@@ -73,6 +73,8 @@ const EditLeads: React.FC<FormEditProps> = ({ onClose, leadData }) => {
       if (response.data.success) {
         alert('Berhasil!');
         onClose();
+        // temp
+        window.location.reload();
       } else {
         setErrorMessage(response.data.message);
       }
@@ -247,12 +249,10 @@ const EditLeads: React.FC<FormEditProps> = ({ onClose, leadData }) => {
         </div>
       </form>
       <SidebarFooter>
-        {/* if data empty button disabled */}
         <DashboardSidebarRedButton onClick={onClose}>
           Hapus Semua
         </DashboardSidebarRedButton>
-        {/* Tambah button is used  */}
-        <DashboardSidebarYellowButton onClick={handleSubmit}>
+        <DashboardSidebarYellowButton onClick={handleEditLead}>
           Simpan
         </DashboardSidebarYellowButton>
       </SidebarFooter>

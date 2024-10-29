@@ -15,7 +15,7 @@ interface newLeadsProps {
   emailLocal: string;
 }
 
-interface dataLeads {
+interface dataLead {
   first_name: string;
   last_name: string;
   customerCategory: string;
@@ -36,8 +36,8 @@ interface dataLeads {
 }
 
 const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
-  const [errorMessage, setErrorMessage] = useState<dataLeads | null>(null);
-  const [lead, setLead] = useState<dataLeads>({
+  const [errorMessage, setErrorMessage] = useState<dataLead | null>(null);
+  const [lead, setLead] = useState<dataLead>({
     first_name: '',
     last_name: '',
     customerCategory: '',
@@ -56,7 +56,7 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
     village: '',
     zip_code: '',
   });
-  const handleSubmit = async () => {
+  const handleAddLead = async () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
@@ -252,7 +252,7 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
           Hapus Semua
         </DashboardSidebarRedButton>
         {/* Tambah button is used  */}
-        <DashboardSidebarYellowButton onClick={handleSubmit}>
+        <DashboardSidebarYellowButton onClick={handleAddLead}>
           Tambah
         </DashboardSidebarYellowButton>
       </SidebarFooter>

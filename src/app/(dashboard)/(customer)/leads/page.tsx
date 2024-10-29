@@ -11,6 +11,7 @@ import ButtonFilter from '@/components/button/button-filter';
 import useTheme from '@/components/dark-mode';
 import EditLeads from './partials/edit-leads';
 import EmptyTable from '@/components/table/empty-table';
+import handleExport from '@/utils/export_CSV';
 
 interface leadsData {
   id: string;
@@ -130,14 +131,10 @@ const Leads = () => {
   return (
     <>
       {/* Search Input */}
-      {leadsData.length == 0 ? (
-        <EmptyTable />
-      ) : (
-        <>
-          <div className="lg:items-center mb-4 grid grid-cols-12">
-            {/* Search Bar */}
-            <div className="col-span-12 md:col-span-4 relative">
-              {/* <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+      <div className="lg:items-center mb-4 grid grid-cols-12">
+        {/* Search Bar */}
+        <div className="col-span-12 md:col-span-4 relative">
+          {/* <div className="absolute inset-y-0 left-0 flex items-center pl-3">
                 <Image
                   src="/icons/table/search.svg"
                   alt="search icon"
@@ -151,33 +148,40 @@ const Leads = () => {
                 placeholder="Cari Leads"
                 className="pl-10 p-2 border-2 font-custom text-xs lg:text-base border-font-gray bg-light-white rounded-[10px] focus:outline-none  dark:bg-dark-darkGray w-full"
               /> */}
-            </div>
+        </div>
 
-            <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
-              {/* Trash Icon, Export, and Filter Buttons */}
-              {/* Delete Button */}
-              <button className="hover:shadow-[0_4px_8px_rgba(255,202,202,0.5)] transition-shadow duration-200">
-                <Image
-                  src={
-                    isDarkMode
-                      ? '/icons/table/dustbin-dark.svg'
-                      : '/icons/table/trash.svg'
-                  }
-                  alt="deletebtn"
-                  width={44}
-                  height={44}
-                  className="w-7 h-7 lg:w-[44px] lg:h-[44px]"
-                />
-              </button>
+        <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
+          {/* Trash Icon, Export, and Filter Buttons */}
+          {/* Delete Button */}
+          <button className="hover:shadow-[0_4px_8px_rgba(255,202,202,0.5)] transition-shadow duration-200">
+            <Image
+              src={
+                isDarkMode
+                  ? '/icons/table/dustbin-dark.svg'
+                  : '/icons/table/trash.svg'
+              }
+              alt="deletebtn"
+              width={44}
+              height={44}
+              className="w-7 h-7 lg:w-[44px] lg:h-[44px]"
+            />
+          </button>
 
-              <button className="p-[6px] lg:p-[10px] rounded-[10px] font-medium text-xs md:text-base border border-dark-gold text-dark-gold duration-200 hover:shadow-md hover:shadow-dark-gold">
-                Ekspor Data
-              </button>
+          <button
+            onClick={() => handleExport(leadsData)}
+            className="p-[6px] lg:p-[10px] rounded-[10px] font-medium text-xs md:text-base border border-dark-gold text-dark-gold duration-200 hover:shadow-md hover:shadow-dark-gold"
+          >
+            Ekspor Data
+          </button>
 
-              <ButtonFilter setSortBy={setSortBy} setStatusBy={setStatusBy} />
-            </div>
-          </div>
-
+          <ButtonFilter setSortBy={setSortBy} setStatusBy={setStatusBy} />
+        </div>
+      </div>
+      {leadsData.length == 0 ? (
+        <EmptyTable />
+      ) : (
+        <>
+          {' '}
           {/* Table */}
           <div className="relative h-screen overflow-auto  lg:w-full ">
             <table className="w-full ">

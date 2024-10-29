@@ -7,8 +7,7 @@ import Image from 'next/image';
 import useTheme from '../dark-mode';
 import SidebarModal from '@/components/layout/sidebar-modal';
 import NewLeads from '../../app/(dashboard)/(customer)/leads/partials/new-leads';
-
-// import NewContact from '../../app/(dashboard)/(customer)/contact/partials/new-contact';
+import NewContact from '../../app/(dashboard)/(customer)/contact/partials/new-contact';
 // import NewCompany from '../../app/(dashboard)/(customer)/company/partials/new-company';
 
 const HeaderCustomer: React.FC = () => {
@@ -146,7 +145,9 @@ const HeaderCustomer: React.FC = () => {
           {pathName === '/leads' && (
             <NewLeads onClose={handleCloseModal} emailLocal={emailLocal} />
           )}
-          {/* {pathName === '/contact' && <NewContact onClose={handleCloseModal} />} */}
+          {pathName === '/contact' && (
+            <NewContact onClose={handleCloseModal} emailLocal={emailLocal} />
+          )}
           {/* {pathName === '/company' && <NewCompany onClose={handleCloseModal} />} */}
         </SidebarModal>
       )}

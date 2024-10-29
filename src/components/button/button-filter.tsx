@@ -171,7 +171,7 @@ const ButtonFilter: React.FC<ButtonFilterProps> = ({
           <button
             type="submit"
             onClick={handleConfirmFilter}
-            className="mt-4 px-4 py-2 rounded-[4px] bg-light-gold w-full text-font-brown font-custom font-bold"
+            className="mt-4 px-4 py-2 rounded-[4px] bg-light-gold w-full text-font-brown font-custom font-bold text-xs md:text-base"
           >
             Konfirmasi
           </button>

@@ -4,7 +4,7 @@ interface TableHeaderProps {
 
 const TableHeader: React.FC<TableHeaderProps> = ({ headers }) => {
   return (
-    <thead className="bg-light-grayBright dark:bg-dark-darkGray sticky top-0 z-10 ">
+    <thead className="bg-light-grayBright dark:bg-dark-darkGray sticky top-0 z-10  ">
       <tr>
         {/* Kolom Checkbox (Sticky Vertikal dan Horizontal) */}
         <th
