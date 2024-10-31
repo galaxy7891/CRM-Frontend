@@ -20,7 +20,7 @@ interface data {
   status: string;
   phone: string;
 }
-const NewCompany: React.FC<FormEditProps> = ({ onClose, data }) => {
+const EditCompany: React.FC<FormEditProps> = ({ onClose, data }) => {
   const [firstName, setFirstName] = useState(data?.first_name);
   const [email, setEmail] = useState(data?.email);
   const [status, setStatus] = useState(data?.status);
@@ -181,4 +181,4 @@ const NewCompany: React.FC<FormEditProps> = ({ onClose, data }) => {
   );
 };
 
-export default NewCompany;
+export default EditCompany;
