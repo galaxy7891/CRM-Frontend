@@ -51,6 +51,8 @@ const Leads = () => {
   const [isEditLead, setIsEditLead] = useState<boolean>(false);
   const [leadsData, setLeadsData] = useState<leadsData[]>([]);
   const [leadDataProps, setLeadDataProps] = useState<leadData>({} as leadData);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
   const headers = ['Nama', 'Email', 'No Telpon', 'Status', 'Penanggung Jawab'];
   let getLeadData: leadData | null = null;
 
@@ -64,22 +66,35 @@ const Leads = () => {
     setIsEditLead(false);
   };
 
-  const deleteLead = async (id: string) => {
+  const handleCheckboxChange = (id: string) => {
+    setSelectedIds((prevSelectedIds) => {
+      if (prevSelectedIds.includes(id)) {
+        // If the ID is already selected, remove it
+        return prevSelectedIds.filter((selectedId) => selectedId !== id);
+      } else {
+        // Otherwise, add it
+        return [...prevSelectedIds, id];
+      }
+    });
+  };
+
+  const deleteLead = async (ids: string | string[]) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/leads/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.request({
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/leads/`,
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: { id: Array.isArray(ids) ? ids : [ids] }, // Konversi ID tunggal menjadi array jika perlu
+      });
+
       if (response.data.success) {
-        getLeadsData();
+        getLeadsData(); // Refresh data leads setelah penghapusan
       }
     } catch (error) {
-      console.error('Error deleting lead:', error);
+      console.error('Error deleting lead(s):', error);
     }
   };
 
@@ -153,7 +168,10 @@ const Leads = () => {
         <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
           {/* Trash Icon, Export, and Filter Buttons */}
           {/* Delete Button */}
-          <button className="hover:shadow-[0_4px_8px_rgba(255,202,202,0.5)] transition-shadow duration-200">
+          <button
+            onClick={() => deleteLead(selectedIds)}
+            className="hover:shadow-[0_4px_8px_rgba(255,202,202,0.5)] transition-shadow duration-200"
+          >
             <Image
               src={
                 isDarkMode
@@ -195,9 +213,10 @@ const Leads = () => {
                     <td className="border px-2 border-font-gray bg-font-white dark:bg-dark-navy sticky top-o left-0 group-hover:bg-dropdown-gray dark:group-hover:bg-dropdown-darkBlue">
                       <div className="flex items-center space-x-1">
                         <input
-                          id="default-checkbox"
+                          id={`checkbox-${lead.id}`} // Unique ID for each checkbox
                           type="checkbox"
-                          value=""
+                          checked={selectedIds.includes(lead.id)} // Check if the ID is in the selectedIds state
+                          onChange={() => handleCheckboxChange(lead.id)} // Call the handler
                           className="w-4 h-4 bg-font-white border-dark-navy rounded-[5px] checked:bg-dark-greenBright focus:ring-0"
                         />
                         <button>

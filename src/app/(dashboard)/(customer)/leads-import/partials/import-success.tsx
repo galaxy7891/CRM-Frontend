@@ -1,7 +1,7 @@
-"use client";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+'use client';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 
 interface SuccesImporProps {
   href: string;
@@ -9,8 +9,8 @@ interface SuccesImporProps {
 
 const SuccesImpor: React.FC<SuccesImporProps> = ({ href }) => {
   return (
-    <div className="bg-font-white dark:bg-dark-navy shadow-lg rounded-lg py-[115px] px-12 md:p-12 h-full w-full flex flex-col gap-4 justify-center items-center">
-      <p>Stepper</p>
+    <div className="flex flex-col gap-4 justify-center items-center">
+      {/* <p>Stepper</p> */}
       <Image
         src="/icons/table/impor-success.png"
         alt="succes"
@@ -23,7 +23,7 @@ const SuccesImpor: React.FC<SuccesImporProps> = ({ href }) => {
       <p className="font-custom text-sm md:text-base text-center text-font-black dark:text-font-white">
         Dokumen Anda telah berhasil diimpor
       </p>
-      <Link href={href || "#"} passHref>
+      <Link href={href || '#'} passHref>
         <button
           className="bg-light-gold text-xs text-font-brown md:text-base font-medium py-3 md:px-[92px] px-[60px] rounded-[10px] 
           duration-200 hover:shadow-md hover:shadow-light-gold cursor-pointer"

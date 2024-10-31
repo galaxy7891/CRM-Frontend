@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-
+import { useDispatch } from 'react-redux';
+// import { login } from '@/redux/actions/auth';
 import GoogleLoginButton from '@/components/button/google-login-button';
 import FormComponent from '@/app/(auth)/login/partials/form-login';
 import AuthLeftSection from '@/components/layout/auth-left-section';
@@ -14,7 +15,7 @@ const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [validation, setValidation] = useState<string>('');
   const router = useRouter();
-
+  // const dispatch = useDispatch();
   const fields = [
     {
       name: 'email',
@@ -41,7 +42,7 @@ const LoginPage: React.FC = () => {
 
   const loginHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    // dispatch(login(router.push, formData.email, formData.password));
     const formDataToSend = new FormData();
     formDataToSend.append('email', formData.email);
     formDataToSend.append('password', formData.password);
@@ -104,11 +105,11 @@ const LoginPage: React.FC = () => {
               buttonText="Masuk"
             />
           </div>
-          <div className="text-center my-3 text-xs md:text-base font-custom ">
+          {/* <div className="text-center my-3 text-xs md:text-base font-custom ">
             <p>Atau</p>
           </div>
 
-          {/* <GoogleLoginButton /> */}
+          <GoogleLoginButton /> */}
           <div className="mt-5 text-center">
             <p className="text-xs md:text-base font-custom font-medium">
               Belum punya akun?{' '}
