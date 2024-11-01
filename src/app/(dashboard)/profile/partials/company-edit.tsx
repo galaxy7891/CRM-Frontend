@@ -31,7 +31,6 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
-    const company_id = localStorage.getItem('company_id');
 
     const formData = new FormData();
     formData.append('name', name);
@@ -42,11 +41,12 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
 
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/companies/${company_id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/companies`,
         formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
           },
         }
       );

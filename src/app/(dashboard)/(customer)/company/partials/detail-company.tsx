@@ -1,7 +1,7 @@
-import CustomerInfo from "@/components/customer/card-info-customer";
-import CardCustomer from "@/components/customer/card-profil-customer";
-import Image from "next/image";
-import React from "react";
+import CustomerInfo from '@/components/import/card-info-customer';
+import CardCustomer from '@/components/import/card-profil-customer';
+import Image from 'next/image';
+import React from 'react';
 
 const DetailCompany = () => {
   return (
@@ -10,10 +10,10 @@ const DetailCompany = () => {
         <div className="col-span-12 md:col-span-4">
           <CardCustomer
             data={{
-              name: "Nama Lengkap",
-              email: "email@example.com",
-              website: "halo",
-              status: "Rendah",
+              name: 'Nama Lengkap',
+              email: 'email@example.com',
+              website: 'halo',
+              status: 'Rendah',
             }}
             imageSrc="/images/company.png"
             emailHref="mailto:email@example.com"
@@ -29,7 +29,7 @@ const DetailCompany = () => {
               {/* <EditUserButton onClick={handleEditClick} /> */}
               <button className="hover:shadow-[0_4px_8px_rgba(255,202,202,0.5)] transition-shadow duration-200">
                 <Image
-                  src={"/icons/table/trash.svg"}
+                  src={'/icons/table/trash.svg'}
                   alt="deletebtn"
                   width={32}
                   height={32}

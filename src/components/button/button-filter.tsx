@@ -12,20 +12,24 @@ import React, {
 interface ButtonFilterProps {
   setSortBy: Dispatch<SetStateAction<string>>;
   setStatusBy: Dispatch<SetStateAction<string>>;
+  setPerPage: Dispatch<SetStateAction<string>>;
 }
 
 interface tempFilter {
   sortBy: string;
   statusBy: string;
+  perPage: string;
 }
 const ButtonFilter: React.FC<ButtonFilterProps> = ({
   setSortBy,
   setStatusBy,
+  setPerPage,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [tempFilter, setTempFilter] = useState<tempFilter>({
     sortBy: 'terbaru',
     statusBy: 'rendah',
+    perPage: '10',
   });
 
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -45,6 +49,7 @@ const ButtonFilter: React.FC<ButtonFilterProps> = ({
   const handleConfirmFilter = () => {
     setSortBy(tempFilter.sortBy);
     setStatusBy(tempFilter.statusBy);
+    setPerPage(tempFilter.perPage);
   };
 
   useEffect(() => {
@@ -157,17 +162,38 @@ const ButtonFilter: React.FC<ButtonFilterProps> = ({
           {/* <p className="font-medium text-xs mb-3 font-custom text-font-black dark:text-font-white">
             Jumlah Halaman
           </p> */}
-          {/* <div className="flex flex-row gap-2">
-            <button className="w-[79px] h-[32px] rounded-[5px] p-2 border  backdrop-blur-sm border-dark-gold font-custom text-dark-gold text-xs hover:border-light-brownLight hover:bg-dropdown-lightYellow hover:text-light-brownLight dark:hover:bg-dark-brownLight dark:hover:border-dropdown-lightYellow dark:hover:text-dropdown-lightYellow">
+          <div className="flex flex-row gap-2">
+            <button
+              onClick={() => setTempFilter({ ...tempFilter, perPage: '10' })}
+              className={`w-[79px] h-[32px] rounded-[5px] p-2 border backdrop-blur-sm  text-xs ${
+                tempFilter.perPage == '10'
+                  ? 'border-light-brownLight bg-dropdown-lightYellow text-light-brownLight dark:bg-dark-brownLight dark:border-dropdown-lightYellow dark:text-dropdown-lightYellow'
+                  : 'border-dark-gold font-custom text-dark-gold'
+              }`}
+            >
               10
             </button>
-            <button className="w-[79px] h-[32px] rounded-[5px] p-2 border  backdrop-blur-sm border-dark-gold font-custom text-dark-gold text-xs hover:border-light-brownLight hover:bg-dropdown-lightYellow hover:text-light-brownLight dark:hover:bg-dark-brownLight dark:hover:border-dropdown-lightYellow dark:hover:text-dropdown-lightYellow">
+            <button
+              onClick={() => setTempFilter({ ...tempFilter, perPage: '25' })}
+              className={`w-[79px] h-[32px] rounded-[5px] p-2 border backdrop-blur-sm  text-xs ${
+                tempFilter.perPage == '25'
+                  ? 'border-light-brownLight bg-dropdown-lightYellow text-light-brownLight dark:bg-dark-brownLight dark:border-dropdown-lightYellow dark:text-dropdown-lightYellow'
+                  : 'border-dark-gold font-custom text-dark-gold'
+              }`}
+            >
               25
             </button>
-            <button className="w-[79px] h-[32px] rounded-[5px] p-2 border  backdrop-blur-sm border-dark-gold font-custom text-dark-gold text-xs hover:border-light-brownLight hover:bg-dropdown-lightYellow hover:text-light-brownLight dark:hover:bg-dark-brownLight dark:hover:border-dropdown-lightYellow dark:hover:text-dropdown-lightYellow">
+            <button
+              onClick={() => setTempFilter({ ...tempFilter, perPage: '50' })}
+              className={`w-[79px] h-[32px] rounded-[5px] p-2 border backdrop-blur-sm  text-xs ${
+                tempFilter.perPage == '50'
+                  ? 'border-light-brownLight bg-dropdown-lightYellow text-light-brownLight dark:bg-dark-brownLight dark:border-dropdown-lightYellow dark:text-dropdown-lightYellow'
+                  : 'border-dark-gold font-custom text-dark-gold'
+              }`}
+            >
               50
             </button>
-          </div> */}
+          </div>
           <button
             type="submit"
             onClick={handleConfirmFilter}

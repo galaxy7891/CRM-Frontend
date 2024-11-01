@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import StatusBadge from "../table/status-badge";
-import Link from "next/link";
+import Image from 'next/image';
+import StatusBadge from '../table/status-badge';
+import Link from 'next/link';
 
 interface CardCustomerProps {
   data: DataCustomer;
@@ -22,7 +22,7 @@ const CardCustomer: React.FC<CardCustomerProps> = ({
   data,
   emailHref,
   waHref,
-  imageSrc
+  imageSrc,
 }) => {
   return (
     <div className="flex flex-col items-center relative">
@@ -36,17 +36,19 @@ const CardCustomer: React.FC<CardCustomerProps> = ({
           className="rounded-full mb-2 w-[100px] h-[100px] md:w-[160px] md:h-[160px]"
         />
       </div>
-      <p className="mt-4 text-black dark:text-font-white text-lg font-medium font-custom md:text-2xl">
-        {data.name}
-      </p>
-      <p className="mt-2 text-black dark:text-font-white text-xs font-custom md:text-base">
-        {data.email}
-      </p>
-      {data.website && (
-        <p className="mt-1 text-black dark:text-font-white text-xs font-custom md:text-base">
-          {data.website}
+      <div className="w-full">
+        <p className="mt-3 text-black dark:text-font-white text-lg font-medium font-custom md:text-2xl text-center truncate">
+          {data?.name}
         </p>
-      )}
+        <p className="mt-1 mb-3 text-black dark:text-font-white text-xs font-custom md:text-base  text-center truncate">
+          {data?.email}
+        </p>
+        {data?.website && (
+          <p className="mt-1 text-black dark:text-font-white text-xs font-custom md:text-base truncate">
+            {data?.website}
+          </p>
+        )}
+      </div>
 
       <StatusBadge status={data.status} />
       {/* Icons */}

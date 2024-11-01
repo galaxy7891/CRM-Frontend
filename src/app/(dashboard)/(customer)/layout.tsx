@@ -1,4 +1,4 @@
-import HeaderCustomer from '@/components/customer/header-customer';
+import HeaderCustomer from '@/components/import/header-customer';
 import React from 'react';
 
 interface LayoutProps {

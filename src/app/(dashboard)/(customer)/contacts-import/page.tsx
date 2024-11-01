@@ -25,7 +25,7 @@ const ImporFile = () => {
     formData.append('file', file!);
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/import/leads`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/import/contact`,
         formData,
         {
           headers: {

@@ -125,12 +125,23 @@ const HeaderCustomer: React.FC = () => {
         </div>
 
         <div className="flex items- center gap-2">
-          <a
-            href="/leads-import"
-            className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
-          >
-            Impor Data
-          </a>
+          {pathName === '/leads' && (
+            <a
+              href="/leads-import"
+              className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
+            >
+              Impor Data
+            </a>
+          )}
+          {pathName === '/contact' && (
+            <a
+              href="/leads-import"
+              className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
+            >
+              Impor Data
+            </a>
+          )}
+
           <button
             onClick={handleAddDataClick}
             className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"

@@ -38,6 +38,7 @@ const User = () => {
   const { isDarkMode } = useTheme();
   const router = useRouter();
   console.log(`isdark mode? ${isDarkMode}`);
+
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem('token'); // Get token from localStorage

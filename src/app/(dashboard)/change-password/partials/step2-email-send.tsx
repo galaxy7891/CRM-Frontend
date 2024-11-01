@@ -12,7 +12,7 @@ const EmailSend: React.FC<EmailSendProps> = ({
   const email = localStorage.getItem('email');
 
   return (
-    <div className="flex flex-col justify-center items-center ">
+    <div className="flex flex-col justify-center items-center  ">
       <Image
         src={'icons/Clock.svg'}
         width={130}

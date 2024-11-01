@@ -35,6 +35,7 @@ const ActivityLog = () => {
     prev_page_url: null,
   });
 
+
   const fetchData = async (page = 1) => {
     const token = localStorage.getItem('token'); // Get token from localStorage
     try {

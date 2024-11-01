@@ -92,7 +92,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
             src="icons/logo.svg"
             alt="logo"
             width={188}
-            height={369}
+            height={40}
             priority
             className="height:auto width:auto mx-auto px-4 "
           />

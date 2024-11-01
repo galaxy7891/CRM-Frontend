@@ -49,8 +49,10 @@ const ContactsPage = () => {
   const { isDarkMode } = useTheme();
   const [sortBy, setSortBy] = useState<string>('terbaru');
   const [statusBy, setStatusBy] = useState<string>('rendah');
+  const [perPage, setPerPage] = useState<string>('10');
   const [isEditLead, setEditContact] = useState<boolean>(false);
   const [contactsData, setContactsData] = useState<contactsData[]>([]);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [contactDataProps, setContactDataProps] = useState<contactData>(
     {} as contactData
   );
@@ -73,22 +75,36 @@ const ContactsPage = () => {
   const handleCloseEdit = () => {
     setEditContact(false);
   };
-  const deleteContact = async (id: string) => {
+
+  const handleCheckboxChange = (id: string) => {
+    setSelectedIds((prevSelectedIds) => {
+      if (prevSelectedIds.includes(id)) {
+        // If the ID is already selected, remove it
+        return prevSelectedIds.filter((selectedId) => selectedId !== id);
+      } else {
+        // Otherwise, add it
+        return [...prevSelectedIds, id];
+      }
+    });
+  };
+
+  const deleteContact = async (ids: string | string[]) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/contacts/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.request({
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/leads/`,
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: { id: Array.isArray(ids) ? ids : [ids] },
+      });
+
       if (response.data.success) {
         getContactsData();
       }
     } catch (error) {
-      console.error('Error deleting contact:', error);
+      console.error('Error deleting lead(s):', error);
     }
   };
 
@@ -118,7 +134,7 @@ const ContactsPage = () => {
 
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/contacts?sort=${sortBy}&status=${statusBy}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/contact?sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=1`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -135,7 +151,7 @@ const ContactsPage = () => {
 
   useEffect(() => {
     getContactsData();
-  }, [sortBy, statusBy]); // Only run once when the component mounts
+  }, [sortBy, statusBy, perPage]); // Only run once when the component mounts
   return (
     <>
       <div className="lg:items-center mb-4 grid grid-cols-12">
@@ -160,7 +176,10 @@ const ContactsPage = () => {
         <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
           {/* Trash Icon, Export, and Filter Buttons */}
           {/* Delete Button */}
-          <button className="hover:shadow-[0_4px_8px_rgba(255,202,202,0.5)] transition-shadow duration-200">
+          <button
+            onClick={() => deleteContact(selectedIds)}
+            className="hover:shadow-[0_4px_8px_rgba(255,202,202,0.5)] transition-shadow duration-200"
+          >
             <Image
               src={
                 isDarkMode
@@ -181,7 +200,11 @@ const ContactsPage = () => {
             Ekspor Data
           </button>
 
-          <ButtonFilter setSortBy={setSortBy} setStatusBy={setStatusBy} />
+          <ButtonFilter
+            setSortBy={setSortBy}
+            setStatusBy={setStatusBy}
+            setPerPage={setPerPage}
+          />
         </div>
       </div>
       {contactsData.length == 0 ? (
@@ -204,7 +227,8 @@ const ContactsPage = () => {
                         <input
                           id="default-checkbox"
                           type="checkbox"
-                          value=""
+                          checked={selectedIds.includes(contact.id)} // Check if the ID is in the selectedIds state
+                          onChange={() => handleCheckboxChange(contact.id)} // Call the handler
                           className="w-4 h-4 bg-font-white border-dark-navy rounded-[5px] checked:bg-dark-greenBright focus:ring-0"
                         />
                         <button>

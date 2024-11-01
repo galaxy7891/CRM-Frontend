@@ -7,9 +7,11 @@ import TableHeader from '@/components/table/table-head';
 import axios from 'axios';
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import ButtonFilter from '@/components/button/button-filter';
 import useTheme from '@/components/dark-mode';
 import EditLeads from './partials/edit-leads';
+import DeleteButton from '@/components/button/delete-button';
 import EmptyTable from '@/components/table/empty-table';
 import handleExport from '@/utils/export_CSV';
 
@@ -48,6 +50,7 @@ const Leads = () => {
   const { isDarkMode } = useTheme();
   const [sortBy, setSortBy] = useState<string>('terbaru');
   const [statusBy, setStatusBy] = useState<string>('rendah');
+  const [perPage, setPerPage] = useState<string>('10');
   const [isEditLead, setIsEditLead] = useState<boolean>(false);
   const [leadsData, setLeadsData] = useState<leadsData[]>([]);
   const [leadDataProps, setLeadDataProps] = useState<leadData>({} as leadData);
@@ -87,11 +90,11 @@ const Leads = () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        data: { id: Array.isArray(ids) ? ids : [ids] }, // Konversi ID tunggal menjadi array jika perlu
+        data: { id: Array.isArray(ids) ? ids : [ids] },
       });
 
       if (response.data.success) {
-        getLeadsData(); // Refresh data leads setelah penghapusan
+        getLeadsData();
       }
     } catch (error) {
       console.error('Error deleting lead(s):', error);
@@ -124,7 +127,7 @@ const Leads = () => {
 
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/leads?sort=${sortBy}&status=${statusBy}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/leads?sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=1`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -142,7 +145,7 @@ const Leads = () => {
 
   useEffect(() => {
     getLeadsData();
-  }, [sortBy, statusBy]); // Only run once when the component mounts
+  }, [sortBy, statusBy, perPage]); // Only run once when the component mounts
   return (
     <>
       {/* Search Input */}
@@ -168,22 +171,7 @@ const Leads = () => {
         <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
           {/* Trash Icon, Export, and Filter Buttons */}
           {/* Delete Button */}
-          <button
-            onClick={() => deleteLead(selectedIds)}
-            className="hover:shadow-[0_4px_8px_rgba(255,202,202,0.5)] transition-shadow duration-200"
-          >
-            <Image
-              src={
-                isDarkMode
-                  ? '/icons/table/dustbin-dark.svg'
-                  : '/icons/table/trash.svg'
-              }
-              alt="deletebtn"
-              width={44}
-              height={44}
-              className="w-7 h-7 lg:w-[44px] lg:h-[44px]"
-            />
-          </button>
+          <DeleteButton onClick={() => deleteLead(selectedIds)} />
 
           <button
             onClick={() => handleExport(leadsData)}
@@ -192,7 +180,11 @@ const Leads = () => {
             Ekspor Data
           </button>
 
-          <ButtonFilter setSortBy={setSortBy} setStatusBy={setStatusBy} />
+          <ButtonFilter
+            setSortBy={setSortBy}
+            setStatusBy={setStatusBy}
+            setPerPage={setPerPage}
+          />
         </div>
       </div>
       {leadsData.length == 0 ? (
@@ -201,7 +193,7 @@ const Leads = () => {
         <>
           {' '}
           {/* Table */}
-          <div className="relative h-screen overflow-auto  lg:w-full ">
+          <div className="relative  overflow-auto lg:w-full ">
             <table className="w-full ">
               <TableHeader headers={headers} />
               <tbody>
@@ -243,7 +235,9 @@ const Leads = () => {
                       </div>
                     </td>
                     <td className="px-3 py-2 min-w-[200px] border-font-gray fpnt text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs md:text-base">
-                      {lead.first_name} {lead.last_name}
+                      <Link href={`/leads/${lead.id}`}>
+                        {lead.first_name} {lead.last_name}
+                      </Link>
                     </td>
                     <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
                       {lead.email}
