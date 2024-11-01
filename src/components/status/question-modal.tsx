@@ -1,27 +1,26 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
-interface SuccessModalProps {
+interface QuestionModalProps {
   header: string;
   description: string;
-  headerColor?: string;
   closeModal: boolean;
   actionButton: boolean;
   actionButton_href: string;
-  actionButton_name: string;
 }
-const SuccessModal: React.FC<SuccessModalProps> = ({
+
+const QuestionModal: React.FC<QuestionModalProps> = ({
   header,
-  headerColor,
   description,
   closeModal,
   actionButton,
   actionButton_href,
-  actionButton_name,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
+  const router = useRouter();
 
   const handleClose = () => {
     setIsOpen(false);
@@ -54,25 +53,34 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
         <div className="flex flex-col items-center py-3 space-y-3 text-center">
           <div className="icon">
             <Image
-              src="/icons/modal/success.svg"
+              src="/icons/modal/question.svg"
               alt="success"
               width={50}
               height={50}
-              className="relative w-20 h-20 shadow-custom-success"
+              className="relative w-[100px] h-[100px] shadow-custom-success"
             />
           </div>
-          <h2 className={`text-xs md:text-xl font-bold font-custom ${headerColor}`}>
+          <h2 className="text-xs md:text-xl font-bold font-custom text-font-black">
             {header}
           </h2>
-          <p className=" text-xs md:text-xl text-font-black font-custom">{description}</p>
+          <p className="text-xs md:text-xl text-font-black font-custom">
+            {description}
+          </p>
           {actionButton && (
-            <div className="w-full">
+            <div className="w-full flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
+              <button
+                type="button"
+                onClick={() => router.back()}
+                className="flex-1 inline-block px-6 py-2 font-custom bg-font-white border-light-gold border-2 text-font-brown font-bold text-xs md:text-base rounded-lg hover:shadow-md"
+              >
+                Kembali
+              </button>
               <a
                 href={actionButton_href}
                 type="submit"
-                className="inline-block px-8 py-2 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
+                className="flex-1 inline-block px-6 py-2 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
               >
-                {actionButton_name}
+                Ya
               </a>
             </div>
           )}
@@ -82,4 +90,4 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
   );
 };
 
-export default SuccessModal;
+export default QuestionModal;

@@ -3,18 +3,16 @@
 import Image from "next/image";
 import { useState } from "react";
 
-interface SuccessModalProps {
+interface AllertModalProps {
   header: string;
   description: string;
-  headerColor?: string;
   closeModal: boolean;
   actionButton: boolean;
   actionButton_href: string;
   actionButton_name: string;
 }
-const SuccessModal: React.FC<SuccessModalProps> = ({
+const AllertModal: React.FC<AllertModalProps> = ({
   header,
-  headerColor,
   description,
   closeModal,
   actionButton,
@@ -54,14 +52,14 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
         <div className="flex flex-col items-center py-3 space-y-3 text-center">
           <div className="icon">
             <Image
-              src="/icons/modal/success.svg"
+              src="/icons/modal/allert.svg"
               alt="success"
               width={50}
               height={50}
-              className="relative w-20 h-20 shadow-custom-success"
+              className="relative w-[100px] h-[100px] shadow-custom-success"
             />
           </div>
-          <h2 className={`text-xs md:text-xl font-bold font-custom ${headerColor}`}>
+          <h2 className="text-xs md:text-xl font-bold font-custom text-font-black">
             {header}
           </h2>
           <p className=" text-xs md:text-xl text-font-black font-custom">{description}</p>
@@ -82,4 +80,4 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
   );
 };
 
-export default SuccessModal;
+export default AllertModal;

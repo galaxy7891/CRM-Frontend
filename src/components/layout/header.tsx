@@ -16,24 +16,21 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
     { title: string; description?: string } | undefined
   >(undefined);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
-  const pathName = usePathname();
   const { isDarkMode, toggleTheme } = useTheme(); // Custom hook for theme handling
-  // const [isEditing, setIsEditing] = useState(false); // State untuk mengontrol tampilan form edit
-
-  // const handleEditClick = () => {
-  //   setIsEditing(true);
-  // };
-
-  // const onClose = () => {
-  //   setIsEditing(false);
-  // };
+  const pathName = usePathname();
 
   useEffect(() => {
-    let matchedPage: { title: string; description?: string } | undefined =
-      undefined;
+    const photo = localStorage.getItem('image_url');
+    if (photo) {
+      setProfilePhoto(photo);
+    }
 
     const customPages = ['/user'];
+    let matchedPage: { title: string; description?: string } | undefined;
+
+    // Check if pathName is in customPages
     if (customPages.includes(pathName)) {
       matchedPage = {
         title: 'Detail Pengguna',
@@ -41,25 +38,29 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
           'Atur preferensi akun Anda secara personal dan perusahaan serta memantau aktivitas Anda. Edit untuk memperbarui data.',
       };
     } else {
-      MENU.forEach((menuItem) => {
-        if (menuItem.link === pathName) {
+      // Loop through MENU to find matching item or sub-item
+      for (const menuItem of MENU) {
+        if (pathName.startsWith(menuItem.link || '')) {
           matchedPage = {
             title: menuItem.title,
             description: menuItem.description,
           };
+          break; // Exit loop if matched
         }
+
         if (menuItem.subItems) {
-          const matchedSubItem = menuItem.subItems.find(
-            (subItem) => subItem.link === pathName
+          const matchedSubItem = menuItem.subItems.find((subItem) =>
+            pathName.startsWith(subItem.link)
           );
           if (matchedSubItem) {
             matchedPage = {
               title: menuItem.title,
               description: menuItem.description,
             };
+            break; // Exit loop if matched
           }
         }
-      });
+      }
     }
 
     setCurrentPage(matchedPage);
@@ -77,8 +78,8 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
             onClick={onToggleSidebar}
           >
             <Image
-              src="/icons/header/sidebar.svg"
-              alt="sidebar"
+              src="icons/header/sidebar.svg"
+              alt="tes"
               width={20}
               height={20}
             />
@@ -144,7 +145,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
               id="avatarButton"
               onClick={toggleDropdown}
               className="w-10 h-10 rounded-full cursor-pointer"
-              src="/images/default.jpg"
+              src={profilePhoto || '/images/default.jpg'}
               alt="User dropdown"
               width={40}
               height={40}
@@ -182,12 +183,12 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
                     </Link>
                   </li>
                   <li>
-                    {/* <button 
-                      onClick={handleEditClick}
+                    <Link
+                      href="/change-password"
                       className="dark:text-font-white block w-full text-left px-2 py-2 hover:bg-light-white dark:hover:bg-dark-darkGray"
                     >
-                      Ubah Password
-                    </button> */}
+                      Ubah Kata Sandi
+                    </Link>
                   </li>
                   <li className="dark:text-font-white flex items-center justify-between px-2 py-2 hover:bg-light-white dark:hover:bg-dark-darkGray">
                     <span>Tema Gelap</span>
@@ -203,12 +204,12 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
                   </li>
                 </ul>
                 <div className="py-1">
-                  <a
+                  <Link
                     href="/login"
                     className="block w-max px-2 py-2 text-sm text-dark-red dark:text-dark-redLight"
                   >
                     Keluar
-                  </a>
+                  </Link>
                 </div>
               </div>
             )}
