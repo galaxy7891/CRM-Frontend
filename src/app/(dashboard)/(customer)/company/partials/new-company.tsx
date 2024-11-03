@@ -84,13 +84,14 @@ const NewCompany: React.FC<FormEditProps> = ({ onClose, data }) => {
             required
           />
         </div>
-        <div className="order-7">
+        <div className="order-7 relative">
           <TextArea
             label="Alamat"
             placeholder="Jl. Kemenangan No.99"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          
         </div>
         <div className="order-8 ">
           <SelectInput

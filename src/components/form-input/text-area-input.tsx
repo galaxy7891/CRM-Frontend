@@ -33,6 +33,9 @@ const TextArea: React.FC<TextAreaProps> = ({
       onChange={onChange}
       disabled={disabled}
     />
+    <span className="absolute bottom-2 right-2 text-xs text-font-grayLight">
+      1/200
+    </span>
   </div>
 );
 

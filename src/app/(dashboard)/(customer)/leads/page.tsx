@@ -9,6 +9,7 @@ import Data from "./data.json";
 import Image from "next/image";
 import ButtonFilter from "@/components/button/button-filter";
 import useTheme from "@/components/dark-mode";
+import Link from "next/link";
 
 const Leads = () => {
   const [userData] = useState<
@@ -93,15 +94,17 @@ const Leads = () => {
                         className="w-5 h-5"
                       />
                     </button>
-                    <button>
-                      <Image
-                        src="/icons/table/dustbin.svg"
-                        alt="deletebtn"
-                        width={16}
-                        height={16}
-                        className="w-5 h-5"
-                      />
-                    </button>
+                    <Link href="/leads/impor">
+                      <button>
+                        <Image
+                          src="/icons/table/dustbin.svg"
+                          alt="deletebtn"
+                          width={16}
+                          height={16}
+                          className="w-5 h-5"
+                        />
+                      </button>
+                    </Link>
                   </div>
                 </td>
                 <td className="px-3 py-2 min-w-[200px] border-font-gray fpnt text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs">
