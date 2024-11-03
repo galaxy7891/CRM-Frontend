@@ -29,6 +29,8 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
       setProfilePhoto(photo);
     }
     const customPages = ['/user'];
+
+    // Check if pathName is in customPages
     if (customPages.includes(pathName)) {
       matchedPage = {
         title: 'Detail Pengguna',
@@ -36,25 +38,29 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
           'Atur preferensi akun Anda secara personal dan perusahaan serta memantau aktivitas Anda. Edit untuk memperbarui data.',
       };
     } else {
-      MENU.forEach((menuItem) => {
-        if (menuItem.link === pathName) {
+      // Loop through MENU to find matching item or sub-item
+      for (const menuItem of MENU) {
+        if (pathName.startsWith(menuItem.link || '')) {
           matchedPage = {
             title: menuItem.title,
             description: menuItem.description,
           };
+          break; // Exit loop if matched
         }
+
         if (menuItem.subItems) {
-          const matchedSubItem = menuItem.subItems.find(
-            (subItem) => subItem.link === pathName
+          const matchedSubItem = menuItem.subItems.find((subItem) =>
+            pathName.startsWith(subItem.link)
           );
           if (matchedSubItem) {
             matchedPage = {
               title: menuItem.title,
               description: menuItem.description,
             };
+            break; // Exit loop if matched
           }
         }
-      });
+      }
     }
 
     setCurrentPage(matchedPage);

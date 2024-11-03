@@ -52,22 +52,23 @@ const SuccessModel: React.FC<SuccessModalProps> = ({
               className="relative w-32 h-32 shadow-custom-success"
             />
           </div>
-
-          <h2 className="font-button-md font-semibold text-font-brown md:text-base">
-            {header}
-          </h2>
-          <p className="text-xs md:text-base mt-3">{description}</p>
-          {actionButton && (
-            <div className="w-full">
-              <a
-                href={actionButton_href}
-                type="submit"
-                className="flex justify-center px-4 py-2 mt-3 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
-              >
-                {actionButton_name}
-              </a>
-            </div>
-          )}
+          <>
+            <h2 className="font-button-md font-semibold text-font-brown  md:text-base">
+              {header}
+            </h2>
+            <p className="text-xs md:text-base">{description}</p>
+            {actionButton && (
+              <div className="w-full">
+                <a
+                  href={actionButton_href}
+                  type="submit"
+                  className="flex justify-center px-8 py-2 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
+                >
+                  {actionButton_name}
+                </a>
+              </div>
+            )}
+          </>
         </div>
       </div>
     </div>
