@@ -7,7 +7,7 @@ import Image from 'next/image';
 import useTheme from '../dark-mode';
 import SidebarModal from '@/components/layout/sidebar-modal';
 import NewLeads from '../../app/(dashboard)/(customer)/leads/partials/new-leads';
-import NewContact from '../../app/(dashboard)/(customer)/contact/partials/new-contact';
+import NewContact from '../../app/(dashboard)/(customer)/contacts/partials/new-contact';
 // import NewCompany from '../../app/(dashboard)/(customer)/company/partials/new-company';
 
 const HeaderCustomer: React.FC = () => {
@@ -61,7 +61,7 @@ const HeaderCustomer: React.FC = () => {
 
   // Cek apakah pathname saat ini adalah salah satu dari yang ingin ditampilkan header-nya
   const shouldShowHeader =
-    pathName === "/leads" || pathName === "/contact" || pathName === "/company";
+    pathName === '/leads' || pathName === '/contact' || pathName === '/company';
 
   return (
     <div className="relative mb-4">
@@ -115,18 +115,18 @@ const HeaderCustomer: React.FC = () => {
               />
             </button>
 
-              {currentPage?.description && isTooltipVisible && (
-                <div
-                  id="tooltip-bottom"
-                  role="tooltip"
-                  className="mx-auto absolute left-1/2 transform -translate-x-1/2 mt-2 w-60 max-w-xs p-2 border bg-light-white border-font-grayLight text-dark-navy text-xs text-start rounded-md shadow-lg transition-opacity duration-300 z-10"
-                >
-                  {currentPage.description}
-                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 -mb-1 w-0 h-0 border-l-8 border-r-8 border-b-8 border-transparent border-b-light-white"></div>
-                </div>
-              )}
-            </div>
+            {currentPage?.description && isTooltipVisible && (
+              <div
+                id="tooltip-bottom"
+                role="tooltip"
+                className="mx-auto absolute left-1/2 transform -translate-x-1/2 mt-2 w-60 max-w-xs p-2 border bg-light-white border-font-grayLight text-dark-navy text-xs text-start rounded-md shadow-lg transition-opacity duration-300 z-10"
+              >
+                {currentPage.description}
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 -mb-1 w-0 h-0 border-l-8 border-r-8 border-b-8 border-transparent border-b-light-white"></div>
+              </div>
+            )}
           </div>
+        </div>
 
         <div className="flex items- center gap-2">
           {pathName === '/leads' && (
