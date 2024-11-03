@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 // Define the initial state
 const initialState = {
-  token: localStorage.getItem('token') || null,
+  token: typeof window !== 'undefined' ? localStorage.getItem('token') : null,
 };
 
 // Define the slice

@@ -2,35 +2,37 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
+import { leadsTypes } from '@/types/leads';
 import React, { useState, useEffect } from 'react';
+import EditLeads from '../partials/edit-leads';
 import ButtonConvert from '@/components/button/button-convert-leads';
 import CustomerInfo from '@/components/import/card-info-customer';
 import CardCustomer from '@/components/import/card-profil-customer';
 import EditUserButton from '@/components/button/edit-user-button';
 import DeleteButton from '@/components/button/delete-button';
-
-interface leadData {
-  first_name: string;
-  last_name: string;
-  job: string;
-  description: string;
-  status: string;
-  birthdate: string;
-  email: string;
-  phone: string;
-  owner: string;
-  address: string;
-  province: string;
-  city: string;
-  subdistrict: string;
-  village: string;
-  zip_code: string;
-}
+import ConvertLeads from '../partials/convert-leads';
 
 const DetailLeads = () => {
-  const [lead, setLead] = useState<leadData | null>(null);
+  const [lead, setLead] = useState<leadsTypes>({} as leadsTypes);
+  const [isEditLead, setIsEditLead] = useState<boolean>(false);
+  const [isConvertLead, setIsConvertLead] = useState<boolean>(false);
   const router = useRouter();
+  let getLeadData: leadsTypes | null = null;
   const { id } = useParams();
+
+  const handleEdit = () => {
+    setIsEditLead(true);
+    setLead(getLeadData!);
+  };
+
+  const handleCloseEdit = () => {
+    setIsEditLead(false);
+    setIsConvertLead(false);
+  };
+
+  const handleOpenConvert = () => {
+    setIsConvertLead(!isConvertLead);
+  };
 
   const getLeadDataById = async (id: string) => {
     const token = localStorage.getItem('token');
@@ -44,7 +46,9 @@ const DetailLeads = () => {
         }
       );
       if (response.data.success) {
+        getLeadData = response.data.data;
         setLead(response.data.data);
+        console.log(lead);
       } else {
         console.error(response.data.message);
       }
@@ -74,6 +78,26 @@ const DetailLeads = () => {
     }
   };
 
+  const handleConvert = async (id: string) => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/leads/convert/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.data.success) {
+        alert('Berhasil!');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (id) {
       getLeadDataById(id.toString());
@@ -89,9 +113,12 @@ const DetailLeads = () => {
               Data Pelanggan
             </p>
             <div className="flex items-center space-x-2">
-              <EditUserButton />
+              <EditUserButton onClick={handleEdit} />
               <DeleteButton onClick={() => deleteLead(id)} />
-              <ButtonConvert />
+              <ButtonConvert
+                handleConvert={() => handleConvert(id.toString())}
+                handleOpenConvert={handleOpenConvert}
+              />
             </div>
           </div>
         </div>
@@ -122,6 +149,10 @@ const DetailLeads = () => {
           </div>
         </div>
       </div>
+      {isEditLead && <EditLeads onClose={handleCloseEdit} leadData={lead} />}
+      {isConvertLead && (
+        <ConvertLeads leadData={lead} onClose={handleCloseEdit} />
+      )}
     </div>
   );
 };

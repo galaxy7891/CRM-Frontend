@@ -2,21 +2,20 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { SuccessModalProps } from '@/types/component';
+import { ActionConfirmModalProps } from '@/types/component';
 
-const SuccessModel: React.FC<SuccessModalProps> = ({
+const SuccessModel: React.FC<ActionConfirmModalProps> = ({
   header,
   description,
   closeModal,
-  actionButton,
-  actionButton_href,
-  actionButton_name,
+  actionButtonNegative_action,
+  actionButtonPositive_name,
+  actionButtonPositive_action,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const handleClose = () => {
     setIsOpen(false);
-    window.location.reload();
   };
 
   if (!isOpen) {
@@ -45,7 +44,7 @@ const SuccessModel: React.FC<SuccessModalProps> = ({
         <div className="flex flex-col items-center text-center">
           <div className="pt-2">
             <Image
-              src="/icons/status/success.svg"
+              src="/icons/status/action-confirm.svg"
               alt="success"
               width={50}
               height={50}
@@ -57,17 +56,24 @@ const SuccessModel: React.FC<SuccessModalProps> = ({
             {header}
           </h2>
           <p className="text-xs md:text-base mt-3">{description}</p>
-          {actionButton && (
-            <div className="w-full">
-              <a
-                href={actionButton_href}
-                type="submit"
-                className="flex justify-center px-4 py-2 mt-3 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
-              >
-                {actionButton_name}
-              </a>
-            </div>
-          )}
+
+          <div className="w-full flex gap-2 justify-center ">
+            <button
+              onClick={actionButtonNegative_action}
+              type="submit"
+              className="flex flex-1 justify-center px-4 py-2 mt-3 font-custom bg-white  border-2 text-light-gold border-dark-gold font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
+            >
+              Kembali
+            </button>
+
+            <button
+              onClick={actionButtonPositive_action}
+              type="submit"
+              className="flex flex-1 justify-center px-4 py-2 mt-3 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
+            >
+              {actionButtonPositive_name}
+            </button>
+          </div>
         </div>
       </div>
     </div>

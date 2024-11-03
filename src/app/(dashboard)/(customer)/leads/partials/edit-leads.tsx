@@ -19,7 +19,6 @@ interface leadData {
   id: string;
   first_name: string;
   last_name: string;
-  customerCategory: string;
   job: string;
   description: string;
   status: string;
@@ -28,7 +27,6 @@ interface leadData {
   phone: string;
   owner: string;
   address: string;
-  country: string;
   province: string;
   city: string;
   subdistrict: string;
@@ -41,7 +39,6 @@ const EditLeads: React.FC<FormEditProps> = ({ onClose, leadData }) => {
     id: leadData?.id,
     first_name: leadData?.first_name,
     last_name: leadData?.last_name,
-    customerCategory: leadData?.customerCategory,
     job: leadData?.job,
     description: leadData?.description,
     status: leadData?.status,
@@ -50,7 +47,6 @@ const EditLeads: React.FC<FormEditProps> = ({ onClose, leadData }) => {
     phone: leadData?.phone,
     owner: leadData?.owner,
     address: leadData?.address,
-    country: leadData?.country,
     province: leadData?.province,
     city: leadData?.city,
     subdistrict: leadData?.subdistrict,
@@ -59,8 +55,8 @@ const EditLeads: React.FC<FormEditProps> = ({ onClose, leadData }) => {
   });
 
   const handleEditLead = async () => {
+    const token = localStorage.getItem('token');
     try {
-      const token = localStorage.getItem('token');
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/leads/${leadData?.id}`,
         lead,

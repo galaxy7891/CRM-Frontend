@@ -11,12 +11,12 @@ const TableHeader: React.FC<TableHeaderProps> = ({ headers }) => {
           className="border-r border-font-gray px-6 rounded-tl-lg dark:rounded-tl-lg 
           sticky left-0 top-0 z-20 bg-light-grayBright dark:bg-dark-darkGray"
         >
-          {/* <input
+          <input
             type="checkbox"
             value=""
             className="w-4 h-4 flex items-start bg-font-white border-dark-navy 
             rounded-[5px] checked:bg-dark-greenBright focus:ring-0"
-          /> */}
+          />
         </th>
         {headers.map((header, index) => (
           <th

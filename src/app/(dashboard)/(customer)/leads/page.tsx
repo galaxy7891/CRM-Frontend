@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { leadsTypes } from '@/types/leads';
 import StatusBadge from '@/components/table/status-badge';
 // import Table from "@/components/table/table";
 import TableHeader from '@/components/table/table-head';
@@ -9,55 +10,24 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import ButtonFilter from '@/components/button/button-filter';
-import useTheme from '@/components/dark-mode';
 import EditLeads from './partials/edit-leads';
 import DeleteButton from '@/components/button/delete-button';
 import EmptyTable from '@/components/table/empty-table';
 import handleExport from '@/utils/export_CSV';
 
-interface leadsData {
-  id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone: string;
-  status: string;
-  owner: string;
-}
-
-interface leadData {
-  id: string;
-  first_name: string;
-  last_name: string;
-  customerCategory: string;
-  job: string;
-  description: string;
-  status: string;
-  birthdate: null;
-  email: string;
-  phone: string;
-  owner: string;
-  address: string;
-  country: string;
-  province: string;
-  city: string;
-  subdistrict: string;
-  village: string;
-  zip_code: string;
-}
-
 const Leads = () => {
-  const { isDarkMode } = useTheme();
   const [sortBy, setSortBy] = useState<string>('terbaru');
   const [statusBy, setStatusBy] = useState<string>('rendah');
   const [perPage, setPerPage] = useState<string>('10');
   const [isEditLead, setIsEditLead] = useState<boolean>(false);
-  const [leadsData, setLeadsData] = useState<leadsData[]>([]);
-  const [leadDataProps, setLeadDataProps] = useState<leadData>({} as leadData);
+  const [leadsData, setLeadsData] = useState<leadsTypes[]>([]);
+  const [leadDataProps, setLeadDataProps] = useState<leadsTypes>(
+    {} as leadsTypes
+  );
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   const headers = ['Nama', 'Email', 'No Telpon', 'Status', 'Penanggung Jawab'];
-  let getLeadData: leadData | null = null;
+  let getLeadData: leadsTypes | null = null;
 
   const handleEdit = async (id: string) => {
     await getLeadDataById(id);
@@ -234,7 +204,7 @@ const Leads = () => {
                         </button>
                       </div>
                     </td>
-                    <td className="px-3 py-2 min-w-[200px] border-font-gray fpnt text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs md:text-base">
+                    <td className="px-3 py-2 min-w-[200px] border-font-gray fpnt text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs md:text-base ">
                       <Link href={`/leads/${lead.id}`}>
                         {lead.first_name} {lead.last_name}
                       </Link>

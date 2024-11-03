@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
-// import { login } from '@/redux/actions/auth';
+import { useAppDispatch } from '@/hook/redux';
+import { login } from '@/redux/actions/auth';
+import Link from 'next/link';
 import GoogleLoginButton from '@/components/button/google-login-button';
 import FormComponent from '@/app/(auth)/login/partials/form-login';
 import AuthLeftSection from '@/components/layout/auth-left-section';
@@ -13,9 +13,10 @@ import FailPopUp from '@/components/status/fail-card';
 
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
-  const [validation, setValidation] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const router = useRouter();
-  // const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+
   const fields = [
     {
       name: 'email',
@@ -42,41 +43,13 @@ const LoginPage: React.FC = () => {
 
   const loginHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    // dispatch(login(router.push, formData.email, formData.password));
-    const formDataToSend = new FormData();
-    formDataToSend.append('email', formData.email);
-    formDataToSend.append('password', formData.password);
-
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`,
-        formDataToSend
-      );
-
-      console.log(response); // Debugging log
-
-      if (
-        response.data &&
-        response.data.data &&
-        response.data.data.access_token
-      ) {
-        localStorage.setItem('token', response.data.data.access_token); // Set token in localStorage
-        router.push('/homepage'); // Redirect to homepage
-      } else {
-        setValidation('Email atau Password salah. Silakan coba lagi.');
-      }
-    } catch (error) {
-      console.error(error); // Debugging log for errors
+    const response = await dispatch(
+      login(formData.email, formData.password, setErrorMessage)
+    );
+    if (response?.success) {
+      router.push('/homepage');
     }
   };
-
-  useEffect(() => {
-    //Check if token exists
-    const token = localStorage.getItem('token');
-    if (token) {
-      router.push('/login');
-    }
-  });
 
   return (
     <div className="flex flex-row min-h-screen justify-center">
@@ -93,7 +66,7 @@ const LoginPage: React.FC = () => {
               Selamat datang kembali! Silahkan masuk ke dalam akun Anda.
             </p>
           </div>
-          {validation && <FailPopUp>{validation}</FailPopUp>}
+          {errorMessage && <FailPopUp>{errorMessage}</FailPopUp>}
           <div className="w-full">
             <FormComponent
               fields={fields}
@@ -113,12 +86,12 @@ const LoginPage: React.FC = () => {
           <div className="mt-5 text-center">
             <p className="text-xs md:text-base font-custom font-medium">
               Belum punya akun?{' '}
-              <a
+              <Link
                 href="/register"
                 className="text-xs md:text-base font-custom text-light-gold font-bold ml-1 hover:underline"
               >
                 Buat Akun
-              </a>
+              </Link>
             </p>
           </div>
         </AuthRightSection>

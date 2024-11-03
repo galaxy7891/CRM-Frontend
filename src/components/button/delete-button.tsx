@@ -11,7 +11,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ onClick }) => {
   return (
     <button
       onClick={onClick}
-      className="hover:shadow-[0_4px_8px_rgba(255,202,202,0.5)] transition-shadow duration-200"
+      className="hover:opacity-80 transition-shadow duration-200"
     >
       <Image
         src={

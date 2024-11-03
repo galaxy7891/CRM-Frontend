@@ -1,23 +1,36 @@
-// import axios from 'axios';
+import axios from 'axios';
+import { leadsTypes } from '@/types/leads';
+import { AppDispatch, RootState } from '../store';
 // import { setLead } from '../reducers/leads';
 
-// export const getAllLeads = async (dispatch) => {
-//   const token = localStorage.getItem('token');
-//   const config = {
-//     method: 'get',
-//     url: `${process.env.NEXT_PUBLIC_API_URL}/api/leads?sort=terbaru&status=rendah&per_page=10&page=1`,
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//       'Content-Type': 'application/json',
-//     },
-//   };
+export const convertManualLeads =
+  (
+    lead: leadsTypes,
+    setIsSuccess: (success: boolean) => void,
+    setErrorMessage: (messages: { [key: string]: string }) => void
+  ) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
+    const { token } = getState().auth;
 
-//   try {
-//     const response = await axios.request(config);
-//     const { data } = response.data;
-//     dispatch(setLead(data.data));
-//     console.log('redux', data);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+    try {
+      const config = {
+        method: 'post',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/leads/convert/${lead?.id}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: lead,
+      };
+
+      const response = await axios.request(config);
+
+      if (!response.data.success) {
+        setErrorMessage(response.data.message);
+      } else {
+        setIsSuccess(true);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
