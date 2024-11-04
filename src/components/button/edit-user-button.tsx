@@ -10,9 +10,9 @@ const EditUserButton: React.FC<EditUserButtonProps> = ({ onClick }) => {
       <Image
         src="/icons/profile/edits.svg"
         alt="editbtn"
-        width={32}
-        height={32}
-        className="w-[18px] h-[18px] md:w-8 md:h-8 hover:opacity-80"
+        width={44}
+        height={44}
+        className="w-7 h-7 lg:w-[44px] lg:h-[44px]"
       />
     </button>
   );

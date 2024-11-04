@@ -1,20 +1,11 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { useState } from "react";
+import Image from 'next/image';
+import { useState } from 'react';
+import { SuccessModalProps } from '@/types/component';
 
-interface SuccessModalProps {
-  header: string;
-  description: string;
-  headerColor?: string;
-  closeModal: boolean;
-  actionButton: boolean;
-  actionButton_href: string;
-  actionButton_name: string;
-}
-const SuccessModal: React.FC<SuccessModalProps> = ({
+const SuccessModel: React.FC<SuccessModalProps> = ({
   header,
-  headerColor,
   description,
   closeModal,
   actionButton,
@@ -34,7 +25,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-10 px-4">
-      <div className="relative w-[240px] md:w-[450px] bg-font-white rounded-[30px] shadow-lg py-5 px-2">
+      <div className="relative w-[500px] bg-font-white rounded-[30px] shadow-lg pb-5  px-4 md:px-8">
         {closeModal && (
           <button
             type="button"
@@ -51,35 +42,37 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
           </button>
         )}
 
-        <div className="flex flex-col items-center py-3 space-y-3 text-center">
-          <div className="icon">
+        <div className="flex flex-col items-center text-center">
+          <div className="pt-2">
             <Image
-              src="/icons/modal/success.svg"
+              src="/icons/status/success.svg"
               alt="success"
               width={50}
               height={50}
-              className="relative w-20 h-20 shadow-custom-success"
+              className="relative w-32 h-32 shadow-custom-success"
             />
           </div>
-          <h2 className={`text-xs md:text-xl font-bold font-custom ${headerColor}`}>
-            {header}
-          </h2>
-          <p className=" text-xs md:text-xl text-font-black font-custom">{description}</p>
-          {actionButton && (
-            <div className="w-full">
-              <a
-                href={actionButton_href}
-                type="submit"
-                className="inline-block px-8 py-2 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
-              >
-                {actionButton_name}
-              </a>
-            </div>
-          )}
+          <>
+            <h2 className="font-button-md font-semibold text-font-brown  md:text-base">
+              {header}
+            </h2>
+            <p className="text-xs md:text-base">{description}</p>
+            {actionButton && (
+              <div className="w-full">
+                <a
+                  href={actionButton_href}
+                  type="submit"
+                  className="flex justify-center px-8 py-2 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
+                >
+                  {actionButton_name}
+                </a>
+              </div>
+            )}
+          </>
         </div>
       </div>
     </div>
   );
 };
 
-export default SuccessModal;
+export default SuccessModel;

@@ -44,7 +44,7 @@ const SendEmail: React.FC<SendEmailProps> = ({
         }`}
         onChange={(e) => setEmail(e.target.value)}
       />
-      {isOnClick && !email && <FailText message="Email tidak valid" />}
+      {isOnClick && !email && <FailText>Email tidak valid</FailText>}
 
       <button
         onClick={onNext}

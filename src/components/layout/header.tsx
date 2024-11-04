@@ -22,13 +22,13 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
   const pathName = usePathname();
 
   useEffect(() => {
+    let matchedPage: { title: string; description?: string } | undefined =
+      undefined;
     const photo = localStorage.getItem('image_url');
     if (photo) {
       setProfilePhoto(photo);
     }
-
     const customPages = ['/user'];
-    let matchedPage: { title: string; description?: string } | undefined;
 
     // Check if pathName is in customPages
     if (customPages.includes(pathName)) {
@@ -145,7 +145,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
               id="avatarButton"
               onClick={toggleDropdown}
               className="w-10 h-10 rounded-full cursor-pointer"
-              src={profilePhoto || '/images/default.jpg'}
+              src={'/images/default.jpg'}
               alt="User dropdown"
               width={40}
               height={40}
@@ -176,7 +176,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
                   </li>
                   <li>
                     <Link
-                      href="/user"
+                      href="/profile"
                       className="dark:text-font-white block px-2 py-2 hover:bg-light-white dark:hover:bg-dark-darkGray"
                     >
                       Detail Pengguna

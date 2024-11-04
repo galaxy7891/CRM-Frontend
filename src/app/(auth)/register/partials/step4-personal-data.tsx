@@ -63,7 +63,7 @@ const PersonalDataStep: React.FC<PersonalDataStepProps> = ({
         }`}
       />
       {isOnClick && !personalData?.first_name && (
-        <FailText message="Nama depan tidak boleh kosong" />
+        <FailText>Nama depan tidak boleh kosong</FailText>
       )}
 
       {/* Last Name */}
@@ -130,7 +130,7 @@ const PersonalDataStep: React.FC<PersonalDataStepProps> = ({
         />
       </div>
       {isOnClick && !personalData?.phone && (
-        <FailText message="Nomor telepon tidak boleh kosong" />
+        <FailText>Nomor telepon tidak boleh kosong</FailText>
       )}
 
       <button

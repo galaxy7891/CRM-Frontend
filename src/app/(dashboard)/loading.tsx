@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from 'next/image';
 
 export default function Loading() {
   return (
@@ -8,7 +8,8 @@ export default function Loading() {
         alt="loading"
         width={200}
         height={200}
-      className="w-[100px] h-[100px] md:w-[200px] md:h-[200px]"/>
+        className="w-[100px] h-[100px] md:w-[200px] md:h-[200px]"
+      />
     </div>
   );
 }

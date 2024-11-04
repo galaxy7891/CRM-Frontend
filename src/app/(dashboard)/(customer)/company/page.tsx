@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import StatusBadge from "@/components/table/status-badge";
+import { useState } from 'react';
+import StatusBadge from '@/components/table/status-badge';
 // import Table from "@/components/table/table";
-import TableHeader from "@/components/table/table-head";
-import React from "react";
-import Data from "../leads/data.json";
-import Image from "next/image";
-import ButtonFilter from "@/components/button/button-filter";
-import useTheme from "@/components/dark-mode";
+import TableHeader from '@/components/table/table-head';
+import React from 'react';
+import Data from '../leads/data.json';
+import Image from 'next/image';
+import ButtonFilter from '@/components/button/button-filter';
+import useTheme from '@/components/dark-mode';
 
 const Company = () => {
   const [userData] = useState<
@@ -23,11 +23,11 @@ const Company = () => {
   const { isDarkMode } = useTheme();
 
   const headers = [
-    "Nama Perusahaan",
-    "Email",
-    "Jenis Industri",
-    "Status",
-    "Penanggung Jawab",
+    'Nama Perusahaan',
+    'Email',
+    'Jenis Industri',
+    'Status',
+    'Penanggung Jawab',
   ];
 
   return (
@@ -57,8 +57,8 @@ const Company = () => {
             <Image
               src={
                 isDarkMode
-                  ? "/icons/table/dustbin-dark.svg"
-                  : "/icons/table/trash.svg"
+                  ? '/icons/table/dustbin-dark.svg'
+                  : '/icons/table/trash.svg'
               }
               alt="deletebtn"
               width={44}

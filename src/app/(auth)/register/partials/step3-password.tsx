@@ -26,6 +26,8 @@ const Password: React.FC<PasswordProps> = ({
   setErrorMessage,
   onNext,
 }) => {
+  const [isOnClick, setIsOnClick] = useState<boolean | null>(null);
+
   const rules = [
     { regex: /.{8,}/, label: 'Minimal 8 karakter' },
     { regex: /[a-z]/, label: 'Satu karakter huruf kecil' },
@@ -33,7 +35,6 @@ const Password: React.FC<PasswordProps> = ({
     { regex: /[\d\W]/, label: 'Satu angka, simbol, atau karakter spasi' },
   ];
 
-  const [isOnClick, setIsOnClick] = useState<boolean | null>(null);
   const isPasswordValid = rules.every((rule) =>
     rule.regex.test(password.password)
   );
@@ -51,7 +52,6 @@ const Password: React.FC<PasswordProps> = ({
 
   return (
     <div>
-      {' '}
       <FormHeader
         title="Daftar Akun"
         subtitle="Masukkan Password"
@@ -59,7 +59,7 @@ const Password: React.FC<PasswordProps> = ({
         step={step}
         page_name="register"
       />
-      {errorMessage && <FailCard message={errorMessage} />}
+      {errorMessage && <FailCard>{errorMessage}</FailCard>}
       {/* email */}
       <label
         htmlFor="email"
@@ -72,7 +72,7 @@ const Password: React.FC<PasswordProps> = ({
         type="email"
         disabled
         placeholder="user@example.com"
-        className="w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black  focus:outline-none border-font-gray rounded-lg bg-light-white focus:border-dark-navy "
+        className="w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black focus:outline-none border-font-gray rounded-lg bg-light-white focus:border-dark-navy"
       />
       {/* password */}
       <label
@@ -92,7 +92,7 @@ const Password: React.FC<PasswordProps> = ({
         } `}
       />
       {isOnClick && password.password == '' && (
-        <FailText message="Kata sandi tidak boleh kosong" />
+        <FailText>Kata sandi tidak boleh kosong</FailText>
       )}
       {/* confirm password */}
       <label
@@ -119,13 +119,14 @@ const Password: React.FC<PasswordProps> = ({
         } `}
       />
       {isOnClick && password.password_confirmation == '' && (
-        <FailText message="Ketik ulang kata sandi" />
+        <FailText>Ketik ulang kata sandi</FailText>
       )}
       {isOnClick &&
         password.password_confirmation !== '' &&
         password.password_confirmation !== password.password && (
-          <FailText message="Kata sandi tidak sama" />
+          <FailText>Kata sandi tidak sama</FailText>
         )}
+
       <ul className="list-none space-y-2 mt-4">
         {rules.map((rule, index) => {
           const isValid = rule.regex.test(password.password);

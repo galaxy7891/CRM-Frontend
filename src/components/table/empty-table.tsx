@@ -1,11 +1,11 @@
-import Image from "next/image";
-import React from "react";
+import Image from 'next/image';
+import React from 'react';
 
 const EmptyTable = () => {
   return (
-    <div className="bg-font-white dark:bg-dark-navy shadow-lg rounded-lg py-[115px] px-12 md:p-12 h-full w-full  flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center p-6 ">
       <Image
-        src="/icons/table/EmptyTable.png"
+        src="/images/emptyData.svg"
         alt="empty-table"
         width={284}
         height={267}

@@ -1,31 +1,86 @@
-import DashboardSidebarRedButton from "@/components/button/dashboard-sidebar-red-button";
-import DashboardSidebarYellowButton from "@/components/button/dashboard-sidebar-yellow-button";
-import SelectInput from "@/components/form-input/dropdown-input";
-import PhoneInput from "@/components/form-input/phone-input";
-import TextArea from "@/components/form-input/text-area-input";
-import TextInput from "@/components/form-input/text-input";
-import SidebarFooter from "@/components/layout/sidebar-footer";
-import SidebarModal from "@/components/layout/sidebar-modal";
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import axios from 'axios';
+import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
+import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
+import SelectInput from '@/components/form-input/dropdown-input';
+import PhoneInput from '@/components/form-input/phone-input';
+import TextArea from '@/components/form-input/text-area-input';
+import TextInput from '@/components/form-input/text-input';
+import SidebarFooter from '@/components/layout/sidebar-footer';
+import SidebarModal from '@/components/layout/sidebar-modal';
+import FailText from '@/components/status/fail-text';
 
-interface FormEditProps {
+interface newLeadsProps {
   onClose: () => void;
-  data: data;
+  emailLocal: string;
 }
 
-interface data {
+interface dataLead {
   first_name: string;
   last_name: string;
-  email: string;
+  customerCategory: string;
+  job: string;
+  description: string;
   status: string;
+  birthdate: null;
+  email: string;
   phone: string;
+  owner: string;
+  address: string;
+  country: string;
+  province: string;
+  city: string;
+  subdistrict: string;
+  village: string;
+  zip_code: string;
 }
-const NewLeads: React.FC<FormEditProps> = ({ onClose, data }) => {
-  const [firstName, setFirstName] = useState(data?.first_name);
-  const [lastName, setLastName] = useState(data?.last_name);
-  const [email, setEmail] = useState(data?.email);
-  const [status, setStatus] = useState(data?.status);
-  const [phone, setPhone] = useState(data?.phone);
+
+const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
+  const [errorMessage, setErrorMessage] = useState<dataLead | null>(null);
+  const [lead, setLead] = useState<dataLead>({
+    first_name: '',
+    last_name: '',
+    customerCategory: '',
+    job: '',
+    description: '',
+    status: '',
+    birthdate: null,
+    email: '',
+    phone: '',
+    owner: emailLocal,
+    address: '',
+    country: '',
+    province: '',
+    city: '',
+    subdistrict: '',
+    village: '',
+    zip_code: '',
+  });
+  const handleAddLead = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/leads`,
+        lead,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.data.success) {
+        window.location.reload();
+      } else {
+        setErrorMessage(response.data.message);
+        console.error(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      console.log(lead);
+    }
+  };
+
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Tambah Leads">
       <form className="flex-grow overflow-y-auto px-4 grid grid-cols-1 gap-4 md:grid-cols-2 p-2">
@@ -33,17 +88,19 @@ const NewLeads: React.FC<FormEditProps> = ({ onClose, data }) => {
           <TextInput
             label="Nama Depan"
             placeholder="Nama Depan"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            value={lead.first_name}
+            onChange={(e) => setLead({ ...lead, first_name: e.target.value })}
             required
           />
+          {errorMessage && <FailText>{errorMessage.first_name}</FailText>}
         </div>
+
         <div className="order-2">
           <TextInput
             label="Nama Belakang"
             placeholder="Nama Belakang"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            value={lead.last_name}
+            onChange={(e) => setLead({ ...lead, last_name: e.target.value })}
           />
         </div>
         <div className="order-3 md:order-6">
@@ -60,125 +117,132 @@ const NewLeads: React.FC<FormEditProps> = ({ onClose, data }) => {
           <TextInput
             label="Email"
             placeholder="user@gmail.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={lead.email}
+            onChange={(e) => setLead({ ...lead, email: e.target.value })}
           />
+          {errorMessage && <FailText>{errorMessage.email}</FailText>}
         </div>
         <div className="order-5">
           <SelectInput
             label="Status Kontak"
-            value={status}
+            value={lead.status}
             options={[
-              { label: "Rendah", value: "Rendah" },
-              { label: "Sedang", value: "Sedang" },
-              { label: "Tinggi", value: "Tinggi" },
+              { label: 'Pilih Status', value: '', hidden: true },
+              { label: 'Cold', value: 'cold' },
+              { label: 'Warm', value: 'warm' },
+              { label: 'Hot', value: 'hot' },
             ]}
-            onChange={(e) => setStatus(e.target.value)}
+            onChange={(e) => setLead({ ...lead, status: e.target.value })}
             required
           />
+          {errorMessage && <FailText>{errorMessage.status}</FailText>}
         </div>
         <div className="order-5 md:order-8">
-          <SelectInput
+          <TextInput
             label="Penanggung Jawab"
-            value={status}
-            options={
-              [
-                // get data from karyawan
-              ]
-            }
-            onChange={(e) => setStatus(e.target.value)}
+            disabled={true}
+            placeholder="Penanggung Jawab"
+            value={lead.owner}
+            onChange={(e) => setLead({ ...lead, owner: e.target.value })}
             required
           />
+          {errorMessage && <FailText>{errorMessage.owner}</FailText>}
         </div>
         <div className="order-6 md:order-7">
           <TextInput
             label="Pekerjaan"
             placeholder="Manager"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={lead.job}
+            onChange={(e) => setLead({ ...lead, job: e.target.value })}
           />
         </div>
         <div className="order-8 md:order-3">
           <PhoneInput
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            value={lead.phone}
+            onChange={(e) => setLead({ ...lead, phone: e.target.value })}
             required
           />
+          {errorMessage && <FailText>{errorMessage.phone}</FailText>}
         </div>
         <div className="order-9">
           <TextArea
             label="Alamat"
             placeholder="Jl. Kemenangan No.99"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={lead.address}
+            onChange={(e) => setLead({ ...lead, address: e.target.value })}
           />
         </div>
         <div className="order-10">
           <SelectInput
             label="Provinsi"
-            value={status}
-            options={
-              [
-                // get data from api provinsi
-              ]
-            }
-            onChange={(e) => setStatus(e.target.value)}
+            value={lead.province}
+            options={[
+              { label: 'Pilih Provinsi', value: '', hidden: true },
+              { label: 'Jawa Tengah', value: 'Jawa Tengah' },
+            ]}
+            onChange={(e) => setLead({ ...lead, province: e.target.value })}
           />
         </div>
         <div className="order-11 ">
           <SelectInput
             label="Kota"
-            value={status}
-            options={
-              [
-                // get data from api kota
-              ]
-            }
-            onChange={(e) => setStatus(e.target.value)}
+            value={lead.city}
+            options={[
+              { label: 'Pilih Kota', value: '', hidden: true },
+              { label: 'Kota Semarang', value: 'Kota Semarang' },
+            ]}
+            onChange={(e) => setLead({ ...lead, city: e.target.value })}
           />
         </div>
         <div className="order-12">
           <SelectInput
             label="Kecamatan"
-            value={status}
-            options={
-              [
-                // get data from api kecamatan
-              ]
-            }
-            onChange={(e) => setStatus(e.target.value)}
+            value={lead.subdistrict}
+            options={[
+              { label: 'Pilih Kecamatan', value: '', hidden: true },
+              {
+                label: 'Semarang Tengah',
+                value: 'Semarang Tengah',
+                hidden: false,
+              },
+            ]}
+            onChange={(e) => setLead({ ...lead, subdistrict: e.target.value })}
           />
         </div>
         <div className="order-[13]">
           <SelectInput
-            label="Kelurahan"
-            value={status}
-            options={
-              [
-                // get data from api kelurahan
-              ]
-            }
-            onChange={(e) => setStatus(e.target.value)}
+            label="Kelurahan/Desa"
+            value={lead.village}
+            options={[
+              { label: 'Pilih Kelurahan/Desa', value: '', hidden: true },
+              {
+                label: 'Pendrikan Kidul',
+                value: 'Pendrikan Kidul',
+                hidden: false,
+              },
+            ]}
+            onChange={(e) => setLead({ ...lead, village: e.target.value })}
           />
         </div>
         <div className="order-[14]">
           <SelectInput
             label="Kode Pos"
-            value={status}
-            options={
-              [
-                // get data from api kode pos
-              ]
-            }
-            onChange={(e) => setStatus(e.target.value)}
+            value={lead.zip_code}
+            options={[
+              { label: 'Pilih Kode Pos', value: '', hidden: true },
+              { label: '12345', value: '12345' },
+              { label: '23456', value: '23456' },
+              { label: '34567', value: '34567' },
+            ]}
+            onChange={(e) => setLead({ ...lead, zip_code: e.target.value })}
           />
         </div>
         <div className="order-[15]">
           <TextArea
             label="Deskripsi"
             placeholder="Deskripsi"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={lead.description}
+            onChange={(e) => setLead({ ...lead, description: e.target.value })}
           />
         </div>
       </form>
@@ -188,9 +252,9 @@ const NewLeads: React.FC<FormEditProps> = ({ onClose, data }) => {
           Hapus Semua
         </DashboardSidebarRedButton>
         {/* Tambah button is used  */}
-        {/* <DashboardSidebarYellowButton onClick={handleSubmit}>
-            Tambah
-          </DashboardSidebarYellowButton> */}
+        <DashboardSidebarYellowButton onClick={handleAddLead}>
+          Tambah
+        </DashboardSidebarYellowButton>
       </SidebarFooter>
     </SidebarModal>
   );

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import axios from 'axios';
 
 import AuthLeftSection from '@/components/icon-forget';
 import AuthRightSection from '@/components/layout/auth-right-section';
@@ -10,28 +11,29 @@ import Step2_send_status from '@/app/(forget-password)/forget-password/partials/
 const ForgetPassword = () => {
   const [step, setStep] = useState<number>(1);
   const [email, setEmail] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isOnClick, setIsOnClick] = useState<boolean>(false);
+
 
   const handleSendEmail = async () => {
     setIsLoading(true);
     setIsOnClick(true);
     try {
-      const response = await fetch(
+      const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/password/forgot`,
         {
-          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ email }),
         }
       );
-      const data = await response.json();
-      if (data.success) {
+
+      if (response.data.success) {
         setStep(2);
       } else {
-        console.error(data.message);
+        setErrorMessage(response.data.message);
       }
     } catch (error) {
       console.error('Error sending OTP:', error);

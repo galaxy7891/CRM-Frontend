@@ -77,7 +77,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
       <nav
         id="logo-sidebar"
         aria-label="Sidebar"
-        className={`${
+        className={`height:auto width:auto ${
           isOpen || isDesktop
             ? 'translate-x-0 opacity-100'
             : '-translate-x-full opacity-0'
@@ -92,8 +92,9 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
             src="icons/logo.svg"
             alt="logo"
             width={188}
-            height={369}
-            className="mx-auto px-4 "
+            height={40}
+            priority
+            className="height:auto width:auto mx-auto px-4 "
           />
 
           <div className="flex flex-col items-start h-screen">
@@ -118,7 +119,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                         alt={item.alt}
                         width={25}
                         height={25}
-                        className={`${
+                        className={`height:auto width:auto ${
                           activeLink === item.link
                             ? 'block'
                             : 'group-hover:hidden'
@@ -129,7 +130,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                         alt={item.alt + ' hover'}
                         width={25}
                         height={25}
-                        className={`${
+                        className={`height:auto width:auto ${
                           activeLink === item.link
                             ? 'hidden'
                             : 'hidden group-hover:block'
@@ -185,7 +186,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                       alt={item.alt}
                       width={25}
                       height={25}
-                      className="block"
+                      className="block height:auto width:auto"
                     />
                     <p
                       className={`font-custom   text-xs lg:text-base ${
@@ -213,7 +214,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                           alt="Dropdown"
                           width={20}
                           height={20}
-                          className="block"
+                          className="height:auto width:auto block"
                         />
                       ) : (
                         <Image
@@ -221,7 +222,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                           alt="Dropdown"
                           width={20}
                           height={20}
-                          className="block"
+                          className="height:auto width:auto block"
                         />
                       )
                     ) : (
@@ -231,7 +232,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                           alt="Dropdown"
                           width={20}
                           height={20}
-                          className={`${
+                          className={`height:auto width:auto ${
                             hoveredDropdown === item.id ? 'hidden' : 'block'
                           } group-hover:hidden`}
                         />
@@ -240,7 +241,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                           alt="Dropdown hover"
                           width={20}
                           height={20}
-                          className={`${
+                          className={`height:auto width:auto ${
                             hoveredDropdown === item.id ? 'block' : 'hidden'
                           }`}
                         />
@@ -290,7 +291,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                     alt={item.alt}
                     width={25}
                     height={25}
-                    className={`${
+                    className={` height:auto width:auto ${
                       activeLink === item.link ? 'block' : 'group-hover:hidden'
                     }`}
                   />
@@ -299,7 +300,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                     alt={item.alt + ' hover'}
                     width={25}
                     height={25}
-                    className={`${
+                    className={`height:auto width:auto ${
                       activeLink === item.link
                         ? 'hidden'
                         : 'hidden group-hover:block'

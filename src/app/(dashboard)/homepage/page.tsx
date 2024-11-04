@@ -68,6 +68,24 @@ const Dashboard: FC = () => {
       }
     };
 
+    const getUserData = async () => {
+      const token = localStorage.getItem('token'); // Get token from localStorage
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/user`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        localStorage.setItem('email', response.data.data.email);
+        localStorage.setItem('image_url', response.data.data.image_url);
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+      }
+    };
+    getUserData();
     fetchData();
   }, [router]);
 

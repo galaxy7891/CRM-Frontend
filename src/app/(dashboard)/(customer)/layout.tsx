@@ -1,6 +1,5 @@
-import HeaderCustomer from "@/components/customer/header-customer";
-import React from "react";
-
+import HeaderCustomer from '@/components/import/header-customer';
+import React from 'react';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -8,11 +7,11 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div >
+    <div>
       <HeaderCustomer />
-      <main className="mt-4">
+      <div className="bg-font-white dark:bg-dark-navy shadow-lg rounded-lg p-6 h-full flex flex-col">
         {children}
-      </main>
+      </div>
     </div>
   );
 };

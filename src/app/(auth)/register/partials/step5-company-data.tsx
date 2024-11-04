@@ -66,7 +66,7 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
         } rounded-lg bg-light-white focus:border-dark-navy `}
       />
       {isOnClick && !companyData?.name && (
-        <FailText message="Nama perushaan tidak boleh kosong" />
+        <FailText>Nama perushaan tidak boleh kosong</FailText>
       )}
 
       {/* Industry */}
@@ -82,11 +82,7 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
         onChange={(e) =>
           setCompanyData({ ...companyData, job_position: e.target.value })
         }
-        className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 focus:outline-none  ${
-          isOnClick && companyData?.job_position == ''
-            ? 'error-fields'
-            : 'border-font-gray'
-        }  rounded-lg bg-light-white focus:border-dark-navy ${
+        className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 focus:outline-none border-font-gray rounded-lg bg-light-white focus:border-dark-navy ${
           companyData?.job_position ? 'text-black' : 'text-gray-500'
         }`}
       >
@@ -110,7 +106,7 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
         </option>
       </select>
       {isOnClick && companyData?.job_position == '' && (
-        <FailText message="Jabatan tidak boleh kosong" />
+        <FailText>Jabatan tidak boleh kosong</FailText>
       )}
       {/* Job Position */}
       <label
@@ -147,7 +143,7 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
         </option>
       </select>
       {isOnClick && companyData?.industry == '' && (
-        <FailText message="Jenis industri tidak boleh kosong" />
+        <FailText>Jenis industri tidak boleh kosong</FailText>
       )}
 
       <button
