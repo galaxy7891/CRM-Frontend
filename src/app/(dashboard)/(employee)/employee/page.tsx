@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import TableHeader from "@/components/table/table-head";
-import Data from "../../(customer)/leads/data.json";
-import Image from "next/image";
-import ButtonFilter from "@/components/button/button-filter";
-import useTheme from "@/components/dark-mode";
-import InviteEmployee from "./partials/new-employee";
-import EditEmployee from "./partials/edit-employee"; // Import komponen EditEmployee
+import React, { useState } from 'react';
+import TableHeader from '@/components/table/table-head';
+import Data from '../../(customer)/leads/data.json';
+import Image from 'next/image';
+import ButtonFilter from '@/components/button/button-filter';
+import useTheme from '@/components/dark-mode';
+import InviteEmployee from './partials/invite-employee';
+import EditEmployee from './partials/edit-employee'; // Import komponen EditEmployee
 
 const Employee = () => {
   const [userData] = useState<
     {
-      NamaPegawai: string;
+      Nama: string;
       Email: string;
       NoTelpon: string;
       Akses: string;
@@ -27,11 +27,11 @@ const Employee = () => {
   const [selectedEmployee, setSelectedEmployee] = useState(null); // Menyimpan data karyawan yang dipilih
 
   const headers = [
-    "Nama Karyawan",
-    "Akses",
-    "Jabatan",
-    "Email",
-    "Nomor Telepon",
+    'Nama Karyawan',
+    'Akses',
+    'Jabatan',
+    'Email',
+    'Nomor Telepon',
   ];
 
   const handleAddDataClick = () => {
@@ -42,7 +42,7 @@ const Employee = () => {
     setIsModalOpen(false);
   };
 
-  const handleEditClick = (employee) => {
+  const handleEditClick = (employee: any) => {
     setSelectedEmployee(employee); // Set data karyawan yang sedang diedit
     setIsEditModalOpen(true); // Buka modal edit
   };
@@ -91,8 +91,8 @@ const Employee = () => {
               <Image
                 src={
                   isDarkMode
-                    ? "/icons/table/dustbin-dark.svg"
-                    : "/icons/table/trash.svg"
+                    ? '/icons/table/dustbin-dark.svg'
+                    : '/icons/table/trash.svg'
                 }
                 alt="deletebtn"
                 width={44}
@@ -103,7 +103,7 @@ const Employee = () => {
             <button className="p-[6px] lg:p-[10px] rounded-[10px] font-medium text-xs lg:text-base border border-dark-gold text-dark-gold duration-200 hover:shadow-md hover:shadow-dark-gold">
               Ekspor Data
             </button>
-            <ButtonFilter />
+            {/* <ButtonFilter /> */}
           </div>
         </div>
 
@@ -146,7 +146,7 @@ const Employee = () => {
                     </div>
                   </td>
                   <td className="px-3 py-2 min-w-[200px] border-font-gray fpnt text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs">
-                    {item.NamaPegawai}
+                    {item.Nama}
                   </td>
                   <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs">
                     {item.Akses}
@@ -169,7 +169,10 @@ const Employee = () => {
 
       {isModalOpen && <InviteEmployee onClose={handleCloseModal} />}
       {isEditModalOpen && (
-        <EditEmployee employee={selectedEmployee} onClose={handleCloseEditModal} />
+        <EditEmployee
+          employee={selectedEmployee}
+          onClose={handleCloseEditModal}
+        />
       )}
     </>
   );

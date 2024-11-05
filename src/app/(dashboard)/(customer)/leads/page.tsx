@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { leadsTypes } from '@/types/leads';
+import { leadsTypes } from '@/types/customer';
 import StatusBadge from '@/components/table/status-badge';
 // import Table from "@/components/table/table";
 import TableHeader from '@/components/table/table-head';
@@ -106,8 +106,7 @@ const Leads = () => {
       );
       if (response.data.success) {
         setLeadsData(response.data.data.data);
-        console.log(response.data.data.data);
-      }
+      } 
     } catch (error) {
       console.error('Error fetching leads data:', error);
     }
@@ -167,7 +166,7 @@ const Leads = () => {
             <table className="w-full ">
               <TableHeader headers={headers} />
               <tbody>
-                {leadsData.map((lead, index) => (
+                {leadsData.map((lead: leadsTypes, index: number) => (
                   <tr
                     key={index}
                     className="border-l border-r border-b border-font-gray hover:bg-dropdown-gray dark:hover:bg-dropdown-darkBlue group"
@@ -181,25 +180,23 @@ const Leads = () => {
                           onChange={() => handleCheckboxChange(lead.id)} // Call the handler
                           className="w-4 h-4 bg-font-white border-dark-navy rounded-[5px] checked:bg-dark-greenBright focus:ring-0"
                         />
-                        <button>
+                        <button onClick={() => handleEdit(lead.id)}>
                           <Image
                             src="/icons/table/editbrown.svg"
                             alt="editbtn"
                             width={16}
                             height={16}
                             className="w-5 h-5"
-                            onClick={() => handleEdit(lead.id)}
                           />
                         </button>
 
-                        <button>
+                        <button onClick={() => deleteLead(lead.id)}>
                           <Image
                             src="/icons/table/dustbin.svg"
                             alt="deletebtn"
                             width={16}
                             height={16}
                             className="w-5 h-5"
-                            onClick={() => deleteLead(lead.id)}
                           />
                         </button>
                       </div>

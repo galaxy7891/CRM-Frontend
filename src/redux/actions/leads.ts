@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { leadsTypes } from '@/types/leads';
+import { leadsTypes } from '@/types/customer';
 import { AppDispatch, RootState } from '../store';
 // import { setLead } from '../reducers/leads';
 

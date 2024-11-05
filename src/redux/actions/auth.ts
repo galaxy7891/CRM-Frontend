@@ -28,7 +28,6 @@ export const login =
         dispatch(setToken(access_token));
         return { success: true };
       } else {
-        setErrorMessage(response.data.message);
       }
     } catch (error) {
       console.error(error);

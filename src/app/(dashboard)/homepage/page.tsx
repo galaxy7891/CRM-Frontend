@@ -119,7 +119,7 @@ const Dashboard: FC = () => {
             <CardActivity
               title="Kontak"
               count={data?.activities?.contacts || 0}
-              link="/contact"
+              link="/contacts"
             />
             <CardActivity
               title="Perusahaan"

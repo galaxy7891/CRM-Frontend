@@ -2,11 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import FormHeader from '@/components/layout/auth-form-header';
 import FailText from '@/components/status/fail-text';
-
-// ***********************
-// * same like register step 4 personal data *
-// ***********************
-
+import BackButton from '@/components/button/back-button';
 
 interface PersonalData {
   first_name: string;
@@ -17,8 +13,10 @@ interface PersonalData {
 interface PersonalDataStepProps {
   personalData: PersonalData;
   step: number;
+  isLoading: boolean;
   onNext: () => void;
   setPersonalData: (data: PersonalData) => void;
+  handleBackButton: () => void;
 }
 
 const PersonalDataStep: React.FC<PersonalDataStepProps> = ({
@@ -26,6 +24,8 @@ const PersonalDataStep: React.FC<PersonalDataStepProps> = ({
   setPersonalData,
   onNext,
   step,
+  isLoading,
+  handleBackButton,
 }) => {
   const [isOnClick, setIsOnClick] = useState<boolean>(false);
   const handleCheckField = () => {
@@ -67,7 +67,7 @@ const PersonalDataStep: React.FC<PersonalDataStepProps> = ({
         }`}
       />
       {isOnClick && !personalData?.first_name && (
-        <FailText message="Nama depan tidak boleh kosong" />
+        <FailText>Nama depan tidak boleh kosong</FailText>
       )}
 
       {/* Last Name */}
@@ -134,20 +134,16 @@ const PersonalDataStep: React.FC<PersonalDataStepProps> = ({
         />
       </div>
       {isOnClick && !personalData?.phone && (
-        <FailText message="Nomor telepon tidak boleh kosong" />
+        <FailText>Nomor telepon tidak boleh kosong</FailText>
       )}
 
       <button
         onClick={handleCheckField}
         className="mt-4 w-full px-1 h-12 lg:h-15 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
       >
-        Lanjut
+        {isLoading ? 'Loading...' : 'Daftar'}
       </button>
-      <button
-        className="mt-4 w-full px-1 h-12 lg:h-15 font-custom bg-font-white border-dark-gold border text-dark-gold font-bold text-xs md:text-base rounded-lg hover:shadow-md"
-      >
-        Kembali
-      </button>
+      <BackButton onClick={handleBackButton}>Kembali</BackButton>
     </div>
   );
 };

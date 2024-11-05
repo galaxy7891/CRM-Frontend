@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
-import { leadsTypes } from '@/types/leads';
+import { leadsTypes } from '@/types/customer';
 import React, { useState, useEffect } from 'react';
 import EditLeads from '../partials/edit-leads';
 import ButtonConvert from '@/components/button/button-convert-leads';

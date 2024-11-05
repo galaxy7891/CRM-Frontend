@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '@/hook/redux';
 import { login } from '@/redux/actions/auth';
 import Link from 'next/link';
-import GoogleLoginButton from '@/components/button/google-login-button';
+// import GoogleLoginButton from '@/components/button/google-login-button';
 import FormComponent from '@/app/(auth)/login/partials/form-login';
 import AuthLeftSection from '@/components/layout/auth-left-section';
 import AuthRightSection from '@/components/layout/auth-right-section';

@@ -1,9 +1,9 @@
-import React from "react";
-import InviteComponents from "./invite-components";
-import SidebarFooter from "@/components/layout/sidebar-footer";
-import EmployeeButton from "@/components/button/dashboard-sidebar-employee-button";
+import React from 'react';
+import InviteComponents from './invite-image';
+import SidebarFooter from '@/components/layout/sidebar-footer';
+import EmployeeButton from '@/components/button/dashboard-sidebar-employee-button';
 
-const Step2Failed = () => {
+const InviteFailed = () => {
   return (
     <>
       <div className="flex flex-col justify-center items-center flex-grow">
@@ -31,4 +31,4 @@ const Step2Failed = () => {
   );
 };
 
-export default Step2Failed;
+export default InviteFailed;

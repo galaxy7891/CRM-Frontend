@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { leadsTypes } from '@/types/leads';
+import { leadsTypes } from '@/types/customer';
 import { useAppDispatch } from '@/hook/redux';
 import { convertManualLeads } from '@/redux/actions/leads';
 import SuccesModal from '@/components/status/success-modal';
