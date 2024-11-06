@@ -19,7 +19,7 @@ const HeaderCustomer: React.FC = () => {
   const pathName = usePathname();
   const { isDarkMode } = useTheme();
   const [emailLocal, setEmailLocal] = useState<string>('');
-
+  const isDetailPage = pathName.startsWith('/leads/');
   const toggleTooltip = () => setIsTooltipVisible(!isTooltipVisible);
 
   const handleAddDataClick = () => {

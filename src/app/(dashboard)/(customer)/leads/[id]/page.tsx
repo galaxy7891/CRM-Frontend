@@ -11,6 +11,8 @@ import {
 } from '@/redux/actions/leadsActions';
 import EditLeads from '../partials/edit-leads';
 import ConvertLeads from '../partials/convert-leads';
+import LeadLog from './partials/lead-log';
+import DashboardCard from '@/components/layout/dashboard-card';
 import SuccessModal from '@/components/status/success-modal';
 import ActionConfirmModal from '@/components/status/action-confirm-modal';
 import ButtonConvert from '@/components/button/convert-leads-button';
@@ -61,80 +63,85 @@ const DetailLeads = () => {
   }, [dispatch, id, isEditLead]);
 
   return (
-    <div>
-      <div className="grid grid-cols-12 ">
-        <div className="col-span-12 md:col-start-5 md:col-span-8">
-          <div className="flex justify-between">
-            <p className="font-custom text-font-black dark:text-font-white text-sm md:text-2xl font-medium">
-              Data Pelanggan
-            </p>
-            <div className="flex items-center space-x-2">
-              <EditUserButton onClick={handleEdit} />
-              <DeleteButton onClick={handleDeleteConfirmation} />
-              <ButtonConvert
-                handleConvert={handleConvertAutoConfirmation}
-                handleConvertConfirmation={handleConvertManualOpen}
-              />
+    <>
+      <DashboardCard>
+        <div className="grid grid-cols-12 ">
+          <div className="col-span-12 md:col-start-5 md:col-span-8">
+            <div className="flex justify-between mb-2">
+              <p className="font-custom text-font-black dark:text-font-white text-sm md:text-2xl font-medium">
+                Data Pelanggan
+              </p>
+              <div className="flex items-center space-x-2">
+                <EditUserButton onClick={handleEdit} />
+                <DeleteButton onClick={handleDeleteConfirmation} />
+                <ButtonConvert
+                  handleConvert={handleConvertAutoConfirmation}
+                  handleConvertConfirmation={handleConvertManualOpen}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="col-span-12 md:col-span-4 mt-2">
+            <CardCustomer
+              data={{
+                name: lead?.first_name + ' ' + lead?.last_name || 'N/A',
+                email: lead?.email || 'N/A',
+                status: lead?.status || 'N/A',
+              }}
+              imageSrc="/images/customer.png"
+              emailHref={`mailto:${lead?.email}`}
+              waHref={`https://wa.me/62${lead?.phone}`}
+            />
+          </div>
+          <div className="col-span-12 md:col-start-5 md:col-span-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 mt-2 bg-light-white dark:bg-dark-darkGray rounded-[10px]">
+              <CustomerInfo label="Nomor Telepon" value={lead?.phone} />
+              <CustomerInfo label="Alamat" value={lead?.address} />
+              <CustomerInfo label="Pekerjaan" value={lead?.job} />
+              <CustomerInfo label="Provinsi" value={lead?.province} />
+              <CustomerInfo label="Kota" value={lead?.city} />
+              <CustomerInfo label="Kecamatan" value={lead?.subdistrict} />
+              <CustomerInfo label="Kelurahan" value={lead?.village} />
+              <CustomerInfo label="Kode Pos" value={lead?.zip_code} />
+              <CustomerInfo label="Penanggung Jawab" value={lead?.owner} />
+              <CustomerInfo label="Deskripsi" value={lead?.description} />
             </div>
           </div>
         </div>
-        <div className="col-span-12 md:col-span-4 mt-2">
-          <CardCustomer
-            data={{
-              name: lead?.first_name + ' ' + lead?.last_name || 'N/A',
-              email: lead?.email || 'N/A',
-              status: lead?.status || 'N/A',
-            }}
-            imageSrc="/images/customer.png"
-            emailHref={`mailto:${lead?.email}`}
-            waHref={`https://wa.me/62${lead?.phone}`}
+        {isConvertAuto && (
+          <ActionConfirmModal
+            header="Apakah ingin mengonversi data?"
+            description="Data leads yang dipilih akan dikonversi menjadi data kontak"
+            actionButtonNegative_action={handleConvertAutoConfirmation}
+            actionButtonPositive_name="Konversi"
+            actionButtonPositive_action={handleConvertAutoLead}
           />
-        </div>
-        <div className="col-span-12 md:col-start-5 md:col-span-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 mt-2 bg-light-white dark:bg-dark-darkGray rounded-[10px]">
-            <CustomerInfo label="Nomor Telepon" value={lead?.phone} />
-            <CustomerInfo label="Alamat" value={lead?.address} />
-            <CustomerInfo label="Pekerjaan" value={lead?.job} />
-            <CustomerInfo label="Provinsi" value={lead?.province} />
-            <CustomerInfo label="Kota" value={lead?.city} />
-            <CustomerInfo label="Kecamatan" value={lead?.subdistrict} />
-            <CustomerInfo label="Kelurahan" value={lead?.village} />
-            <CustomerInfo label="Kode Pos" value={lead?.zip_code} />
-            <CustomerInfo label="Penanggung Jawab" value={lead?.owner} />
-            <CustomerInfo label="Deskripsi" value={lead?.description} />
-          </div>
-        </div>
-      </div>
-      {isConvertAuto && (
-        <ActionConfirmModal
-          header="Apakah ingin mengonversi data?"
-          description="Data leads yang dipilih akan dikonversi menjadi data kontak"
-          actionButtonNegative_action={handleConvertAutoConfirmation}
-          actionButtonPositive_name="Konversi"
-          actionButtonPositive_action={handleConvertAutoLead}
-        />
-      )}
-      {isDeleteLead && (
-        <ActionConfirmModal
-          header="Apakah ingin menghapus leads?"
-          description="Data yang sudah terhapus tidak akan dapat dikembalikan"
-          actionButtonNegative_action={handleDeleteConfirmation}
-          actionButtonPositive_name="Hapus"
-          actionButtonPositive_action={handleDeleteLead}
-        />
-      )}
-      {isEditLead && <EditLeads onClose={handleEdit} leadProps={lead!} />}
-      {isConvertLead && <ConvertLeads leadData={lead!} onClose={handleEdit} />}
-      {isSuccess && (
-        <SuccessModal
-          header="Berhasil"
-          description="Data leads berhasil dihapus"
-          actionButton={true}
-          actionButton_name="Kembali ke Halaman Leads"
-          actionButton_href="/leads"
-        />
-      )}
-    </div>
+        )}
+        {isDeleteLead && (
+          <ActionConfirmModal
+            header="Apakah ingin menghapus leads?"
+            description="Data yang sudah terhapus tidak akan dapat dikembalikan"
+            actionButtonNegative_action={handleDeleteConfirmation}
+            actionButtonPositive_name="Hapus"
+            actionButtonPositive_action={handleDeleteLead}
+          />
+        )}
+        {isEditLead && <EditLeads onClose={handleEdit} leadProps={lead!} />}
+        {isConvertLead && (
+          <ConvertLeads leadData={lead!} onClose={handleEdit} />
+        )}
+        {isSuccess && (
+          <SuccessModal
+            header="Berhasil"
+            description="Data leads berhasil dihapus"
+            actionButton={true}
+            actionButton_name="Kembali ke Halaman Leads"
+            actionButton_href="/leads"
+          />
+        )}
+      </DashboardCard>
+      <LeadLog />
+    </>
   );
 };
 

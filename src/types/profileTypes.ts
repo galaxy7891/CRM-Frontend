@@ -1,4 +1,3 @@
-
 export interface activityLogTypes {
   title: string;
   datetime: string;

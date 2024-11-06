@@ -4,7 +4,11 @@ import { paginationTypes } from '@/types/componentTypes';
 import { setLogProfile } from '../reducers/profileReducers';
 
 export const logActivityProfile =
-  (currentPage: number, setPagination: (pagination: paginationTypes) => void) =>
+  (
+    currentPage: number,
+
+    setPagination: (pagination: paginationTypes) => void
+  ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const token = getState().auth.token;
     try {

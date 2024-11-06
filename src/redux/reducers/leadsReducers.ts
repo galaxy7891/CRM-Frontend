@@ -3,8 +3,9 @@ import { leadsState } from '@/types/leadsTypes';
 
 // Define the initial state
 const initialState: leadsState = {
-  leads: [],
   lead: null,
+  leads: [],
+  logLead: [],
 };
 
 // Define the slice
@@ -18,11 +19,14 @@ const leadsSlice = createSlice({
     setLeads: (state, action) => {
       state.leads = action.payload;
     },
+    setLogLead: (state, action) => {
+      state.logLead = action.payload;
+    },
   },
 });
 
 // export the setter funtion
-export const { setLead, setLeads } = leadsSlice.actions;
+export const { setLead, setLeads, setLogLead } = leadsSlice.actions;
 
 // export the reducer
 export default leadsSlice.reducer;

@@ -81,6 +81,7 @@ const Dashboard: FC = () => {
         );
         localStorage.setItem('email', response.data.data.email);
         localStorage.setItem('image_url', response.data.data.image_url);
+        console.log(response.data.data);
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
       }

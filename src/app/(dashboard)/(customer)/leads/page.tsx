@@ -13,6 +13,7 @@ import {
   deleteLead,
 } from '@/redux/actions/leadsActions';
 import handleExport from '@/utils/export_CSV';
+import DashboardCard from '@/components/layout/dashboard-card';
 import ActionConfirmModal from '@/components/status/action-confirm-modal';
 import StatusBadge from '@/components/table/status-badge';
 import ButtonFilter from '@/components/button/filter-button';
@@ -130,7 +131,7 @@ const Leads = () => {
   ]);
 
   return (
-    <>
+    <DashboardCard>
       {/* Search Input */}
       <div className="lg:items-center mb-4 grid grid-cols-12">
         {/* Search Bar */}
@@ -263,7 +264,7 @@ const Leads = () => {
           />
         )}
       </>
-    </>
+    </DashboardCard>
   );
 };
 

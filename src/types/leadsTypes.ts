@@ -22,6 +22,7 @@ export interface leadsTypes {
 export interface leadsState {
   leads: leadsTypes[];
   lead: leadsTypes | null;
+  logLead: leadsTypes[];
 }
 
 export interface editLeadsPropsTypes {

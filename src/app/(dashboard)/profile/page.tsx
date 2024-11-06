@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import useTheme from '@/components/dark-mode';
 import Image from 'next/image';
 
-import CardUserActivityLog from '@/app/(dashboard)/profile/partials/activity-info';
+import UserLog from '@/app/(dashboard)/profile/partials/user-log';
 import CardUserInfo from './partials/user-info';
 import CardCompany from './partials/company-info';
 
@@ -120,7 +120,7 @@ const User = () => {
         <CardCompany data={dataCompany!} />
       )}
 
-      <CardUserActivityLog />
+      <UserLog />
     </>
   );
 };
