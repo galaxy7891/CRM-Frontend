@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { leadsTypes } from '@/types/leads';
+import { useDispatch } from 'react-redux';
+import { addLead } from '@/redux/actions/leads';
+import { AppDispatch } from '@/redux/store';
 import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
+import SuccessModal from '@/components/status/success-modal';
 import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
 import SelectInput from '@/components/form-input/dropdown-input';
 import PhoneInput from '@/components/form-input/phone-input';
@@ -15,29 +19,13 @@ interface newLeadsProps {
   emailLocal: string;
 }
 
-interface dataLead {
-  first_name: string;
-  last_name: string;
-  customerCategory: string;
-  job: string;
-  description: string;
-  status: string;
-  birthdate: null;
-  email: string;
-  phone: string;
-  owner: string;
-  address: string;
-  country: string;
-  province: string;
-  city: string;
-  subdistrict: string;
-  village: string;
-  zip_code: string;
-}
-
 const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
-  const [errorMessage, setErrorMessage] = useState<dataLead | null>(null);
-  const [lead, setLead] = useState<dataLead>({
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
+    {}
+  );
+  const [lead, setLead] = useState<leadsTypes>({
+    id: '',
     first_name: '',
     last_name: '',
     customerCategory: '',
@@ -49,36 +37,15 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
     phone: '',
     owner: emailLocal,
     address: '',
-    country: '',
     province: '',
     city: '',
     subdistrict: '',
     village: '',
     zip_code: '',
   });
-  const handleAddLead = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/leads`,
-        lead,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (response.data.success) {
-        window.location.reload();
-      } else {
-        setErrorMessage(response.data.message);
-        console.error(response.data.message);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      console.log(lead);
-    }
+  const dispatch = useDispatch<AppDispatch>();
+  const handleAddLead = () => {
+    dispatch(addLead(lead, setIsSuccess, setErrorMessage));
   };
 
   return (
@@ -256,6 +223,14 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
           Tambah
         </DashboardSidebarYellowButton>
       </SidebarFooter>
+      {isSuccess && (
+        <SuccessModal
+          header="Berhasil"
+          description="Data leads berhasil ditambahkan"
+          actionButton_href="/contacts"
+          actionButton_name="Menuju ke Kontak"
+        />
+      )}
     </SidebarModal>
   );
 };

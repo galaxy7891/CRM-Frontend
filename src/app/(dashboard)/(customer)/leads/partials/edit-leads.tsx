@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import { leadsTypes, editLeadsPropsTypes } from '@/types/leads';
+import { updateLead } from '@/redux/actions/leads';
 import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
 import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
 import SelectInput from '@/components/form-input/dropdown-input';
+import SuccessModal from '@/components/status/success-modal';
 import PhoneInput from '@/components/form-input/phone-input';
 import TextArea from '@/components/form-input/text-area-input';
 import TextInput from '@/components/form-input/text-input';
@@ -10,73 +14,33 @@ import SidebarFooter from '@/components/layout/sidebar-footer';
 import SidebarModal from '@/components/layout/sidebar-modal';
 import FailText from '@/components/status/fail-text';
 
-interface FormEditProps {
-  onClose: () => void;
-  leadData: leadData;
-}
-
-interface leadData {
-  id: string;
-  first_name: string;
-  last_name: string;
-  job: string;
-  description: string;
-  status: string;
-  birthdate: null;
-  email: string;
-  phone: string;
-  owner: string;
-  address: string;
-  province: string;
-  city: string;
-  subdistrict: string;
-  village: string;
-  zip_code: string;
-}
-const EditLeads: React.FC<FormEditProps> = ({ onClose, leadData }) => {
-  const [errorMessage, setErrorMessage] = useState<leadData | null>(null);
-  const [lead, setLead] = useState<leadData>({
-    id: leadData?.id,
-    first_name: leadData?.first_name,
-    last_name: leadData?.last_name,
-    job: leadData?.job,
-    description: leadData?.description,
-    status: leadData?.status,
-    birthdate: leadData?.birthdate,
-    email: leadData?.email,
-    phone: leadData?.phone,
-    owner: leadData?.owner,
-    address: leadData?.address,
-    province: leadData?.province,
-    city: leadData?.city,
-    subdistrict: leadData?.subdistrict,
-    village: leadData?.village,
-    zip_code: leadData?.zip_code,
+const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
+  const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
+    {}
+  );
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [lead, setLead] = useState<leadsTypes>({
+    id: leadProps?.id,
+    first_name: leadProps?.first_name,
+    last_name: leadProps?.last_name,
+    job: leadProps?.job,
+    description: leadProps?.description,
+    status: leadProps?.status,
+    birthdate: leadProps?.birthdate,
+    email: leadProps?.email,
+    phone: leadProps?.phone,
+    owner: leadProps?.owner,
+    address: leadProps?.address,
+    province: leadProps?.province,
+    city: leadProps?.city,
+    subdistrict: leadProps?.subdistrict,
+    village: leadProps?.village,
+    zip_code: leadProps?.zip_code,
   });
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handleEditLead = async () => {
-    const token = localStorage.getItem('token');
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/leads/${leadData?.id}`,
-        lead,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (response.data.success) {
-        alert('Berhasil!');
-        onClose();
-        // temp
-        window.location.reload();
-      } else {
-        setErrorMessage(response.data.message);
-      }
-    } catch (error) {
-      console.error(error);
-    }
+  const handleEditLead = () => {
+    dispatch(updateLead(lead, setIsSuccess, setErrorMessage));
   };
 
   return (
@@ -252,6 +216,15 @@ const EditLeads: React.FC<FormEditProps> = ({ onClose, leadData }) => {
           Simpan
         </DashboardSidebarYellowButton>
       </SidebarFooter>
+      {isSuccess && (
+        <SuccessModal
+          header="Berhasil"
+          description="Data leads berhasil diubah"
+          actionButton={true}
+          actionButton_name="Kembali"
+          actionButton_action={() => onClose()}
+        />
+      )}
     </SidebarModal>
   );
 };

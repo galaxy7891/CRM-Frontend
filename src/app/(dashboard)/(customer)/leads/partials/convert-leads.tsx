@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { leadsTypes } from '@/types/customer';
+import { leadsTypes } from '@/types/leads';
 import { useAppDispatch } from '@/hook/redux';
 import { convertManualLeads } from '@/redux/actions/leads';
 import SuccesModal from '@/components/status/success-modal';
-import ActionConfirm from '@/components/status/action-confirm-modal';
+import ActionConfirmModal from '@/components/status/action-confirm-modal';
 import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
 import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
 import SelectInput from '@/components/form-input/dropdown-input';
@@ -246,7 +246,7 @@ const ConvertLeadsPage: React.FC<FormEditProps> = ({ onClose, leadData }) => {
         </DashboardSidebarYellowButton>
       </SidebarFooter>
       {isConfirm && (
-        <ActionConfirm
+        <ActionConfirmModal
           header="Apakah ingin mengonversi data?"
           description="Data leads yang dipilih akan dikonversi menjadi data kontak"
           actionButtonNegative_action={handleCloseConfirmation}

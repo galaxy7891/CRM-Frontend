@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { organizationsTypes } from '@/types/customer';
+import { organizationsTypes } from '@/types/leads';
 import { useDispatch } from 'react-redux';
 import { addOrganization } from '@/redux/actions/organizations';
 import { AppDispatch } from '@/redux/store';
@@ -8,6 +8,7 @@ import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red
 import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
 import SelectInput from '@/components/form-input/dropdown-input';
 import PhoneInput from '@/components/form-input/phone-input';
+import SuccessModal from '@/components/status/success-modal';
 import TextArea from '@/components/form-input/text-area-input';
 import TextInput from '@/components/form-input/text-input';
 import SidebarFooter from '@/components/layout/sidebar-footer';
@@ -22,7 +23,7 @@ const NewCompany: React.FC<addOrganizationPropsTypes> = ({
   emailLocal,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(true);
   const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
     {}
   );
@@ -230,6 +231,15 @@ const NewCompany: React.FC<addOrganizationPropsTypes> = ({
           {isLoading ? 'Menambahkan' : 'Tambah'}
         </DashboardSidebarYellowButton>
       </SidebarFooter>
+      {isSuccess && (
+        <SuccessModal
+          header="Berhasil!"
+          description="Perusahaan berhasil ditambahkan"
+          actionButton={true}
+          actionButton_name="Kembali"
+          actionButton_href="/company"
+        />
+      )}
     </SidebarModal>
   );
 };

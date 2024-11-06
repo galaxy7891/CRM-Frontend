@@ -1,108 +1,64 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
-import axios from 'axios';
-import { leadsTypes } from '@/types/customer';
+import { useParams } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import {
+  getLeadById,
+  deleteLead,
+  convertAutoLead,
+} from '@/redux/actions/leads';
 import EditLeads from '../partials/edit-leads';
+import ConvertLeads from '../partials/convert-leads';
+import SuccessModal from '@/components/status/success-modal';
+import ActionConfirmModal from '@/components/status/action-confirm-modal';
 import ButtonConvert from '@/components/button/button-convert-leads';
 import CustomerInfo from '@/components/import/card-info-customer';
 import CardCustomer from '@/components/import/card-profil-customer';
 import EditUserButton from '@/components/button/edit-user-button';
 import DeleteButton from '@/components/button/delete-button';
-import ConvertLeads from '../partials/convert-leads';
 
 const DetailLeads = () => {
-  const [lead, setLead] = useState<leadsTypes>({} as leadsTypes);
   const [isEditLead, setIsEditLead] = useState<boolean>(false);
+  const [isConvertAuto, setIsConvertAuto] = useState<boolean>(false);
+  const [isDeleteLead, setIsDeleteLead] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isConvertLead, setIsConvertLead] = useState<boolean>(false);
-  const router = useRouter();
-  let getLeadData: leadsTypes | null = null;
-  const { id } = useParams();
+  const dispatch = useDispatch<AppDispatch>();
+  const { id } = useParams<{ id: string }>();
+  const { lead } = useSelector((state: RootState) => state.leads);
 
   const handleEdit = () => {
-    setIsEditLead(true);
-    setLead(getLeadData!);
+    setIsEditLead(!isEditLead);
   };
 
-  const handleCloseEdit = () => {
-    setIsEditLead(false);
-    setIsConvertLead(false);
-  };
-
-  const handleOpenConvert = () => {
+  const handleConvertManualOpen = () => {
     setIsConvertLead(!isConvertLead);
   };
 
-  const getLeadDataById = async (id: string) => {
-    const token = localStorage.getItem('token');
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/leads/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (response.data.success) {
-        getLeadData = response.data.data;
-        setLead(response.data.data);
-        console.log(lead);
-      } else {
-        console.error(response.data.message);
-      }
-    } catch (error) {
-      console.error('Error deleting lead:', error);
-    }
+  const handleConvertAutoConfirmation = () => {
+    setIsConvertAuto(!isConvertAuto);
+  };
+  const handleDeleteConfirmation = () => {
+    setIsDeleteLead(!isDeleteLead);
   };
 
-  const deleteLead = async (ids: string | string[]) => {
-    const token = localStorage.getItem('token');
-    try {
-      const response = await axios.request({
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/leads/`,
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        data: { id: Array.isArray(ids) ? ids : [ids] },
-      });
-
-      if (response.data.success) {
-        alert('Berhasil!');
-        router.push('/leads');
-      }
-    } catch (error) {
-      console.error('Error deleting lead(s):', error);
-    }
+  const handleConvertAutoLead = () => {
+    setIsConvertAuto(false);
+    dispatch(convertAutoLead(id, setIsSuccess));
   };
 
-  const handleConvert = async (id: string) => {
-    const token = localStorage.getItem('token');
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/leads/convert/${id}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (response.data.success) {
-        alert('Berhasil!');
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  const handleDeleteLead = () => {
+    setIsDeleteLead(false);
+    dispatch(deleteLead(id, setIsSuccess));
   };
 
   useEffect(() => {
     if (id) {
-      getLeadDataById(id.toString());
+      dispatch(getLeadById(id));
     }
-  }, [id]);
+  }, [dispatch, id, isEditLead]);
 
   return (
     <div>
@@ -114,10 +70,10 @@ const DetailLeads = () => {
             </p>
             <div className="flex items-center space-x-2">
               <EditUserButton onClick={handleEdit} />
-              <DeleteButton onClick={() => deleteLead(id)} />
+              <DeleteButton onClick={handleDeleteConfirmation} />
               <ButtonConvert
-                handleConvert={() => handleConvert(id.toString())}
-                handleOpenConvert={handleOpenConvert}
+                handleConvert={handleConvertAutoConfirmation}
+                handleConvertConfirmation={handleConvertManualOpen}
               />
             </div>
           </div>
@@ -149,9 +105,35 @@ const DetailLeads = () => {
           </div>
         </div>
       </div>
-      {isEditLead && <EditLeads onClose={handleCloseEdit} leadData={lead} />}
-      {isConvertLead && (
-        <ConvertLeads leadData={lead} onClose={handleCloseEdit} />
+
+      {isConvertAuto && (
+        <ActionConfirmModal
+          header="Apakah ingin mengonversi data?"
+          description="Data leads yang dipilih akan dikonversi menjadi data kontak"
+          actionButtonNegative_action={handleConvertAutoConfirmation}
+          actionButtonPositive_name="Konversi"
+          actionButtonPositive_action={handleConvertAutoLead}
+        />
+      )}
+      {isDeleteLead && (
+        <ActionConfirmModal
+          header="Apakah ingin menghapus leads?"
+          description="Data yang sudah terhapus tidak akan dapat dikembalikan"
+          actionButtonNegative_action={handleDeleteConfirmation}
+          actionButtonPositive_name="Hapus"
+          actionButtonPositive_action={handleDeleteLead}
+        />
+      )}
+      {isEditLead && <EditLeads onClose={handleEdit} leadProps={lead!} />}
+      {isConvertLead && <ConvertLeads leadData={lead!} onClose={handleEdit} />}
+      {isSuccess && (
+        <SuccessModal
+          header="Berhasil"
+          description="Data leads berhasil dihapus"
+          actionButton={true}
+          actionButton_name="Kembali ke Halaman Leads"
+          actionButton_href="/leads"
+        />
       )}
     </div>
   );

@@ -2,8 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 // Define the initial state
 const initialState = {
-  organizations: [],
   organization: null,
+  organizations: [],
 };
 
 // Define the slice
@@ -21,7 +21,7 @@ const organizationsSlice = createSlice({
 });
 
 // export the setter funtion
-export const { setOrganizations, setOrganization } = organizationsSlice.actions;
+export const { setOrganization, setOrganizations } = organizationsSlice.actions;
 
 // export the reducer
 export default organizationsSlice.reducer;

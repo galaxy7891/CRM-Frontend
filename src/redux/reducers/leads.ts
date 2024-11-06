@@ -1,15 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { leadsState } from '@/types/leads';
 
 // Define the initial state
-const initialState = {
-  leads: {},
+const initialState: leadsState = {
+  leads: [],
+  lead: null,
 };
 
 // Define the slice
-const leadSlice = createSlice({
+const leadsSlice = createSlice({
   name: 'leads',
   initialState,
   reducers: {
+    setLead: (state, action) => {
+      state.lead = action.payload;
+    },
     setLeads: (state, action) => {
       state.leads = action.payload;
     },
@@ -17,7 +22,7 @@ const leadSlice = createSlice({
 });
 
 // export the setter funtion
-export const { setLeads } = leadSlice.actions;
+export const { setLead, setLeads } = leadsSlice.actions;
 
 // export the reducer
-export default leadSlice.reducer;
+export default leadsSlice.reducer;

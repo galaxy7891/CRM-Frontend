@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { organizationsTypes } from '@/types/customer';
+import { organizationsTypes } from '@/types/leads';
 import { setOrganizations, setOrganization } from '../reducers/organizations';
 import { AppDispatch, RootState } from '@/redux/store';
 

@@ -1,17 +1,15 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-// import { useAppDispatch } from '@/hook/redux';
+import React, { useEffect, useState } from 'react';
+import { organizationsTypes } from '@/types/leads';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { organizationsTypes } from '@/types/customer';
+import { RootState, AppDispatch } from '@/redux/store';
 import {
   getOrganizations,
   getOrganizationsById,
   deleteOrganization,
 } from '@/redux/actions/organizations';
-import { AppDispatch } from '@/redux/store';
 import handleExport from '@/utils/export_CSV';
 import EditCompany from './partials/edit-company';
 import DeleteButton from '@/components/button/delete-button';
@@ -25,9 +23,7 @@ const CompanyPage = () => {
   const [perPage, setPerPage] = useState<string>('10');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [isEditCompany, setIsEditCompany] = useState<boolean>(false);
-
   const dispatch = useDispatch<AppDispatch>();
-
   const { organizations } = useSelector(
     (state: RootState) => state.organizations
   );
@@ -70,7 +66,7 @@ const CompanyPage = () => {
 
   useEffect(() => {
     dispatch(getOrganizations(sortBy, statusBy, perPage));
-  }, [sortBy, statusBy, perPage]);
+  }, [dispatch, sortBy, statusBy, perPage]);
 
   return (
     <div>

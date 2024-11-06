@@ -2,11 +2,12 @@ export interface leadsTypes {
   id: string;
   first_name: string;
   last_name: string;
+  customerCategory?: string;
   job: string;
   description: string;
   status: string;
   birthdate: null;
-  organization: string;
+  organization?: string;
   email: string;
   phone: string;
   owner: string;
@@ -16,6 +17,16 @@ export interface leadsTypes {
   subdistrict: string;
   village: string;
   zip_code: string;
+}
+
+export interface leadsState {
+  leads: leadsTypes[];
+  lead: leadsTypes | null;
+}
+
+export interface editLeadsPropsTypes {
+  onClose: () => void;
+  leadProps: leadsTypes;
 }
 
 export interface organizationsTypes {

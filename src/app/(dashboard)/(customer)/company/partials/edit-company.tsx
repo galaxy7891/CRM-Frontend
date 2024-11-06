@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import {
-  organizationsTypes,
-  editOrganizationPropsTypes,
-} from '@/types/customer';
+import { organizationsTypes, editOrganizationPropsTypes } from '@/types/leads';
 import { updateOrganization } from '@/redux/actions/organizations';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
@@ -42,7 +39,7 @@ const EditCompany: React.FC<editOrganizationPropsTypes> = ({
   const dispatch = useDispatch<AppDispatch>();
 
   const handleEditCompany = () => {
-    dispatch(updateOrganization( organization, setIsLoading, setIsSuccess));
+    dispatch(updateOrganization(organization, setIsLoading, setIsSuccess));
   };
 
   return (
