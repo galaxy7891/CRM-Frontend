@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { acceptInvitation } from '@/redux/actions/employee';
+import { acceptInvitation } from '@/redux/actions/employeeActions';
 import { useAppDispatch } from '@/hook/redux';
 import { useSearchParams } from 'next/navigation';
-import { ParamsData, PersonalData, Password } from '@/types/auth';
+import { ParamsData, PersonalData, Password } from '@/types/authTypes';
 import Step1_email from './partials/step1-password';
 import Step2_personal_data from './partials/step2-personal-data';
 import AuthLeftSection from './partials/left-section';

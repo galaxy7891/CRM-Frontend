@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ParamsData, Password, PersonalData } from '@/types/auth';
+import { ParamsData, Password, PersonalData } from '@/types/authTypes';
 import { AppDispatch, RootState } from '@/redux/store';
 
 export const inviteUser =
@@ -69,7 +69,6 @@ export const acceptInvitation =
         console.log('berhasil');
         setIsSuccess(true);
       } else {
-  
         console.error(response.data.message);
       }
     } catch (error) {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { leadsTypes } from '@/types/leads';
+import { leadsTypes } from '@/types/leadsTypes';
 import { useDispatch } from 'react-redux';
-import { addLead } from '@/redux/actions/leads';
+import { addLead } from '@/redux/actions/leadsActions';
 import { AppDispatch } from '@/redux/store';
 import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
 import SuccessModal from '@/components/status/success-modal';

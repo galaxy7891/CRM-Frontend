@@ -2,20 +2,20 @@
 
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import { organizationsTypes } from '@/types/leads';
+import { organizationsTypes } from '@/types/leadsTypes';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '@/redux/store';
 import {
   getOrganizations,
   getOrganizationsById,
   deleteOrganization,
-} from '@/redux/actions/organizations';
+} from '@/redux/actions/organizationsActions';
 import handleExport from '@/utils/export_CSV';
 import EditCompany from './partials/edit-company';
 import DeleteButton from '@/components/button/delete-button';
 import StatusBadge from '@/components/table/status-badge';
 import TableHeader from '@/components/table/table-head';
-import ButtonFilter from '@/components/button/button-filter';
+import ButtonFilter from '@/components/button/filter-button';
 
 const CompanyPage = () => {
   const [sortBy, setSortBy] = useState<string>('terbaru');

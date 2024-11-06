@@ -1,7 +1,7 @@
 import { useGoogleLogin } from '@react-oauth/google';
 import Image from 'next/image';
 
-const GoogleLogin = () => {
+const GoogleLoginButton = () => {
   const login = useGoogleLogin({
     onSuccess: (tokenResponse) => {
       // Tampilkan alert jika login berhasil
@@ -35,4 +35,4 @@ const GoogleLogin = () => {
   );
 };
 
-export default GoogleLogin;
+export default GoogleLoginButton;

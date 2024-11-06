@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
-import { InviteEmployeeProps } from '@/types/employee';
+import { InviteEmployeeProps } from '@/types/employeeTypes';
 import InviteComponents from './invite-image';
-import { inviteUser } from '@/redux/actions/employee';
+import { inviteUser } from '@/redux/actions/employeeActions';
 import { useAppDispatch } from '@/hook/redux';
 import InviteSuccess from './invite-success';
 import SidebarModal from '@/components/layout/sidebar-modal';

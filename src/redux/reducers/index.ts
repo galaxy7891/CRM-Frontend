@@ -1,6 +1,7 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import leads from './leads';
-import auth from './auth';
-import organizations from './organizations';
+import leads from './leadsReducers';
+import auth from './authReducers';
+import organizations from './organizationsReducers';
+import profile from './profileReducers';
 
-export default combineReducers({ leads, auth, organizations });
+export default combineReducers({ leads, auth, organizations, profile });

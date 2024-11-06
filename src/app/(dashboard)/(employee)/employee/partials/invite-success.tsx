@@ -1,5 +1,5 @@
 import React from 'react';
-import { InviteEmployeeProps } from '@/types/employee';
+import { InviteEmployeeProps } from '@/types/employeeTypes';
 import InviteComponents from './invite-image';
 import SidebarFooter from '@/components/layout/sidebar-footer';
 import EmployeeButton from '@/components/button/dashboard-sidebar-employee-button';

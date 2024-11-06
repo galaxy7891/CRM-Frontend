@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { organizationsTypes } from '@/types/leads';
+import { organizationsTypes } from '@/types/leadsTypes';
 import { useDispatch } from 'react-redux';
-import { addOrganization } from '@/redux/actions/organizations';
+import { addOrganization } from '@/redux/actions/organizationsActions';
 import { AppDispatch } from '@/redux/store';
 import FailText from '@/components/status/fail-text';
 import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';

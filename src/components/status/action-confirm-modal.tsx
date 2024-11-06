@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { ActionConfirmModalProps } from '@/types/component';
+import { ActionConfirmModalProps } from '@/types/componentTypes';
 
 const SuccessModel: React.FC<ActionConfirmModalProps> = ({
   header,

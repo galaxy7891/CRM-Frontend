@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
-import { leadsTypes, editLeadsPropsTypes } from '@/types/leads';
-import { updateLead } from '@/redux/actions/leads';
+import { leadsTypes, editLeadsPropsTypes } from '@/types/leadsTypes';
+import { updateLead } from '@/redux/actions/leadsActions';
 import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
 import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
 import SelectInput from '@/components/form-input/dropdown-input';

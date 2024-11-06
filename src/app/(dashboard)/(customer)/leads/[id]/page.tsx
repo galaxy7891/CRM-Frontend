@@ -8,12 +8,12 @@ import {
   getLeadById,
   deleteLead,
   convertAutoLead,
-} from '@/redux/actions/leads';
+} from '@/redux/actions/leadsActions';
 import EditLeads from '../partials/edit-leads';
 import ConvertLeads from '../partials/convert-leads';
 import SuccessModal from '@/components/status/success-modal';
 import ActionConfirmModal from '@/components/status/action-confirm-modal';
-import ButtonConvert from '@/components/button/button-convert-leads';
+import ButtonConvert from '@/components/button/convert-leads-button';
 import CustomerInfo from '@/components/import/card-info-customer';
 import CardCustomer from '@/components/import/card-profil-customer';
 import EditUserButton from '@/components/button/edit-user-button';
@@ -62,7 +62,7 @@ const DetailLeads = () => {
 
   return (
     <div>
-      <div className="grid grid-cols-12">
+      <div className="grid grid-cols-12 ">
         <div className="col-span-12 md:col-start-5 md:col-span-8">
           <div className="flex justify-between">
             <p className="font-custom text-font-black dark:text-font-white text-sm md:text-2xl font-medium">
@@ -105,7 +105,6 @@ const DetailLeads = () => {
           </div>
         </div>
       </div>
-
       {isConvertAuto && (
         <ActionConfirmModal
           header="Apakah ingin mengonversi data?"

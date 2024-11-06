@@ -1,17 +1,24 @@
 import axios from 'axios';
-import { leadsTypes } from '@/types/leads';
+import { leadsTypes } from '@/types/leadsTypes';
 import { AppDispatch, RootState } from '../store';
-import { setLead, setLeads } from '../reducers/leads';
+import { setLead, setLeads } from '../reducers/leadsReducers';
+import { paginationTypes } from '@/types/componentTypes';
 
 export const getLeads =
-  (sortBy: string, statusBy: string, perPage: string) =>
+  (
+    sortBy: string,
+    statusBy: string,
+    perPage: string,
+    currentPage: number,
+    setPagination: (pagination: paginationTypes) => void
+  ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;
-
+    console.log(currentPage, 'currentPage');
     try {
       const config = {
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/leads?sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=1`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/leads?sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=${currentPage}`,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -20,7 +27,16 @@ export const getLeads =
 
       const response = await axios.request(config);
       if (response.data.success) {
+        const leads = response.data.data;
         dispatch(setLeads(response.data.data.data));
+        setPagination({
+          current_page: leads.current_page,
+          last_page: leads.last_page,
+          total: leads.total,
+          per_page: leads.per_page,
+          next_page_url: leads.next_page_url,
+          prev_page_url: leads.prev_page_url,
+        });
       } else {
         console.error(response.data.message);
       }

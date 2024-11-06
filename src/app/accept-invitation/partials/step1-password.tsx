@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { useState } from 'react';
-import type { Password } from '@/types/auth';
+import type { Password } from '@/types/authTypes';
 import FormHeader from '@/components/layout/auth-form-header';
 import FailCard from '@/components/status/fail-card';
 import FailText from '@/components/status/fail-text';

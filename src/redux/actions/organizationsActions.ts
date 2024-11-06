@@ -1,6 +1,9 @@
 import axios from 'axios';
-import { organizationsTypes } from '@/types/leads';
-import { setOrganizations, setOrganization } from '../reducers/organizations';
+import { organizationsTypes } from '@/types/leadsTypes';
+import {
+  setOrganizations,
+  setOrganization,
+} from '../reducers/organizationsReducers';
 import { AppDispatch, RootState } from '@/redux/store';
 
 export const getOrganizations =

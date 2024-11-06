@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { organizationsTypes, editOrganizationPropsTypes } from '@/types/leads';
-import { updateOrganization } from '@/redux/actions/organizations';
+import {
+  organizationsTypes,
+  editOrganizationPropsTypes,
+} from '@/types/leadsTypes';
+import { updateOrganization } from '@/redux/actions/organizationsActions';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import SuccessModal from '@/components/status/success-modal';

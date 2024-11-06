@@ -9,7 +9,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import EditContact from './partials/edit-contact';
 import EmptyTable from '@/components/table/empty-table';
-import ButtonFilter from '@/components/button/button-filter';
+import ButtonFilter from '@/components/button/filter-button';
 import useTheme from '@/components/dark-mode';
 import handleExport from '@/utils/export_CSV';
 

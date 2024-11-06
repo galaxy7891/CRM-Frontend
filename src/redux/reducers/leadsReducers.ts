@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { leadsState } from '@/types/leads';
+import { leadsState } from '@/types/leadsTypes';
 
 // Define the initial state
 const initialState: leadsState = {

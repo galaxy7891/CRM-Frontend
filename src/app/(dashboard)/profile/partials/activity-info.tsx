@@ -1,32 +1,18 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import axios from 'axios';
 import Link from 'next/link';
+import { activityLogTypes } from '@/types/profileTypes';
+import { paginationTypes } from '@/types/componentTypes';
+import { logActivityProfile } from '@/redux/actions/profileActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from '@/redux/store';
 import CardActivityLog from './activity-card';
-import DashboardPositiveButton from '../../../../components/button/dashboard-positive-button';
-
-// Definisikan interface untuk Activity
-interface Activity {
-  title: string;
-  datetime: string;
-  description: string;
-}
-
-// Definisikan interface untuk pagination
-interface Pagination {
-  current_page: number;
-  last_page: number;
-  total: number;
-  per_page: number;
-  next_page_url: string | null;
-  prev_page_url: string | null;
-}
+import PaginationButton from '@/components/button/pagination-button';
+import DashboardPositiveButton from '@/components/button/dashboard-positive-button';
 
 const ActivityLog = () => {
-  const [activity, setActivity] = useState<Activity[]>([]); // Ubah tipe menjadi Activity[]
-  const [pagination, setPagination] = useState<Pagination>({
+  const [pagination, setPagination] = useState<paginationTypes>({
     current_page: 1,
     last_page: 1,
     total: 0,
@@ -35,52 +21,24 @@ const ActivityLog = () => {
     prev_page_url: null,
   });
 
-
-  const fetchData = async (page = 1) => {
-    const token = localStorage.getItem('token'); // Get token from localStorage
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/activity/log?page=${page}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (response.data.success) {
-        const activityData = response.data.data[0];
-        setActivity(activityData.data[0].activities); // Pastikan tipe data yang diterima sesuai
-        setPagination({
-          current_page: activityData.current_page,
-          last_page: activityData.last_page,
-          total: activityData.total,
-          per_page: activityData.per_page,
-          next_page_url: activityData.next_page_url,
-          prev_page_url: activityData.prev_page_url,
-        });
-      } else {
-        console.error(response.data.message);
-      }
-    } catch (error) {
-      console.error('Error fetching dashboard data:', error);
-    }
-  };
+  const dispatch = useDispatch<AppDispatch>();
+  const { logProfile } = useSelector((state: RootState) => state.profile);
 
   const handleNextPage = () => {
     if (pagination.next_page_url) {
-      fetchData(pagination.current_page + 1);
+      dispatch(logActivityProfile(pagination.current_page + 1, setPagination));
     }
   };
 
   const handlePrevPage = () => {
     if (pagination.prev_page_url) {
-      fetchData(pagination.current_page - 1);
+      dispatch(logActivityProfile(pagination.current_page - 1, setPagination));
     }
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    dispatch(logActivityProfile(pagination.current_page, setPagination));
+  }, [dispatch, pagination.current_page]);
 
   return (
     <div className="grid grid-rows pt-4 lg:pt-8 ">
@@ -96,45 +54,23 @@ const ActivityLog = () => {
               </Link>
             </div>
             <div className="col-span-12 space-y-4">
-              {activity.map((a: Activity, index: number) => (
+              {logProfile.map((log: activityLogTypes, index: number) => (
                 <CardActivityLog
                   key={index}
-                  title={a.title}
-                  date={a.datetime}
-                  description={a.description}
+                  title={log.title}
+                  date={log.datetime}
+                  description={log.description}
                 />
               ))}
-              <div className="flex justify-center ">
-                <button
-                  onClick={handlePrevPage}
-                  disabled={!pagination.prev_page_url}
-                >
-                  <Image
-                    src="icons/pagination/prev-icon.svg"
-                    alt="prev"
-                    width={10}
-                    height={10}
-                  />
-                </button>
-                <p className="dark:text-white text-xs md:text-base px-4">
-                  {pagination.current_page}
-                  {' / '} {pagination.last_page}
-                </p>
-                <button
-                  onClick={handleNextPage}
-                  disabled={!pagination.next_page_url}
-                >
-                  <Image
-                    src="icons/pagination/next-icon.svg"
-                    alt="next"
-                    width={10}
-                    height={10}
-                  />
-                </button>
-                <p className="dark:text-white text-xs md:text-base ps-4">
-                  5 per halaman
-                </p>
-              </div>
+              {/* Pagination Button */}
+              <PaginationButton
+                last_page={pagination.last_page}
+                current_page={pagination.current_page}
+                prev_page_url={pagination.prev_page_url}
+                next_page_url={pagination.next_page_url}
+                handlePrevPage={handlePrevPage}
+                handleNextPage={handleNextPage}
+              />
             </div>
           </div>
         </div>

@@ -3,18 +3,24 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { leadsTypes } from '@/types/leads';
+import { leadsTypes } from '@/types/leadsTypes';
+import { paginationTypes } from '@/types/componentTypes';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
-import { getLeads, getLeadById, deleteLead } from '@/redux/actions/leads';
+import {
+  getLeads,
+  getLeadById,
+  deleteLead,
+} from '@/redux/actions/leadsActions';
 import handleExport from '@/utils/export_CSV';
 import ActionConfirmModal from '@/components/status/action-confirm-modal';
 import StatusBadge from '@/components/table/status-badge';
-import ButtonFilter from '@/components/button/button-filter';
+import ButtonFilter from '@/components/button/filter-button';
 import EditLeads from './partials/edit-leads';
 import TableHeader from '@/components/table/table-head';
 import DeleteButton from '@/components/button/delete-button';
 import SuccessModal from '@/components/status/success-modal';
+import PaginationButton from '@/components/button/pagination-button';
 // import EmptyTable from '@/components/table/empty-table';
 
 const Leads = () => {
@@ -26,6 +32,14 @@ const Leads = () => {
   const [isDeleteLead, setIsDeleteLead] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<string>('');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [pagination, setPagination] = useState<paginationTypes>({
+    current_page: 1,
+    last_page: 1,
+    total: 0,
+    per_page: 25,
+    next_page_url: null,
+    prev_page_url: null,
+  });
   const headers = ['Nama', 'Email', 'No Telpon', 'Status', 'Penanggung Jawab'];
   const dispatch = useDispatch<AppDispatch>();
   const { leads } = useSelector((state: RootState) => state.leads);
@@ -67,9 +81,54 @@ const Leads = () => {
     });
   };
 
+  const handlePrevPage = () => {
+    if (pagination.prev_page_url) {
+      dispatch(
+        getLeads(
+          sortBy,
+          statusBy,
+          perPage,
+          pagination.current_page - 1,
+          setPagination
+        )
+      );
+    }
+  };
+
+  const handleNextPage = () => {
+    if (pagination.next_page_url) {
+      dispatch(
+        getLeads(
+          sortBy,
+          statusBy,
+          perPage,
+          pagination.current_page + 1,
+          setPagination
+        )
+      );
+    }
+  };
+
   useEffect(() => {
-    dispatch(getLeads(sortBy, statusBy, perPage));
-  }, [dispatch, sortBy, statusBy, perPage, isSuccess, isEditLead]);
+    dispatch(
+      getLeads(
+        sortBy,
+        statusBy,
+        perPage,
+        pagination.current_page,
+        setPagination
+      )
+    );
+  }, [
+    dispatch,
+    sortBy,
+    statusBy,
+    perPage,
+    isSuccess,
+    isEditLead,
+    pagination.current_page,
+  ]);
+
   return (
     <>
       {/* Search Input */}
@@ -114,7 +173,7 @@ const Leads = () => {
       <>
         {/* Table */}
         <div className="relative  overflow-auto lg:w-full ">
-          <table className="w-full ">
+          <table className="w-full mb-4">
             <TableHeader headers={headers} />
             <tbody>
               {leads.map((lead: leadsTypes, index: number) => (
@@ -174,6 +233,14 @@ const Leads = () => {
             </tbody>
           </table>
         </div>
+        <PaginationButton
+          last_page={pagination.last_page}
+          current_page={pagination.current_page}
+          prev_page_url={pagination.prev_page_url}
+          next_page_url={pagination.next_page_url}
+          handlePrevPage={handlePrevPage}
+          handleNextPage={handleNextPage}
+        />
         {isEditLead && (
           <EditLeads onClose={handleCloseEdit} leadProps={lead!} />
         )}
