@@ -20,6 +20,9 @@ import CustomerInfo from '@/components/import/card-info-customer';
 import CardCustomer from '@/components/import/card-profil-customer';
 import EditUserButton from '@/components/button/edit-user-button';
 import DeleteButton from '@/components/button/delete-button';
+import moment from 'moment';
+import 'moment/locale/id';
+moment.locale('id');
 
 const DetailLeads = () => {
   const [isEditLead, setIsEditLead] = useState<boolean>(false);
@@ -68,7 +71,7 @@ const DetailLeads = () => {
         <div className="grid grid-cols-12 ">
           <div className="col-span-12 md:col-start-5 md:col-span-8">
             <div className="flex justify-between mb-2">
-              <p className="font-custom text-font-black dark:text-font-white text-sm md:text-2xl font-medium">
+              <p className="font-custom text-font-black dark:text-font-white text-sm md:text-2xl font-medium flex items-center">
                 Data Pelanggan
               </p>
               <div className="flex items-center space-x-2">
@@ -84,9 +87,11 @@ const DetailLeads = () => {
           <div className="col-span-12 md:col-span-4 mt-2">
             <CardCustomer
               data={{
-                name: lead?.first_name + ' ' + lead?.last_name || 'N/A',
-                email: lead?.email || 'N/A',
-                status: lead?.status || 'N/A',
+                name:
+                  lead?.first_name +
+                    (lead?.last_name ? ' ' + lead?.last_name : '') || '-',
+                email: lead?.email || '-',
+                status: lead?.status || '-',
               }}
               imageSrc="/images/customer.png"
               emailHref={`mailto:${lead?.email}`}
@@ -97,11 +102,19 @@ const DetailLeads = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 mt-2 bg-light-white dark:bg-dark-darkGray rounded-[10px]">
               <CustomerInfo label="Nomor Telepon" value={lead?.phone} />
               <CustomerInfo label="Alamat" value={lead?.address} />
+              <CustomerInfo
+                label="Tanggal Lahir"
+                value={
+                  lead?.birthdate
+                    ? moment(lead?.birthdate).format('DD MMMM YYYY')
+                    : '-'
+                }
+              />
               <CustomerInfo label="Pekerjaan" value={lead?.job} />
               <CustomerInfo label="Provinsi" value={lead?.province} />
-              <CustomerInfo label="Kota" value={lead?.city} />
+              <CustomerInfo label="Kota/Kabupaten" value={lead?.city} />
               <CustomerInfo label="Kecamatan" value={lead?.subdistrict} />
-              <CustomerInfo label="Kelurahan" value={lead?.village} />
+              <CustomerInfo label="Kelurahan/Desa" value={lead?.village} />
               <CustomerInfo label="Kode Pos" value={lead?.zip_code} />
               <CustomerInfo label="Penanggung Jawab" value={lead?.owner} />
               <CustomerInfo label="Deskripsi" value={lead?.description} />

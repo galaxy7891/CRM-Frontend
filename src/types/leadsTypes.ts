@@ -6,7 +6,7 @@ export interface leadsTypes {
   job: string;
   description: string;
   status: string;
-  birthdate: null;
+  birthdate: string;
   organization?: string;
   email: string;
   phone: string;

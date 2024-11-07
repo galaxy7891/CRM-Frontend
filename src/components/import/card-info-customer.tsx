@@ -10,7 +10,7 @@ interface CustomerInfoItemProps {
           {label}
         </p>
         <p className="font-custom dark:text-font-white text-font-black text-xs md:text-base truncate">
-          {value || "N/A"}
+          {value || "-"}
         </p>
       </div>
     );

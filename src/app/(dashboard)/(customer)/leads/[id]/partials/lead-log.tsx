@@ -41,7 +41,7 @@ const UserLog = () => {
 
   useEffect(() => {
     dispatch(logActivityLead(pagination.current_page, id, setPagination));
-  }, [dispatch, pagination.current_page]);
+  }, [id, dispatch, pagination.current_page]);
 
   return (
     <div className="pt-4 lg:pt-8 ">

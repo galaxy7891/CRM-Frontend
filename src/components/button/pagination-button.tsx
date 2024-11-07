@@ -20,7 +20,7 @@ const PaginationButton: React.FC<paginationButtonPropsTypes> = ({
     <div className="flex justify-center ">
       <button onClick={handlePrevPage} disabled={!prev_page_url}>
         <Image
-          src="icons/pagination/prev-icon.svg"
+          src="/icons/pagination/prev-icon.svg"
           alt="prev"
           width={10}
           height={10}
@@ -32,7 +32,7 @@ const PaginationButton: React.FC<paginationButtonPropsTypes> = ({
       </p>
       <button onClick={handleNextPage} disabled={!next_page_url}>
         <Image
-          src="icons/pagination/next-icon.svg"
+          src="/icons/pagination/next-icon.svg"
           alt="next"
           width={10}
           height={10}

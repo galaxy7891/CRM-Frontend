@@ -218,7 +218,7 @@ const Leads = () => {
                     </Link>
                   </td>
                   <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
-                    {lead.email}
+                    {lead.email || '-'}
                   </td>
                   <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
                     {lead.phone}

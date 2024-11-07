@@ -19,7 +19,6 @@ const HeaderCustomer: React.FC = () => {
   const pathName = usePathname();
   const { isDarkMode } = useTheme();
   const [emailLocal, setEmailLocal] = useState<string>('');
-  const isDetailPage = pathName.startsWith('/leads/');
   const toggleTooltip = () => setIsTooltipVisible(!isTooltipVisible);
 
   const handleAddDataClick = () => {
@@ -59,11 +58,13 @@ const HeaderCustomer: React.FC = () => {
     setCurrentPage(matchedPage);
   }, [pathName]);
 
-  // Cek apakah pathname saat ini adalah salah satu dari yang ingin ditampilkan header-nya
-  const shouldShowHeader =
-    pathName === '/leads' ||
-    pathName === '/contacts' ||
-    pathName === '/company';
+  // Cek apakah path saat ini adalah halaman detail leads
+  const isDetailPage = /^\/leads\/.+$/.test(pathName);
+
+  // Jika berada di halaman detail leads, jangan render HeaderCustomer
+  if (isDetailPage) {
+    return null;
+  }
 
   return (
     <div className="relative mb-4">
@@ -133,7 +134,7 @@ const HeaderCustomer: React.FC = () => {
         <div className="flex items- center gap-2">
           {pathName === '/leads' && (
             <a
-              href="/leads-import"
+              href="/leads/import"
               className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
             >
               Impor Data
