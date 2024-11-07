@@ -42,7 +42,7 @@ export const MENU = [
       },
       {
         id: 5,
-        link: '/contact',
+        link: '/contacts',
         title: 'Kontak',
         alt: 'kontak',
         description:

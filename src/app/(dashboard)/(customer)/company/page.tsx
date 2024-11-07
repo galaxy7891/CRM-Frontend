@@ -7,7 +7,7 @@ import TableHeader from '@/components/table/table-head';
 import React from 'react';
 import Data from '../leads/data.json';
 import Image from 'next/image';
-import ButtonFilter from '@/components/button/button-filter';
+import ButtonFilter from '@/components/button/filter-table-button';
 import useTheme from '@/components/dark-mode';
 
 const Company = () => {

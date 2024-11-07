@@ -1,24 +1,26 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { leadsTypes } from '@/types/leads';
-import StatusBadge from '@/components/table/status-badge';
-// import Table from "@/components/table/table";
-import TableHeader from '@/components/table/table-head';
-import axios from 'axios';
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import ButtonFilter from '@/components/button/button-filter';
-import EditLeads from './partials/edit-leads';
-import DeleteButton from '@/components/button/delete-button';
-import EmptyTable from '@/components/table/empty-table';
-import handleExport from '@/utils/export_CSV';
+import { useState, useEffect } from "react";
+import { leadsTypes } from "@/types/leads";
+import StatusBadge from "@/components/table/status-badge";
+import TableHeader from "@/components/table/table-head";
+import axios from "axios";
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import EditLeads from "./partials/edit-leads";
+import DeleteButton from "@/components/button/delete-button";
+import EmptyTable from "@/components/table/empty-table";
+import handleExport from "@/utils/export_CSV";
+import EditTableButton from "@/components/button/edit-table-button";
+import ExportButton from "@/components/button/export-button";
+import FilterActivityLogButton from "@/components/button/filter-activity-log-button";
+import Checkbox from "@/components/button/checkbox";
 
 const Leads = () => {
-  const [sortBy, setSortBy] = useState<string>('terbaru');
-  const [statusBy, setStatusBy] = useState<string>('rendah');
-  const [perPage, setPerPage] = useState<string>('10');
+  const [sortBy, setSortBy] = useState<string>("terbaru");
+  const [statusBy, setStatusBy] = useState<string>("rendah");
+  const [perPage, setPerPage] = useState<string>("10");
   const [isEditLead, setIsEditLead] = useState<boolean>(false);
   const [leadsData, setLeadsData] = useState<leadsTypes[]>([]);
   const [leadDataProps, setLeadDataProps] = useState<leadsTypes>(
@@ -26,7 +28,7 @@ const Leads = () => {
   );
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-  const headers = ['Nama', 'Email', 'No Telpon', 'Status', 'Penanggung Jawab'];
+  const headers = ["Nama", "Email", "No Telpon", "Status", "Penanggung Jawab"];
   let getLeadData: leadsTypes | null = null;
 
   const handleEdit = async (id: string) => {
@@ -52,11 +54,11 @@ const Leads = () => {
   };
 
   const deleteLead = async (ids: string | string[]) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     try {
       const response = await axios.request({
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/leads/`,
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -67,12 +69,12 @@ const Leads = () => {
         getLeadsData();
       }
     } catch (error) {
-      console.error('Error deleting lead(s):', error);
+      console.error("Error deleting lead(s):", error);
     }
   };
 
   const getLeadDataById = async (id: string) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     try {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/api/leads/${id}`,
@@ -88,12 +90,12 @@ const Leads = () => {
         console.error(response.data.message);
       }
     } catch (error) {
-      console.error('Error deleting lead:', error);
+      console.error("Error deleting lead:", error);
     }
   };
 
   const getLeadsData = async () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
 
     try {
       const response = await axios.get(
@@ -109,7 +111,7 @@ const Leads = () => {
         console.log(response.data.data.data);
       }
     } catch (error) {
-      console.error('Error fetching leads data:', error);
+      console.error("Error fetching leads data:", error);
     }
   };
 
@@ -142,15 +144,8 @@ const Leads = () => {
           {/* Trash Icon, Export, and Filter Buttons */}
           {/* Delete Button */}
           <DeleteButton onClick={() => deleteLead(selectedIds)} />
-
-          <button
-            onClick={() => handleExport(leadsData)}
-            className="p-[6px] lg:p-[10px] rounded-[10px] font-medium text-xs md:text-base border border-dark-gold text-dark-gold duration-200 hover:shadow-md hover:shadow-dark-gold"
-          >
-            Ekspor Data
-          </button>
-
-          <ButtonFilter
+          <ExportButton onClick={() => handleExport(leadsData)} />
+          <FilterActivityLogButton
             setSortBy={setSortBy}
             setStatusBy={setStatusBy}
             setPerPage={setPerPage}
@@ -161,7 +156,7 @@ const Leads = () => {
         <EmptyTable />
       ) : (
         <>
-          {' '}
+          {" "}
           {/* Table */}
           <div className="relative  overflow-auto lg:w-full ">
             <table className="w-full ">
@@ -181,17 +176,12 @@ const Leads = () => {
                           onChange={() => handleCheckboxChange(lead.id)} // Call the handler
                           className="w-4 h-4 bg-font-white border-dark-navy rounded-[5px] checked:bg-dark-greenBright focus:ring-0"
                         />
-                        <button>
-                          <Image
-                            src="/icons/table/editbrown.svg"
-                            alt="editbtn"
-                            width={16}
-                            height={16}
-                            className="w-5 h-5"
-                            onClick={() => handleEdit(lead.id)}
-                          />
-                        </button>
-
+                        {/* <Checkbox
+                          id={`checkbox-${lead.id}`} 
+                          checked={selectedIds.includes(lead.id)} 
+                          onChange={() => handleCheckboxChange(lead.id)} 
+                        /> */}
+                        <EditTableButton onClick={() => handleEdit(lead.id)} />
                         <button>
                           <Image
                             src="/icons/table/dustbin.svg"
