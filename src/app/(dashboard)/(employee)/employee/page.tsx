@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
-import TableHeader from '@/components/table/table-head';
-import Data from '../../(customer)/leads/data.json';
-import Image from 'next/image';
-import ButtonFilter from '@/components/button/filter-button';
-import useTheme from '@/components/dark-mode';
-import InviteEmployee from './partials/invite-employee';
-import EditEmployee from './partials/edit-employee'; // Import komponen EditEmployee
+import React, { useState } from "react";
+import TableHeader from "@/components/table/table-head";
+import Data from "../../(customer)/leads/data.json";
+import Image from "next/image";
+import ButtonFilter from "@/components/button/filter-table-button";
+import useTheme from "@/components/dark-mode";
+import InviteEmployee from "./partials/new-employee";
+import EditEmployee from "./partials/edit-employee"; // Import komponen EditEmployee
 
 const Employee = () => {
   const [userData] = useState<

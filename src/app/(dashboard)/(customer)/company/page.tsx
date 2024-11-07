@@ -15,7 +15,7 @@ import EditCompany from './partials/edit-company';
 import DeleteButton from '@/components/button/delete-button';
 import StatusBadge from '@/components/table/status-badge';
 import TableHeader from '@/components/table/table-head';
-import ButtonFilter from '@/components/button/filter-button';
+import ButtonFilter from '@/components/button/filter-table-button';
 
 const CompanyPage = () => {
   const [sortBy, setSortBy] = useState<string>('terbaru');
