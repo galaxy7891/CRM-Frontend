@@ -1,19 +1,23 @@
-import Image from 'next/image';
-
 interface EditUserButtonProps {
   onClick: () => void;
 }
 
 const EditUserButton: React.FC<EditUserButtonProps> = ({ onClick }) => {
   return (
-    <button onClick={onClick}>
-      <Image
-        src="/icons/profile/edits.svg"
-        alt="editbtn"
-        width={44}
-        height={44}
-        className="w-7 h-7 lg:w-[44px] lg:h-[44px]"
-      />
+    <button
+      onClick={onClick}
+      className="bg-light-grayBright dark:bg-font-gray rounded-[10px] inline-flex items-center justify-center p-[10px] hover:opacity-80 transition-shadow duration-200"
+    >
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="fill-dark-navy"
+      >
+        <path d="M15.74 3.59283C16.0867 3.24622 16.0867 2.66852 15.74 2.33968L13.6603 0.259964C13.3315 -0.0866546 12.7538 -0.0866546 12.4072 0.259964L10.7718 1.8864L14.1047 5.21927M0 12.6671V16H3.33287L13.1626 6.16137L9.82975 2.8285L0 12.6671Z" />
+      </svg>
     </button>
   );
 };

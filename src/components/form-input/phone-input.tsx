@@ -1,4 +1,5 @@
 import React from 'react';
+import Asterisk from '../status/required-asterisk';
 
 interface PhoneInputProps {
   value: string;
@@ -11,11 +12,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ value, onChange, required }) =>
   <div className="flex-1">
     <label className="block text-xs md:text-base font-custom text-font-black dark:text-font-white">
       Nomor Telepon
-      {required && (
-        <span className="font-custom text-dark-red dark:text-dark-redGlow md:text-base text-xs">
-          *
-        </span>
-      )}
+      {required && <Asterisk />}
     </label>
     <div className="flex mt-2">
       <span className="inline-flex text-xs md:text-base font-custom items-center px-3 border dark:border-t-0 dark:border-b-0 dark:border-l-0 border-r-0 dark:border-r-2 dark:border-font-gray rounded-l-[4px] bg-gray-200 dark:bg-dark-navy dark:text-font-white border-font-black">

@@ -10,10 +10,10 @@ const EmptyTable = () => {
         width={284}
         height={267}
       />
-      <p className="font-custom text-sm font-bold md:text-xl text-font-black mt-4">
+      <p className="font-custom text-sm font-bold md:text-xl text-font-black mt-4 dark:text-font-white">
         Data Kosong
       </p>
-      <p className="font-custom text-xs md:text-xl text-font-black">
+      <p className="font-custom text-xs md:text-xl text-font-black dark:text-font-white">
         Belum ada data yang tersedia
       </p>
     </div>

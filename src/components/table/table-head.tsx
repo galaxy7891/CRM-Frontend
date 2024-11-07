@@ -1,3 +1,5 @@
+import Checkbox from "../button/checkbox";
+
 interface TableHeaderProps {
   headers: string[];
 }
@@ -23,7 +25,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({ headers }) => {
             key={index}
             className={`p-3 font-custom text-dark-darkGray dark:text-font-white font-bold 
             text-xs md:text-base text-left ${
-              index === headers.length - 1 ? 'rounded-tr-lg' : ''
+              index === headers.length - 1 ? "rounded-tr-lg" : ""
             }`}
           >
             {header}

@@ -1,17 +1,18 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import StatusBadge from '@/components/table/status-badge';
+import { useState, useEffect } from "react";
+import StatusBadge from "@/components/table/status-badge";
 // import Table from "@/components/table/table";
-import TableHeader from '@/components/table/table-head';
-import React from 'react';
-import axios from 'axios';
-import Image from 'next/image';
-import EditContact from './partials/edit-contact';
-import EmptyTable from '@/components/table/empty-table';
-import ButtonFilter from '@/components/button/button-filter';
-import useTheme from '@/components/dark-mode';
-import handleExport from '@/utils/export_CSV';
+import TableHeader from "@/components/table/table-head";
+import React from "react";
+import axios from "axios";
+import Image from "next/image";
+import EditContact from "./partials/edit-contact";
+import EmptyTable from "@/components/table/empty-table";
+import ButtonFilter from "@/components/button/filter-table-button";
+import useTheme from "@/components/dark-mode";
+import handleExport from "@/utils/export_CSV";
+import EditTableButton from "@/components/button/edit-table-button";
 
 interface contactsData {
   id: string;
@@ -47,9 +48,9 @@ interface contactData {
 
 const ContactsPage = () => {
   const { isDarkMode } = useTheme();
-  const [sortBy, setSortBy] = useState<string>('terbaru');
-  const [statusBy, setStatusBy] = useState<string>('rendah');
-  const [perPage, setPerPage] = useState<string>('10');
+  const [sortBy, setSortBy] = useState<string>("terbaru");
+  const [statusBy, setStatusBy] = useState<string>("rendah");
+  const [perPage, setPerPage] = useState<string>("10");
   const [isEditLead, setEditContact] = useState<boolean>(false);
   const [contactsData, setContactsData] = useState<contactsData[]>([]);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -57,12 +58,12 @@ const ContactsPage = () => {
     {} as contactData
   );
   const headers = [
-    'Nama',
-    'Email',
-    'Perusahaan',
-    'No Telpon',
-    'Status',
-    'Penanggung Jawab',
+    "Nama",
+    "Email",
+    "Perusahaan",
+    "No Telpon",
+    "Status",
+    "Penanggung Jawab",
   ];
   let getContactData: contactData | null = null;
 
@@ -89,11 +90,11 @@ const ContactsPage = () => {
   };
 
   const deleteContact = async (ids: string | string[]) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     try {
       const response = await axios.request({
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/leads/`,
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -104,12 +105,12 @@ const ContactsPage = () => {
         getContactsData();
       }
     } catch (error) {
-      console.error('Error deleting lead(s):', error);
+      console.error("Error deleting lead(s):", error);
     }
   };
 
   const getContactDataById = async (id: string) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     try {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/api/contacts/${id}`,
@@ -125,12 +126,12 @@ const ContactsPage = () => {
         console.error(response.data.message);
       }
     } catch (error) {
-      console.error('Error fetching contacts:', error);
+      console.error("Error fetching contacts:", error);
     }
   };
 
   const getContactsData = async () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
 
     try {
       const response = await axios.get(
@@ -145,7 +146,7 @@ const ContactsPage = () => {
         setContactsData(response.data.data.data);
       }
     } catch (error) {
-      console.error('Error fetching contacs data:', error);
+      console.error("Error fetching contacs data:", error);
     }
   };
 
@@ -183,8 +184,8 @@ const ContactsPage = () => {
             <Image
               src={
                 isDarkMode
-                  ? '/icons/table/dustbin-dark.svg'
-                  : '/icons/table/trash.svg'
+                  ? "/icons/table/dustbin-dark.svg"
+                  : "/icons/table/trash.svg"
               }
               alt="deletebtn"
               width={44}
@@ -211,7 +212,7 @@ const ContactsPage = () => {
         <EmptyTable />
       ) : (
         <>
-          {' '}
+          {" "}
           {/* Table */}
           <div className="relative h-screen overflow-auto np lg:w-full ">
             <table className="w-full">
@@ -231,16 +232,9 @@ const ContactsPage = () => {
                           onChange={() => handleCheckboxChange(contact.id)} // Call the handler
                           className="w-4 h-4 bg-font-white border-dark-navy rounded-[5px] checked:bg-dark-greenBright focus:ring-0"
                         />
-                        <button>
-                          <Image
-                            src="/icons/table/editbrown.svg"
-                            alt="editbtn"
-                            width={16}
-                            height={16}
-                            className="w-5 h-5"
-                            onClick={() => handleEdit(contact.id)}
-                          />
-                        </button>
+                        <EditTableButton
+                          onClick={() => handleEdit(contact.id)}
+                        />
                         <button>
                           <Image
                             src="/icons/table/dustbin.svg"
