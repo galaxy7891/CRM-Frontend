@@ -9,7 +9,7 @@ import {
   getSubDistricts,
   getVillage,
   getZipCodes,
-} from '@/utils/location';
+} from '@/utils/getAddressLocation';
 import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
 import SuccessModal from '@/components/status/success-modal';
 import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
@@ -60,42 +60,9 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
     zip_code: '',
   });
 
-  useEffect(() => {
-    // Fetch provinces when the component mounts
-    getProvinces().then(setProvinces);
-  }, []);
-
-  useEffect(() => {
-    if (lead.province) {
-      // Fetch cities when a province is selected
-      getCities(lead.province).then(setCities);
-    }
-  }, [lead.province]);
-
-  useEffect(() => {
-    if (lead.city) {
-      // Fetch subdisctrict when a city is selected
-      getSubDistricts(lead.city).then(setSubDistricts);
-    }
-  }, [lead.city]);
-
-  useEffect(() => {
-    if (lead.subdistrict) {
-      // Fetch sub-districts when a district is selected
-      getVillage(lead.subdistrict).then(setVillages);
-    }
-  }, [lead.subdistrict]);
-
-  useEffect(() => {
-    if (lead.city && lead.subdistrict) {
-      // Fetch zip codes when city and district are selected
-      getZipCodes(lead.city, lead.subdistrict).then(setZipCodes);
-    }
-  }, [lead.city, lead.subdistrict]);
-
   const dispatch = useDispatch<AppDispatch>();
   const handleAddLead = () => {
-    const leadWithText = {
+    const leadWithLocation = {
       ...lead,
       province:
         provinces.find((province) => province.id === lead.province)?.text || '',
@@ -108,8 +75,39 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
       zip_code:
         zipCodes.find((zipCode) => zipCode.id === lead.zip_code)?.text || '',
     };
-    dispatch(addLead(leadWithText, setIsSuccess, setErrorMessage));
+    dispatch(addLead(leadWithLocation, setIsSuccess, setErrorMessage));
   };
+
+  useEffect(() => {
+    const getLocation = async () => {
+      try {
+        const provinces = await getProvinces();
+        setProvinces(provinces);
+
+        if (lead.province) {
+          const cities = await getCities(lead.province);
+          setCities(cities);
+
+          if (lead.city) {
+            const subDistricts = await getSubDistricts(lead.city);
+            setSubDistricts(subDistricts);
+
+            if (lead.subdistrict) {
+              const villages = await getVillage(lead.subdistrict);
+              setVillages(villages);
+
+              const zipCodes = await getZipCodes(lead.city, lead.subdistrict);
+              setZipCodes(zipCodes);
+            }
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getLocation();
+  }, [lead.province, lead.city, lead.subdistrict]);
 
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Tambah Leads">
@@ -160,9 +158,9 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
             value={lead.status}
             options={[
               { label: 'Pilih Status', value: '', hidden: true },
-              { label: 'Cold', value: 'cold' },
-              { label: 'Warm', value: 'warm' },
-              { label: 'Hot', value: 'hot' },
+              { label: 'Rendah', value: 'cold' },
+              { label: 'Sedang', value: 'warm' },
+              { label: 'Tinggi', value: 'hot' },
             ]}
             onChange={(e) => setLead({ ...lead, status: e.target.value })}
             required
@@ -204,7 +202,7 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
             onChange={(e) => setLead({ ...lead, address: e.target.value })}
           />
         </div>
-        {/* Address API */}
+        {/* get location API */}
         <div className="order-10">
           <SelectInput
             label="Provinsi"
@@ -303,7 +301,7 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
           header="Berhasil"
           description="Data leads berhasil ditambahkan"
           actionButton_href="/leads"
-          actionButton_name="Menuju ke Kontak"
+          actionButton_name="Kembali ke Daftar Leads"
         />
       )}
     </SidebarModal>

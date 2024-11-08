@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import Link from 'next/link';
 import CardFailed from './resume-card';
 import ImportFailedResumeTable from './import-failed-resume-table';
 import DashboardCard from '@/components/layout/dashboard-card';
@@ -12,7 +11,7 @@ const ResumeFailedImpor: FC<ResumeFailedImporProps> = ({
   errorMessageDetail,
 }) => {
   return (
-    <div className="w-full">
+    <div className="">
       <DashboardCard>
         <div className="flex justify-between ">
           <p className="font-custom text-base text-font-black dark:text-font-white md:text-2xl">

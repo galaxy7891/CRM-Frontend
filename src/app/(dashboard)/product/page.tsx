@@ -25,19 +25,26 @@ const Product = () => {
   const [isEditLead, setIsEditLead] = useState<boolean>(false);
   const [ProductData, setProductData] = useState<ProductTypes[]>([]);
   const [leadDataProps, setLeadDataProps] = useState<ProductTypes>(
-    {} as ProductTypes);
-    const [isAddingProduct, setIsAddingProduct] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
+    {} as ProductTypes
+  );
+  const [isAddingProduct, setIsAddingProduct] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
-    const handleEditClick = () => {
-      setIsEditing(true);
-    };
-    const handleCloseForm = () => {
-      setIsEditingImage(false);
-    };
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+  const handleCloseForm = () => {
+    setIsEditingImage(false);
+  };
   // const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-  const headers = ['Nama Produk', 'Kode Produk', 'Kategori Produk', 'Jumlah Produk', 'Harga Produk'];
+  const headers = [
+    'Nama Produk',
+    'Kode Produk',
+    'Kategori Produk',
+    'Jumlah Produk',
+    'Harga Produk',
+  ];
   // let getLeadData: ProductTypes | null = null;
 
   // const handleEdit = async (id: string) => {
@@ -129,34 +136,33 @@ const Product = () => {
   // }, [sortBy, statusBy, perPage]); // Only run once when the component mounts
   return (
     <>
-    <div className="flex justify-between items-center mb-5">
+      <div className="flex justify-between items-center mb-5">
         <p className="text-font-black dark:text-font-white text-base font-custom md:text-[32px]">
           Data Produk
         </p>
-        
+
         <div className="flex items- center gap-2">
-          
           <a
-              href="/product-import"
-              className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
-            >
-              Impor Data
-            </a>
-        
-        <button
-          onClick={() => setIsAddingProduct(true)}
-          className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
-        >
-          Tambah Data
-        </button>
+            href="/product-import"
+            className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
+          >
+            Impor Data
+          </a>
+
+          <button
+            onClick={() => setIsAddingProduct(true)}
+            className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
+          >
+            Tambah Data
+          </button>
         </div>
       </div>
       <div className="bg-font-white dark:bg-dark-navy shadow-lg rounded-lg p-6">
-      {/* Search Input */}
-      <div className="lg:items-center mb-4 grid grid-cols-12">
-        {/* Search Bar */}
-        <div className="col-span-12 md:col-span-4 relative">
-          {/* <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+        {/* Search Input */}
+        <div className="lg:items-center mb-4 grid grid-cols-12">
+          {/* Search Bar */}
+          <div className="col-span-12 md:col-span-4 relative">
+            {/* <div className="absolute inset-y-0 left-0 flex items-center pl-3">
                 <Image
                   src="/icons/table/search.svg"
                   alt="search icon"
@@ -170,24 +176,24 @@ const Product = () => {
                 placeholder="Cari Product"
                 className="pl-10 p-2 border-2 font-custom text-xs lg:text-base border-font-gray bg-light-white rounded-[10px] focus:outline-none  dark:bg-dark-darkGray w-full"
               /> */}
-        </div>
+          </div>
 
-        <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
-          {/* Trash Icon, Export, and Filter Buttons */}
-          {/* Delete Button */}
-          <DeleteButton />
+          <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
+            {/* Trash Icon, Export, and Filter Buttons */}
+            {/* Delete Button */}
+            <DeleteButton />
 
-          <ExportButton/>
+            <ExportButton />
 
-          {/* <ButtonFilter
+            {/* <ButtonFilter
             setSortBy={setSortBy}
             setStatusBy={setStatusBy}
             setPerPage={setPerPage}
           /> */}
-          <FilterTableButton/>
+            <FilterTableButton />
+          </div>
         </div>
-      </div>
-      {/* {ProductData.length == 0 ? (
+        {/* {ProductData.length == 0 ? (
         <EmptyTable />
       ) : ( */}
         <>
@@ -211,8 +217,7 @@ const Product = () => {
                           onChange={() => handleCheckboxChange(lead.id)} // Call the handler
                           className="w-4 h-4 bg-font-white border-dark-navy rounded-[5px] checked:bg-dark-greenBright focus:ring-0"
                         /> */}
-                        <EditTableButton
-                        onClick={handleEditClick}/>
+                        <EditTableButton onClick={handleEditClick} />
 
                         <button>
                           <Image
@@ -227,9 +232,7 @@ const Product = () => {
                       </div>
                     </td>
                     <td className="px-3 py-2 min-w-[200px] border-font-gray text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs md:text-base ">
-                      <Link href="/detail-product">
-                        Nama Produk
-                      </Link>
+                      <Link href="/detail-product">Nama Produk</Link>
                     </td>
                     <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
                       Kode produk
@@ -252,9 +255,9 @@ const Product = () => {
             // <EditProduct onClose={handleCloseEdit} leadData={leadDataProps} />
           )} */}
           {isAddingProduct && <NewProduct />}
-          {isEditing && <EditProduct onClose={handleCloseForm}/>}
+          {isEditing && <EditProduct onClose={handleCloseForm} />}
         </>
-      {/* )} */}
+        {/* )} */}
       </div>
     </>
   );

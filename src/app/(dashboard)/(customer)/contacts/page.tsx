@@ -2,16 +2,17 @@
 
 import { useState, useEffect } from 'react';
 import StatusBadge from '@/components/table/status-badge';
+// import Table from "@/components/table/table";
 import TableHeader from '@/components/table/table-head';
 import React from 'react';
 import axios from 'axios';
-import handleExport from '@/utils/export_CSV';
 import Image from 'next/image';
 import EditContact from './partials/edit-contact';
 import EmptyTable from '@/components/table/empty-table';
 import DashboardCard from '@/components/layout/dashboard-card';
 import ButtonFilter from '@/components/button/filter-table-button';
 import useTheme from '@/components/dark-mode';
+import handleExport from '@/utils/export_CSV';
 import EditTableButton from '@/components/button/edit-table-button';
 
 interface contactsData {

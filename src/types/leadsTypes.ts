@@ -25,6 +25,14 @@ export interface leadsState {
   logLead: leadsTypes[];
 }
 
+export type selectedIds = {
+  provinceId: string;
+  cityId: string;
+  subdistrictId: string;
+  villageId: string;
+  zipCodeId: string;
+};
+
 export interface editLeadsPropsTypes {
   onClose: () => void;
   leadProps: leadsTypes;

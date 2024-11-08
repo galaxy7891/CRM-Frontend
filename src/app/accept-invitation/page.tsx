@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { acceptInvitation } from '@/redux/actions/employeeActions';
+import { acceptInvitation } from '@/redux/actions/employeesActions';
 import { useAppDispatch } from '@/hook/redux';
 import { useSearchParams } from 'next/navigation';
 import { ParamsData, PersonalData, Password } from '@/types/authTypes';

@@ -1,7 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
-import { leadsTypes, editLeadsPropsTypes } from '@/types/leadsTypes';
+import {
+  leadsTypes,
+  editLeadsPropsTypes,
+  selectedIds,
+} from '@/types/leadsTypes';
+import {
+  getProvinces,
+  getCities,
+  getSubDistricts,
+  getVillage,
+  getZipCodes,
+} from '@/utils/getAddressLocation';
 import { updateLead } from '@/redux/actions/leadsActions';
 import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
 import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
@@ -15,33 +26,51 @@ import SidebarModal from '@/components/layout/sidebar-modal';
 import FailText from '@/components/status/fail-text';
 
 const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
+  const [selectedIds, setSelectedIds] = useState<selectedIds>({
+    provinceId: '',
+    cityId: '',
+    subdistrictId: '',
+    villageId: '',
+    zipCodeId: '',
+  });
+  const [provinces, setProvinces] = useState<{ id: string; text: string }[]>(
+    []
+  );
+  const [cities, setCities] = useState<{ id: string; text: string }[]>([]);
+  const [subDistricts, setSubDistricts] = useState<
+    { id: string; text: string }[]
+  >([]);
+  const [villages, setVillages] = useState<{ id: string; text: string }[]>([]);
+  const [zipCodes, setZipCodes] = useState<{ id: string; text: string }[]>([]);
   const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
     {}
   );
   const [isSuccess, setIsSuccess] = useState(false);
-  const [lead, setLead] = useState<leadsTypes>({
-    id: leadProps?.id,
-    first_name: leadProps?.first_name,
-    last_name: leadProps?.last_name,
-    job: leadProps?.job,
-    description: leadProps?.description,
-    status: leadProps?.status,
-    birthdate: leadProps?.birthdate,
-    email: leadProps?.email,
-    phone: leadProps?.phone,
-    owner: leadProps?.owner,
-    address: leadProps?.address,
-    province: leadProps?.province,
-    city: leadProps?.city,
-    subdistrict: leadProps?.subdistrict,
-    village: leadProps?.village,
-    zip_code: leadProps?.zip_code,
-  });
+  const [lead, setLead] = useState<leadsTypes>(leadProps);
+  console.log(leadProps);
   const dispatch = useDispatch<AppDispatch>();
 
   const handleEditLead = () => {
     dispatch(updateLead(lead, setIsSuccess, setErrorMessage));
   };
+
+  useEffect(() => {
+    if (!provinces.length) {
+      getProvinces().then(setProvinces);
+    }
+    if (selectedIds.provinceId) {
+      getCities(selectedIds.provinceId).then(setCities);
+    }
+    if (selectedIds.cityId) {
+      getSubDistricts(selectedIds.cityId).then(setSubDistricts);
+    }
+    if (selectedIds.subdistrictId) {
+      getVillage(selectedIds.subdistrictId).then(setVillages);
+    }
+    if (selectedIds.villageId) {
+      getZipCodes(selectedIds.villageId, selectedIds.cityId).then(setZipCodes);
+    }
+  }, [selectedIds, provinces]);
 
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Edit Leads">
@@ -50,7 +79,7 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
           <TextInput
             label="Nama Depan"
             placeholder="Nama Depan"
-            value={lead.first_name}
+            value={lead.first_name || ''}
             onChange={(e) => setLead({ ...lead, first_name: e.target.value })}
             required
           />
@@ -61,7 +90,7 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
           <TextInput
             label="Nama Belakang"
             placeholder="Nama Belakang"
-            value={lead.last_name}
+            value={lead.last_name || ''}
             onChange={(e) => setLead({ ...lead, last_name: e.target.value })}
           />
         </div>
@@ -79,7 +108,7 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
           <TextInput
             label="Email"
             placeholder="user@gmail.com"
-            value={lead.email}
+            value={lead.email || ''}
             onChange={(e) => setLead({ ...lead, email: e.target.value })}
           />
           {errorMessage && <FailText>{errorMessage.email}</FailText>}
@@ -87,12 +116,13 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
         <div className="order-5">
           <SelectInput
             label="Status Kontak"
-            value={lead.status}
+            value={lead.status || ''}
             options={[
-              { label: 'Pilih Status', value: '', hidden: true },
-              { label: 'Cold', value: 'cold' },
-              { label: 'Warm', value: 'warm' },
-              { label: 'Hot', value: 'hot' },
+              // Tinggi, Tinggi
+              { label: 'Pilih', value: '', hidden: true },
+              { label: 'Rendah', value: 'cold' },
+              { label: 'Sedang', value: 'warm' },
+              { label: 'Tinggi', value: 'hot' },
             ]}
             onChange={(e) => setLead({ ...lead, status: e.target.value })}
             required
@@ -104,7 +134,7 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
             label="Penanggung Jawab"
             disabled={true}
             placeholder="Penanggung Jawab"
-            value={lead.owner}
+            value={lead.owner || ''}
             onChange={(e) => setLead({ ...lead, owner: e.target.value })}
             required
           />
@@ -114,7 +144,7 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
           <TextInput
             label="Pekerjaan"
             placeholder="Manager"
-            value={lead.job}
+            value={lead.job || ''}
             onChange={(e) => setLead({ ...lead, job: e.target.value })}
           />
         </div>
@@ -130,80 +160,162 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
           <TextArea
             label="Alamat"
             placeholder="Jl. Kemenangan No.99"
-            value={lead.address}
+            value={lead.address || ''}
             onChange={(e) => setLead({ ...lead, address: e.target.value })}
           />
         </div>
-        <div className="order-10">
+        {/* Get Location APi */}
+        <div className="order-[10]">
           <SelectInput
             label="Provinsi"
-            value={lead.province}
+            value={lead.province || ''}
             options={[
-              { label: 'Pilih Provinsi', value: '', hidden: true },
-              { label: 'Jawa Tengah', value: 'Jawa Tengah' },
+              {
+                label: lead.province ? lead.province : 'Pilih Provinsi',
+                value: lead.province ? lead.province : '',
+                hidden: lead.province ? true : false,
+              },
+              ...provinces.map((p) => ({ label: p.text, value: p.id })),
             ]}
-            onChange={(e) => setLead({ ...lead, province: e.target.value })}
+            onChange={(e) => {
+              const selectedText =
+                provinces.find((p) => p.id === e.target.value)?.text || '';
+
+              // Reset the lead state for city, subdistrict, village, and zip_code
+              setLead({
+                ...lead,
+                province: selectedText,
+                city: '',
+                subdistrict: '',
+                village: '',
+                zip_code: '',
+              });
+
+              // Reset selected IDs for cityId, subdistrictId, villageId, and zipCodeId
+              setSelectedIds({
+                provinceId: e.target.value,
+                cityId: '',
+                subdistrictId: '',
+                villageId: '',
+                zipCodeId: '',
+              });
+            }}
           />
         </div>
-        <div className="order-11 ">
+
+        {/* Kota */}
+        <div className="order-[11]">
           <SelectInput
             label="Kota"
-            value={lead.city}
+            value={lead.city || ''}
+            disabled={!selectedIds.provinceId}
             options={[
-              { label: 'Pilih Kota', value: '', hidden: true },
-              { label: 'Kota Semarang', value: 'Kota Semarang' },
+              {
+                label: lead.city ? lead.city : 'Pilih Kota',
+                value: lead.city ? lead.city : '',
+                hidden: true,
+              },
+              ...cities.map((c) => ({ label: c.text, value: c.id })),
             ]}
-            onChange={(e) => setLead({ ...lead, city: e.target.value })}
+            onChange={(e) => {
+              const selectedText =
+                cities.find((c) => c.id === e.target.value)?.text || '';
+              setLead({ ...lead, city: selectedText });
+              setSelectedIds({
+                ...selectedIds,
+                cityId: e.target.value,
+                subdistrictId: '',
+                villageId: '',
+                zipCodeId: '',
+              });
+            }}
           />
         </div>
-        <div className="order-12">
+        {/* Kecamatan */}
+        <div className="order-[12]">
           <SelectInput
             label="Kecamatan"
-            value={lead.subdistrict}
+            value={lead.subdistrict || ''}
+            disabled={!selectedIds.cityId}
             options={[
-              { label: 'Pilih Kecamatan', value: '', hidden: true },
               {
-                label: 'Semarang Tengah',
-                value: 'Semarang Tengah',
-                hidden: false,
+                label: lead.subdistrict ? lead.subdistrict : 'Pilih Kecamatan',
+                value: lead.subdistrict ? lead.subdistrict : '',
+                hidden: true,
               },
+
+              ...subDistricts.map((sd) => ({ label: sd.text, value: sd.id })),
             ]}
-            onChange={(e) => setLead({ ...lead, subdistrict: e.target.value })}
+            onChange={(e) => {
+              const selectedText =
+                subDistricts.find((sd) => sd.id === e.target.value)?.text || '';
+              setLead({ ...lead, subdistrict: selectedText });
+              setSelectedIds({
+                ...selectedIds,
+                subdistrictId: e.target.value,
+                villageId: '',
+                zipCodeId: '',
+              });
+            }}
           />
         </div>
+        {/* Kelurahan */}
         <div className="order-[13]">
           <SelectInput
             label="Kelurahan/Desa"
-            value={lead.village}
+            value={lead.village || ''}
+            disabled={!selectedIds.subdistrictId}
             options={[
-              { label: 'Pilih Kelurahan/Desa', value: '', hidden: true },
               {
-                label: 'Pendrikan Kidul',
-                value: 'Pendrikan Kidul',
-                hidden: false,
+                label: lead.village ? lead.village : 'Pilih Kelurahan/Desa',
+                value: lead.village ? lead.village : '',
+                hidden: lead.village ? true : false,
               },
+
+              ...villages.map((v) => ({ label: v.text, value: v.id })),
             ]}
-            onChange={(e) => setLead({ ...lead, village: e.target.value })}
+            onChange={(e) => {
+              const selectedText =
+                villages.find((v) => v.id === e.target.value)?.text || '';
+              setLead({ ...lead, village: selectedText });
+              setSelectedIds({
+                ...selectedIds,
+                villageId: e.target.value,
+                zipCodeId: '',
+              });
+            }}
           />
         </div>
+        {/* Kode Pos */}
         <div className="order-[14]">
           <SelectInput
             label="Kode Pos"
-            value={lead.zip_code}
+            value={lead.zip_code || ''}
+            disabled={!selectedIds.villageId}
             options={[
-              { label: 'Pilih Kode Pos', value: '', hidden: true },
-              { label: '12345', value: '12345' },
-              { label: '23456', value: '23456' },
-              { label: '34567', value: '34567' },
+              {
+                label: lead.zip_code ? lead.zip_code : 'Pilih Kode Pos',
+                value: lead.zip_code ? lead.zip_code : '',
+                hidden: true,
+              },
+              ...zipCodes.map((zipCode) => ({
+                label: zipCode.text,
+                value: zipCode.id,
+              })),
             ]}
-            onChange={(e) => setLead({ ...lead, zip_code: e.target.value })}
+            onChange={(e) => {
+              const selectedText =
+                zipCodes.find((z) => z.id === e.target.value)?.text || '';
+              setLead({ ...lead, zip_code: selectedText });
+              setSelectedIds({ ...selectedIds, zipCodeId: e.target.value });
+            }}
           />
         </div>
         <div className="order-[15]">
           <TextArea
             label="Deskripsi"
             placeholder="Deskripsi"
-            value={lead.description}
+            value={lead.description || ''}
             onChange={(e) => setLead({ ...lead, description: e.target.value })}
           />
         </div>

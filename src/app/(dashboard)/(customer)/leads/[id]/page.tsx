@@ -141,7 +141,7 @@ const DetailLeads = () => {
         )}
         {isEditLead && <EditLeads onClose={handleEdit} leadProps={lead!} />}
         {isConvertLead && (
-          <ConvertLeads leadData={lead!} onClose={handleEdit} />
+          <ConvertLeads leadProps={lead!} onClose={handleConvertManualOpen} />
         )}
         {isSuccess && (
           <SuccessModal
