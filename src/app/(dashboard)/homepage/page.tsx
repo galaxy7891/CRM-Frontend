@@ -125,7 +125,7 @@ const Dashboard: FC = () => {
             <CardActivity
               title="Perusahaan"
               count={data?.activities?.organizations || 0}
-              link="/company"
+              link="/companies"
             />
           </div>
         </section>

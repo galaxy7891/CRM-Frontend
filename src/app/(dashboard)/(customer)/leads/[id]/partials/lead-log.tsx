@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { activityLogTypes } from '@/types/profileTypes';
-import { paginationTypes } from '@/types/componentTypes';
+import { paginationTypes } from '@/types/otherTypes';
 import { logActivityLead } from '@/redux/actions/leadsActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '@/redux/store';

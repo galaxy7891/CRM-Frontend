@@ -6,7 +6,7 @@ import { MENU } from '@/constants/page';
 import SidebarModal from '@/components/layout/sidebar-modal';
 import NewLeads from '../../app/(dashboard)/(customer)/leads/partials/new-leads';
 import NewContact from '../../app/(dashboard)/(customer)/contacts/partials/new-contact';
-import NewCompany from '../../app/(dashboard)/(customer)/company/partials/new-company';
+import NewCompany from '../../app/(dashboard)/(customer)/companies/partials/new-company';
 
 const HeaderCustomer: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<
@@ -136,7 +136,7 @@ const HeaderCustomer: React.FC = () => {
               Impor Data
             </a>
           )}
-          {pathName === '/company' && (
+          {pathName === '/companies' && (
             <a
               href="/company-import"
               className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
@@ -165,7 +165,7 @@ const HeaderCustomer: React.FC = () => {
           {pathName === '/contacts' && (
             <NewContact onClose={handleCloseModal} emailLocal={emailLocal} />
           )}
-          {pathName === '/company' && (
+          {pathName === '/companies' && (
             <NewCompany onClose={handleCloseModal} emailLocal={emailLocal} />
           )}
         </SidebarModal>

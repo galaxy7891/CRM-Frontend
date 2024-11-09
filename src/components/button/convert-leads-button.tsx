@@ -21,7 +21,7 @@ const ButtonConvert: React.FC<ButtonConvertProps> = ({
       {/* Dropdown Button */}
       <button
         onClick={toggleDropdown}
-        className="flex md:text-base text-xs items-center px-2 py-[3px] md:p-[10px] font-medium font-custom text-font-brown bg-light-gold rounded-[10px]"
+        className="flex md:text-base text-xs items-center px-2 py-2  md:p-[10px] font-medium font-custom text-font-brown bg-light-gold rounded-[10px]"
       >
         Konversi
         <Image

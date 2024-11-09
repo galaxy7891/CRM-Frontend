@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { AppDispatch, RootState } from '../store';
-import { paginationTypes } from '@/types/componentTypes';
+import { paginationTypes } from '@/types/otherTypes';
 import { setLogProfile } from '../reducers/profileReducers';
 
 export const logActivityProfile =

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
-import { leadsTypes, editLeadsPropsTypes } from '@/types/leadsTypes';
+import { companiesTypes, formActionPropsTypes } from '@/types/companiesTypes';
 import { selectedIds } from '@/types/otherTypes';
 import {
   getProvinces,
@@ -10,20 +10,22 @@ import {
   getVillage,
   getZipCodes,
 } from '@/utils/getAddressLocation';
-import { updateLead } from '@/redux/actions/leadsActions';
+import { updateCompany } from '@/redux/actions/companiesActions';
 import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
 import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
 import SelectInput from '@/components/form-input/dropdown-input';
 import SuccessModal from '@/components/status/success-modal';
 import PhoneInput from '@/components/form-input/phone-input';
-import DateInput from '@/components/form-input/date-input';
 import TextArea from '@/components/form-input/text-area-input';
 import TextInput from '@/components/form-input/text-input';
 import SidebarFooter from '@/components/layout/sidebar-footer';
 import SidebarModal from '@/components/layout/sidebar-modal';
 import FailText from '@/components/status/fail-text';
 
-const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
+const EditCompany: React.FC<formActionPropsTypes> = ({
+  onClose,
+  companyProps,
+}) => {
   const [selectedIds, setSelectedIds] = useState<selectedIds>({
     provinceId: '',
     cityId: '',
@@ -43,13 +45,14 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
   const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
     {}
   );
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [lead, setLead] = useState<leadsTypes>(leadProps);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [company, setCompany] = useState<companiesTypes>(companyProps);
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleEditLead = () => {
-    dispatch(updateLead(lead, setIsSuccess, setErrorMessage));
+  const handleEditCompany = () => {
+    console.log('update');
+    dispatch(updateCompany(company, setIsSuccess, setErrorMessage));
   };
 
   useEffect(() => {
@@ -71,104 +74,101 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
   }, [selectedIds, provinces]);
 
   return (
-    <SidebarModal onClose={onClose} SidebarModalTitle="Edit Leads">
+    <SidebarModal onClose={onClose} SidebarModalTitle="Edit Perusahaan">
       <form className="flex-grow overflow-y-auto px-4 grid grid-cols-1 gap-4 md:grid-cols-2 p-2">
         <div className="order-1">
           <TextInput
-            label="Nama Depan"
-            placeholder="Nama Depan"
-            value={lead.first_name || ''}
-            onChange={(e) => setLead({ ...lead, first_name: e.target.value })}
+            label="Nama Perusahaan"
+            placeholder="Pt Loyal Cust"
+            value={company?.name}
+            onChange={(e) => setCompany({ ...company, name: e.target.value })}
             required
           />
-          {errorMessage && <FailText>{errorMessage.first_name}</FailText>}
+          {errorMessage.name && <FailText>{errorMessage.name}</FailText>}
         </div>
-
         <div className="order-2">
-          <TextInput
-            label="Nama Belakang"
-            placeholder="Nama Belakang"
-            value={lead.last_name || ''}
-            onChange={(e) => setLead({ ...lead, last_name: e.target.value })}
+          <SelectInput
+            label="Jenis Industri"
+            value={company.industry}
+            options={[
+              { label: 'Manufaktur', value: 'Manufaktur' },
+              { label: 'Teknologi', value: 'Teknologi' },
+              { label: 'Lainnya', value: 'Lainnya' },
+            ]}
+            onChange={(e) =>
+              setCompany({ ...company, industry: e.target.value })
+            }
           />
         </div>
-        <div className="order-3 md:order-6">
-          <DateInput
-            label="Tanggal Lahir"
-            value={lead.birthdate || ''}
-            onChange={(e) => setLead({ ...lead, birthdate: e.target.value })}
+        <div className="order-3">
+          <TextInput
+            label="Email"
+            placeholder="loyalcust@gmail.com"
+            value={company.email}
+            onChange={(e) => setCompany({ ...company, email: e.target.value })}
           />
         </div>
         <div className="order-4">
-          <TextInput
-            label="Email"
-            placeholder="user@gmail.com"
-            value={lead.email || ''}
-            onChange={(e) => setLead({ ...lead, email: e.target.value })}
+          <PhoneInput
+            value={company.phone}
+            onChange={(e) => setCompany({ ...company, phone: e.target.value })}
           />
-          {errorMessage && <FailText>{errorMessage.email}</FailText>}
         </div>
-        <div className="order-5">
+        <div className="order-5 ">
+          <TextInput
+            label="Website"
+            placeholder="www.loyalcust.com"
+            value={company.website}
+            onChange={(e) =>
+              setCompany({ ...company, website: e.target.value })
+            }
+          />
+        </div>
+        <div className="order-6">
           <SelectInput
-            label="Status Kontak"
-            value={lead.status || ''}
+            label="Status Perusahaan"
+            value={company.status}
             options={[
-              // Tinggi, Tinggi
-              { label: 'Pilih', value: '', hidden: true },
               { label: 'Rendah', value: 'cold' },
               { label: 'Sedang', value: 'warm' },
-              { label: 'Tinggi', value: 'hot' },
+              { label: 'Tinggi', value: 'Hot' },
             ]}
-            onChange={(e) => setLead({ ...lead, status: e.target.value })}
+            onChange={(e) => setCompany({ ...company, status: e.target.value })}
             required
           />
-          {errorMessage && <FailText>{errorMessage.status}</FailText>}
+          {errorMessage.status && <FailText>{errorMessage.status}</FailText>}
         </div>
-        <div className="order-5 md:order-8">
+        <div className="order-7">
+          <TextArea
+            label="Alamat"
+            placeholder="Jl. Kemenangan No.99"
+            value={company.address}
+            onChange={(e) =>
+              setCompany({ ...company, address: e.target.value })
+            }
+          />
+        </div>
+        <div className="order-8 ">
           <TextInput
             label="Penanggung Jawab"
             disabled={true}
             placeholder="Penanggung Jawab"
-            value={lead.owner || ''}
-            onChange={(e) => setLead({ ...lead, owner: e.target.value })}
+            value={company.owner || ''}
+            onChange={(e) => setCompany({ ...company, owner: e.target.value })}
             required
           />
           {errorMessage && <FailText>{errorMessage.owner}</FailText>}
         </div>
-        <div className="order-6 md:order-7">
-          <TextInput
-            label="Pekerjaan"
-            placeholder="Manager"
-            value={lead.job || ''}
-            onChange={(e) => setLead({ ...lead, job: e.target.value })}
-          />
-        </div>
-        <div className="order-8 md:order-3">
-          <PhoneInput
-            value={lead.phone}
-            onChange={(e) => setLead({ ...lead, phone: e.target.value })}
-            required
-          />
-          {errorMessage && <FailText>{errorMessage.phone}</FailText>}
-        </div>
+
         <div className="order-9">
-          <TextArea
-            label="Alamat"
-            placeholder="Jl. Kemenangan No.99"
-            value={lead.address || ''}
-            onChange={(e) => setLead({ ...lead, address: e.target.value })}
-          />
-        </div>
-        {/* Get Location APi */}
-        <div className="order-[10]">
           <SelectInput
             label="Provinsi"
-            value={lead.province || ''}
+            value={company.province || ''}
             options={[
               {
-                label: lead.province ? lead.province : 'Pilih Provinsi',
-                value: lead.province ? lead.province : '',
-                hidden: lead.province ? true : false,
+                label: company.province ? company.province : 'Pilih Provinsi',
+                value: company.province ? company.province : '',
+                hidden: company.province ? true : false,
               },
               ...provinces.map((p) => ({ label: p.text, value: p.id })),
             ]}
@@ -176,9 +176,9 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
               const selectedText =
                 provinces.find((p) => p.id === e.target.value)?.text || '';
 
-              // Reset the lead state for city, subdistrict, village, and zip_code
-              setLead({
-                ...lead,
+              // Reset the company state for city, subdistrict, village, and zip_code
+              setCompany({
+                ...company,
                 province: selectedText,
                 city: '',
                 subdistrict: '',
@@ -197,17 +197,15 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
             }}
           />
         </div>
-
-        {/* Kota */}
-        <div className="order-[11]">
+        <div className="order-10 ">
           <SelectInput
             label="Kota"
-            value={lead.city || ''}
+            value={company.city || ''}
             disabled={!selectedIds.provinceId}
             options={[
               {
-                label: lead.city ? lead.city : 'Pilih Kota',
-                value: lead.city ? lead.city : '',
+                label: company.city ? company.city : 'Pilih Kota',
+                value: company.city ? company.city : '',
                 hidden: true,
               },
               ...cities.map((c) => ({ label: c.text, value: c.id })),
@@ -215,7 +213,7 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
             onChange={(e) => {
               const selectedText =
                 cities.find((c) => c.id === e.target.value)?.text || '';
-              setLead({ ...lead, city: selectedText });
+              setCompany({ ...company, city: selectedText });
               setSelectedIds({
                 ...selectedIds,
                 cityId: e.target.value,
@@ -226,16 +224,17 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
             }}
           />
         </div>
-        {/* Kecamatan */}
-        <div className="order-[12]">
+        <div className="order-11">
           <SelectInput
             label="Kecamatan"
-            value={lead.subdistrict || ''}
+            value={company.subdistrict || ''}
             disabled={!selectedIds.cityId}
             options={[
               {
-                label: lead.subdistrict ? lead.subdistrict : 'Pilih Kecamatan',
-                value: lead.subdistrict ? lead.subdistrict : '',
+                label: company.subdistrict
+                  ? company.subdistrict
+                  : 'Pilih Kecamatan',
+                value: company.subdistrict ? company.subdistrict : '',
                 hidden: true,
               },
 
@@ -244,7 +243,7 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
             onChange={(e) => {
               const selectedText =
                 subDistricts.find((sd) => sd.id === e.target.value)?.text || '';
-              setLead({ ...lead, subdistrict: selectedText });
+              setCompany({ ...company, subdistrict: selectedText });
               setSelectedIds({
                 ...selectedIds,
                 subdistrictId: e.target.value,
@@ -254,17 +253,18 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
             }}
           />
         </div>
-        {/* Kelurahan */}
-        <div className="order-[13]">
+        <div className="order-12">
           <SelectInput
             label="Kelurahan/Desa"
-            value={lead.village || ''}
+            value={company.village || ''}
             disabled={!selectedIds.subdistrictId}
             options={[
               {
-                label: lead.village ? lead.village : 'Pilih Kelurahan/Desa',
-                value: lead.village ? lead.village : '',
-                hidden: lead.village ? true : false,
+                label: company.village
+                  ? company.village
+                  : 'Pilih Kelurahan/Desa',
+                value: company.village ? company.village : '',
+                hidden: company.village ? true : false,
               },
 
               ...villages.map((v) => ({ label: v.text, value: v.id })),
@@ -272,7 +272,7 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
             onChange={(e) => {
               const selectedText =
                 villages.find((v) => v.id === e.target.value)?.text || '';
-              setLead({ ...lead, village: selectedText });
+              setCompany({ ...company, village: selectedText });
               setSelectedIds({
                 ...selectedIds,
                 villageId: e.target.value,
@@ -281,16 +281,15 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
             }}
           />
         </div>
-        {/* Kode Pos */}
-        <div className="order-[14]">
+        <div className="order-[13]">
           <SelectInput
             label="Kode Pos"
-            value={lead.zip_code || ''}
+            value={company.zip_code || ''}
             disabled={!selectedIds.villageId}
             options={[
               {
-                label: lead.zip_code ? lead.zip_code : 'Pilih Kode Pos',
-                value: lead.zip_code ? lead.zip_code : '',
+                label: company.zip_code ? company.zip_code : 'Pilih Kode Pos',
+                value: company.zip_code ? company.zip_code : '',
                 hidden: true,
               },
               ...zipCodes.map((zipCode) => ({
@@ -301,39 +300,33 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
             onChange={(e) => {
               const selectedText =
                 zipCodes.find((z) => z.id === e.target.value)?.text || '';
-              setLead({ ...lead, zip_code: selectedText });
+              setCompany({ ...company, zip_code: selectedText });
               setSelectedIds({ ...selectedIds, zipCodeId: e.target.value });
             }}
           />
         </div>
-        <div className="order-[15]">
-          <TextArea
-            label="Deskripsi"
-            placeholder="Deskripsi"
-            value={lead.description || ''}
-            onChange={(e) => setLead({ ...lead, description: e.target.value })}
-          />
-        </div>
       </form>
       <SidebarFooter>
+        {/* if data empty button disabled */}
         <DashboardSidebarRedButton onClick={onClose}>
           Hapus Semua
         </DashboardSidebarRedButton>
-        <DashboardSidebarYellowButton onClick={handleEditLead}>
+        {/* Tambah button is used  */}
+        <DashboardSidebarYellowButton onClick={handleEditCompany}>
           Simpan
         </DashboardSidebarYellowButton>
       </SidebarFooter>
       {isSuccess && (
         <SuccessModal
-          header="Berhasil"
-          description="Data leads berhasil diubah"
+          header="Berhasil!"
+          description="Data perusahaan berhasil diubah"
           actionButton={true}
           actionButton_name="Kembali"
-          actionButton_action={() => onClose()}
+          actionButton_href="/companies"
         />
       )}
     </SidebarModal>
   );
 };
 
-export default EditLeads;
+export default EditCompany;

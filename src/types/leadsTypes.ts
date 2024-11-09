@@ -18,11 +18,16 @@ export interface leadsTypes {
   village: string;
   zip_code: string;
 }
+export interface activityLogTypes {
+  title: string;
+  datetime: string;
+  description: string;
+}
 
 export interface leadsState {
   leads: leadsTypes[];
   lead: leadsTypes | null;
-  logLead: leadsTypes[];
+  logLead: activityLogTypes[];
 }
 
 export type selectedIds = {
@@ -36,26 +41,4 @@ export type selectedIds = {
 export interface editLeadsPropsTypes {
   onClose: () => void;
   leadProps: leadsTypes;
-}
-
-export interface organizationsTypes {
-  id: string;
-  name: string;
-  industry: string;
-  email: string;
-  status: string;
-  phone: string;
-  owner: string;
-  website: string;
-  address: string;
-  province: string;
-  city: string;
-  subdistrict: string;
-  village: string;
-  zip_code: string;
-}
-
-export interface editOrganizationPropsTypes {
-  onClose: () => void;
-  organizationProps: organizationsTypes;
 }

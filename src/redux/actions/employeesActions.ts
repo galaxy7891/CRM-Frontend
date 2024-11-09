@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ParamsData, Password, PersonalData } from '@/types/authTypes';
 import { employeesTypes } from '@/types/employeeTypes';
-import { paginationTypes } from '@/types/componentTypes';
+import { paginationTypes } from '@/types/otherTypes';
 import { setEmployees, setEmployee } from '../reducers/employeesReducers';
 import { AppDispatch, RootState } from '@/redux/store';
 

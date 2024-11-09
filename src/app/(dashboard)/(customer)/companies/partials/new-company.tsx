@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { organizationsTypes } from '@/types/leadsTypes';
 import { useDispatch } from 'react-redux';
-import { addOrganization } from '@/redux/actions/organizationsActions';
+import { addOrganization } from '@/redux/actions/companiesActions';
 import { AppDispatch } from '@/redux/store';
 import FailText from '@/components/status/fail-text';
 import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
@@ -237,7 +237,7 @@ const NewCompany: React.FC<addOrganizationPropsTypes> = ({
           description="Perusahaan berhasil ditambahkan"
           actionButton={true}
           actionButton_name="Kembali"
-          actionButton_href="/company"
+          actionButton_href="/companies"
         />
       )}
     </SidebarModal>

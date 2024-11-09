@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { leadsTypes } from '@/types/leadsTypes';
-import { paginationTypes } from '@/types/componentTypes';
+import { paginationTypes } from '@/types/otherTypes';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
@@ -27,7 +27,7 @@ import EditTableButton from '@/components/button/edit-table-button';
 import Checkbox from '@/components/button/checkbox';
 // import EmptyTable from '@/components/table/empty-table';
 
-const Leads = () => {
+const LeadsPage = () => {
   const [sortBy, setSortBy] = useState<string>('terbaru');
   const [statusBy, setStatusBy] = useState<string>('rendah');
   const [perPage, setPerPage] = useState<string>('10');
@@ -180,15 +180,8 @@ const Leads = () => {
                   key={index}
                   className="border-l border-r border-b border-font-gray hover:bg-dropdown-gray dark:hover:bg-dropdown-darkBlue group"
                 >
-                  <td className="border px-2 border-font-gray bg-font-white dark:bg-dark-navy sticky top-o left-0 group-hover:bg-dropdown-gray dark:group-hover:bg-dropdown-darkBlue">
+                  <td className="border px-2 min-w-[80px] border-font-gray bg-font-white dark:bg-dark-navy sticky top-o left-0 group-hover:bg-dropdown-gray dark:group-hover:bg-dropdown-darkBlue">
                     <div className="flex items-center space-x-2">
-                      {/* <input
-                        id={`checkbox-${lead.id}`} // Unique ID for each checkbox
-                        type="checkbox"
-                        checked={selectedIds.includes(lead.id)} // Check if the ID is in the selectedIds state
-                        onChange={() => handleCheckboxChange(lead.id)} // Call the handler
-                        className="w-4 h-4 bg-font-white border-dark-navy rounded-[5px] checked:bg-dark-greenBright focus:ring-0"
-                      /> */}
                       <Checkbox
                         id={`checkbox-${lead.id}`}
                         checked={selectedIds.includes(lead.id)}
@@ -206,13 +199,18 @@ const Leads = () => {
                       </button>
                     </div>
                   </td>
-                  <td className="px-3 py-2 min-w-[200px] border-font-gray fpnt text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs md:text-base ">
-                    <Link href={`/leads/${lead.id}`}>
+                  <td className="px-3 py-2 min-w-[200px] border-font-gray fpnt text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs md:text-base w-full ">
+                    <Link
+                      href={`/leads/${lead.id}`}
+                      className="truncate max-w-[200px] block"
+                    >
                       {lead.first_name} {lead.last_name}
                     </Link>
                   </td>
-                  <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
-                    {lead.email || '-'}
+                  <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base w-full">
+                    <div className="truncate max-w-[200px] block">
+                      {lead.email || '-'}
+                    </div>
                   </td>
                   <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
                     {lead.phone}
@@ -262,4 +260,4 @@ const Leads = () => {
   );
 };
 
-export default Leads;
+export default LeadsPage;

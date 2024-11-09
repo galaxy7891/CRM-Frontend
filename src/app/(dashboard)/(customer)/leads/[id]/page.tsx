@@ -17,7 +17,7 @@ import SuccessModal from '@/components/status/success-modal';
 import ActionConfirmModal from '@/components/status/action-confirm-modal';
 import ButtonConvert from '@/components/button/convert-leads-button';
 import CustomerInfo from '@/components/import/card-info-customer';
-import CardCustomer from '@/components/import/card-profil-customer';
+import CardCustomer from '@/components/layout/detail-customer-card';
 import EditUserButton from '@/components/button/edit-user-button';
 import DeleteButton from '@/components/button/delete-button';
 import moment from 'moment';
@@ -69,22 +69,8 @@ const DetailLeads = () => {
     <>
       <DashboardCard>
         <div className="grid grid-cols-12 ">
-          <div className="col-span-12 md:col-start-5 md:col-span-8">
-            <div className="flex justify-between mb-2">
-              <p className="font-custom text-font-black dark:text-font-white text-sm md:text-2xl font-medium flex items-center">
-                Data Pelanggan
-              </p>
-              <div className="flex items-center space-x-2">
-                <EditUserButton onClick={handleEdit} />
-                <DeleteButton onClick={handleDeleteConfirmation} />
-                <ButtonConvert
-                  handleConvert={handleConvertAutoConfirmation}
-                  handleConvertConfirmation={handleConvertManualOpen}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="col-span-12 md:col-span-4 mt-2">
+          {/* Photo with Primary Detail */}
+          <div className="col-span-12 lg:col-span-4 mt-2 flex items-center justify-center">
             <CardCustomer
               data={{
                 name:
@@ -98,7 +84,21 @@ const DetailLeads = () => {
               waHref={`https://wa.me/62${lead?.phone}`}
             />
           </div>
-          <div className="col-span-12 md:col-start-5 md:col-span-8">
+          {/* Detail */}
+          <div className="col-span-12 lg:col-start-5 lg:col-span-8">
+            <div className="flex justify-between mb-4 mt-8 lg:mt-0">
+              <p className="font-custom text-font-black dark:text-font-white text-sm md:text-2xl font-medium flex items-center">
+                Data Pelanggan
+              </p>
+              <div className="flex items-center space-x-2">
+                <EditUserButton onClick={handleEdit} />
+                <DeleteButton onClick={handleDeleteConfirmation} />
+                <ButtonConvert
+                  handleConvert={handleConvertAutoConfirmation}
+                  handleConvertConfirmation={handleConvertManualOpen}
+                />
+              </div>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 mt-2 bg-light-white dark:bg-dark-darkGray rounded-[10px]">
               <CustomerInfo label="Nomor Telepon" value={lead?.phone} />
               <CustomerInfo label="Alamat" value={lead?.address} />

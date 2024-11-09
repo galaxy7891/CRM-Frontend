@@ -1,5 +1,5 @@
 import CustomerInfo from '@/components/import/card-info-customer';
-import CardCustomer from '@/components/import/card-profil-customer';
+import CardCustomer from '@/components/layout/detail-customer-card';
 import Image from 'next/image';
 import React from 'react';
 

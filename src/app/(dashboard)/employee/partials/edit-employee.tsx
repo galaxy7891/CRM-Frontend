@@ -1,15 +1,17 @@
+import React, { useState } from 'react';
 import { employeesTypes, formActionPropsTypes } from '@/types/employeeTypes';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
 import { updateEmployee } from '@/redux/actions/employeesActions';
 import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
 import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
 import SelectInput from '@/components/form-input/dropdown-input';
+import FailText from '@/components/status/fail-text';
 import PhoneInput from '@/components/form-input/phone-input';
 import TextInput from '@/components/form-input/text-input';
+import SuccessModal from '@/components/status/success-modal';
 import SidebarFooter from '@/components/layout/sidebar-footer';
 import SidebarModal from '@/components/layout/sidebar-modal';
-import React, { useState } from 'react';
 
 const EditEmployee: React.FC<formActionPropsTypes> = ({
   onClose,
@@ -19,7 +21,7 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>();
   const dispatch = useDispatch<AppDispatch>();
-  const handlEditEmployee = () => {
+  const handleEditEmployee = () => {
     dispatch(updateEmployee(employee, setIsSuccess, setErrorMessage));
   };
 
@@ -37,6 +39,9 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
               }
               required
             />
+            {errorMessage?.first_name && (
+              <FailText>{errorMessage.first_name}</FailText>
+            )}
           </div>
           <div className="order-2">
             <TextInput
@@ -57,15 +62,17 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
                 setEmployee({ ...employee, email: e.target.value })
               }
             />
+            {errorMessage?.email && <FailText>{errorMessage.email}</FailText>}
           </div>
           <div className="order-4">
             <PhoneInput
-              value={employee.phone}
+              value={employee.phone || ''}
               onChange={(e) =>
                 setEmployee({ ...employee, phone: e.target.value })
               }
               required
             />
+            {errorMessage?.phone && <FailText>{errorMessage.phone}</FailText>}
           </div>
           <div className="order-5">
             <SelectInput
@@ -80,6 +87,7 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
                 setEmployee({ ...employee, role: e.target.value })
               }
             />
+            {errorMessage?.role && <FailText>{errorMessage.role}</FailText>}
           </div>
           <div className="order-6">
             <SelectInput
@@ -94,6 +102,7 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
               onChange={(e) =>
                 setEmployee({ ...employee, job_position: e.target.value })
               }
+              required
             />
           </div>
           <div className="order-7">
@@ -113,15 +122,22 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
         </div>
       </form>
       <SidebarFooter>
-        {/* if data empty button disabled */}
         <DashboardSidebarRedButton onClick={onClose}>
           Hapus Semua
         </DashboardSidebarRedButton>
-        {/* Uncomment and implement submit button */}
-        {/* <DashboardSidebarYellowButton onClick={handleSubmit}>
+        <DashboardSidebarYellowButton onClick={handleEditEmployee}>
           Simpan
-        </DashboardSidebarYellowButton> */}
+        </DashboardSidebarYellowButton>
       </SidebarFooter>
+      {isSuccess && (
+        <SuccessModal
+          header="Berhasil"
+          description="Data leads berhasil diubah"
+          actionButton={true}
+          actionButton_name="Kembali"
+          actionButton_action={() => onClose()}
+        />
+      )}
     </SidebarModal>
   );
 };

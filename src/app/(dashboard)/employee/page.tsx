@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
+// import Link from 'next/link';
 import Image from 'next/image';
 import { employeesTypes } from '@/types/employeeTypes';
-import { paginationTypes } from '@/types/componentTypes';
+import { paginationTypes } from '@/types/otherTypes';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
@@ -97,7 +97,15 @@ const Employee = () => {
     dispatch(
       getEmployees(sortBy, perPage, pagination.current_page, setPagination)
     );
-  }, [sortBy, perPage, pagination.current_page, isSuccess, dispatch]);
+  }, [
+    sortBy,
+    perPage,
+    pagination.current_page,
+    isSuccess,
+    dispatch,
+    isEditEmployee,
+    isDeleteEmployee,
+  ]);
   return (
     <>
       {/* Header */}
@@ -194,9 +202,9 @@ const Employee = () => {
                       </div>
                     </td>
                     <td className="px-3 py-2 min-w-[200px] border-font-gray fpnt text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs md:text-base ">
-                      <Link href={`/leads/${employee.id}`}>
-                        {employee.first_name} {employee.last_name}
-                      </Link>
+                      {/* <Link href={`/employee/${employee.id}`}> */}
+                      {employee.first_name} {employee.last_name}
+                      {/* </Link> */}
                     </td>
                     <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
                       {employee.role || '-'}
