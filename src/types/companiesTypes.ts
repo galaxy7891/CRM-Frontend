@@ -13,6 +13,13 @@ export interface companiesTypes {
   subdistrict: string;
   village: string;
   zip_code: string;
+  description: string;
+}
+
+export interface activityLogTypes {
+  title: string;
+  datetime: string;
+  description: string;
 }
 
 export interface formActionPropsTypes {
@@ -23,4 +30,5 @@ export interface formActionPropsTypes {
 export interface companiesState {
   companies: companiesTypes[];
   company: companiesTypes | null;
+  companyLog: activityLogTypes[];
 }

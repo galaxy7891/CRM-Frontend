@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { activityLogTypes } from '@/types/profileTypes';
 import { paginationTypes } from '@/types/otherTypes';
-import { logActivityLead } from '@/redux/actions/leadsActions';
+import { logActivityCompany } from '@/redux/actions/companiesActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '@/redux/store';
 import { useParams } from 'next/navigation';
@@ -25,22 +25,27 @@ const UserLog = () => {
   const { id } = useParams<{ id: string }>();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { leadLog } = useSelector((state: RootState) => state.leads);
+  const { companyLog } = useSelector((state: RootState) => state.companies);
+  console.log(companyLog);
 
   const handleNextPage = () => {
     if (pagination.next_page_url) {
-      dispatch(logActivityLead(pagination.current_page + 1, id, setPagination));
+      dispatch(
+        logActivityCompany(pagination.current_page + 1, id, setPagination)
+      );
     }
   };
 
   const handlePrevPage = () => {
     if (pagination.prev_page_url) {
-      dispatch(logActivityLead(pagination.current_page - 1, id, setPagination));
+      dispatch(
+        logActivityCompany(pagination.current_page - 1, id, setPagination)
+      );
     }
   };
 
   useEffect(() => {
-    dispatch(logActivityLead(pagination.current_page, id, setPagination));
+    dispatch(logActivityCompany(pagination.current_page, id, setPagination));
   }, [id, dispatch, pagination.current_page]);
 
   return (
@@ -57,7 +62,7 @@ const UserLog = () => {
         </div>
         {/* Body */}
         <div className="col-span-12 space-y-4 mt-4">
-          {leadLog.map((log: activityLogTypes, index: number) => (
+          {companyLog.map((log: activityLogTypes, index: number) => (
             <CardActivityLog
               key={index}
               title={log.title}

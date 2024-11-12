@@ -4,6 +4,7 @@ import { companiesState } from '@/types/companiesTypes';
 const initialState: companiesState = {
   company: null,
   companies: [],
+  companyLog: [],
 };
 
 const companiesSlicer = createSlice({
@@ -16,9 +17,13 @@ const companiesSlicer = createSlice({
     setCompanies: (state, action) => {
       state.companies = action.payload;
     },
+    setCompanyLog: (state, action) => {
+      state.companyLog = action.payload;
+    },
   },
 });
 
-export const { setCompany, setCompanies } = companiesSlicer.actions;
+export const { setCompany, setCompanies, setCompanyLog } =
+  companiesSlicer.actions;
 
 export default companiesSlicer.reducer;

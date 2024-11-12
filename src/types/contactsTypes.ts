@@ -15,12 +15,17 @@ export interface contactsTypes {
   phone: string;
   owner: string;
   address: string;
-  country: string;
   province: string;
   city: string;
   subdistrict: string;
   village: string;
   zip_code: string;
+}
+
+export interface activityLogTypes {
+  title: string;
+  datetime: string;
+  description: string;
 }
 
 export interface formActionPropsTypes {
@@ -31,4 +36,5 @@ export interface formActionPropsTypes {
 export interface contactsState {
   contact: contactsTypes | null;
   contacts: contactsTypes[];
+  contactLog: activityLogTypes[];
 }

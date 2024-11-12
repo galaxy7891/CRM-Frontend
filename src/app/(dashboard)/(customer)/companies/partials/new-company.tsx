@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { organizationsTypes } from '@/types/leadsTypes';
+import { companiesTypes } from '@/types/companiesTypes';
 import { useDispatch } from 'react-redux';
-import { addOrganization } from '@/redux/actions/companiesActions';
+import { addCompany } from '@/redux/actions/companiesActions';
 import { AppDispatch } from '@/redux/store';
 import FailText from '@/components/status/fail-text';
 import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
@@ -14,20 +14,19 @@ import TextInput from '@/components/form-input/text-input';
 import SidebarFooter from '@/components/layout/sidebar-footer';
 import SidebarModal from '@/components/layout/sidebar-modal';
 
-interface addOrganizationPropsTypes {
+interface addCompanyPropsTypes {
   onClose: () => void;
   emailLocal: string;
 }
-const NewCompany: React.FC<addOrganizationPropsTypes> = ({
+const NewCompany: React.FC<addCompanyPropsTypes> = ({
   onClose,
   emailLocal,
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(true);
   const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
     {}
   );
-  const [organization, setOrganization] = useState<organizationsTypes>({
+  const [company, setCompany] = useState<companiesTypes>({
     id: '',
     name: '',
     industry: '',
@@ -42,14 +41,13 @@ const NewCompany: React.FC<addOrganizationPropsTypes> = ({
     subdistrict: '',
     village: '',
     zip_code: '',
+    description: '',
   });
 
   const dispatch = useDispatch<AppDispatch>();
 
   const handleAddCompany = () => {
-    dispatch(
-      addOrganization(organization, setIsLoading, setErrorMessage, setIsSuccess)
-    );
+    dispatch(addCompany(company, setIsSuccess, setErrorMessage));
   };
 
   return (
@@ -59,10 +57,8 @@ const NewCompany: React.FC<addOrganizationPropsTypes> = ({
           <TextInput
             label="Nama Perusahaan"
             placeholder="Pt Loyal Cust"
-            value={organization?.name}
-            onChange={(e) =>
-              setOrganization({ ...organization, name: e.target.value })
-            }
+            value={company?.name}
+            onChange={(e) => setCompany({ ...company, name: e.target.value })}
             required
           />
           {errorMessage?.name && <FailText>{errorMessage?.name}</FailText>}
@@ -70,14 +66,14 @@ const NewCompany: React.FC<addOrganizationPropsTypes> = ({
         <div className="order-2">
           <SelectInput
             label="Jenis Industri"
-            value={organization.industry}
+            value={company.industry}
             options={[
               { label: 'Manufaktur', value: 'Manufaktur' },
               { label: 'Teknologi', value: 'Teknologi' },
               { label: 'Lainnya', value: 'Lainnya' },
             ]}
             onChange={(e) =>
-              setOrganization({ ...organization, industry: e.target.value })
+              setCompany({ ...company, industry: e.target.value })
             }
           />
         </div>
@@ -85,19 +81,15 @@ const NewCompany: React.FC<addOrganizationPropsTypes> = ({
           <TextInput
             label="Email"
             placeholder="loyalcust@gmail.com"
-            value={organization.email}
-            onChange={(e) =>
-              setOrganization({ ...organization, email: e.target.value })
-            }
+            value={company.email}
+            onChange={(e) => setCompany({ ...company, email: e.target.value })}
           />
           {errorMessage?.email && <FailText>{errorMessage?.email}</FailText>}
         </div>
         <div className="order-4">
           <PhoneInput
-            value={organization.phone}
-            onChange={(e) =>
-              setOrganization({ ...organization, phone: e.target.value })
-            }
+            value={company.phone}
+            onChange={(e) => setCompany({ ...company, phone: e.target.value })}
           />
           {errorMessage?.phone && <FailText>{errorMessage?.phone}</FailText>}
         </div>
@@ -105,24 +97,22 @@ const NewCompany: React.FC<addOrganizationPropsTypes> = ({
           <TextInput
             label="Website"
             placeholder="www.loyalcust.com"
-            value={organization.website}
+            value={company.website}
             onChange={(e) =>
-              setOrganization({ ...organization, website: e.target.value })
+              setCompany({ ...company, website: e.target.value })
             }
           />
         </div>
         <div className="order-6">
           <SelectInput
             label="Status Perusahaan"
-            value={organization.status}
+            value={company.status}
             options={[
-              { label: 'Rendah', value: 'warm' },
-              { label: 'Sedang', value: 'cold' },
-              { label: 'Tinggi', value: 'hot' },
+              { label: 'rendah', value: 'rendah' },
+              { label: 'sedang', value: 'sedang' },
+              { label: 'tinggi', value: 'tinggi' },
             ]}
-            onChange={(e) =>
-              setOrganization({ ...organization, status: e.target.value })
-            }
+            onChange={(e) => setCompany({ ...company, status: e.target.value })}
             required
           />
           {errorMessage?.status && <FailText>{errorMessage?.status}</FailText>}
@@ -131,9 +121,9 @@ const NewCompany: React.FC<addOrganizationPropsTypes> = ({
           <TextArea
             label="Alamat"
             placeholder="Jl. Kemenangan No.99"
-            value={organization.address}
+            value={company.address}
             onChange={(e) =>
-              setOrganization({ ...organization, address: e.target.value })
+              setCompany({ ...company, address: e.target.value })
             }
           />
         </div>
@@ -141,10 +131,8 @@ const NewCompany: React.FC<addOrganizationPropsTypes> = ({
           <TextInput
             label="Penanggung Jawab"
             placeholder="Penanggung Jawab"
-            value={organization.owner}
-            onChange={(e) =>
-              setOrganization({ ...organization, owner: e.target.value })
-            }
+            value={company.owner}
+            onChange={(e) => setCompany({ ...company, owner: e.target.value })}
             disabled
           />
           {errorMessage?.owner && <FailText>{errorMessage?.owner}</FailText>}
@@ -153,70 +141,78 @@ const NewCompany: React.FC<addOrganizationPropsTypes> = ({
         <div className="order-9">
           <SelectInput
             label="Provinsi"
-            value={organization.province}
+            value={company.province}
             options={
               [
                 // get data from api provinsi
               ]
             }
             onChange={(e) =>
-              setOrganization({ ...organization, province: e.target.value })
+              setCompany({ ...company, province: e.target.value })
             }
           />
         </div>
         <div className="order-10 ">
           <SelectInput
             label="Kota"
-            value={organization.city}
+            value={company.city}
             options={
               [
                 // get data from api kota
               ]
             }
-            onChange={(e) =>
-              setOrganization({ ...organization, city: e.target.value })
-            }
+            onChange={(e) => setCompany({ ...company, city: e.target.value })}
           />
         </div>
         <div className="order-11">
           <SelectInput
             label="Kecamatan"
-            value={organization.subdistrict}
+            value={company.subdistrict}
             options={
               [
                 // get data from api kecamatan
               ]
             }
             onChange={(e) =>
-              setOrganization({ ...organization, subdistrict: e.target.value })
+              setCompany({ ...company, subdistrict: e.target.value })
             }
           />
         </div>
         <div className="order-12">
           <SelectInput
             label="Kelurahan"
-            value={organization.village}
+            value={company.village}
             options={
               [
                 // get data from api kelurahan
               ]
             }
             onChange={(e) =>
-              setOrganization({ ...organization, village: e.target.value })
+              setCompany({ ...company, village: e.target.value })
             }
           />
         </div>
         <div className="order-[13]">
           <SelectInput
             label="Kode Pos"
-            value={organization.zip_code}
+            value={company.zip_code}
             options={
               [
                 // get data from api kode pos
               ]
             }
             onChange={(e) =>
-              setOrganization({ ...organization, zip_code: e.target.value })
+              setCompany({ ...company, zip_code: e.target.value })
+            }
+          />
+        </div>
+        <div className="order-[14]">
+          <TextArea
+            label="Deskripsi"
+            placeholder="Deskripsi"
+            value={company.description}
+            onChange={(e) =>
+              setCompany({ ...company, description: e.target.value })
             }
           />
         </div>
@@ -228,7 +224,7 @@ const NewCompany: React.FC<addOrganizationPropsTypes> = ({
         </DashboardSidebarRedButton>
         {/* Tambah button is used  */}
         <DashboardSidebarYellowButton onClick={handleAddCompany}>
-          {isLoading ? 'Menambahkan' : 'Tambah'}
+          Tambah
         </DashboardSidebarYellowButton>
       </SidebarFooter>
       {isSuccess && (

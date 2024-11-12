@@ -32,7 +32,6 @@ const Register = () => {
 
   const searchParams = useSearchParams();
 
-  console.log(paramsData);
   const dispatch = useAppDispatch();
   const handleRegister = async () => {
     dispatch(
@@ -102,8 +101,8 @@ const Register = () => {
           description="Selamat bergabung dengan Loyal Cust!"
           closeModal={false}
           actionButton={true}
-          actionButton_href="/homepage"
-          actionButton_name="Masuk Beranda"
+          actionButton_href="/login"
+          actionButton_name="Login ke Loyal Cust"
         />
       )}
     </div>

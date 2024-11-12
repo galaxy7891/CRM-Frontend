@@ -122,9 +122,9 @@ const EditContact: React.FC<formActionPropsTypes> = ({
             value={contact.status}
             options={[
               { label: 'Pilih Status', value: '', hidden: true },
-              { label: 'Cold', value: 'cold' },
-              { label: 'Warm', value: 'warm' },
-              { label: 'Hot', value: 'hot' },
+              { label: 'rendah', value: 'rendah' },
+              { label: 'sedang', value: 'sedang' },
+              { label: 'tinggi', value: 'tinggi' },
             ]}
             onChange={(e) => setContact({ ...contact, status: e.target.value })}
             required

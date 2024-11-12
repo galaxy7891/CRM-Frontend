@@ -149,9 +149,9 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
             value={lead.status}
             options={[
               { label: 'Pilih Status', value: '', hidden: true },
-              { label: 'Rendah', value: 'cold' },
-              { label: 'Sedang', value: 'warm' },
-              { label: 'Tinggi', value: 'hot' },
+              { label: 'rendah', value: 'rendah' },
+              { label: 'sedang', value: 'sedang' },
+              { label: 'tinggi', value: 'tinggi' },
             ]}
             onChange={(e) => setLead({ ...lead, status: e.target.value })}
             required

@@ -135,6 +135,7 @@ const CompanyPage = () => {
     statusBy,
     perPage,
     isSuccess,
+    isEditCompany,
     isDeleteCompany,
     pagination.current_page,
   ]);

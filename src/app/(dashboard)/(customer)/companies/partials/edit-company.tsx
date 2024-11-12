@@ -89,7 +89,7 @@ const EditCompany: React.FC<formActionPropsTypes> = ({
         <div className="order-2">
           <SelectInput
             label="Jenis Industri"
-            value={company.industry}
+            value={company?.industry}
             options={[
               { label: 'Manufaktur', value: 'Manufaktur' },
               { label: 'Teknologi', value: 'Teknologi' },
@@ -129,9 +129,9 @@ const EditCompany: React.FC<formActionPropsTypes> = ({
             label="Status Perusahaan"
             value={company.status}
             options={[
-              { label: 'Rendah', value: 'cold' },
-              { label: 'Sedang', value: 'warm' },
-              { label: 'Tinggi', value: 'Hot' },
+              { label: 'rendah', value: 'rendah' },
+              { label: 'sedang', value: 'sedang' },
+              { label: 'tinggi', value: 'Tinggi' },
             ]}
             onChange={(e) => setCompany({ ...company, status: e.target.value })}
             required
@@ -305,6 +305,16 @@ const EditCompany: React.FC<formActionPropsTypes> = ({
             }}
           />
         </div>
+        <div className="order-[14]">
+          <TextArea
+            label="Deskripsi"
+            placeholder="Deskripsi"
+            value={company.description}
+            onChange={(e) =>
+              setCompany({ ...company, description: e.target.value })
+            }
+          />
+        </div>
       </form>
       <SidebarFooter>
         {/* if data empty button disabled */}
@@ -322,7 +332,7 @@ const EditCompany: React.FC<formActionPropsTypes> = ({
           description="Data perusahaan berhasil diubah"
           actionButton={true}
           actionButton_name="Kembali"
-          actionButton_href="/companies"
+          actionButton_action={() => onClose()}
         />
       )}
     </SidebarModal>

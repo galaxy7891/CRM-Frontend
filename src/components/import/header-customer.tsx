@@ -56,7 +56,7 @@ const HeaderCustomer: React.FC = () => {
   }, [pathName]);
 
   // Cek apakah path saat ini adalah halaman detail leads
-  const isDetailPage = /^\/leads\/.+$/.test(pathName);
+  const isDetailPage = /^\/(leads|contacts|company)\/.+$/.test(pathName);
 
   // Jika berada di halaman detail leads, jangan render HeaderCustomer
   if (isDetailPage) {

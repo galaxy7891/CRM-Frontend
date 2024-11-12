@@ -127,7 +127,7 @@ const FilterTableButton: React.FC<FilterTableButtonProps> = ({
               onClick={() =>
                 setTempFilter({ ...tempFilter, statusBy: 'rendah' })
               }
-            >
+            > 
               Rendah
             </Filter>
             <Filter

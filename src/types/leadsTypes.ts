@@ -27,7 +27,7 @@ export interface activityLogTypes {
 export interface leadsState {
   leads: leadsTypes[];
   lead: leadsTypes | null;
-  logLead: activityLogTypes[];
+  leadLog: activityLogTypes[];
 }
 
 export type selectedIds = {
