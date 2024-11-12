@@ -154,12 +154,13 @@ const Product = () => {
           </button>
         </div>
       </div>
-      <DashboardCard>
-        {/* Search Input */}
-        <div className="lg:items-center mb-4 grid grid-cols-12">
-          {/* Search Bar */}
-          <div className="col-span-12 md:col-span-4 relative">
-            {/* <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+      <div>
+        <DashboardCard>
+          {/* Search Input */}
+          <div className="lg:items-center mb-4 grid grid-cols-12">
+            {/* Search Bar */}
+            <div className="col-span-12 md:col-span-4 relative">
+              {/* <div className="absolute inset-y-0 left-0 flex items-center pl-3">
                 <Image
                   src="/icons/table/search.svg"
                   alt="search icon"
@@ -173,96 +174,100 @@ const Product = () => {
                 placeholder="Cari Product"
                 className="pl-10 p-2 border-2 font-custom text-xs lg:text-base border-font-gray bg-light-white rounded-[10px] focus:outline-none  dark:bg-dark-darkGray w-full"
               /> */}
-          </div>
+            </div>
 
-          <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
-            <DeleteButton
-              onClick={() => handleDeleteConfirmation(selectedIds)}
-            />
-            <ExportButton onClick={() => handleExport(products)} />
-            <FilterTableButton setSortBy={setSortBy} setPerPage={setPerPage} />
+            <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
+              <DeleteButton
+                onClick={() => handleDeleteConfirmation(selectedIds)}
+              />
+              <ExportButton onClick={() => handleExport(products)} />
+              <FilterTableButton
+                setSortBy={setSortBy}
+                setPerPage={setPerPage}
+              />
+            </div>
           </div>
-        </div>
-        <>
-          {/* Table */}
-          <div className="relative  overflow-auto lg:w-full ">
-            <table className="w-full mb-4">
-              <TableHeader headers={headers} />
-              <tbody>
-                {products.map((product: productsTypes, index: number) => (
-                  <tr
-                    key={index}
-                    className="border-l border-r border-b border-font-gray hover:bg-dropdown-gray dark:hover:bg-dropdown-darkBlue group"
-                  >
-                    <td className="border px-2 border-font-gray bg-font-white dark:bg-dark-navy sticky top-o left-0 group-hover:bg-dropdown-gray dark:group-hover:bg-dropdown-darkBlue">
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id={`checkbox-${product.id}`}
-                          checked={selectedIds.includes(product.id)}
-                          onChange={() => handleCheckboxChange(product.id)}
-                        />
-                        <EditTableButton
-                          onClick={() => handleEdit(product.id)}
-                        />
-                        <DeleteTableButton
-                          onClick={() => handleDeleteConfirmation(product.id)}
-                        />
-                      </div>
-                    </td>
-                    <td className="px-3 py-2 min-w-[200px] border-font-gray fpnt text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs md:text-base ">
-                      <Link href={`/product/${product.id}`}>
-                        {product.name}
-                      </Link>
-                    </td>
-                    <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
-                      {product.code}
-                    </td>
-                    <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
-                      {product.category}
-                    </td>
-                    <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
-                      {product.quantity}
-                    </td>
-                    <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
-                      {formatRupiah(Number(product.price))}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <PaginationButton
-            last_page={pagination.last_page}
-            current_page={pagination.current_page}
-            prev_page_url={pagination.prev_page_url}
-            next_page_url={pagination.next_page_url}
-            handlePrevPage={handlePrevPage}
-            handleNextPage={handleNextPage}
-          />
-          {isEditProduct && (
-            <EditProduct onClose={handleCloseEdit} productProps={product!} />
-          )}
-          {isAddProduct && <NewProduct onClose={handleCloseAddProduct} />}
-          {isDeleteProduct && (
-            <ActionConfirmModal
-              header="Apakah ingin menghapus Produk?"
-              description="Data yang sudah terhapus tidak akan dapat dikembalikan"
-              actionButtonNegative_action={() => setIsDeleteProduct(false)}
-              actionButtonPositive_name="Hapus"
-              actionButtonPositive_action={handleDeleteProduct}
+          <>
+            {/* Table */}
+            <div className="relative  overflow-auto lg:w-full ">
+              <table className="w-full mb-4">
+                <TableHeader headers={headers} />
+                <tbody>
+                  {products.map((product: productsTypes, index: number) => (
+                    <tr
+                      key={index}
+                      className="border-l border-r border-b border-font-gray hover:bg-dropdown-gray dark:hover:bg-dropdown-darkBlue group"
+                    >
+                      <td className="border px-2 border-font-gray bg-font-white dark:bg-dark-navy sticky top-o left-0 group-hover:bg-dropdown-gray dark:group-hover:bg-dropdown-darkBlue">
+                        <div className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`checkbox-${product.id}`}
+                            checked={selectedIds.includes(product.id)}
+                            onChange={() => handleCheckboxChange(product.id)}
+                          />
+                          <EditTableButton
+                            onClick={() => handleEdit(product.id)}
+                          />
+                          <DeleteTableButton
+                            onClick={() => handleDeleteConfirmation(product.id)}
+                          />
+                        </div>
+                      </td>
+                      <td className="px-3 py-2 min-w-[200px] border-font-gray fpnt text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs md:text-base ">
+                        <Link href={`/product/${product.id}`}>
+                          {product.name}
+                        </Link>
+                      </td>
+                      <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
+                        {product.code}
+                      </td>
+                      <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
+                        {product.category}
+                      </td>
+                      <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
+                        {product.quantity}
+                      </td>
+                      <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
+                        {formatRupiah(Number(product.price))}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <PaginationButton
+              last_page={pagination.last_page}
+              current_page={pagination.current_page}
+              prev_page_url={pagination.prev_page_url}
+              next_page_url={pagination.next_page_url}
+              handlePrevPage={handlePrevPage}
+              handleNextPage={handleNextPage}
             />
-          )}
-          {isSuccess && (
-            <SuccessModal
-              header="Berhasil"
-              description="Data Produk berhasil dihapus"
-              actionButton={true}
-              actionButton_name="Kembali"
-              actionButton_action={() => setIsSuccess(false)}
-            />
-          )}
-        </>
-      </DashboardCard>
+            {isEditProduct && (
+              <EditProduct onClose={handleCloseEdit} productProps={product!} />
+            )}
+            {isAddProduct && <NewProduct onClose={handleCloseAddProduct} />}
+            {isDeleteProduct && (
+              <ActionConfirmModal
+                header="Apakah ingin menghapus Produk?"
+                description="Data yang sudah terhapus tidak akan dapat dikembalikan"
+                actionButtonNegative_action={() => setIsDeleteProduct(false)}
+                actionButtonPositive_name="Hapus"
+                actionButtonPositive_action={handleDeleteProduct}
+              />
+            )}
+            {isSuccess && (
+              <SuccessModal
+                header="Berhasil"
+                description="Data Produk berhasil dihapus"
+                actionButton={true}
+                actionButton_name="Kembali"
+                actionButton_action={() => setIsSuccess(false)}
+              />
+            )}
+          </>
+        </DashboardCard>
+      </div>
     </>
   );
 };

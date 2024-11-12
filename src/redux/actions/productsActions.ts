@@ -1,12 +1,12 @@
-import axios from "axios";
-import {  productsTypes } from "@/types/productTypes";
+import axios from 'axios';
+import { productsTypes } from '@/types/productTypes';
 import {
   setProduct,
   setProducts,
   setLogProduct,
-} from "../reducers/productsReducers";
-import { AppDispatch, RootState } from "@/redux/store";
-import { paginationTypes } from "@/types/componentTypes";
+} from '../reducers/productsReducers';
+import { AppDispatch, RootState } from '@/redux/store';
+import { paginationTypes } from '@/types/otherTypes';
 
 export const getProducts =
   (
@@ -19,11 +19,11 @@ export const getProducts =
     const { token } = getState().auth;
     try {
       const config = {
-        method: "get",
+        method: 'get',
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/products?sort=${sortBy}&per_page=${perPage}&page=${currentPage}`,
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       };
 
@@ -52,11 +52,11 @@ export const getProductById =
     const { token } = getState().auth;
     try {
       const config = {
-        method: "get",
+        method: 'get',
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/products/${id}`,
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       };
 
@@ -79,7 +79,7 @@ export const addProduct =
   ) =>
   async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token');
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/products`,
         product,
@@ -89,7 +89,7 @@ export const addProduct =
           },
         }
       );
-      console.log("Response API:", response.data);
+      console.log('Response API:', response.data);
       if (response.data.success) {
         setIsSuccess(true);
         // setTimeout(() => {
@@ -113,17 +113,17 @@ export const updateProduct =
     const token = getState().auth.token;
     try {
       const config = {
-        method: "post",
+        method: 'post',
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/products/${product?.id}`,
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         data: product,
       };
 
       const response = await axios.request(config);
-      console.log("Response API:", response.data);
+      console.log('Response API:', response.data);
       if (response.data.success) {
         setIsSuccess(true);
         // setTimeout(() => {
@@ -145,7 +145,7 @@ export const deleteProduct =
     try {
       const config = {
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/products/`,
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -157,7 +157,7 @@ export const deleteProduct =
         setIsSuccess(true);
       }
     } catch (error) {
-      console.error("Error deleting product(s):", error);
+      console.error('Error deleting product(s):', error);
     }
   };
 
@@ -171,11 +171,11 @@ export const logActivityProduct =
     const token = getState().auth.token;
     try {
       const config = {
-        method: "get",
+        method: 'get',
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/activity/log/products?page=${currentPage}&id=${id}`,
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       };
 
@@ -211,15 +211,15 @@ export const importProducts =
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append('file', file);
 
     try {
       const config = {
-        method: "post",
+        method: 'post',
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/import/products`,
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
         data: formData,
       };
@@ -238,41 +238,42 @@ export const importProducts =
     }
   };
 
-  export const updatePhotoProduct = (
+export const updatePhotoProduct =
+  (
     photo: File,
     id: string,
     setErrorMessage: (message: string) => void,
     setIsLoading: (loading: boolean) => void
-  ) => async (dispatch: AppDispatch, getState: () => RootState) => {
+  ) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;
     const formData = new FormData();
-    formData.append("photo_product", photo); 
-  
+    formData.append('photo_product', photo);
+
     try {
       setIsLoading(true);
-  
+
       const config = {
-        method: "post",
+        method: 'post',
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/products/${id}`,
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
         data: formData,
       };
-  
+
       const response = await axios.request(config);
-  
+
       if (!response.data.success) {
         setErrorMessage(response.data.message.photo[0]);
       } else {
-        console.log("Photo updated successfully");
+        console.log('Photo updated successfully');
         window.location.reload();
       }
     } catch (error) {
-      console.error("Error uploading photo:", error);
+      console.error('Error uploading photo:', error);
     } finally {
       setIsLoading(false);
     }
   };
-
