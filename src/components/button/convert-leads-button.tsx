@@ -5,12 +5,12 @@ import { useState } from 'react';
 
 interface ButtonConvertProps {
   handleConvert: () => void;
-  handleOpenConvert: () => void;
+  handleConvertConfirmation: () => void;
 }
 
 const ButtonConvert: React.FC<ButtonConvertProps> = ({
   handleConvert,
-  handleOpenConvert,
+  handleConvertConfirmation,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleDropdown = () => setIsOpen(!isOpen);
@@ -44,7 +44,7 @@ const ButtonConvert: React.FC<ButtonConvertProps> = ({
           <ul aria-labelledby="dropdownButton">
             <li>
               <a
-                onClick={handleOpenConvert}
+                onClick={handleConvertConfirmation}
                 href="#"
                 className="flex items-center justify-center text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium border px-10 py-2 border-font-grayLight hover:bg-gray-100 dark:hover:bg-gray-800 rounded-t-md"
               >

@@ -78,7 +78,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
             onClick={onToggleSidebar}
           >
             <Image
-              src="icons/header/sidebar.svg"
+              src="/icons/header/sidebar.svg"
               alt="tes"
               width={20}
               height={20}

@@ -1,6 +1,6 @@
 interface EmployeeButtonProps {
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (e: React.FormEvent) => void;
 }
 
 const DashboardSidebarEmployeeButton: React.FC<EmployeeButtonProps> = ({

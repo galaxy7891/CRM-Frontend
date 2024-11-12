@@ -3,16 +3,16 @@
 import { useState, useEffect } from "react";
 import StatusBadge from "@/components/table/status-badge";
 // import Table from "@/components/table/table";
-import TableHeader from "@/components/table/table-head";
-import React from "react";
-import axios from "axios";
-import Image from "next/image";
-import EditContact from "./partials/edit-contact";
-import EmptyTable from "@/components/table/empty-table";
-import ButtonFilter from "@/components/button/filter-table-button";
-import useTheme from "@/components/dark-mode";
-import handleExport from "@/utils/export_CSV";
-import EditTableButton from "@/components/button/edit-table-button";
+import TableHeader from '@/components/table/table-head';
+import React from 'react';
+import axios from 'axios';
+import Image from 'next/image';
+import EditContact from './partials/edit-contact';
+import EmptyTable from '@/components/table/empty-table';
+import DashboardCard from '@/components/layout/dashboard-card';
+import ButtonFilter from '@/components/button/filter-button';
+import useTheme from '@/components/dark-mode';
+import handleExport from '@/utils/export_CSV';
 
 interface contactsData {
   id: string;
@@ -154,7 +154,7 @@ const ContactsPage = () => {
     getContactsData();
   }, [sortBy, statusBy, perPage]); // Only run once when the component mounts
   return (
-    <>
+    <DashboardCard>
       <div className="lg:items-center mb-4 grid grid-cols-12">
         {/* Search Bar */}
         <div className="col-span-12 md:col-span-4 relative">
@@ -278,7 +278,7 @@ const ContactsPage = () => {
           )}
         </>
       )}
-    </>
+    </DashboardCard>
   );
 };
 

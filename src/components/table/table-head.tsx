@@ -19,6 +19,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({ headers }) => {
             className="w-4 h-4 flex items-start bg-font-white border-dark-navy 
             rounded-[5px] checked:bg-dark-greenBright focus:ring-0"
           />
+          {/* <Checkbox/> */}
         </th>
         {headers.map((header, index) => (
           <th

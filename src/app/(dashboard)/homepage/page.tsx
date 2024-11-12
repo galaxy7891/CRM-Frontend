@@ -81,6 +81,7 @@ const Dashboard: FC = () => {
         );
         localStorage.setItem('email', response.data.data.email);
         localStorage.setItem('image_url', response.data.data.image_url);
+        console.log(response.data.data);
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
       }
@@ -119,7 +120,7 @@ const Dashboard: FC = () => {
             <CardActivity
               title="Kontak"
               count={data?.activities?.contacts || 0}
-              link="/contact"
+              link="/contacts"
             />
             <CardActivity
               title="Perusahaan"

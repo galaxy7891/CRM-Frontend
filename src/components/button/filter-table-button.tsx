@@ -11,24 +11,25 @@ import Filter from "./filter-button";
 
 interface FilterTableButtonProps {
   setSortBy: Dispatch<SetStateAction<string>>;
-  setStatusBy: Dispatch<SetStateAction<string>>;
+  setStatusBy?: Dispatch<SetStateAction<string>>;
   setPerPage: Dispatch<SetStateAction<string>>;
 }
 
-interface tempFilter {
+interface TempFilter {
   sortBy: string;
-  statusBy: string;
+  statusBy?: string;
   perPage: string;
 }
+
 const FilterTableButton: React.FC<FilterTableButtonProps> = ({
   setSortBy,
   setStatusBy,
   setPerPage,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [tempFilter, setTempFilter] = useState<tempFilter>({
+  const [tempFilter, setTempFilter] = useState<TempFilter>({
     sortBy: "terbaru",
-    statusBy: "rendah",
+    statusBy: setStatusBy ? "rendah" : undefined, // Set to undefined if no status
     perPage: "10",
   });
 
@@ -46,10 +47,12 @@ const FilterTableButton: React.FC<FilterTableButtonProps> = ({
       setIsOpen(false);
     }
   };
+
   const handleConfirmFilter = () => {
     setSortBy(tempFilter.sortBy);
-    setStatusBy(tempFilter.statusBy);
+    if (setStatusBy && tempFilter.statusBy) setStatusBy(tempFilter.statusBy);
     setPerPage(tempFilter.perPage);
+    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -59,7 +62,6 @@ const FilterTableButton: React.FC<FilterTableButtonProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     }
 
-    // Cleanup event listener when component unmounts
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -118,40 +120,45 @@ const FilterTableButton: React.FC<FilterTableButtonProps> = ({
           </div>
 
           {/* Status */}
-          <p className="font-medium text-xs mb-3 font-custom text-font-black dark:text-font-white">
-            Status
-          </p>
-          <div className="flex flex-row gap-2 mb-4">
-            <Filter
-              isActive={tempFilter.statusBy == "rendah"}
-              onClick={() =>
-                setTempFilter({ ...tempFilter, statusBy: "rendah" })
-              }
-            >
-              Rendah
-            </Filter>
-            <Filter
-              isActive={tempFilter.statusBy == "sedang"}
-              onClick={() =>
-                setTempFilter({ ...tempFilter, statusBy: "sedang" })
-              }
-            >
-              Sedang
-            </Filter>
-            <Filter
-              isActive={tempFilter.statusBy == "tinggi"}
-              onClick={() =>
-                setTempFilter({ ...tempFilter, statusBy: "tinggi" })
-              }
-            >
-              Tinggi
-            </Filter>
-          </div>
+          {setStatusBy && (
+            <>
+              <p className="font-medium text-xs mb-3 font-custom text-font-black dark:text-font-white">
+                Status
+              </p>
+              <div className="flex flex-row gap-2 mb-4">
+                <Filter
+                  isActive={tempFilter.statusBy == "rendah"}
+                  onClick={() =>
+                    setTempFilter({ ...tempFilter, statusBy: "rendah" })
+                  }
+                >
+                  Rendah
+                </Filter>
+                <Filter
+                  isActive={tempFilter.statusBy == "sedang"}
+                  onClick={() =>
+                    setTempFilter({ ...tempFilter, statusBy: "sedang" })
+                  }
+                >
+                  Sedang
+                </Filter>
+                <Filter
+                  isActive={tempFilter.statusBy == "tinggi"}
+                  onClick={() =>
+                    setTempFilter({ ...tempFilter, statusBy: "tinggi" })
+                  }
+                >
+                  Tinggi
+                </Filter>
+              </div>
+            </>
+          )}
+
+          {/* Jumlah Halaman */}
           <p className="font-medium text-xs mb-3 font-custom text-font-black dark:text-font-white">
             Jumlah Halaman
           </p>
           <div className="flex flex-row gap-2">
-            
             <Filter
               isActive={tempFilter.perPage == "10"}
               onClick={() => setTempFilter({ ...tempFilter, perPage: "10" })}

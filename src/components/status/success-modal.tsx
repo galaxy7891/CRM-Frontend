@@ -2,14 +2,14 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { SuccessModalProps } from '@/types/component';
+import { SuccessModalProps } from '@/types/componentTypes';
 
 const SuccessModel: React.FC<SuccessModalProps> = ({
   header,
   description,
   closeModal,
-  actionButton,
   actionButton_href,
+  actionButton_action,
   actionButton_name,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -52,23 +52,33 @@ const SuccessModel: React.FC<SuccessModalProps> = ({
               className="relative w-32 h-32 shadow-custom-success"
             />
           </div>
-          <>
-            <h2 className="font-button-md font-semibold text-font-brown  md:text-base">
-              {header}
-            </h2>
-            <p className="text-xs md:text-base">{description}</p>
-            {actionButton && (
-              <div className="w-full">
-                <a
-                  href={actionButton_href}
-                  type="submit"
-                  className="flex justify-center px-8 py-2 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
-                >
-                  {actionButton_name}
-                </a>
-              </div>
-            )}
-          </>
+          <h2 className="font-button-md font-semibold text-font-brown  md:text-base">
+            {header}
+          </h2>
+          <p className="text-xs md:text-base my-3">{description}</p>
+          {actionButton_action && (
+            <div className="w-full">
+              <button
+                onClick={actionButton_action}
+                type="submit"
+                className="flex justify-center px-8 py-2 w-full font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
+              >
+                {actionButton_name}
+              </button>
+            </div>
+          )}
+
+          {actionButton_href && (
+            <div className="w-full">
+              <a
+                href={actionButton_href}
+                className=' className="flex justify-center px-8 py-2 w-full font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
+              '
+              >
+                {actionButton_name}
+              </a>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -1,7 +1,11 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { productsTypes, editProductsPropsTypes } from "@/types/productTypes";
+import { updateProduct } from "@/redux/actions/productsActions";
 import DashboardSidebarRedButton from "@/components/button/dashboard-sidebar-red-button";
 import DashboardSidebarYellowButton from "@/components/button/dashboard-sidebar-yellow-button";
 import SelectInput from "@/components/form-input/dropdown-input";
@@ -11,169 +15,142 @@ import SidebarFooter from "@/components/layout/sidebar-footer";
 import SidebarModal from "@/components/layout/sidebar-modal";
 import FailText from "@/components/status/fail-text";
 import PriceInput from "@/components/form-input/price-input";
-import ProfilePhotoUploader from "@/components/form-input/input-photo";
+import SuccessModal from "@/components/status/success-modal";
 
-interface EditProductProps {
-  onClose: () => void;
- 
-}
-
-interface dataProduct {
-  first_name: string;
-  last_name: string;
-  customerCategory: string;
-  job: string;
-  description: string;
-  status: string;
-  birthdate: null;
-  email: string;
-  phone: string;
-  owner: string;
-  address: string;
-  country: string;
-  province: string;
-  city: string;
-  subdistrict: string;
-  village: string;
-  zip_code: string;
-}
-
-const EditProduct: React.FC<EditProductProps> = ({ onClose }) => {
-  const [errorMessage, setErrorMessage] = useState<dataProduct| null>(null);
-  const [lead, setLead] = useState<dataProduct>({
-    first_name: "",
-    last_name: "",
-    customerCategory: "",
-    job: "",
-    description: "",
-    status: "",
-    birthdate: null,
-    email: "",
-    phone: "",
-    
-    address: "",
-    country: "",
-    province: "",
-    city: "",
-    subdistrict: "",
-    village: "",
-    zip_code: "",
+const EditProduct: React.FC<editProductsPropsTypes> = ({
+  onClose,
+  productProps,
+}) => {
+  const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
+    {}
+  );
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [product, setProduct] = useState<productsTypes>({
+    id: productProps?.id,
+    name: productProps?.name,
+    category: productProps?.category,
+    code: productProps?.code,
+    quantity: productProps?.quantity,
+    unit: productProps?.unit,
+    price: productProps?.price,
+    description: productProps?.description,
+    image_url: productProps?.image_url,
   });
-  const handleAddLead = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/Product`,
-        lead,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (response.data.success) {
-        window.location.reload();
-      } else {
-        setErrorMessage(response.data.message);
-        console.error(response.data.message);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      console.log(lead);
-    }
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleEditProduct = () => {
+    console.log("Data produk yang akan disimpan:", product);
+    dispatch(updateProduct(product, setIsSuccess, setErrorMessage));
   };
 
   return (
-    <SidebarModal onClose={onClose} SidebarModalTitle="Tambah Produk">
+    <SidebarModal onClose={onClose} SidebarModalTitle="Edit Produk">
       <form className="flex-grow overflow-y-auto px-4 grid grid-cols-1 gap-4 md:grid-cols-2 p-2">
         <div className="order-1">
           <TextInput
             label="Kode Produk"
             placeholder="220624A1"
-            value={lead.first_name}
-            onChange={(e) => setLead({ ...lead, first_name: e.target.value })}
+            value={product.code}
+            onChange={(e) => setProduct({ ...product, code: e.target.value })}
           />
         </div>
         <div className="order-2">
           <TextInput
             label="Nama Produk"
             placeholder="Roti"
-            value={lead.last_name}
-            onChange={(e) => setLead({ ...lead, last_name: e.target.value })}
+            value={product.name}
+            onChange={(e) => setProduct({ ...product, name: e.target.value })}
             required
           />
-          {errorMessage && <FailText>{errorMessage.first_name}</FailText>}
+          {errorMessage && <FailText>{errorMessage.name}</FailText>}
         </div>
         <div className="order-3">
           <SelectInput
             label="Kategori Produk"
-            value={lead.status}
+            value={product.category}
             options={[
               { label: "Kategori Produk", value: "", hidden: true },
-              { label: "Jasa", value: "Jasa" },
-              { label: "Barang", value: "Barang" },
+              { label: "Jasa", value: "jasa" },
+              { label: "Barang", value: "barang" },
             ]}
-            // if select "jasa" => jumlah produk & satuan produk hidden
-            onChange={(e) => setLead({ ...lead, status: e.target.value })}
+            onChange={(e) =>
+              setProduct({ ...product, category: e.target.value })
+            }
             required
           />
-          {errorMessage && <FailText>{errorMessage.status}</FailText>}
+          {errorMessage && <FailText>{errorMessage.category}</FailText>}
         </div>
         <div className="order-4">
           <PriceInput
-            value={lead.status}
-            onChange={(e) => setLead({ ...lead, status: e.target.value })}
+            value={product.price}
+            onChange={(e) => setProduct({ ...product, price: e.target.value })}
             required={true}
           />
+          {errorMessage && <FailText>{errorMessage.price}</FailText>}
         </div>
-        <div className="order-5">
-          <TextInput
-            label="Jumlah Produk"
-            placeholder="12"
-            value={lead.last_name}
-            onChange={(e) => setLead({ ...lead, last_name: e.target.value })}
-            required
-          />
-          {errorMessage && <FailText>{errorMessage.status}</FailText>}
-        </div>
-        <div className="order-6">
-          <SelectInput
-            label="Satuan Produk"
-            value={lead.status}
-            options={[
-              { label: "Satuan Produk", value: "", hidden: true },
-              { label: "Box", value: "Box" },
-              { label: "Pcs", value: "Pcs" },
-              { label: "Unit", value: "Unit" },
-            ]}
-            onChange={(e) => setLead({ ...lead, status: e.target.value })}
-            required
-          />
-          {errorMessage && <FailText>{errorMessage.status}</FailText>}
-        </div>
+        {product.category !== "jasa" && (
+          <>
+            <div className="order-5">
+              <TextInput
+                label="Jumlah Produk"
+                placeholder="12"
+                value={product.quantity}
+                onChange={(e) =>
+                  setProduct({ ...product, quantity: e.target.value })
+                }
+                required
+              />
+              {errorMessage && <FailText>{errorMessage.quantity}</FailText>}
+            </div>
+            <div className="order-6">
+              <SelectInput
+                label="Satuan Produk"
+                value={product.unit}
+                options={[
+                  { label: "Satuan Produk", value: "", hidden: true },
+                  { label: "Box", value: "box" },
+                  { label: "Pcs", value: "pcs" },
+                  { label: "Unit", value: "unit" },
+                ]}
+                onChange={(e) =>
+                  setProduct({ ...product, unit: e.target.value })
+                }
+                required
+              />
+              {errorMessage && <FailText>{errorMessage.unit}</FailText>}
+            </div>
+          </>
+        )}
+
         <div className="order-7">
-        <ProfilePhotoUploader/>
-        </div>
-        <div className="order-8">
           <TextArea
             label="Deskripsi"
             placeholder="Deskripsi"
-            value={lead.description }
-            onChange={(e) => setLead({ ...lead, description: e.target.value })}
+            value={product.description}
+            onChange={(e) =>
+              setProduct({ ...product, description: e.target.value })
+            }
           />
         </div>
       </form>
       <SidebarFooter>
-        {/* if data empty button disabled */}
         <DashboardSidebarRedButton onClick={onClose}>
           Hapus Semua
         </DashboardSidebarRedButton>
-        {/* Tambah button is used  */}
-        <DashboardSidebarYellowButton onClick={handleAddLead}>
-          Tambah
+        <DashboardSidebarYellowButton onClick={handleEditProduct}>
+          Simpan
         </DashboardSidebarYellowButton>
       </SidebarFooter>
+      {isSuccess && (
+        <SuccessModal
+          header="Berhasil"
+          description="Data produk berhasil diubah"
+          actionButton={true}
+          actionButton_name="Kembali"
+          actionButton_action={() => onClose()}
+        />
+      )}
     </SidebarModal>
   );
 };

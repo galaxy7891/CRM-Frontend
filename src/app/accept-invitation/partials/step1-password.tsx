@@ -1,17 +1,10 @@
+import Image from 'next/image';
+import { useState } from 'react';
+import type { Password } from '@/types/authTypes';
 import FormHeader from '@/components/layout/auth-form-header';
 import FailCard from '@/components/status/fail-card';
 import FailText from '@/components/status/fail-text';
-import Image from 'next/image';
-import { useState } from 'react';
 
-// ***********************
-// * same like register step 3 email and password *
-// ***********************
-
-interface Password {
-  password: string;
-  password_confirmation: string;
-}
 interface PasswordProps {
   email: string;
   password: Password;
@@ -22,14 +15,16 @@ interface PasswordProps {
   onNext: () => void;
 }
 const Password: React.FC<PasswordProps> = ({
+  email,
   step,
+  errorMessage,
   password,
   setPassword,
-  email,
-  errorMessage,
   setErrorMessage,
   onNext,
 }) => {
+  const [isOnClick, setIsOnClick] = useState<boolean | null>(null);
+
   const rules = [
     { regex: /.{8,}/, label: 'Minimal 8 karakter' },
     { regex: /[a-z]/, label: 'Satu karakter huruf kecil' },
@@ -37,7 +32,6 @@ const Password: React.FC<PasswordProps> = ({
     { regex: /[\d\W]/, label: 'Satu angka, simbol, atau karakter spasi' },
   ];
 
-  const [isOnClick, setIsOnClick] = useState<boolean | null>(null);
   const isPasswordValid = rules.every((rule) =>
     rule.regex.test(password.password)
   );
@@ -63,7 +57,7 @@ const Password: React.FC<PasswordProps> = ({
         step={step}
         page_name="register-employee"
       />
-      {errorMessage && <FailCard message={errorMessage} />}
+      {errorMessage && <FailCard>{errorMessage}</FailCard>}
       {/* email */}
       <label
         htmlFor="email"
@@ -96,7 +90,7 @@ const Password: React.FC<PasswordProps> = ({
         } `}
       />
       {isOnClick && password.password == '' && (
-        <FailText message="Kata sandi tidak boleh kosong" />
+        <FailText>Kata sandi tidak boleh kosong</FailText>
       )}
       {/* confirm password */}
       <label
@@ -123,12 +117,12 @@ const Password: React.FC<PasswordProps> = ({
         } `}
       />
       {isOnClick && password.password_confirmation == '' && (
-        <FailText message="Ketik ulang kata sandi" />
+        <FailText>Ketik ulang kata sandi</FailText>
       )}
       {isOnClick &&
         password.password_confirmation !== '' &&
         password.password_confirmation !== password.password && (
-          <FailText message="Kata sandi tidak sama" />
+          <FailText>Kata sandi tidak sama</FailText>
         )}
       <ul className="list-none space-y-2 mt-4">
         {rules.map((rule, index) => {
