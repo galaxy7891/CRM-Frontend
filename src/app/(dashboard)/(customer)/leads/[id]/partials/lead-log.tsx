@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { activityLogTypes } from '@/types/profileTypes';
-import { paginationTypes } from '@/types/componentTypes';
+import { paginationTypes } from '@/types/otherTypes';
 import { logActivityLead } from '@/redux/actions/leadsActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '@/redux/store';
@@ -25,7 +25,7 @@ const UserLog = () => {
   const { id } = useParams<{ id: string }>();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { logLead } = useSelector((state: RootState) => state.leads);
+  const { leadLog } = useSelector((state: RootState) => state.leads);
 
   const handleNextPage = () => {
     if (pagination.next_page_url) {
@@ -57,7 +57,7 @@ const UserLog = () => {
         </div>
         {/* Body */}
         <div className="col-span-12 space-y-4 mt-4">
-          {logLead.map((log: activityLogTypes, index: number) => (
+          {leadLog.map((log: activityLogTypes, index: number) => (
             <CardActivityLog
               key={index}
               title={log.title}

@@ -5,7 +5,7 @@ import { leadsState } from '@/types/leadsTypes';
 const initialState: leadsState = {
   lead: null,
   leads: [],
-  logLead: [],
+  leadLog: [],
 };
 
 // Define the slice
@@ -20,7 +20,7 @@ const leadsSlice = createSlice({
       state.leads = action.payload;
     },
     setLogLead: (state, action) => {
-      state.logLead = action.payload;
+      state.leadLog = action.payload;
     },
   },
 });

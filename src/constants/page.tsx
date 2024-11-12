@@ -50,7 +50,7 @@ export const MENU = [
       },
       {
         id: 6,
-        link: '/company',
+        link: '/companies',
         title: 'Perusahaan',
         alt: 'perusahaan',
         description:

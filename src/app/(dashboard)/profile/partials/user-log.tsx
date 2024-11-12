@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { activityLogTypes } from '@/types/profileTypes';
-import { paginationTypes } from '@/types/componentTypes';
+import { paginationTypes } from '@/types/otherTypes';
 import { logActivityProfile } from '@/redux/actions/profileActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '@/redux/store';
@@ -22,29 +22,23 @@ const UserLog = () => {
     prev_page_url: null,
   });
 
-  
-
   const dispatch = useDispatch<AppDispatch>();
   const { logProfile } = useSelector((state: RootState) => state.profile);
 
   const handleNextPage = () => {
     if (pagination.next_page_url) {
-      dispatch(
-        logActivityProfile(pagination.current_page + 1,  setPagination)
-      );
+      dispatch(logActivityProfile(pagination.current_page + 1, setPagination));
     }
   };
 
   const handlePrevPage = () => {
     if (pagination.prev_page_url) {
-      dispatch(
-        logActivityProfile(pagination.current_page - 1,  setPagination)
-      );
+      dispatch(logActivityProfile(pagination.current_page - 1, setPagination));
     }
   };
 
   useEffect(() => {
-    dispatch(logActivityProfile(pagination.current_page,  setPagination));
+    dispatch(logActivityProfile(pagination.current_page, setPagination));
   }, [dispatch, pagination.current_page]);
 
   return (

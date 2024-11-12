@@ -15,7 +15,7 @@ const Checkbox: React.FC<CustomCheckboxProps> = ({
   onChange,
 }) => {
   return (
-    <label className="relative flex items-center cursor-pointer">
+    <label className="relative flex items-center cursor-pointer ">
       <div
         onClick={() => onChange(id)} // Call onChange handler with the id
         className={`w-4 h-4 flex items-center justify-center border rounded-[5px] 

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, {
   useState,
@@ -6,8 +6,8 @@ import React, {
   useRef,
   Dispatch,
   SetStateAction,
-} from "react";
-import Filter from "./filter-button";
+} from 'react';
+import Filter from './filter-button';
 
 interface FilterTableButtonProps {
   setSortBy: Dispatch<SetStateAction<string>>;
@@ -57,13 +57,13 @@ const FilterTableButton: React.FC<FilterTableButtonProps> = ({
 
   useEffect(() => {
     if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     } else {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen]);
 
@@ -72,11 +72,11 @@ const FilterTableButton: React.FC<FilterTableButtonProps> = ({
       {/* Button Filter */}
       <button
         onClick={toggleDropdown}
-        className={`p-[6px] lg:p-[10px] rounded-[10px] hover:shadow-md hover:shadow-dropdown-darkGray font-medium text-xs md:text-base flex items-center space-x-1 duration-200 
+        className={` px-2 py-2  md:p-[10px] rounded-[10px] hover:shadow-md hover:shadow-dropdown-darkGray font-medium text-xs md:text-base flex items-center space-x-1 duration-200 
         ${
           isOpen
-            ? "text-dropdown-darkGray border-dropdown-darkGray border bg-font-white dark:border-light-white dark:text-light-white dark:bg-dark-navy"
-            : "text-dropdown-darkGray border-dropdown-darkGray border bg-font-white dark:border-light-white dark:text-light-white dark:bg-dark-navy"
+            ? 'text-dropdown-darkGray border-dropdown-darkGray border bg-font-white dark:border-light-white dark:text-light-white dark:bg-dark-navy'
+            : 'text-dropdown-darkGray border-dropdown-darkGray border bg-font-white dark:border-light-white dark:text-light-white dark:bg-dark-navy'
         }`}
       >
         <svg
@@ -102,17 +102,17 @@ const FilterTableButton: React.FC<FilterTableButtonProps> = ({
           </p>
           <div className="flex flex-row gap-2 mb-4">
             <Filter
-              isActive={tempFilter.sortBy == "terbaru"}
+              isActive={tempFilter.sortBy == 'terbaru'}
               onClick={() =>
-                setTempFilter({ ...tempFilter, sortBy: "terbaru" })
+                setTempFilter({ ...tempFilter, sortBy: 'terbaru' })
               }
             >
               Terbaru
             </Filter>
             <Filter
-              isActive={tempFilter.sortBy == "terlama"}
+              isActive={tempFilter.sortBy == 'terlama'}
               onClick={() =>
-                setTempFilter({ ...tempFilter, sortBy: "terlama" })
+                setTempFilter({ ...tempFilter, sortBy: 'terlama' })
               }
             >
               Terlama
@@ -160,20 +160,20 @@ const FilterTableButton: React.FC<FilterTableButtonProps> = ({
           </p>
           <div className="flex flex-row gap-2">
             <Filter
-              isActive={tempFilter.perPage == "10"}
-              onClick={() => setTempFilter({ ...tempFilter, perPage: "10" })}
+              isActive={tempFilter.perPage == '10'}
+              onClick={() => setTempFilter({ ...tempFilter, perPage: '10' })}
             >
               10
             </Filter>
             <Filter
-              isActive={tempFilter.perPage == "25"}
-              onClick={() => setTempFilter({ ...tempFilter, perPage: "25" })}
+              isActive={tempFilter.perPage == '25'}
+              onClick={() => setTempFilter({ ...tempFilter, perPage: '25' })}
             >
               25
             </Filter>
             <Filter
-              isActive={tempFilter.perPage == "50"}
-              onClick={() => setTempFilter({ ...tempFilter, perPage: "50" })}
+              isActive={tempFilter.perPage == '50'}
+              onClick={() => setTempFilter({ ...tempFilter, perPage: '50' })}
             >
               50
             </Filter>

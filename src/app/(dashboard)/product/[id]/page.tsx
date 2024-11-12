@@ -1,18 +1,18 @@
-"use client";
-import { useParams } from "next/navigation";
-import CardDetailProduct from "@/app/(dashboard)/product/partials/card-detail-product";
-import EditUserButton from "@/components/button/edit-user-button";
-import CustomerInfo from "@/components/import/card-info-customer";
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/redux/store";
-import { getProductById, deleteProduct } from "@/redux/actions/productsActions";
-import EditProduct from "../partials/edit-product";
-import DashBoardCard from "@/components/layout/dashboard-card";
-import DeleteButton from "@/components/button/delete-button";
-import SuccessModal from "@/components/status/success-modal";
-import ActionConfirmModal from "@/components/status/action-confirm-modal";
-import ProductLog from "./partials/product-log";
+'use client';
+import { useParams } from 'next/navigation';
+import CardDetailProduct from '@/app/(dashboard)/product/partials/card-detail-product';
+import EditUserButton from '@/components/button/edit-user-button';
+import CustomerInfo from '@/components/import/card-info-customer';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import { getProductById, deleteProduct } from '@/redux/actions/productsActions';
+import EditProduct from '../partials/edit-product';
+import DashBoardCard from '@/components/layout/dashboard-card';
+import DeleteButton from '@/components/button/delete-button';
+import SuccessModal from '@/components/status/success-modal';
+import ActionConfirmModal from '@/components/status/action-confirm-modal';
+import ProductLog from './partials/product-log';
 
 const DetailProduct = () => {
   const [isEditProduct, setIsEditProduct] = useState<boolean>(false);
@@ -47,7 +47,7 @@ const DetailProduct = () => {
   }, [dispatch, id, isEditProduct]);
 
   return (
-    <>
+    <div>
       <DashBoardCard>
         <div className="grid grid-cols-12">
           <div className="col-span-12 md:col-span-4 flex justify-center items-center ">
@@ -73,7 +73,7 @@ const DetailProduct = () => {
                 value={
                   product?.quantity && product?.unit
                     ? `${product.quantity} ${product.unit}`
-                    : "-"
+                    : '-'
                 }
               />
               <CustomerInfo label="Deskripsi" value={product?.description} />
@@ -103,7 +103,7 @@ const DetailProduct = () => {
         )}
       </DashBoardCard>
       <ProductLog />
-    </>
+    </div>
   );
 };
 

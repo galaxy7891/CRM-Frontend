@@ -65,7 +65,7 @@ const CardProfile: React.FC<CardProfileProps> = ({ data }) => {
             </div>
             {/* Name */}
             <p className="text-black dark:text-font-white text-lg font-medium font-custom md:text-lg">
-              {data?.first_name || 'N/A'} {data?.last_name}
+              {data?.first_name || '-'} {data?.last_name}
             </p>
           </div>
         </div>
@@ -97,7 +97,7 @@ const CardProfile: React.FC<CardProfileProps> = ({ data }) => {
                   {item.label}
                 </p>
                 <p className="font-custom dark:text-font-white text-font-black text-xs md:text-base truncate">
-                  {item.value || 'N/A'}
+                  {item.value || '-'}
                 </p>
               </div>
             ))}

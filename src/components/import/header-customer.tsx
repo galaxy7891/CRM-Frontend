@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
@@ -6,7 +6,7 @@ import { MENU } from '@/constants/page';
 import SidebarModal from '@/components/layout/sidebar-modal';
 import NewLeads from '../../app/(dashboard)/(customer)/leads/partials/new-leads';
 import NewContact from '../../app/(dashboard)/(customer)/contacts/partials/new-contact';
-import NewCompany from '../../app/(dashboard)/(customer)/company/partials/new-company';
+import NewCompany from '../../app/(dashboard)/(customer)/companies/partials/new-company';
 
 const HeaderCustomer: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<
@@ -15,9 +15,7 @@ const HeaderCustomer: React.FC = () => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const pathName = usePathname();
-
   const [emailLocal, setEmailLocal] = useState<string>('');
-
   const toggleTooltip = () => setIsTooltipVisible(!isTooltipVisible);
 
   const handleAddDataClick = () => {
@@ -29,7 +27,7 @@ const HeaderCustomer: React.FC = () => {
   };
 
   useEffect(() => {
-    setEmailLocal(localStorage.getItem("email") || "");
+    setEmailLocal(localStorage.getItem('email') || '');
 
     let matchedPage: { title: string; description?: string } | undefined =
       undefined;
@@ -57,16 +55,20 @@ const HeaderCustomer: React.FC = () => {
     setCurrentPage(matchedPage);
   }, [pathName]);
 
-  // Cek apakah pathname saat ini adalah salah satu dari yang ingin ditampilkan header-nya
-  const shouldShowHeader =
-    pathName === '/leads' || pathName === '/contacts' || pathName === '/company';
+  // Cek apakah path saat ini adalah halaman detail leads
+  const isDetailPage = /^\/(leads|contacts|company)\/.+$/.test(pathName);
+
+  // Jika berada di halaman detail leads, jangan render HeaderCustomer
+  if (isDetailPage) {
+    return null;
+  }
 
   return (
     <div className="relative mb-4">
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <p className="text-base lg:text-3xl font-custom text-font-black dark:text-font-white">
-            {currentPage ? currentPage.title : "Page"}
+            {currentPage ? currentPage.title : 'Page'}
           </p>
 
           <div className="relative group">
@@ -93,7 +95,7 @@ const HeaderCustomer: React.FC = () => {
               onMouseLeave={() => setIsTooltipVisible(false)}
             >
               <svg
-                key={isTooltipVisible ? "tooltip-visible" : "tooltip-hidden"}
+                key={isTooltipVisible ? 'tooltip-visible' : 'tooltip-hidden'}
                 width="25"
                 height="25"
                 viewBox="0 0 25 25"
@@ -118,9 +120,9 @@ const HeaderCustomer: React.FC = () => {
         </div>
 
         <div className="flex items- center gap-2">
-          {pathName === "/leads" && (
+          {pathName === '/leads' && (
             <a
-              href="/leads-import"
+              href="/leads/import"
               className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
             >
               Impor Data
@@ -134,7 +136,7 @@ const HeaderCustomer: React.FC = () => {
               Impor Data
             </a>
           )}
-          {pathName === '/company' && (
+          {pathName === '/companies' && (
             <a
               href="/company-import"
               className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
@@ -155,15 +157,15 @@ const HeaderCustomer: React.FC = () => {
       {isModalOpen && (
         <SidebarModal
           onClose={handleCloseModal}
-          SidebarModalTitle={currentPage?.title ?? "Tambah Data"}
+          SidebarModalTitle={currentPage?.title ?? 'Tambah Data'}
         >
-          {pathName === "/leads" && (
+          {pathName === '/leads' && (
             <NewLeads onClose={handleCloseModal} emailLocal={emailLocal} />
           )}
           {pathName === '/contacts' && (
             <NewContact onClose={handleCloseModal} emailLocal={emailLocal} />
           )}
-          {pathName === '/company' && (
+          {pathName === '/companies' && (
             <NewCompany onClose={handleCloseModal} emailLocal={emailLocal} />
           )}
         </SidebarModal>

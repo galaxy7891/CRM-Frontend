@@ -25,3 +25,11 @@ export interface paginationTypes {
   next_page_url: string | null;
   prev_page_url: string | null;
 }
+
+export type selectedIds = {
+  provinceId: string;
+  cityId: string;
+  subdistrictId: string;
+  villageId: string;
+  zipCodeId: string;
+};

@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import { useState } from 'react';
-import axios from 'axios';
+import { updateUserPhoto } from '@/redux/actions/profileActions';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
 import SidebarModal from '@/components/layout/sidebar-modal';
 import SidebarFooter from '@/components/layout/sidebar-footer';
 import FailText from '@/components/status/fail-text';
@@ -19,6 +21,7 @@ const EditImageUser = ({ onClose, data }: FormEditProps) => {
   const [preview, setPreview] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
@@ -31,38 +34,8 @@ const EditImageUser = ({ onClose, data }: FormEditProps) => {
     }
   };
 
-  const handleUpdatePhoto = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const token = localStorage.getItem('token');
-    
-    const formData = new FormData();
-
-    if (photo) {
-      formData.append('photo', photo);
-    }
-
-    try {
-      setIsLoading(true);
-
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/user/profile`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (!response.data.success) {
-        setErrorMessage(response.data.message.photo[0]);
-      } else {
-        window.location.reload();
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleUpdatePhoto =  () => {
+    dispatch(updateUserPhoto(photo, setIsLoading, setErrorMessage));
   };
 
   return (

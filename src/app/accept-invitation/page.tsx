@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { acceptInvitation } from '@/redux/actions/employeeActions';
+import { acceptInvitation } from '@/redux/actions/employeesActions';
 import { useAppDispatch } from '@/hook/redux';
 import { useSearchParams } from 'next/navigation';
 import { ParamsData, PersonalData, Password } from '@/types/authTypes';
@@ -32,7 +32,6 @@ const Register = () => {
 
   const searchParams = useSearchParams();
 
-  console.log(paramsData);
   const dispatch = useAppDispatch();
   const handleRegister = async () => {
     dispatch(
@@ -102,8 +101,8 @@ const Register = () => {
           description="Selamat bergabung dengan Loyal Cust!"
           closeModal={false}
           actionButton={true}
-          actionButton_href="/homepage"
-          actionButton_name="Masuk Beranda"
+          actionButton_href="/login"
+          actionButton_name="Login ke Loyal Cust"
         />
       )}
     </div>

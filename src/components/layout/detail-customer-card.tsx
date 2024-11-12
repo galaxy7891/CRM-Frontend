@@ -36,8 +36,8 @@ const CardCustomer: React.FC<CardCustomerProps> = ({
           className="rounded-full mb-2 w-[100px] h-[100px] md:w-[160px] md:h-[160px]"
         />
       </div>
-      <div className="w-full">
-        <p className="mt-3 text-black dark:text-font-white text-lg font-medium font-custom md:text-2xl text-center truncate">
+      <div className="w-full flex flex-col items-center">
+        <p className="mt-3 text-black dark:text-font-white text-lg  text-centerfont-medium font-custom md:text-2xl text-center w-1/2 truncate">
           {data?.name}
         </p>
         <p className="mt-1 mb-3 text-black dark:text-font-white text-xs font-custom md:text-base  text-center truncate">

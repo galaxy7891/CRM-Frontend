@@ -1,7 +1,46 @@
 import axios from 'axios';
 import { AppDispatch, RootState } from '../store';
-import { paginationTypes } from '@/types/componentTypes';
+import { paginationTypes } from '@/types/otherTypes';
 import { setLogProfile } from '../reducers/profileReducers';
+
+export const updateUserPhoto =
+  (
+    photo: File | null,
+    setIsLoading: (loading: boolean) => void,
+    setErrorMessage: (errorMessage: string | null) => void
+  ) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
+    const token = getState().auth.token;
+
+    const formData = new FormData();
+
+    if (photo) {
+      formData.append('photo', photo);
+    }
+
+    try {
+      setIsLoading(true);
+
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/user/profile`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!response.data.success) {
+        setErrorMessage(response.data.message.photo[0]);
+      } else {
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
 export const logActivityProfile =
   (

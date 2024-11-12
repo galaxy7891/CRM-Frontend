@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { SuccessModalProps } from '@/types/componentTypes';
+import { SuccessModalProps } from '@/types/otherTypes';
 
 const SuccessModel: React.FC<SuccessModalProps> = ({
   header,

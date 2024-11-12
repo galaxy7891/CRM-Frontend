@@ -1,36 +1,36 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { leadsTypes } from "@/types/leadsTypes";
-import { paginationTypes } from "@/types/componentTypes";
-import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch, RootState } from "@/redux/store";
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { leadsTypes } from '@/types/leadsTypes';
+import { paginationTypes } from '@/types/otherTypes';
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
 import {
   getLeads,
   getLeadById,
   deleteLead,
-} from "@/redux/actions/leadsActions";
-import handleExport from "@/utils/export_CSV";
-import DashboardCard from "@/components/layout/dashboard-card";
-import ActionConfirmModal from "@/components/status/action-confirm-modal";
-import StatusBadge from "@/components/table/status-badge";
-import EditLeads from "./partials/edit-leads";
-import TableHeader from "@/components/table/table-head";
-import DeleteButton from "@/components/button/delete-button";
-import SuccessModal from "@/components/status/success-modal";
-import PaginationButton from "@/components/button/pagination-button";
-import FilterTableButton from "@/components/button/filter-table-button";
-import Checkbox from "@/components/button/checkbox";
-import DeleteTableButton from "@/components/button/delete-table-button";
-import EditTableButton from "@/components/button/edit-table-button";
-import ExportButton from "@/components/button/export-button";
+} from '@/redux/actions/leadsActions';
+import handleExport from '@/utils/export_CSV';
+import DashboardCard from '@/components/layout/dashboard-card';
+import ActionConfirmModal from '@/components/status/action-confirm-modal';
+import StatusBadge from '@/components/table/status-badge';
+import EditLeads from './partials/edit-leads';
+import TableHeader from '@/components/table/table-head';
+import DeleteButton from '@/components/button/delete-button';
+import SuccessModal from '@/components/status/success-modal';
+import PaginationButton from '@/components/button/pagination-button';
+import ExportButton from '@/components/button/export-button';
+import FilterTableButton from '@/components/button/filter-table-button';
+import EditTableButton from '@/components/button/edit-table-button';
+import Checkbox from '@/components/button/checkbox';
 // import EmptyTable from '@/components/table/empty-table';
 
-const Leads = () => {
-  const [sortBy, setSortBy] = useState<string>("terbaru");
-  const [statusBy, setStatusBy] = useState<string>("rendah");
-  const [perPage, setPerPage] = useState<string>("10");
+const LeadsPage = () => {
+  const [sortBy, setSortBy] = useState<string>('terbaru');
+  const [statusBy, setStatusBy] = useState<string>('rendah');
+  const [perPage, setPerPage] = useState<string>('10');
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isEditLead, setIsEditLead] = useState<boolean>(false);
   const [isDeleteLead, setIsDeleteLead] = useState<boolean>(false);
@@ -157,8 +157,11 @@ const Leads = () => {
 
         <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
           {/* Trash Icon, Export, and Filter Buttons */}
+          {/* Delete Button */}
           <DeleteButton onClick={() => handleDeleteConfirmation(selectedIds)} />
+
           <ExportButton onClick={() => handleExport(leads)} />
+
           <FilterTableButton
             setSortBy={setSortBy}
             setStatusBy={setStatusBy}
@@ -177,7 +180,7 @@ const Leads = () => {
                   key={index}
                   className="border-l border-r border-b border-font-gray hover:bg-dropdown-gray dark:hover:bg-dropdown-darkBlue group"
                 >
-                  <td className="border px-2 border-font-gray bg-font-white dark:bg-dark-navy sticky top-o left-0 group-hover:bg-dropdown-gray dark:group-hover:bg-dropdown-darkBlue">
+                  <td className="border px-2 min-w-[80px] border-font-gray bg-font-white dark:bg-dark-navy sticky top-o left-0 group-hover:bg-dropdown-gray dark:group-hover:bg-dropdown-darkBlue">
                     <div className="flex items-center space-x-2">
                       <Checkbox
                         id={`checkbox-${lead.id}`}
@@ -185,18 +188,29 @@ const Leads = () => {
                         onChange={() => handleCheckboxChange(lead.id)}
                       />
                       <EditTableButton onClick={() => handleEdit(lead.id)} />
-                      <DeleteTableButton
-                        onClick={() => handleDeleteConfirmation(lead.id)}
-                      />
+                      <button onClick={() => handleDeleteConfirmation(lead.id)}>
+                        <Image
+                          src="/icons/table/dustbin.svg"
+                          alt="deletebtn"
+                          width={16}
+                          height={16}
+                          className="w-5 h-5"
+                        />
+                      </button>
                     </div>
                   </td>
-                  <td className="px-3 py-2 min-w-[200px] border-font-gray fpnt text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs md:text-base ">
-                    <Link href={`/leads/${lead.id}`}>
+                  <td className="px-3 py-2 min-w-[200px] border-font-gray fpnt text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs md:text-base w-full ">
+                    <Link
+                      href={`/leads/${lead.id}`}
+                      className="truncate max-w-[200px] block"
+                    >
                       {lead.first_name} {lead.last_name}
                     </Link>
                   </td>
-                  <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
-                    {lead.email}
+                  <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base w-full">
+                    <div className="truncate max-w-[200px] block">
+                      {lead.email || '-'}
+                    </div>
                   </td>
                   <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
                     {lead.phone}
@@ -246,4 +260,4 @@ const Leads = () => {
   );
 };
 
-export default Leads;
+export default LeadsPage;

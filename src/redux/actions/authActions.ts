@@ -6,7 +6,7 @@ export const login =
   (
     email: string,
     password: string,
-    setErrorMessage: (message: string) => void
+    // setErrorMessage: (message: string) => void
   ) =>
   async (dispatch: AppDispatch) => {
     const data = JSON.stringify({ email, password });

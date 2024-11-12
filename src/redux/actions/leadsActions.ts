@@ -2,7 +2,7 @@ import axios from 'axios';
 import { leadsTypes } from '@/types/leadsTypes';
 import { AppDispatch, RootState } from '../store';
 import { setLead, setLeads, setLogLead } from '../reducers/leadsReducers';
-import { paginationTypes } from '@/types/componentTypes';
+import { paginationTypes } from '@/types/otherTypes';
 
 export const getLeads =
   (
@@ -140,7 +140,7 @@ export const deleteLead =
     try {
       const config = {
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/leads/`,
-        method: 'DELETE',
+        method: 'delete',
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -156,7 +156,7 @@ export const deleteLead =
     }
   };
 
-export const convertManualLeads =
+export const convertManualLead =
   (
     lead: leadsTypes,
     setIsSuccess: (success: boolean) => void,

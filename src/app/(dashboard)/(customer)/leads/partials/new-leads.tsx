@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { leadsTypes } from '@/types/leadsTypes';
 import { useDispatch } from 'react-redux';
 import { addLead } from '@/redux/actions/leadsActions';
 import { AppDispatch } from '@/redux/store';
+import {
+  getProvinces,
+  getCities,
+  getSubDistricts,
+  getVillage,
+  getZipCodes,
+} from '@/utils/getAddressLocation';
 import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
 import SuccessModal from '@/components/status/success-modal';
 import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
@@ -20,6 +27,15 @@ interface newLeadsProps {
 }
 
 const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
+  const [provinces, setProvinces] = useState<{ id: string; text: string }[]>(
+    []
+  );
+  const [cities, setCities] = useState<{ id: string; text: string }[]>([]);
+  const [subDistricts, setSubDistricts] = useState<
+    { id: string; text: string }[]
+  >([]);
+  const [villages, setVillages] = useState<{ id: string; text: string }[]>([]);
+  const [zipCodes, setZipCodes] = useState<{ id: string; text: string }[]>([]);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
     {}
@@ -32,7 +48,7 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
     job: '',
     description: '',
     status: '',
-    birthdate: null,
+    birthdate: '',
     email: '',
     phone: '',
     owner: emailLocal,
@@ -43,10 +59,55 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
     village: '',
     zip_code: '',
   });
+
   const dispatch = useDispatch<AppDispatch>();
   const handleAddLead = () => {
-    dispatch(addLead(lead, setIsSuccess, setErrorMessage));
+    const leadWithLocation = {
+      ...lead,
+      province:
+        provinces.find((province) => province.id === lead.province)?.text || '',
+      city: cities.find((city) => city.id === lead.city)?.text || '',
+      subdistrict:
+        subDistricts.find((subdistrict) => subdistrict.id === lead.subdistrict)
+          ?.text || '',
+      village:
+        villages.find((village) => village.id === lead.village)?.text || '',
+      zip_code:
+        zipCodes.find((zipCode) => zipCode.id === lead.zip_code)?.text || '',
+    };
+    dispatch(addLead(leadWithLocation, setIsSuccess, setErrorMessage));
   };
+
+  useEffect(() => {
+    const getLocation = async () => {
+      try {
+        const provinces = await getProvinces();
+        setProvinces(provinces);
+
+        if (lead.province) {
+          const cities = await getCities(lead.province);
+          setCities(cities);
+
+          if (lead.city) {
+            const subDistricts = await getSubDistricts(lead.city);
+            setSubDistricts(subDistricts);
+
+            if (lead.subdistrict) {
+              const villages = await getVillage(lead.subdistrict);
+              setVillages(villages);
+
+              const zipCodes = await getZipCodes(lead.city, lead.subdistrict);
+              setZipCodes(zipCodes);
+            }
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getLocation();
+  }, [lead.province, lead.city, lead.subdistrict]);
 
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Tambah Leads">
@@ -78,6 +139,8 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
             type="date"
             className="w-full mt-2 p-2 border text-xs md:text-base font-custom focus:ring-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
             placeholder="Tanggal Lahir"
+            value={lead.birthdate}
+            onChange={(e) => setLead({ ...lead, birthdate: e.target.value })}
           />
         </div>
         <div className="order-4">
@@ -95,9 +158,9 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
             value={lead.status}
             options={[
               { label: 'Pilih Status', value: '', hidden: true },
-              { label: 'Cold', value: 'cold' },
-              { label: 'Warm', value: 'warm' },
-              { label: 'Hot', value: 'hot' },
+              { label: 'rendah', value: 'rendah' },
+              { label: 'sedang', value: 'sedang' },
+              { label: 'tinggi', value: 'tinggi' },
             ]}
             onChange={(e) => setLead({ ...lead, status: e.target.value })}
             required
@@ -139,39 +202,47 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
             onChange={(e) => setLead({ ...lead, address: e.target.value })}
           />
         </div>
+        {/* get location API */}
         <div className="order-10">
           <SelectInput
             label="Provinsi"
             value={lead.province}
             options={[
               { label: 'Pilih Provinsi', value: '', hidden: true },
-              { label: 'Jawa Tengah', value: 'Jawa Tengah' },
+              ...provinces.map((province) => ({
+                label: province.text,
+                value: province.id,
+              })),
             ]}
-            onChange={(e) => setLead({ ...lead, province: e.target.value })}
+            onChange={(e) => {
+              setLead({ ...lead, province: e.target.value });
+            }}
           />
         </div>
         <div className="order-11 ">
           <SelectInput
             label="Kota"
             value={lead.city}
+            disabled={!lead.province}
             options={[
               { label: 'Pilih Kota', value: '', hidden: true },
-              { label: 'Kota Semarang', value: 'Kota Semarang' },
+              ...cities.map((city) => ({ label: city.text, value: city.id })),
             ]}
             onChange={(e) => setLead({ ...lead, city: e.target.value })}
           />
         </div>
+
         <div className="order-12">
           <SelectInput
             label="Kecamatan"
             value={lead.subdistrict}
+            disabled={!lead.city}
             options={[
               { label: 'Pilih Kecamatan', value: '', hidden: true },
-              {
-                label: 'Semarang Tengah',
-                value: 'Semarang Tengah',
-                hidden: false,
-              },
+              ...subDistricts.map((subDistrict) => ({
+                label: subDistrict.text,
+                value: subDistrict.id,
+              })),
             ]}
             onChange={(e) => setLead({ ...lead, subdistrict: e.target.value })}
           />
@@ -180,13 +251,13 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
           <SelectInput
             label="Kelurahan/Desa"
             value={lead.village}
+            disabled={!lead.subdistrict}
             options={[
               { label: 'Pilih Kelurahan/Desa', value: '', hidden: true },
-              {
-                label: 'Pendrikan Kidul',
-                value: 'Pendrikan Kidul',
-                hidden: false,
-              },
+              ...villages.map((village) => ({
+                label: village.text,
+                value: village.id,
+              })),
             ]}
             onChange={(e) => setLead({ ...lead, village: e.target.value })}
           />
@@ -195,11 +266,13 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
           <SelectInput
             label="Kode Pos"
             value={lead.zip_code}
+            disabled={!lead.village}
             options={[
               { label: 'Pilih Kode Pos', value: '', hidden: true },
-              { label: '12345', value: '12345' },
-              { label: '23456', value: '23456' },
-              { label: '34567', value: '34567' },
+              ...zipCodes.map((zipCode) => ({
+                label: zipCode.text,
+                value: zipCode.id,
+              })),
             ]}
             onChange={(e) => setLead({ ...lead, zip_code: e.target.value })}
           />
@@ -227,8 +300,8 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
         <SuccessModal
           header="Berhasil"
           description="Data leads berhasil ditambahkan"
-          actionButton_href="/contacts"
-          actionButton_name="Menuju ke Kontak"
+          actionButton_href="/leads"
+          actionButton_name="Kembali ke Daftar Leads"
         />
       )}
     </SidebarModal>

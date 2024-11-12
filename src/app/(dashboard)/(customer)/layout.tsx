@@ -9,9 +9,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div>
       <HeaderCustomer />
-      
-        {children}
-      
+      {children}
     </div>
   );
 };
