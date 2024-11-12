@@ -8,18 +8,7 @@ interface PriceInputProps {
   disabled?: boolean;
 }
 
-const formatCurrency = (value: string) => {
-  return value
-    .replace(/[^0-9]/g, '') 
-    .replace(/\B(?=(\d{3})+(?!\d))/g, '.'); 
-};
-
 const PriceInput: React.FC<PriceInputProps> = ({ value, onChange, required, disabled }) => {
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formattedValue = formatCurrency(e.target.value);
-    onChange({ ...e, target: { ...e.target, value: formattedValue } });
-  };
 
   return (
     <div className="flex-1">
@@ -36,7 +25,7 @@ const PriceInput: React.FC<PriceInputProps> = ({ value, onChange, required, disa
           className="w-full p-2 border text-xs md:text-base font-custom focus:border-dark-navy focus:outline-none border-font-black rounded-r-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
           placeholder="100.000"
           value={value}
-          onChange={handleChange}
+          onChange={onChange}
           disabled={disabled}
         />
       </div>

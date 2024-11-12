@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { ActionConfirmModalProps } from '@/types/component';
+import { ActionConfirmModalProps } from '@/types/componentTypes';
 
 const SuccessModel: React.FC<ActionConfirmModalProps> = ({
   header,
@@ -55,7 +55,7 @@ const SuccessModel: React.FC<ActionConfirmModalProps> = ({
           <h2 className="font-button-md font-semibold text-font-brown md:text-base">
             {header}
           </h2>
-          <p className="text-xs md:text-base mt-3">{description}</p>
+          <p className="text-xs md:text-base my-3">{description}</p>
 
           <div className="w-full flex gap-2 justify-center ">
             <button

@@ -1,162 +1,165 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { ProductTypes } from '@/types/Product';
-import StatusBadge from '@/components/table/status-badge';
-import TableHeader from '@/components/table/table-head';
-import axios from 'axios';
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import ButtonFilter from '@/components/button/filter-table-button';
-import EditProduct from './partials/edit-Product';
-import DeleteButton from '@/components/button/delete-button';
-import EmptyTable from '@/components/table/empty-table';
-import handleExport from '@/utils/export_CSV';
-import NewProduct from './partials/new-product';
-import EditTableButton from '@/components/button/edit-table-button';
-import ExportButton from '@/components/button/export-button';
-import FilterTableButton from '@/components/button/filter-table-button';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { productsTypes } from "@/types/productTypes";
+import { paginationTypes } from "@/types/componentTypes";
+import { useSelector, useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import {
+  getProducts,
+  getProductById,
+  deleteProduct,
+} from "@/redux/actions/productsActions";
+import handleExport from "@/utils/export_CSV";
+import DashboardCard from "@/components/layout/dashboard-card";
+import ActionConfirmModal from "@/components/status/action-confirm-modal";
+import EditProduct from "./partials/edit-product";
+import TableHeader from "@/components/table/table-head";
+import DeleteButton from "@/components/button/delete-button";
+import SuccessModal from "@/components/status/success-modal";
+import PaginationButton from "@/components/button/pagination-button";
+import FilterTableButton from "@/components/button/filter-table-button";
+import EditTableButton from "@/components/button/edit-table-button";
+import Checkbox from "@/components/button/checkbox";
+import DeleteTableButton from "@/components/button/delete-table-button";
+import ExportButton from "@/components/button/export-button";
+import NewProduct from "./partials/new-product";
+// import EmptyTable from '@/components/table/empty-table';
 
 const Product = () => {
-  const [sortBy, setSortBy] = useState<string>('terbaru');
-  const [statusBy, setStatusBy] = useState<string>('rendah');
-  const [perPage, setPerPage] = useState<string>('10');
-  const [isEditLead, setIsEditLead] = useState<boolean>(false);
-  const [ProductData, setProductData] = useState<ProductTypes[]>([]);
-  const [leadDataProps, setLeadDataProps] = useState<ProductTypes>(
-    {} as ProductTypes);
-    const [isAddingProduct, setIsAddingProduct] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
+  const [sortBy, setSortBy] = useState<string>("terbaru");
+  const [perPage, setPerPage] = useState<string>("10");
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [isEditProduct, setIsEditProduct] = useState<boolean>(false);
+  const [isAddProduct, setIsAddProduct] = useState<boolean>(false);
+  const [isDeleteProduct, setIsDeleteProduct] = useState<boolean>(false);
+  const [selectedId, setSelectedId] = useState<string>("");
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [pagination, setPagination] = useState<paginationTypes>({
+    current_page: 1,
+    last_page: 1,
+    total: 0,
+    per_page: 25,
+    next_page_url: null,
+    prev_page_url: null,
+  });
+  const headers = [
+    "Nama Produk",
+    "Kode Produk",
+    "Kategori Produk",
+    "Jumlah Produk",
+    "Harga Produk",
+  ];
+  const formatRupiah = (num: number) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      maximumFractionDigits: 0, // delete decimal
+      minimumFractionDigits: 0,
+    }).format(num);
+  };
+  const dispatch = useDispatch<AppDispatch>();
+  const { product } = useSelector((state: RootState) => state.products);
+  const { products } = useSelector((state: RootState) => state.products);
+  console.log("Product data:", products);
 
-    const handleEditClick = () => {
-      setIsEditing(true);
-    };
-    const handleCloseForm = () => {
-      setIsEditingImage(false);
-    };
-  // const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const handleEdit = async (id: string) => {
+    await dispatch(getProductById(id));
+    setIsEditProduct(true);
+  };
 
-  const headers = ['Nama Produk', 'Kode Produk', 'Kategori Produk', 'Jumlah Produk', 'Harga Produk'];
-  // let getLeadData: ProductTypes | null = null;
+  const handleCloseEdit = () => {
+    setIsEditProduct(false);
+  };
 
-  // const handleEdit = async (id: string) => {
-  //   await getLeadDataById(id);
-  //   setLeadDataProps(getLeadData!);
-  //   setIsEditLead(true);
-  // };
+  const handleAddDataClick = () => {
+    setIsAddProduct(true);
+  };
 
-  // const handleCloseEdit = () => {
-  //   setIsEditLead(false);
-  // };
+  const handleCloseAddProduct = () => {
+    setIsAddProduct(false);
+  };
 
-  // const handleCheckboxChange = (id: string) => {
-  //   setSelectedIds((prevSelectedIds) => {
-  //     if (prevSelectedIds.includes(id)) {
-  //       // If the ID is already selected, remove it
-  //       return prevSelectedIds.filter((selectedId) => selectedId !== id);
-  //     } else {
-  //       // Otherwise, add it
-  //       return [...prevSelectedIds, id];
-  //     }
-  //   });
-  // };
+  const handleDeleteProduct = () => {
+    if (selectedIds.length > 0) {
+      dispatch(deleteProduct(selectedIds, setIsSuccess));
+    } else if (selectedId) {
+      dispatch(deleteProduct(selectedId, setIsSuccess));
+    }
+    setIsDeleteProduct(false);
+  };
 
-  // const deleteLead = async (ids: string | string[]) => {
-  //   const token = localStorage.getItem('token');
-  //   try {
-  //     const response = await axios.request({
-  //       url: `${process.env.NEXT_PUBLIC_API_URL}/api/Product/`,
-  //       method: 'DELETE',
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       data: { id: Array.isArray(ids) ? ids : [ids] },
-  //     });
+  const handleDeleteConfirmation = (id: string | string[]) => {
+    if (Array.isArray(id)) {
+      setSelectedIds(id);
+    } else {
+      setSelectedId(id);
+    }
+    setIsDeleteProduct(true);
+  };
 
-  //     if (response.data.success) {
-  //       getProductData();
-  //     }
-  //   } catch (error) {
-  //     console.error('Error deleting lead(s):', error);
-  //   }
-  // };
+  const handleCheckboxChange = (id: string) => {
+    setSelectedIds((prevSelectedIds) => {
+      if (prevSelectedIds.includes(id)) {
+        return prevSelectedIds.filter((selectedId) => selectedId !== id);
+      } else {
+        return [...prevSelectedIds, id];
+      }
+    });
+  };
 
-  // const getLeadDataById = async (id: string) => {
-  //   const token = localStorage.getItem('token');
-  //   try {
-  //     const response = await axios.get(
-  //       `${process.env.NEXT_PUBLIC_API_URL}/api/Product/${id}`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-  //     if (response.data.success) {
-  //       getLeadData = response.data.data;
-  //     } else {
-  //       console.error(response.data.message);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error deleting lead:', error);
-  //   }
-  // };
+  const handlePrevPage = () => {
+    if (pagination.prev_page_url) {
+      dispatch(
+        getProducts(sortBy, perPage, pagination.current_page - 1, setPagination)
+      );
+    }
+  };
 
-  // const getProductData = async () => {
-  //   const token = localStorage.getItem('token');
+  const handleNextPage = () => {
+    if (pagination.next_page_url) {
+      dispatch(
+        getProducts(sortBy, perPage, pagination.current_page + 1, setPagination)
+      );
+    }
+  };
 
-  //   try {
-  //     const response = await axios.get(
-  //       `${process.env.NEXT_PUBLIC_API_URL}/api/Product?sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=1`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-  //     if (response.data.success) {
-  //       setProductData(response.data.data.data);
-  //       console.log(response.data.data.data);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching Product data:', error);
-  //   }
-  // };
+  useEffect(() => {
+    dispatch(
+      getProducts(sortBy, perPage, pagination.current_page, setPagination)
+    );
+  }, [dispatch, sortBy, perPage, isSuccess, isAddProduct, isEditProduct, pagination.current_page]);
 
-  // useEffect(() => {
-  //   getProductData();
-  // }, [sortBy, statusBy, perPage]); // Only run once when the component mounts
   return (
     <>
-    <div className="flex justify-between items-center mb-5">
+      <div className="flex justify-between items-center mb-5">
         <p className="text-font-black dark:text-font-white text-base font-custom md:text-[32px]">
           Data Produk
         </p>
-        
+
         <div className="flex items- center gap-2">
-          
           <a
-              href="/product-import"
-              className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
-            >
-              Impor Data
-            </a>
-        
-        <button
-          onClick={() => setIsAddingProduct(true)}
-          className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
-        >
-          Tambah Data
-        </button>
+            href="/product-import"
+            className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
+          >
+            Impor Data
+          </a>
+
+          <button
+            onClick={handleAddDataClick}
+            className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
+          >
+            Tambah Data
+          </button>
         </div>
       </div>
-      <div className="bg-font-white dark:bg-dark-navy shadow-lg rounded-lg p-6">
-      {/* Search Input */}
-      <div className="lg:items-center mb-4 grid grid-cols-12">
-        {/* Search Bar */}
-        <div className="col-span-12 md:col-span-4 relative">
-          {/* <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+      <DashboardCard>
+        {/* Search Input */}
+        <div className="lg:items-center mb-4 grid grid-cols-12">
+          {/* Search Bar */}
+          <div className="col-span-12 md:col-span-4 relative">
+            {/* <div className="absolute inset-y-0 left-0 flex items-center pl-3">
                 <Image
                   src="/icons/table/search.svg"
                   alt="search icon"
@@ -170,92 +173,96 @@ const Product = () => {
                 placeholder="Cari Product"
                 className="pl-10 p-2 border-2 font-custom text-xs lg:text-base border-font-gray bg-light-white rounded-[10px] focus:outline-none  dark:bg-dark-darkGray w-full"
               /> */}
+          </div>
+
+          <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
+            <DeleteButton
+              onClick={() => handleDeleteConfirmation(selectedIds)}
+            />
+            <ExportButton onClick={() => handleExport(products)} />
+            <FilterTableButton setSortBy={setSortBy} setPerPage={setPerPage} />
+          </div>
         </div>
-
-        <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
-          {/* Trash Icon, Export, and Filter Buttons */}
-          {/* Delete Button */}
-          <DeleteButton />
-
-          <ExportButton/>
-
-          {/* <ButtonFilter
-            setSortBy={setSortBy}
-            setStatusBy={setStatusBy}
-            setPerPage={setPerPage}
-          /> */}
-          <FilterTableButton/>
-        </div>
-      </div>
-      {/* {ProductData.length == 0 ? (
-        <EmptyTable />
-      ) : ( */}
         <>
-          {' '}
           {/* Table */}
           <div className="relative  overflow-auto lg:w-full ">
-            <table className="w-full ">
+            <table className="w-full mb-4">
               <TableHeader headers={headers} />
               <tbody>
-                {ProductData.map((lead, index) => (
+                {products.map((product: productsTypes, index: number) => (
                   <tr
                     key={index}
                     className="border-l border-r border-b border-font-gray hover:bg-dropdown-gray dark:hover:bg-dropdown-darkBlue group"
                   >
                     <td className="border px-2 border-font-gray bg-font-white dark:bg-dark-navy sticky top-o left-0 group-hover:bg-dropdown-gray dark:group-hover:bg-dropdown-darkBlue">
-                      <div className="flex items-center space-x-1">
-                        {/* <input
-                          id={`checkbox-${lead.id}`} // Unique ID for each checkbox
-                          type="checkbox"
-                          checked={selectedIds.includes(lead.id)} // Check if the ID is in the selectedIds state
-                          onChange={() => handleCheckboxChange(lead.id)} // Call the handler
-                          className="w-4 h-4 bg-font-white border-dark-navy rounded-[5px] checked:bg-dark-greenBright focus:ring-0"
-                        /> */}
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`checkbox-${product.id}`}
+                          checked={selectedIds.includes(product.id)}
+                          onChange={() => handleCheckboxChange(product.id)}
+                        />
                         <EditTableButton
-                        onClick={handleEditClick}/>
-
-                        <button>
-                          <Image
-                            src="/icons/table/dustbin.svg"
-                            alt="deletebtn"
-                            width={16}
-                            height={16}
-                            className="w-5 h-5"
-                            // onClick={() => deleteLead(lead.id)}
-                          />
-                        </button>
+                          onClick={() => handleEdit(product.id)}
+                        />
+                        <DeleteTableButton
+                          onClick={() => handleDeleteConfirmation(product.id)}
+                        />
                       </div>
                     </td>
-                    <td className="px-3 py-2 min-w-[200px] border-font-gray text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs md:text-base ">
-                      <Link href="/detail-product">
-                        Nama Produk
+                    <td className="px-3 py-2 min-w-[200px] border-font-gray fpnt text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs md:text-base ">
+                      <Link href={`/product/${product.id}`}>
+                        {product.name}
                       </Link>
                     </td>
                     <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
-                      Kode produk
+                      {product.code}
                     </td>
                     <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
-                      kategori produk
+                      {product.category}
                     </td>
                     <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
-                      halo
+                      {product.quantity}
                     </td>
                     <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
-                      halo
+                      {formatRupiah(Number(product.price))}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          {/* {isEditLead && (
-            // <EditProduct onClose={handleCloseEdit} leadData={leadDataProps} />
-          )} */}
-          {isAddingProduct && <NewProduct />}
-          {isEditing && <EditProduct onClose={handleCloseForm}/>}
+          <PaginationButton
+            last_page={pagination.last_page}
+            current_page={pagination.current_page}
+            prev_page_url={pagination.prev_page_url}
+            next_page_url={pagination.next_page_url}
+            handlePrevPage={handlePrevPage}
+            handleNextPage={handleNextPage}
+          />
+          {isEditProduct && (
+            <EditProduct onClose={handleCloseEdit} productProps={product!} />
+          )}
+          {isAddProduct && <NewProduct onClose={handleCloseAddProduct} />}
+          {isDeleteProduct && (
+            <ActionConfirmModal
+              header="Apakah ingin menghapus Produk?"
+              description="Data yang sudah terhapus tidak akan dapat dikembalikan"
+              actionButtonNegative_action={() => setIsDeleteProduct(false)}
+              actionButtonPositive_name="Hapus"
+              actionButtonPositive_action={handleDeleteProduct}
+            />
+          )}
+          {isSuccess && (
+            <SuccessModal
+              header="Berhasil"
+              description="Data Produk berhasil dihapus"
+              actionButton={true}
+              actionButton_name="Kembali"
+              actionButton_action={() => setIsSuccess(false)}
+            />
+          )}
         </>
-      {/* )} */}
-      </div>
+      </DashboardCard>
     </>
   );
 };

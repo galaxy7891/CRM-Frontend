@@ -1,13 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-import { MENU } from "@/constants/page";
-
-import SidebarModal from "@/components/layout/sidebar-modal";
-import NewLeads from "../../app/(dashboard)/(customer)/leads/partials/new-leads";
-import NewContact from "../../app/(dashboard)/(customer)/contacts/partials/new-contact";
-// import NewCompany from '../../app/(dashboard)/(customer)/company/partials/new-company';
+import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { MENU } from '@/constants/page';
+import SidebarModal from '@/components/layout/sidebar-modal';
+import NewLeads from '../../app/(dashboard)/(customer)/leads/partials/new-leads';
+import NewContact from '../../app/(dashboard)/(customer)/contacts/partials/new-contact';
+import NewCompany from '../../app/(dashboard)/(customer)/company/partials/new-company';
 
 const HeaderCustomer: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<
@@ -17,7 +16,7 @@ const HeaderCustomer: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const pathName = usePathname();
 
-  const [emailLocal, setEmailLocal] = useState<string>("");
+  const [emailLocal, setEmailLocal] = useState<string>('');
 
   const toggleTooltip = () => setIsTooltipVisible(!isTooltipVisible);
 
@@ -60,9 +59,7 @@ const HeaderCustomer: React.FC = () => {
 
   // Cek apakah pathname saat ini adalah salah satu dari yang ingin ditampilkan header-nya
   const shouldShowHeader =
-    pathName === "/leads" ||
-    pathName === "/contacts" ||
-    pathName === "/company";
+    pathName === '/leads' || pathName === '/contacts' || pathName === '/company';
 
   return (
     <div className="relative mb-4">
@@ -129,9 +126,17 @@ const HeaderCustomer: React.FC = () => {
               Impor Data
             </a>
           )}
-          {pathName === "/contacts" && (
+          {pathName === '/contacts' && (
             <a
               href="/leads-import"
+              className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
+            >
+              Impor Data
+            </a>
+          )}
+          {pathName === '/company' && (
+            <a
+              href="/company-import"
               className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
             >
               Impor Data
@@ -155,10 +160,12 @@ const HeaderCustomer: React.FC = () => {
           {pathName === "/leads" && (
             <NewLeads onClose={handleCloseModal} emailLocal={emailLocal} />
           )}
-          {pathName === "/contact" && (
+          {pathName === '/contacts' && (
             <NewContact onClose={handleCloseModal} emailLocal={emailLocal} />
           )}
-          {/* {pathName === '/company' && <NewCompany onClose={handleCloseModal} />} */}
+          {pathName === '/company' && (
+            <NewCompany onClose={handleCloseModal} emailLocal={emailLocal} />
+          )}
         </SidebarModal>
       )}
     </div>

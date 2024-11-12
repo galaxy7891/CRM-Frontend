@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setToken } from '../reducers/auth';
+import { setToken } from '../reducers/authReducers';
 import { AppDispatch } from '../store';
 
 export const login =
@@ -28,7 +28,6 @@ export const login =
         dispatch(setToken(access_token));
         return { success: true };
       } else {
-        setErrorMessage(response.data.message);
       }
     } catch (error) {
       console.error(error);

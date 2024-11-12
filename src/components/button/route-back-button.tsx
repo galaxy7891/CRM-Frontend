@@ -3,25 +3,11 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 
-interface RouterBackButtonProps {
-  onClick?: () => void;
-  onClose?: () => void;
-}
-
-const RouterBackButton: React.FC<RouterBackButtonProps> = ({
-  onClick,
-  onClose,
-}) => {
+const RouterBackButton = ({}) => {
   const router = useRouter();
 
   const handleClick = () => {
-    if (onClose) {
-      onClose();  // Memanggil onClose jika didefinisikan
-    } else {
-      router.back();  // Memanggil router.back jika onClose tidak ada
-    }
-
-    if (onClick) onClick();  // Menjalankan onClick tambahan jika ada
+    router.back();
   };
 
   return (

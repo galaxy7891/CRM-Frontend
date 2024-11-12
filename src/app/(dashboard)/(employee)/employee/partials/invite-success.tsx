@@ -1,9 +1,10 @@
-import React from "react";
-import InviteComponents from "./invite-components";
-import SidebarFooter from "@/components/layout/sidebar-footer";
-import EmployeeButton from "@/components/button/dashboard-sidebar-employee-button";
+import React from 'react';
+import { InviteEmployeeProps } from '@/types/employeeTypes';
+import InviteComponents from './invite-image';
+import SidebarFooter from '@/components/layout/sidebar-footer';
+import EmployeeButton from '@/components/button/dashboard-sidebar-employee-button';
 
-const InviteEmployeeSucces = () => {
+const InviteSuccess: React.FC<InviteEmployeeProps> = ({ onClose }) => {
   return (
     <>
       <div className="flex flex-col justify-center items-center flex-grow">
@@ -23,10 +24,10 @@ const InviteEmployeeSucces = () => {
         </div>
       </div>
       <SidebarFooter>
-        <EmployeeButton>Selesai</EmployeeButton>
+        <EmployeeButton onClick={onClose}>Selesai</EmployeeButton>
       </SidebarFooter>
     </>
   );
 };
 
-export default InviteEmployeeSucces;
+export default InviteSuccess;

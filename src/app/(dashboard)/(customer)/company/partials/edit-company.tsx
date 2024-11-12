@@ -1,30 +1,50 @@
-import DashboardSidebarRedButton from "@/components/button/dashboard-sidebar-red-button";
-import DashboardSidebarYellowButton from "@/components/button/dashboard-sidebar-yellow-button";
-import SelectInput from "@/components/form-input/dropdown-input";
-import PhoneInput from "@/components/form-input/phone-input";
-import TextArea from "@/components/form-input/text-area-input";
-import TextInput from "@/components/form-input/text-input";
-import SidebarFooter from "@/components/layout/sidebar-footer";
-import SidebarModal from "@/components/layout/sidebar-modal";
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import {
+  organizationsTypes,
+  editOrganizationPropsTypes,
+} from '@/types/leadsTypes';
+import { updateOrganization } from '@/redux/actions/organizationsActions';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import SuccessModal from '@/components/status/success-modal';
+import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
+import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
+import SelectInput from '@/components/form-input/dropdown-input';
+import PhoneInput from '@/components/form-input/phone-input';
+import TextArea from '@/components/form-input/text-area-input';
+import TextInput from '@/components/form-input/text-input';
+import SidebarFooter from '@/components/layout/sidebar-footer';
+import SidebarModal from '@/components/layout/sidebar-modal';
 
-interface FormEditProps {
-  onClose: () => void;
-  data: data;
-}
+const EditCompany: React.FC<editOrganizationPropsTypes> = ({
+  onClose,
+  organizationProps,
+}) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [organization, setOrganization] = useState<organizationsTypes>({
+    id: organizationProps.id,
+    name: organizationProps.name,
+    industry: organizationProps.industry,
+    email: organizationProps.email,
+    status: organizationProps.status,
+    phone: organizationProps.phone,
+    owner: organizationProps.owner,
+    website: organizationProps.website,
+    address: organizationProps.address,
+    province: organizationProps.province,
+    city: organizationProps.city,
+    subdistrict: organizationProps.subdistrict,
+    village: organizationProps.village,
+    zip_code: organizationProps.zip_code,
+  });
 
-interface data {
-  first_name: string;
-  last_name: string;
-  email: string;
-  status: string;
-  phone: string;
-}
-const EditCompany: React.FC<FormEditProps> = ({ onClose, data }) => {
-  const [firstName, setFirstName] = useState(data?.first_name);
-  const [email, setEmail] = useState(data?.email);
-  const [status, setStatus] = useState(data?.status);
-  const [phone, setPhone] = useState(data?.phone);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleEditCompany = () => {
+    dispatch(updateOrganization(organization, setIsLoading, setIsSuccess));
+  };
+
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Tambah Perusahaan">
       <form className="flex-grow overflow-y-auto px-4 grid grid-cols-1 gap-4 md:grid-cols-2 p-2">
@@ -32,55 +52,67 @@ const EditCompany: React.FC<FormEditProps> = ({ onClose, data }) => {
           <TextInput
             label="Nama Perusahaan"
             placeholder="Pt Loyal Cust"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            value={organization?.name}
+            onChange={(e) =>
+              setOrganization({ ...organization, name: e.target.value })
+            }
             required
           />
         </div>
         <div className="order-2">
           <SelectInput
             label="Jenis Industri"
-            value={status}
+            value={organization.industry}
             options={[
-              { label: "Manufaktur", value: "Manufaktur" },
-              { label: "Teknologi", value: "Teknologi" },
-              { label: "Lainnya", value: "Lainnya" },
+              { label: 'Manufaktur', value: 'Manufaktur' },
+              { label: 'Teknologi', value: 'Teknologi' },
+              { label: 'Lainnya', value: 'Lainnya' },
             ]}
-            onChange={(e) => setStatus(e.target.value)}
+            onChange={(e) =>
+              setOrganization({ ...organization, industry: e.target.value })
+            }
           />
         </div>
         <div className="order-3">
           <TextInput
             label="Email"
             placeholder="loyalcust@gmail.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={organization.email}
+            onChange={(e) =>
+              setOrganization({ ...organization, email: e.target.value })
+            }
           />
         </div>
         <div className="order-4">
           <PhoneInput
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            value={organization.phone}
+            onChange={(e) =>
+              setOrganization({ ...organization, phone: e.target.value })
+            }
           />
         </div>
         <div className="order-5 ">
           <TextInput
             label="Website"
             placeholder="www.loyalcust.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={organization.website}
+            onChange={(e) =>
+              setOrganization({ ...organization, website: e.target.value })
+            }
           />
         </div>
         <div className="order-6">
           <SelectInput
             label="Status Perusahaan"
-            value={status}
+            value={organization.status}
             options={[
-              { label: "Rendah", value: "Rendah" },
-              { label: "Sedang", value: "Sedang" },
-              { label: "Tinggi", value: "Tinggi" },
+              { label: 'Rendah', value: 'Rendah' },
+              { label: 'Sedang', value: 'Sedang' },
+              { label: 'Tinggi', value: 'Tinggi' },
             ]}
-            onChange={(e) => setStatus(e.target.value)}
+            onChange={(e) =>
+              setOrganization({ ...organization, status: e.target.value })
+            }
             required
           />
         </div>
@@ -88,20 +120,24 @@ const EditCompany: React.FC<FormEditProps> = ({ onClose, data }) => {
           <TextArea
             label="Alamat"
             placeholder="Jl. Kemenangan No.99"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={organization.address}
+            onChange={(e) =>
+              setOrganization({ ...organization, address: e.target.value })
+            }
           />
         </div>
         <div className="order-8 ">
           <SelectInput
             label="Penanggung Jawab"
-            value={status}
+            value={organization.owner}
             options={
               [
                 // get data from karyawan
               ]
             }
-            onChange={(e) => setStatus(e.target.value)}
+            onChange={(e) =>
+              setOrganization({ ...organization, owner: e.target.value })
+            }
             required
           />
         </div>
@@ -109,61 +145,71 @@ const EditCompany: React.FC<FormEditProps> = ({ onClose, data }) => {
         <div className="order-9">
           <SelectInput
             label="Provinsi"
-            value={status}
+            value={organization.province}
             options={
               [
                 // get data from api provinsi
               ]
             }
-            onChange={(e) => setStatus(e.target.value)}
+            onChange={(e) =>
+              setOrganization({ ...organization, province: e.target.value })
+            }
           />
         </div>
         <div className="order-10 ">
           <SelectInput
             label="Kota"
-            value={status}
+            value={organization.city}
             options={
               [
                 // get data from api kota
               ]
             }
-            onChange={(e) => setStatus(e.target.value)}
+            onChange={(e) =>
+              setOrganization({ ...organization, city: e.target.value })
+            }
           />
         </div>
         <div className="order-11">
           <SelectInput
             label="Kecamatan"
-            value={status}
+            value={organization.subdistrict}
             options={
               [
                 // get data from api kecamatan
               ]
             }
-            onChange={(e) => setStatus(e.target.value)}
+            onChange={(e) =>
+              setOrganization({ ...organization, subdistrict: e.target.value })
+            }
           />
         </div>
         <div className="order-12">
           <SelectInput
             label="Kelurahan"
-            value={status}
+            value={organization.village}
             options={
               [
                 // get data from api kelurahan
               ]
             }
-            onChange={(e) => setStatus(e.target.value)}
+            onChange={(e) =>
+              setOrganization({ ...organization, village: e.target.value })
+            }
           />
         </div>
         <div className="order-[13]">
           <SelectInput
             label="Kode Pos"
-            value={status}
+            value={organization.zip_code}
             options={
               [
                 // get data from api kode pos
               ]
             }
-            onChange={(e) => setStatus(e.target.value)}
+            onChange={(e) =>
+              setOrganization({ ...organization, zip_code: e.target.value })
+            }
           />
         </div>
       </form>
@@ -173,10 +219,19 @@ const EditCompany: React.FC<FormEditProps> = ({ onClose, data }) => {
           Hapus Semua
         </DashboardSidebarRedButton>
         {/* Tambah button is used  */}
-        {/* <DashboardSidebarYellowButton onClick={handleSubmit}>
-            Tambah
-          </DashboardSidebarYellowButton> */}
+        <DashboardSidebarYellowButton onClick={handleEditCompany}>
+          Simpan
+        </DashboardSidebarYellowButton>
       </SidebarFooter>
+      {isSuccess && (
+        <SuccessModal
+          header="Berhasil!"
+          description="Data perusahaan berhasil diubah"
+          actionButton={true}
+          actionButton_name="Kembali"
+          actionButton_href="/company"
+        />
+      )}
     </SidebarModal>
   );
 };

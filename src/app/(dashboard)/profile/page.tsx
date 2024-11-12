@@ -1,12 +1,12 @@
 "use client";
 
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import CardUserActivityLog from "@/app/(dashboard)/profile/partials/activity-info";
-import CardUserInfo from "./partials/user-info";
-import CardCompany from "./partials/company-info";
-import RouterBackButton from "@/components/button/route-back-button";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import UserLog from '@/app/(dashboard)/profile/partials/user-log';
+import CardUserInfo from './partials/user-info';
+import CardCompany from './partials/company-info';
+import RouterBackButton from '@/components/button/route-back-button';
 
 interface DataUser {
   image_url: string;
@@ -104,7 +104,7 @@ const User = () => {
         <CardCompany data={dataCompany!} />
       )}
 
-      <CardUserActivityLog />
+      <UserLog />
     </>
   );
 };
