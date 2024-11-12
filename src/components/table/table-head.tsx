@@ -1,4 +1,3 @@
-import Checkbox from "../button/checkbox";
 
 interface TableHeaderProps {
   headers: string[];

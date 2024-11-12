@@ -34,7 +34,7 @@ const LeadsPage = () => {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isEditLead, setIsEditLead] = useState<boolean>(false);
   const [isDeleteLead, setIsDeleteLead] = useState<boolean>(false);
-  const [selectedId, setSelectedId] = useState<string>('');
+  const [selectedId, setSelectedId] = useState<string>("");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [pagination, setPagination] = useState<paginationTypes>({
     current_page: 1,
@@ -44,7 +44,7 @@ const LeadsPage = () => {
     next_page_url: null,
     prev_page_url: null,
   });
-  const headers = ['Nama', 'Email', 'No Telpon', 'Status', 'Penanggung Jawab'];
+  const headers = ["Nama", "Email", "No Telpon", "Status", "Penanggung Jawab"];
   const dispatch = useDispatch<AppDispatch>();
   const { leads } = useSelector((state: RootState) => state.leads);
   const { lead } = useSelector((state: RootState) => state.leads);

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 
 // Definisikan props untuk CustomCheckbox
 interface CustomCheckboxProps {
@@ -9,7 +9,7 @@ interface CustomCheckboxProps {
   onChange: (id: string) => void;
 }
 
-const CustomCheckbox: React.FC<CustomCheckboxProps> = ({
+const Checkbox: React.FC<CustomCheckboxProps> = ({
   id,
   checked,
   onChange,
@@ -18,7 +18,7 @@ const CustomCheckbox: React.FC<CustomCheckboxProps> = ({
     <label className="relative flex items-center cursor-pointer ">
       <div
         onClick={() => onChange(id)} // Call onChange handler with the id
-        className={`w-5 h-5 flex items-center justify-center border rounded-[5px] 
+        className={`w-4 h-4 flex items-center justify-center border rounded-[5px] 
           ${
             checked
               ? "border-2 border-dark-navy dark:border-font-white"
@@ -44,4 +44,4 @@ const CustomCheckbox: React.FC<CustomCheckboxProps> = ({
   );
 };
 
-export default CustomCheckbox;
+export default Checkbox;

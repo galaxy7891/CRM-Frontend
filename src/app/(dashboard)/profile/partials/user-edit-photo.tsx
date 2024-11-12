@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { useState } from 'react';
-import axios from 'axios';
 import { updateUserPhoto } from '@/redux/actions/profileActions';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';

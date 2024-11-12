@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { activityLogTypes } from '@/types/profileTypes';
-import { paginationTypes } from '@/types/otherTypes';
-import { logActivityLead } from '@/redux/actions/leadsActions';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState, AppDispatch } from '@/redux/store';
-import { useParams } from 'next/navigation';
-import CardActivityLog from '@/components/layout/log-card';
-import DashboardCard from '@/components/layout/dashboard-card';
-import PaginationButton from '@/components/button/pagination-button';
-import DashboardPositiveButton from '@/components/button/dashboard-positive-button';
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { activityLogTypes } from "@/types/profileTypes";
+import { paginationTypes } from "@/types/componentTypes";
+import { logActivityProduct } from "@/redux/actions/productsActions";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, AppDispatch } from "@/redux/store";
+import { useParams } from "next/navigation";
+import CardActivityLog from "@/components/layout/log-card";
+import DashboardCard from "@/components/layout/dashboard-card";
+import PaginationButton from "@/components/button/pagination-button";
+import DashboardPositiveButton from "@/components/button/dashboard-positive-button";
 
-const UserLog = () => {
+const ProductLog = () => {
   const [pagination, setPagination] = useState<paginationTypes>({
     current_page: 1,
     last_page: 1,
@@ -25,22 +25,26 @@ const UserLog = () => {
   const { id } = useParams<{ id: string }>();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { leadLog } = useSelector((state: RootState) => state.leads);
+  const { logProduct } = useSelector((state: RootState) => state.products);
 
   const handleNextPage = () => {
     if (pagination.next_page_url) {
-      dispatch(logActivityLead(pagination.current_page + 1, id, setPagination));
+      dispatch(
+        logActivityProduct(pagination.current_page + 1, id, setPagination)
+      );
     }
   };
 
   const handlePrevPage = () => {
     if (pagination.prev_page_url) {
-      dispatch(logActivityLead(pagination.current_page - 1, id, setPagination));
+      dispatch(
+        logActivityProduct(pagination.current_page - 1, id, setPagination)
+      );
     }
   };
 
   useEffect(() => {
-    dispatch(logActivityLead(pagination.current_page, id, setPagination));
+    dispatch(logActivityProduct(pagination.current_page, id, setPagination));
   }, [id, dispatch, pagination.current_page]);
 
   return (
@@ -57,7 +61,7 @@ const UserLog = () => {
         </div>
         {/* Body */}
         <div className="col-span-12 space-y-4 mt-4">
-          {leadLog.map((log: activityLogTypes, index: number) => (
+          {logProduct.map((log: activityLogTypes, index: number) => (
             <CardActivityLog
               key={index}
               title={log.title}
@@ -80,4 +84,4 @@ const UserLog = () => {
   );
 };
 
-export default UserLog;
+export default ProductLog;

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import UserLog from '@/app/(dashboard)/profile/partials/user-log';
 import CardUserInfo from './partials/user-info';
 import CardCompany from './partials/company-info';
-import RouterBackButton from "@/components/button/route-back-button";
+import RouterBackButton from '@/components/button/route-back-button';
 
 interface DataUser {
   image_url: string;

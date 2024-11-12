@@ -5,6 +5,7 @@ import leads from './leadsReducers';
 import contacts from './contactsReducers';
 import companies from './companiesReducers';
 import profile from './profileReducers';
+import products from './productsReducers'
 
 export default combineReducers({
   auth,
@@ -13,4 +14,5 @@ export default combineReducers({
   contacts,
   companies,
   profile,
+  products,
 });
