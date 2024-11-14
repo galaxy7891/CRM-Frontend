@@ -56,7 +56,7 @@ const HeaderCustomer: React.FC = () => {
   }, [pathName]);
 
   // Cek apakah path saat ini adalah halaman detail leads
-  const isDetailPage = /^\/(leads|contacts|company)\/.+$/.test(pathName);
+  const isDetailPage = /^\/(leads|contacts|companies)\/.+$/.test(pathName);
 
   // Jika berada di halaman detail leads, jangan render HeaderCustomer
   if (isDetailPage) {
@@ -130,7 +130,7 @@ const HeaderCustomer: React.FC = () => {
           )}
           {pathName === '/contacts' && (
             <a
-              href="/leads-import"
+              href="/contacts/import"
               className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
             >
               Impor Data
@@ -138,7 +138,7 @@ const HeaderCustomer: React.FC = () => {
           )}
           {pathName === '/companies' && (
             <a
-              href="/company-import"
+              href="/companies/import"
               className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
             >
               Impor Data

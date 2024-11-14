@@ -17,6 +17,7 @@ import CustomerInfo from '@/components/import/card-info-customer';
 import CardCustomer from '@/components/layout/detail-customer-card';
 import EditUserButton from '@/components/button/edit-user-button';
 import DeleteButton from '@/components/button/delete-button';
+import HeaderWithBackButton from '@/components/layout/header-with-back';
 import moment from 'moment';
 import 'moment/locale/id';
 moment.locale('id');
@@ -50,6 +51,7 @@ const DetailCompany = () => {
 
   return (
     <>
+      <HeaderWithBackButton title="Detail Perusahaan" />
       <DashboardCard>
         <div className="grid grid-cols-12 ">
           {/* Photo with Primary Detail */}

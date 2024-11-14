@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { leadsTypes } from '@/types/leadsTypes';
 import { paginationTypes } from '@/types/otherTypes';
 import { useSelector, useDispatch } from 'react-redux';
@@ -19,6 +18,7 @@ import StatusBadge from '@/components/table/status-badge';
 import EditLeads from './partials/edit-leads';
 import TableHeader from '@/components/table/table-head';
 import DeleteButton from '@/components/button/delete-button';
+import DeleteTableButton from '@/components/button/delete-table-button';
 import SuccessModal from '@/components/status/success-modal';
 import PaginationButton from '@/components/button/pagination-button';
 import ExportButton from '@/components/button/export-button';
@@ -34,7 +34,7 @@ const LeadsPage = () => {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isEditLead, setIsEditLead] = useState<boolean>(false);
   const [isDeleteLead, setIsDeleteLead] = useState<boolean>(false);
-  const [selectedId, setSelectedId] = useState<string>("");
+  const [selectedId, setSelectedId] = useState<string>('');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [pagination, setPagination] = useState<paginationTypes>({
     current_page: 1,
@@ -44,7 +44,7 @@ const LeadsPage = () => {
     next_page_url: null,
     prev_page_url: null,
   });
-  const headers = ["Nama", "Email", "No Telpon", "Status", "Penanggung Jawab"];
+  const headers = ['Nama', 'Email', 'No Telpon', 'Status', 'Penanggung Jawab'];
   const dispatch = useDispatch<AppDispatch>();
   const { leads } = useSelector((state: RootState) => state.leads);
   const { lead } = useSelector((state: RootState) => state.leads);
@@ -188,15 +188,9 @@ const LeadsPage = () => {
                         onChange={() => handleCheckboxChange(lead.id)}
                       />
                       <EditTableButton onClick={() => handleEdit(lead.id)} />
-                      <button onClick={() => handleDeleteConfirmation(lead.id)}>
-                        <Image
-                          src="/icons/table/dustbin.svg"
-                          alt="deletebtn"
-                          width={16}
-                          height={16}
-                          className="w-5 h-5"
-                        />
-                      </button>
+                      <DeleteTableButton
+                        onClick={() => handleDeleteConfirmation(lead.id)}
+                      />
                     </div>
                   </td>
                   <td className="px-3 py-2 min-w-[200px] border-font-gray fpnt text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs md:text-base w-full ">

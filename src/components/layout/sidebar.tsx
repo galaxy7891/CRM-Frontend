@@ -35,6 +35,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
   const [hoveredDropdown, setHoveredDropdown] = useState<number | null>(null);
   const pathName = usePathname();
   const [isDesktop, setIsDesktop] = useState(true);
+  const user = localStorage.getItem('role');
 
   useEffect(() => {
     setActiveLink(pathName);
@@ -99,7 +100,9 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
 
           <div className="flex flex-col items-start h-screen">
             {MENU.map((item: MenuItem) =>
-              item.id === 9 ? (
+              // Pengecekan jika role user adalah 'employee' dan item adalah 'Karyawan'
+              item.link === '/employee' &&
+              user === 'employee' ? null : item.id === 9 ? (
                 <div key={item.id} className="w-full">
                   <div className="border-t border-white">
                     <Link
@@ -110,7 +113,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                         activeLink === item.link
                           ? 'text-font-white font-bold'
                           : 'text-font-white font-medium'
-                      } font-custom text-base flex flex-row px-4 md:px-10  py-4 md:py-6 gap-2 items-center`}
+                      } font-custom text-base flex flex-row px-4 md:px-10 py-4 md:py-6 gap-2 items-center`}
                     >
                       <Image
                         src={

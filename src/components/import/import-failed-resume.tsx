@@ -11,7 +11,7 @@ const ResumeFailedImpor: FC<ResumeFailedImporProps> = ({
   errorMessageDetail,
 }) => {
   return (
-    <div className="">
+    <div className="w-full">
       <DashboardCard>
         <div className="flex justify-between ">
           <p className="font-custom text-base text-font-black dark:text-font-white md:text-2xl">

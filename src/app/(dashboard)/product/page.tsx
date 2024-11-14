@@ -1,40 +1,40 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { productsTypes } from "@/types/productTypes";
-import { paginationTypes } from "@/types/otherTypes";
-import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch, RootState } from "@/redux/store";
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { productsTypes } from '@/types/productTypes';
+import { paginationTypes } from '@/types/otherTypes';
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
 import {
   getProducts,
   getProductById,
   deleteProduct,
-} from "@/redux/actions/productsActions";
-import handleExport from "@/utils/export_CSV";
-import DashboardCard from "@/components/layout/dashboard-card";
-import ActionConfirmModal from "@/components/status/action-confirm-modal";
-import EditProduct from "./partials/edit-product";
-import TableHeader from "@/components/table/table-head";
-import DeleteButton from "@/components/button/delete-button";
-import SuccessModal from "@/components/status/success-modal";
-import PaginationButton from "@/components/button/pagination-button";
-import FilterTableButton from "@/components/button/filter-table-button";
-import EditTableButton from "@/components/button/edit-table-button";
-import Checkbox from "@/components/button/checkbox";
-import DeleteTableButton from "@/components/button/delete-table-button";
-import ExportButton from "@/components/button/export-button";
-import NewProduct from "./partials/new-product";
+} from '@/redux/actions/productsActions';
+import handleExport from '@/utils/export_CSV';
+import DashboardCard from '@/components/layout/dashboard-card';
+import ActionConfirmModal from '@/components/status/action-confirm-modal';
+import EditProduct from './partials/edit-product';
+import TableHeader from '@/components/table/table-head';
+import DeleteButton from '@/components/button/delete-button';
+import SuccessModal from '@/components/status/success-modal';
+import PaginationButton from '@/components/button/pagination-button';
+import FilterTableButton from '@/components/button/filter-table-button';
+import EditTableButton from '@/components/button/edit-table-button';
+import Checkbox from '@/components/button/checkbox';
+import DeleteTableButton from '@/components/button/delete-table-button';
+import ExportButton from '@/components/button/export-button';
+import NewProduct from './partials/new-product';
 // import EmptyTable from '@/components/table/empty-table';
 
 const Product = () => {
-  const [sortBy, setSortBy] = useState<string>("terbaru");
-  const [perPage, setPerPage] = useState<string>("10");
+  const [sortBy, setSortBy] = useState<string>('terbaru');
+  const [perPage, setPerPage] = useState<string>('10');
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isEditProduct, setIsEditProduct] = useState<boolean>(false);
   const [isAddProduct, setIsAddProduct] = useState<boolean>(false);
   const [isDeleteProduct, setIsDeleteProduct] = useState<boolean>(false);
-  const [selectedId, setSelectedId] = useState<string>("");
+  const [selectedId, setSelectedId] = useState<string>('');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [pagination, setPagination] = useState<paginationTypes>({
     current_page: 1,
@@ -45,24 +45,25 @@ const Product = () => {
     prev_page_url: null,
   });
   const headers = [
-    "Nama Produk",
-    "Kode Produk",
-    "Kategori Produk",
-    "Jumlah Produk",
-    "Harga Produk",
+    'Nama Produk',
+    'Kode Produk',
+    'Kategori Produk',
+    'Jumlah Produk',
+    'Harga Produk',
   ];
   const formatRupiah = (num: number) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
       maximumFractionDigits: 0, // delete decimal
       minimumFractionDigits: 0,
     }).format(num);
   };
+  
   const dispatch = useDispatch<AppDispatch>();
   const { product } = useSelector((state: RootState) => state.products);
   const { products } = useSelector((state: RootState) => state.products);
-  console.log("Product data:", products);
+  console.log('Product data:', products);
 
   const handleEdit = async (id: string) => {
     await dispatch(getProductById(id));
@@ -129,7 +130,15 @@ const Product = () => {
     dispatch(
       getProducts(sortBy, perPage, pagination.current_page, setPagination)
     );
-  }, [dispatch, sortBy, perPage, isSuccess, isAddProduct, isEditProduct, pagination.current_page]);
+  }, [
+    dispatch,
+    sortBy,
+    perPage,
+    isSuccess,
+    isAddProduct,
+    isEditProduct,
+    pagination.current_page,
+  ]);
 
   return (
     <>
@@ -140,7 +149,7 @@ const Product = () => {
 
         <div className="flex items- center gap-2">
           <a
-            href="/product-import"
+            href="/product/import"
             className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
           >
             Impor Data
@@ -198,7 +207,7 @@ const Product = () => {
                       key={index}
                       className="border-l border-r border-b border-font-gray hover:bg-dropdown-gray dark:hover:bg-dropdown-darkBlue group"
                     >
-                      <td className="border px-2 border-font-gray bg-font-white dark:bg-dark-navy sticky top-o left-0 group-hover:bg-dropdown-gray dark:group-hover:bg-dropdown-darkBlue">
+                      <td className="border px-2 min-w-[80px] border-font-gray bg-font-white dark:bg-dark-navy sticky top-o left-0 group-hover:bg-dropdown-gray dark:group-hover:bg-dropdown-darkBlue">
                         <div className="flex items-center space-x-2">
                           <Checkbox
                             id={`checkbox-${product.id}`}

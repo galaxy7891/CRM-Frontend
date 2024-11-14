@@ -77,18 +77,19 @@ export const addProduct =
     setIsSuccess: (success: boolean) => void,
     setErrorMessage: (messages: { [key: string]: string }) => void
   ) =>
-  async () => {
+  async (dispatch: AppDispatch, getState: () => RootState) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/products`,
-        product,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const token = getState().auth.token;
+      const config = {
+        method: 'post',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/products`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: product,
+      };
+      const response = await axios.request(config);
       console.log('Response API:', response.data);
       if (response.data.success) {
         setIsSuccess(true);
@@ -96,6 +97,7 @@ export const addProduct =
         //   window.location.reload();
         // }, 2000);
       } else {
+        console.error(response.data.message);
         setErrorMessage(response.data.message);
       }
     } catch (error) {

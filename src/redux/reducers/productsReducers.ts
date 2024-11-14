@@ -5,7 +5,7 @@ import { productsState } from '@/types/productTypes';
 const initialState: productsState = {
   product: null,
   products: [],
-  logProduct: [],
+  productLog: [],
 };
 
 // Define the slice
@@ -20,7 +20,7 @@ const productsSlice = createSlice({
       state.products = action.payload;
     },
     setLogProduct: (state, action) => {
-      state.logProduct = action.payload;
+      state.productLog = action.payload;
     },
   },
 });

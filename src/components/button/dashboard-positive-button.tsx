@@ -1,6 +1,7 @@
 interface DashboardPositiveButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
+  
 }
 
 const DashboardPositiveButton: React.FC<DashboardPositiveButtonProps> = ({

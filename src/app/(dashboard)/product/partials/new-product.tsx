@@ -50,7 +50,9 @@ const NewProduct: React.FC<newProductsProps> = ({ onClose }) => {
               placeholder="220624A1"
               value={product.code}
               onChange={(e) => setProduct({ ...product, code: e.target.value })}
+              required
             />
+            {errorMessage.code && <FailText>{errorMessage.code}</FailText>}
           </div>
           <div className="order-2">
             <TextInput
@@ -68,16 +70,17 @@ const NewProduct: React.FC<newProductsProps> = ({ onClose }) => {
               value={product.category}
               options={[
                 { label: 'Kategori Produk', value: '', hidden: true },
-                { label: 'Jasa', value: 'jasa' },
-                { label: 'Barang', value: 'barang' },
+                { label: 'jasa', value: 'jasa' },
+                { label: 'barang', value: 'barang' },
               ]}
-              // if select "jasa" => jumlah produk & satuan produk hidden
               onChange={(e) =>
                 setProduct({ ...product, category: e.target.value })
               }
               required
             />
-            {errorMessage && <FailText>{errorMessage.status}</FailText>}
+            {errorMessage.category && (
+              <FailText>{errorMessage.category}</FailText>
+            )}
           </div>
           <div className="order-4">
             <PriceInput

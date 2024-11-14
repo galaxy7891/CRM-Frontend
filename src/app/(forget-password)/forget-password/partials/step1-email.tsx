@@ -1,22 +1,14 @@
+import { SendForgotPasswordEmailProps } from '@/types/profileTypes';
 import FormHeader from '@/components/layout/auth-form-header';
 import FailText from '@/components/status/fail-text';
 
-interface SendEmailProps {
-  email: string;
-  step: number;
-  setEmail: (email: string) => void;
-  onNext: () => void;
-  isLoading: boolean;
-  isOnClick: boolean;
-}
-
-const SendEmail: React.FC<SendEmailProps> = ({
+const SendEmail: React.FC<SendForgotPasswordEmailProps> = ({
   step,
   email,
   setEmail,
   onNext,
   isLoading,
-  isOnClick,
+  errorMessage,
 }) => {
   return (
     <div>
@@ -39,12 +31,11 @@ const SendEmail: React.FC<SendEmailProps> = ({
         type="email"
         placeholder="user@example.com"
         required={true}
-        className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black text-opacity-50 focus:outline-none  rounded-lg bg-light-white focus:border-dark-navy ${
-          isOnClick && email == '' ? `error-fields` : 'border-font-gray'
-        }`}
+        className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black text-opacity-50 focus:outline-none  rounded-lg bg-light-white focus:border-dark-navy border-font-gray`}
         onChange={(e) => setEmail(e.target.value)}
       />
-      {isOnClick && !email && <FailText>Email tidak valid</FailText>}
+
+      {errorMessage && <FailText> {errorMessage}</FailText>}
 
       <button
         onClick={onNext}

@@ -2,7 +2,11 @@ import axios from 'axios';
 import { ParamsData, Password, PersonalData } from '@/types/authTypes';
 import { employeesTypes } from '@/types/employeeTypes';
 import { paginationTypes } from '@/types/otherTypes';
-import { setEmployees, setEmployee } from '../reducers/employeesReducers';
+import {
+  setEmployees,
+  setEmployee,
+  setEmployeeLog,
+} from '../reducers/employeesReducers';
 import { AppDispatch, RootState } from '@/redux/store';
 
 export const getEmployees =
@@ -198,5 +202,44 @@ export const acceptInvitation =
       console.error(error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+export const logActivityEmployee =
+  (
+    currentPage: number,
+    id: string,
+    setPagination: (pagination: paginationTypes) => void
+  ) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
+    const token = getState().auth.token;
+    try {
+      const config = {
+        method: 'get',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/activity/log/users?page=${currentPage}&id=${id}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const response = await axios.request(config);
+
+      if (response.data.success) {
+        const logLead = response.data.data[0];
+        dispatch(setEmployeeLog(logLead.data[0].activities));
+        setPagination({
+          current_page: logLead.current_page,
+          last_page: logLead.last_page,
+          total: logLead.total,
+          per_page: logLead.per_page,
+          next_page_url: logLead.next_page_url,
+          prev_page_url: logLead.prev_page_url,
+        });
+      } else {
+        console.error(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };

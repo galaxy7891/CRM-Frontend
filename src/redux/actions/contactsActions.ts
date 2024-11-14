@@ -80,18 +80,19 @@ export const addContact =
     setIsSuccess: (success: boolean) => void,
     setErrorMessage: (messages: { [key: string]: string }) => void
   ) =>
-  async () => {
+  async (dispatch: AppDispatch, getState: () => RootState) => {
+    const { token } = getState().auth;
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/contact`,
-        contact,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const config = {
+        method: 'post',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/contact`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: contact,
+      };
+      const response = await axios.request(config);
       if (response.data.success) {
         setIsSuccess(true);
         setTimeout(() => {

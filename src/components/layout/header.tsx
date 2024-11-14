@@ -2,7 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { AppDispatch } from '@/redux/store';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
 import { MENU } from '@/constants/page';
+import { logout } from '@/redux/actions/authActions';
 import Image from 'next/image';
 import useTheme from '../dark-mode';
 import Link from 'next/link';
@@ -16,18 +20,23 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
     { title: string; description?: string } | undefined
   >(undefined);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
-  const { isDarkMode, toggleTheme } = useTheme(); // Custom hook for theme handling
+  const { isDarkMode, toggleTheme } = useTheme();
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
   const pathName = usePathname();
+  const photo = localStorage.getItem('photo');
+
+  const handleLogout = () => {
+    dispatch(logout());
+    console.log('logout');
+    router.push('/login');
+  };
 
   useEffect(() => {
     let matchedPage: { title: string; description?: string } | undefined =
       undefined;
-    const photo = localStorage.getItem('image_url');
-    if (photo) {
-      setProfilePhoto(photo);
-    }
+
     const customPages = ['/user'];
 
     // Check if pathName is in customPages
@@ -145,7 +154,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
               id="avatarButton"
               onClick={toggleDropdown}
               className="w-10 h-10 rounded-full cursor-pointer"
-              src={'/images/default.jpg'}
+              src={photo && photo !== 'null' ? photo : '/images/default.jpg'}
               alt="User dropdown"
               width={40}
               height={40}
@@ -204,12 +213,12 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
                   </li>
                 </ul>
                 <div className="py-1">
-                  <Link
-                    href="/login"
+                  <button
+                    onClick={handleLogout}
                     className="block w-max px-2 py-2 text-sm text-dark-red dark:text-dark-redLight"
                   >
                     Keluar
-                  </Link>
+                  </button>
                 </div>
               </div>
             )}

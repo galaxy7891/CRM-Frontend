@@ -1,24 +1,21 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import React from "react";
-import ImportSuccess from "@/components/import/import-success";
-import ImportFailed from "@/components/import/import-failed";
-// import FileUpload from '@/components/form-input/impor-data';
-import Link from "next/link";
-import { useState, ChangeEvent } from "react";
-// import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
-import { useDispatch } from "react-redux";
-import { importProducts } from "@/redux/actions/productsActions";
-// import axios from "axios";
-import FailText from "@/components/status/fail-text";
-import DashBoardCard from "@/components/layout/dashboard-card";
-import HeaderWithBackButton from "@/components/layout/header-with-back";
+import Image from 'next/image';
+import React from 'react';
+import ImportSuccess from '@/components/import/import-success';
+import ImportFailed from '@/components/import/import-failed';
+import Link from 'next/link';
+import { useState, ChangeEvent } from 'react';
+import { AppDispatch } from '@/redux/store';
+import { useDispatch } from 'react-redux';
+import { importProducts } from '@/redux/actions/productsActions';
+import FailText from '@/components/status/fail-text';
+import DashboardCard from '@/components/layout/dashboard-card';
+import HeaderWithBackButton from '@/components/layout/header-with-back';
 
 const ImporFile = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const [fileName, setFileName] = useState<string>("");
+  const [fileName, setFileName] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>();
   const [errorMessageDetail, setErrorMessageDetail] = useState<string>();
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -49,14 +46,14 @@ const ImporFile = () => {
   return (
     <>
       <HeaderWithBackButton title="Impor Dokumen" />
-      <DashBoardCard>
-        <div className=" flex flex-col justify-center items-center">
-          {isSuccess ? (
-            <ImportSuccess href="/product" />
-          ) : isFailed ? (
-            <ImportFailed errorMessageDetail={errorMessageDetail} />
-          ) : (
-            <>
+      <div className="">
+        {isSuccess ? (
+          <ImportSuccess href="/product" />
+        ) : isFailed ? (
+          <ImportFailed errorMessageDetail={errorMessageDetail} />
+        ) : (
+          <DashboardCard>
+            <div className="flex flex-col justify-center items-center">
               <Image
                 src="/icons/table/impor.svg"
                 alt="impor"
@@ -68,10 +65,10 @@ const ImporFile = () => {
               </p>
               <div className="font-custom text-xs md:text-base text-center text-font-black dark:text-font-white mt-2">
                 <p>
-                  Unggah dokumen dengan format{" "}
+                  Unggah dokumen dengan format{' '}
                   <span className="font-bold">xlsx</span> atau
                   <span className="block">
-                    {" "}
+                    {' '}
                     unduh template sesuai format yang telah ditentukan.
                   </span>
                   <Link
@@ -86,7 +83,7 @@ const ImporFile = () => {
               <div>
                 <input
                   type="text"
-                  value={fileName || "Belum ada file dipilih"}
+                  value={fileName || 'Belum ada file dipilih'}
                   disabled
                   className=" p-2 mt-4  border rounded-[4px] w-full border-font-gray text-start bg-light-white"
                 />
@@ -120,10 +117,10 @@ const ImporFile = () => {
                   className="hidden"
                 />
               </div>
-            </>
-          )}
-        </div>
-      </DashBoardCard>
+            </div>
+          </DashboardCard>
+        )}
+      </div>
     </>
   );
 };

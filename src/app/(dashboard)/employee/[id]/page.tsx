@@ -1,30 +1,33 @@
 'use client';
 import { useParams } from 'next/navigation';
-import CardDetailProduct from '@/app/(dashboard)/product/partials/card-detail-product';
+import CardCustomer from '@/components/layout/detail-customer-card';
 import EditUserButton from '@/components/button/edit-user-button';
 import CustomerInfo from '@/components/import/card-info-customer';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
-import { getProductById, deleteProduct } from '@/redux/actions/productsActions';
-import EditProduct from '../partials/edit-product';
+import EditEmployee from '../partials/edit-employee';
+import {
+  deleteEmployee,
+  getEmployeeById,
+} from '@/redux/actions/employeesActions';
 import DashboardCard from '@/components/layout/dashboard-card';
 import DeleteButton from '@/components/button/delete-button';
 import SuccessModal from '@/components/status/success-modal';
 import ActionConfirmModal from '@/components/status/action-confirm-modal';
-import ProductLog from './partials/product-log';
+import ProductLog from './partials/employee-log';
 
 const DetailProduct = () => {
-  const [isEditProduct, setIsEditProduct] = useState<boolean>(false);
+  const [isEditEmployee, setIsEditEmployee] = useState<boolean>(false);
   const [isDeleteProduct, setIsDeleteProduct] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams<{ id: string }>();
-  const { product } = useSelector((state: RootState) => state.products);
+  const { employee } = useSelector((state: RootState) => state.employees);
 
   const handleEdit = async (id: string) => {
-    await dispatch(getProductById(id));
-    setIsEditProduct(true);
+    await dispatch(getEmployeeById(id));
+    setIsEditEmployee(true);
   };
 
   const handleDeleteConfirmation = () => {
@@ -32,26 +35,37 @@ const DetailProduct = () => {
   };
 
   const handleCloseEdit = () => {
-    setIsEditProduct(false);
+    setIsEditEmployee(false);
   };
 
   const handleDeleteProduct = () => {
     setIsDeleteProduct(false);
-    dispatch(deleteProduct(id, setIsSuccess));
+    dispatch(deleteEmployee(id, setIsSuccess));
   };
 
   useEffect(() => {
     if (id) {
-      dispatch(getProductById(id));
+      dispatch(getEmployeeById(id));
     }
-  }, [dispatch, id, isEditProduct]);
+  }, [dispatch, id, isEditEmployee]);
 
   return (
     <div>
       <DashboardCard>
         <div className="grid grid-cols-12">
           <div className="col-span-12 lg:col-span-4 flex justify-center items-center ">
-            <CardDetailProduct />
+            <CardCustomer
+              data={{
+                name:
+                  employee?.first_name +
+                    (employee?.last_name ? ' ' + employee?.last_name : '') ||
+                  '-',
+                email: employee?.email || '-',
+              }}
+              imageSrc="/images/customer.png"
+              emailHref={`mailto:${employee?.email}`}
+              waHref={`https://wa.me/62${employee?.phone}`}
+            />
           </div>
           <div className="col-span-12 lg:col-start-5 lg:col-span-8">
             <div className="flex items-center mt-2 justify-between">
@@ -59,24 +73,18 @@ const DetailProduct = () => {
                 Data Produk
               </p>
               <div className="flex items-center space-x-2">
-                {product && (
-                  <EditUserButton onClick={() => handleEdit(product.id)} />
+                {employee && (
+                  <EditUserButton onClick={() => handleEdit(employee.id)} />
                 )}
                 <DeleteButton onClick={handleDeleteConfirmation} />
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4 p-4 mt-2 bg-light-white dark:bg-dark-darkGray rounded-[10px]">
-              <CustomerInfo label="Kode Produk" value={product?.code} />
-              <CustomerInfo label="Kategori Produk" value={product?.category} />
-              <CustomerInfo
-                label="Jumlah Produk"
-                value={
-                  product?.quantity && product?.unit
-                    ? `${product.quantity} ${product.unit}`
-                    : '-'
-                }
-              />
-              <CustomerInfo label="Deskripsi" value={product?.description} />
+              <CustomerInfo label="Jabatan" value={employee?.job_position} />
+              <CustomerInfo label="Nomor Telepon" value={employee?.phone} />
+              <CustomerInfo label="Email" value={employee?.email} />
+              <CustomerInfo label="Akses" value={employee?.role} />
+              <CustomerInfo label="Jenis Kelamin" value={employee?.gender} />
             </div>
           </div>
         </div>
@@ -98,8 +106,8 @@ const DetailProduct = () => {
             actionButton_href="/product"
           />
         )}
-        {isEditProduct && (
-          <EditProduct onClose={handleCloseEdit} productProps={product!} />
+        {isEditEmployee && (
+          <EditEmployee onClose={handleCloseEdit} employeeProps={employee!} />
         )}
       </DashboardCard>
       <ProductLog />

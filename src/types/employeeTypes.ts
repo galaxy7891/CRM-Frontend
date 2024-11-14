@@ -16,9 +16,16 @@ export interface employeesTypes {
   image_public_id: string;
 }
 
+export interface activityLogTypes {
+  title: string;
+  datetime: string;
+  description: string;
+}
+
 export interface employeesState {
   employee: employeesTypes | null;
   employees: employeesTypes[];
+  employeeLog: activityLogTypes[];
 }
 
 export interface formActionPropsTypes {

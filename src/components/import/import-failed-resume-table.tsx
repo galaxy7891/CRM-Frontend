@@ -1,9 +1,19 @@
 import React from 'react';
-import DashBoardCard from '../layout/dashboard-card';
+import DashboardCard from '../layout/dashboard-card';
 
 interface TableFailedImportProps {
   errorMessageDetail: any;
 }
+
+type RowData = {
+  row: string;
+  data: {
+    property: string;
+    fail: string;
+  };
+};
+
+type GroupedData = RowData[][];
 
 const TableFailedImport: React.FC<TableFailedImportProps> = ({
   errorMessageDetail,
@@ -24,8 +34,8 @@ const TableFailedImport: React.FC<TableFailedImportProps> = ({
   );
 
   return (
-    <div className="pt-4 lg:pt-8 ">
-      <DashBoardCard>
+    <div className="pt-4 lg:pt-8">
+      <DashboardCard>
         <p className="font-custom text-lg text-font-black dark:text-font-white md:text-[28px] font-medium">
           Kesalahan Impor
         </p>
@@ -50,7 +60,7 @@ const TableFailedImport: React.FC<TableFailedImportProps> = ({
               </tr>
             </thead>
             <tbody>
-              {groupedData.map((rows, rowIndex) => (
+              {(groupedData as GroupedData).map((rows, rowIndex) => (
                 <React.Fragment key={rowIndex}>
                   {rows.map((data: any, index: number) => (
                     <tr
@@ -79,7 +89,7 @@ const TableFailedImport: React.FC<TableFailedImportProps> = ({
             </tbody>
           </table>
         </div>
-      </DashBoardCard>
+      </DashboardCard>
     </div>
   );
 };

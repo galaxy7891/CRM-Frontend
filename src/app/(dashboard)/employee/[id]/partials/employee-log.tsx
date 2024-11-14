@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { activityLogTypes } from '@/types/profileTypes';
+import { activityLogTypes } from '@/types/employeeTypes';
 import { paginationTypes } from '@/types/otherTypes';
-import { logActivityProduct } from '@/redux/actions/productsActions';
+import { logActivityEmployee } from '@/redux/actions/employeesActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '@/redux/store';
 import { useParams } from 'next/navigation';
@@ -25,12 +25,12 @@ const ProductLog = () => {
   const { id } = useParams<{ id: string }>();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { productLog } = useSelector((state: RootState) => state.products);
+  const { employeeLog } = useSelector((state: RootState) => state.employees);
 
   const handleNextPage = () => {
     if (pagination.next_page_url) {
       dispatch(
-        logActivityProduct(pagination.current_page + 1, id, setPagination)
+        logActivityEmployee(pagination.current_page + 1, id, setPagination)
       );
     }
   };
@@ -38,13 +38,13 @@ const ProductLog = () => {
   const handlePrevPage = () => {
     if (pagination.prev_page_url) {
       dispatch(
-        logActivityProduct(pagination.current_page - 1, id, setPagination)
+        logActivityEmployee(pagination.current_page - 1, id, setPagination)
       );
     }
   };
 
   useEffect(() => {
-    dispatch(logActivityProduct(pagination.current_page, id, setPagination));
+    dispatch(logActivityEmployee(pagination.current_page, id, setPagination));
   }, [id, dispatch, pagination.current_page]);
 
   return (
@@ -61,7 +61,7 @@ const ProductLog = () => {
         </div>
         {/* Body */}
         <div className="col-span-12 space-y-4 mt-4">
-          {productLog.map((log: activityLogTypes, index: number) => (
+          {employeeLog.map((log: activityLogTypes, index: number) => (
             <CardActivityLog
               key={index}
               title={log.title}

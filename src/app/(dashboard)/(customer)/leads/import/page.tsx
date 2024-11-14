@@ -9,6 +9,7 @@ import { useState, ChangeEvent } from 'react';
 import axios from 'axios';
 import DashboardCard from '@/components/layout/dashboard-card';
 import FailText from '@/components/status/fail-text';
+import HeaderWithBackButton from '@/components/layout/header-with-back';  
 
 const ImporFile = () => {
   const [fileName, setFileName] = useState<string>('');
@@ -57,6 +58,7 @@ const ImporFile = () => {
 
   return (
     <>
+      <HeaderWithBackButton title="Impor Dokumen" />
       <div className="">
         {isSuccess ? (
           <ImportSuccess href="/leads" />
@@ -64,7 +66,7 @@ const ImporFile = () => {
           <ImportFailed errorMessageDetail={errorMessageDetail} />
         ) : (
           <DashboardCard>
-            <div className='flex flex-col items-center h-full w-full'>
+            <div className="flex flex-col items-center h-full w-full">
               <Image
                 src="/icons/table/impor.svg"
                 alt="impor"

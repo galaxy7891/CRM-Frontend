@@ -105,6 +105,9 @@ const EditContact: React.FC<formActionPropsTypes> = ({
             type="date"
             className="w-full mt-2 p-2 border text-xs md:text-base font-custom focus:ring-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
             placeholder="Tanggal Lahir"
+            onChange={(e) =>
+              setContact({ ...contact, birthdate: e.target.value })
+            }
           />
         </div>
         <div className="order-4">

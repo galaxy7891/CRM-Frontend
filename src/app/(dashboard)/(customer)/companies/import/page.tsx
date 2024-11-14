@@ -27,7 +27,7 @@ const ImporFile = () => {
     formData.append('file', file!);
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/import/contact`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/import/customers_companies`,
         formData,
         {
           headers: {
@@ -61,7 +61,7 @@ const ImporFile = () => {
     <>
       <HeaderWithBackButton title="Impor Dokumen" />
       {isSuccess ? (
-        <ImportSuccess href="/contacts" />
+        <ImportSuccess href="/companies" />
       ) : isFailed ? (
         <ImportFailed errorMessageDetail={errorMessageDetail} />
       ) : (

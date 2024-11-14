@@ -1,5 +1,15 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { contactsTypes } from '@/types/contactsTypes';
+import { useDispatch } from 'react-redux';
+import { addContact } from '@/redux/actions/contactsActions';
+import { AppDispatch } from '@/redux/store';
+import {
+  getProvinces,
+  getCities,
+  getSubDistricts,
+  getVillage,
+  getZipCodes,
+} from '@/utils/getAddressLocation';
 import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
 import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
 import SelectInput from '@/components/form-input/dropdown-input';
@@ -9,77 +19,85 @@ import TextInput from '@/components/form-input/text-input';
 import SidebarFooter from '@/components/layout/sidebar-footer';
 import SidebarModal from '@/components/layout/sidebar-modal';
 import FailText from '@/components/status/fail-text';
+import SuccessModal from '@/components/status/success-modal';
 
 interface FormEditProps {
   onClose: () => void;
   emailLocal: string;
 }
 
-interface dataCustomer {
-  first_name: string;
-  last_name: string;
-  customerCategory: string;
-  job: string;
-  description: string;
-  status: string;
-  birthdate: null;
-  email: string;
-  phone: string;
-  owner: string;
-  address: string;
-  country: string;
-  province: string;
-  city: string;
-  subdistrict: string;
-  village: string;
-  zip_code: string;
-}
 const NewContact: React.FC<FormEditProps> = ({ onClose, emailLocal }) => {
-  const [errorMessage, setErrorMessage] = useState<dataCustomer | null>(null);
-  const [contact, setContact] = useState<dataCustomer>({
+  const [provinces, setProvinces] = useState<{ id: string; text: string }[]>(
+    []
+  );
+  const [cities, setCities] = useState<{ id: string; text: string }[]>([]);
+  const [subDistricts, setSubDistricts] = useState<
+    { id: string; text: string }[]
+  >([]);
+  const [villages, setVillages] = useState<{ id: string; text: string }[]>([]);
+  const [zipCodes, setZipCodes] = useState<{ id: string; text: string }[]>([]);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
+    {}
+  );
+  const [contact, setContact] = useState<contactsTypes>({
+    id: '',
     first_name: '',
     last_name: '',
     customerCategory: '',
     job: '',
     description: '',
     status: '',
-    birthdate: null,
+    birthdate: '',
     email: '',
     phone: '',
     owner: emailLocal,
     address: '',
-    country: '',
     province: '',
     city: '',
     subdistrict: '',
     village: '',
     zip_code: '',
   });
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleAddContact = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/contacts`,
-        contact,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (response.data.success) {
-        window.location.reload();
-      } else {
-        setErrorMessage(response.data.message);
-        console.error(response.data.message);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      console.log(contact);
-    }
+    dispatch(addContact(contact, setIsSuccess, setErrorMessage));
   };
+
+  useEffect(() => {
+    const getLocation = async () => {
+      try {
+        const provinces = await getProvinces();
+        setProvinces(provinces);
+
+        if (contact.province) {
+          const cities = await getCities(contact.province);
+          setCities(cities);
+
+          if (contact.city) {
+            const subDistricts = await getSubDistricts(contact.city);
+            setSubDistricts(subDistricts);
+
+            if (contact.subdistrict) {
+              const villages = await getVillage(contact.subdistrict);
+              setVillages(villages);
+
+              const zipCodes = await getZipCodes(
+                contact.city,
+                contact.subdistrict
+              );
+              setZipCodes(zipCodes);
+            }
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getLocation();
+  }, [contact.province, contact.city, contact.subdistrict]);
 
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Tambah Kontak">
@@ -115,6 +133,9 @@ const NewContact: React.FC<FormEditProps> = ({ onClose, emailLocal }) => {
             type="date"
             className="w-full mt-2 p-2 border text-xs md:text-base font-custom focus:ring-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
             placeholder="Tanggal Lahir"
+            onChange={(e) =>
+              setContact({ ...contact, birthdate: e.target.value })
+            }
           />
         </div>
         <div className="order-4">
@@ -178,26 +199,31 @@ const NewContact: React.FC<FormEditProps> = ({ onClose, emailLocal }) => {
             }
           />
         </div>
+        {/* get location API */}
         <div className="order-10">
           <SelectInput
             label="Provinsi"
             value={contact.province}
             options={[
               { label: 'Pilih Provinsi', value: '', hidden: true },
-              { label: 'Jawa Tengah', value: 'Jawa Tengah' },
+              ...provinces.map((province) => ({
+                label: province.text,
+                value: province.id,
+              })),
             ]}
-            onChange={(e) =>
-              setContact({ ...contact, province: e.target.value })
-            }
+            onChange={(e) => {
+              setContact({ ...contact, province: e.target.value });
+            }}
           />
         </div>
         <div className="order-11 ">
           <SelectInput
             label="Kota"
             value={contact.city}
+            disabled={!contact.province}
             options={[
               { label: 'Pilih Kota', value: '', hidden: true },
-              { label: 'Kota Semarang', value: 'Kota Semarang' },
+              ...cities.map((city) => ({ label: city.text, value: city.id })),
             ]}
             onChange={(e) => setContact({ ...contact, city: e.target.value })}
           />
@@ -206,13 +232,13 @@ const NewContact: React.FC<FormEditProps> = ({ onClose, emailLocal }) => {
           <SelectInput
             label="Kecamatan"
             value={contact.subdistrict}
+            disabled={!contact.city}
             options={[
               { label: 'Pilih Kecamatan', value: '', hidden: true },
-              {
-                label: 'Semarang Tengah',
-                value: 'Semarang Tengah',
-                hidden: false,
-              },
+              ...subDistricts.map((subDistrict) => ({
+                label: subDistrict.text,
+                value: subDistrict.id,
+              })),
             ]}
             onChange={(e) =>
               setContact({ ...contact, subdistrict: e.target.value })
@@ -223,13 +249,13 @@ const NewContact: React.FC<FormEditProps> = ({ onClose, emailLocal }) => {
           <SelectInput
             label="Kelurahan/Desa"
             value={contact.village}
+            disabled={!contact.subdistrict}
             options={[
               { label: 'Pilih Kelurahan/Desa', value: '', hidden: true },
-              {
-                label: 'Pendrikan Kidul',
-                value: 'Pendrikan Kidul',
-                hidden: false,
-              },
+              ...villages.map((village) => ({
+                label: village.text,
+                value: village.id,
+              })),
             ]}
             onChange={(e) =>
               setContact({ ...contact, village: e.target.value })
@@ -240,11 +266,13 @@ const NewContact: React.FC<FormEditProps> = ({ onClose, emailLocal }) => {
           <SelectInput
             label="Kode Pos"
             value={contact.zip_code}
+            disabled={!contact.village}
             options={[
               { label: 'Pilih Kode Pos', value: '', hidden: true },
-              { label: '12345', value: '12345' },
-              { label: '23456', value: '23456' },
-              { label: '34567', value: '34567' },
+              ...zipCodes.map((zipCode) => ({
+                label: zipCode.text,
+                value: zipCode.id,
+              })),
             ]}
             onChange={(e) =>
               setContact({ ...contact, zip_code: e.target.value })
@@ -263,15 +291,21 @@ const NewContact: React.FC<FormEditProps> = ({ onClose, emailLocal }) => {
         </div>
       </form>
       <SidebarFooter>
-        {/* if data empty button disabled */}
         <DashboardSidebarRedButton onClick={onClose}>
           Hapus Semua
         </DashboardSidebarRedButton>
-        {/* Tambah button is used  */}
         <DashboardSidebarYellowButton onClick={handleAddContact}>
           Tambah
         </DashboardSidebarYellowButton>
       </SidebarFooter>
+      {isSuccess && (
+        <SuccessModal
+          header="Berhasil"
+          description="Data Kontak berhasil ditambahkan"
+          actionButton_href="/contact"
+          actionButton_name="Kembali ke Daftar Kontak"
+        />
+      )}
     </SidebarModal>
   );
 };
