@@ -62,7 +62,8 @@ const config: Config = {
           navy: '#132934',
           gray: '#ECECEC',
           darkBlue: '#112D3A',
-          darkGray: '#56646A'
+          darkGray: '#56646A',
+          lightGreen: '#C5F9D7',
         },
       },
     },

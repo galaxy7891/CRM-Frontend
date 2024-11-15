@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 // import axios from "axios";
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
-import { productsTypes, editProductsPropsTypes } from '@/types/productTypes';
-import { updateProduct } from '@/redux/actions/productsActions';
-import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
-import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
-import SelectInput from '@/components/form-input/dropdown-input';
-import TextArea from '@/components/form-input/text-area-input';
-import TextInput from '@/components/form-input/text-input';
-import SidebarFooter from '@/components/layout/sidebar-footer';
-import SidebarModal from '@/components/layout/sidebar-modal';
-import FailText from '@/components/status/fail-text';
-import PriceInput from '@/components/form-input/price-input';
-import SuccessModal from '@/components/status/success-modal';
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { productsTypes, editProductsPropsTypes } from "@/types/productTypes";
+import { updateProduct } from "@/redux/actions/productsActions";
+import DashboardSidebarRedButton from "@/components/button/dashboard-sidebar-red-button";
+import DashboardSidebarYellowButton from "@/components/button/dashboard-sidebar-yellow-button";
+import SelectInput from "@/components/form-input/dropdown-input";
+import TextArea from "@/components/form-input/text-area-input";
+import TextInput from "@/components/form-input/text-input";
+import SidebarFooter from "@/components/layout/sidebar-footer";
+import SidebarModal from "@/components/layout/sidebar-modal";
+import FailText from "@/components/status/fail-text";
+import PriceInput from "@/components/form-input/price-input";
+import SuccessModal from "@/components/status/success-modal";
 
 const EditProduct: React.FC<editProductsPropsTypes> = ({
   onClose,
@@ -30,7 +30,7 @@ const EditProduct: React.FC<editProductsPropsTypes> = ({
   const dispatch = useDispatch<AppDispatch>();
 
   const handleEditProduct = () => {
-    console.log('Data produk yang akan disimpan:', product);
+    console.log("Data produk yang akan disimpan:", product);
     dispatch(updateProduct(product, setIsSuccess, setErrorMessage));
   };
 
@@ -74,6 +74,7 @@ const EditProduct: React.FC<editProductsPropsTypes> = ({
           </div>
           <div className="order-4">
             <PriceInput
+              label="Harga Produk"
               value={product.price}
               onChange={(e) =>
                 setProduct({ ...product, price: e.target.value })
@@ -82,7 +83,7 @@ const EditProduct: React.FC<editProductsPropsTypes> = ({
             />
             {errorMessage && <FailText>{errorMessage.price}</FailText>}
           </div>
-          {product.category !== 'jasa' && (
+          {product.category !== "jasa" && (
             <>
               <div className="order-5">
                 <TextInput
@@ -101,10 +102,10 @@ const EditProduct: React.FC<editProductsPropsTypes> = ({
                   label="Satuan Produk"
                   value={product.unit}
                   options={[
-                    { label: 'Satuan Produk', value: '', hidden: true },
-                    { label: 'Box', value: 'box' },
-                    { label: 'Pcs', value: 'pcs' },
-                    { label: 'Unit', value: 'unit' },
+                    { label: "Satuan Produk", value: "", hidden: true },
+                    { label: "Box", value: "box" },
+                    { label: "Pcs", value: "pcs" },
+                    { label: "Unit", value: "unit" },
                   ]}
                   onChange={(e) =>
                     setProduct({ ...product, unit: e.target.value })

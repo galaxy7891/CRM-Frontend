@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { MENU } from '@/constants/page';
 import { logout } from '@/redux/actions/authActions';
 import Image from 'next/image';
-import useTheme from '../dark-mode';
+import useTheme from '@/components/useTheme';
 import Link from 'next/link';
 
 interface HeaderProps {

@@ -84,6 +84,7 @@ const NewProduct: React.FC<newProductsProps> = ({ onClose }) => {
           </div>
           <div className="order-4">
             <PriceInput
+              label="Harga Produk"
               value={product.price}
               onChange={(e) =>
                 setProduct({ ...product, price: e.target.value })
