@@ -141,7 +141,11 @@ export const updateProduct =
   };
 
 export const deleteProduct =
-  (ids: string | string[], setIsSuccess: (success: boolean) => void) =>
+  (
+    ids: string | string[],
+    setIsSuccess: (success: boolean) => void,
+    setIsDeleteFail: (fail: boolean) => void
+  ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const token = getState().auth.token;
 
@@ -158,6 +162,9 @@ export const deleteProduct =
 
       if (response.data.success) {
         setIsSuccess(true);
+      }
+      if (!response.data.success) {
+        setIsDeleteFail(true);
       }
     } catch (error) {
       console.error('Error deleting product(s):', error);

@@ -13,11 +13,13 @@ import DeleteButton from '@/components/button/delete-button';
 import SuccessModal from '@/components/status/success-modal';
 import ActionConfirmModal from '@/components/status/action-confirm-modal';
 import ProductLog from './partials/product-log';
+import FailModal from '@/components/status/fail-modal';
 
 const DetailProduct = () => {
   const [isEditProduct, setIsEditProduct] = useState<boolean>(false);
   const [isDeleteProduct, setIsDeleteProduct] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [isDeleteFail, setIsDeleteFail] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams<{ id: string }>();
   const { product } = useSelector((state: RootState) => state.products);
@@ -37,7 +39,7 @@ const DetailProduct = () => {
 
   const handleDeleteProduct = () => {
     setIsDeleteProduct(false);
-    dispatch(deleteProduct(id, setIsSuccess));
+    dispatch(deleteProduct(id, setIsSuccess, setIsDeleteFail));
   };
 
   useEffect(() => {
@@ -100,6 +102,15 @@ const DetailProduct = () => {
         )}
         {isEditProduct && (
           <EditProduct onClose={handleCloseEdit} productProps={product!} />
+        )}
+        {isDeleteFail && (
+          <FailModal
+            description="Beberapa data gagal dihapus, terdapat deals yang sedang berlangsung"
+            closeModal={true}
+            actionButton={false}
+            actionButton_href=""
+            actionButton_name=""
+          />
         )}
       </DashboardCard>
       <ProductLog />

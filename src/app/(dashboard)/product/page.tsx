@@ -25,6 +25,7 @@ import Checkbox from '@/components/button/checkbox';
 import DeleteTableButton from '@/components/button/delete-table-button';
 import ExportButton from '@/components/button/export-button';
 import NewProduct from './partials/new-product';
+import FailModal from '@/components/status/fail-modal';
 // import EmptyTable from '@/components/table/empty-table';
 
 const Product = () => {
@@ -33,6 +34,7 @@ const Product = () => {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isEditProduct, setIsEditProduct] = useState<boolean>(false);
   const [isAddProduct, setIsAddProduct] = useState<boolean>(false);
+  const [isDeleteFail, setIsDeleteFail] = useState<boolean>(false);
   const [isDeleteProduct, setIsDeleteProduct] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<string>('');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -59,7 +61,7 @@ const Product = () => {
       minimumFractionDigits: 0,
     }).format(num);
   };
-  
+
   const dispatch = useDispatch<AppDispatch>();
   const { product } = useSelector((state: RootState) => state.products);
   const { products } = useSelector((state: RootState) => state.products);
@@ -84,9 +86,9 @@ const Product = () => {
 
   const handleDeleteProduct = () => {
     if (selectedIds.length > 0) {
-      dispatch(deleteProduct(selectedIds, setIsSuccess));
+      dispatch(deleteProduct(selectedIds, setIsSuccess, setIsDeleteFail));
     } else if (selectedId) {
-      dispatch(deleteProduct(selectedId, setIsSuccess));
+      dispatch(deleteProduct(selectedId, setIsSuccess, setIsDeleteFail));
     }
     setIsDeleteProduct(false);
   };
@@ -272,6 +274,15 @@ const Product = () => {
                 actionButton={true}
                 actionButton_name="Kembali"
                 actionButton_action={() => setIsSuccess(false)}
+              />
+            )}
+            {isDeleteFail && (
+              <FailModal
+                description="Beberapa data gagal dihapus, terdapat deals yang sedang berlangsung"
+                closeModal={true}
+                actionButton={false}
+                actionButton_href=""
+                actionButton_name=""
               />
             )}
           </>

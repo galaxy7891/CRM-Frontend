@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { useState } from "react";
+import Image from 'next/image';
+import { useState } from 'react';
 
 interface FailModalProps {
   description: string;
@@ -21,7 +21,6 @@ const FailModal: React.FC<FailModalProps> = ({
 
   const handleClose = () => {
     setIsOpen(false);
-    window.location.reload();
   };
 
   if (!isOpen) {
@@ -60,7 +59,7 @@ const FailModal: React.FC<FailModalProps> = ({
           <h2 className="text-xs md:text-xl font-bold text-font-black font-custom">
             Gagal
           </h2>
-          <p className=" text-xs md:text-xl text-font-black font-custom">{description}</p>
+          <p className=" text-xs md:text-base my-3">{description}</p>
           {actionButton && (
             <div className="w-full">
               <a
