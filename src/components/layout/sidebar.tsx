@@ -35,7 +35,11 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
   const [hoveredDropdown, setHoveredDropdown] = useState<number | null>(null);
   const pathName = usePathname();
   const [isDesktop, setIsDesktop] = useState(true);
-  const user = localStorage.getItem('role');
+  let user = null;
+
+  if (typeof window !== 'undefined') {
+    user = localStorage.getItem('role');
+  }
 
   useEffect(() => {
     setActiveLink(pathName);

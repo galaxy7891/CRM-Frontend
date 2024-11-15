@@ -25,7 +25,11 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const pathName = usePathname();
-  const photo = localStorage.getItem('photo');
+
+  let photo = null;
+  if (typeof window !== 'undefined') {
+    photo = localStorage.getItem('photo');
+  }
 
   const handleLogout = () => {
     dispatch(logout());

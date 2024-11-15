@@ -21,9 +21,9 @@ export const getProfile =
     setDataUser: (user: dataUser) => void,
     setDataCompany: (company: dataCompany) => void
   ) =>
-  async () => {
-    const token = localStorage.getItem('token');
+  async (dispatch: AppDispatch, getState: () => RootState) => {
     try {
+      const { token } = getState().auth;
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/api/user`,
         {

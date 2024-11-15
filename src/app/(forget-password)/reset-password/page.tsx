@@ -4,7 +4,7 @@ import { newPassword } from '@/types/profileTypes';
 import { resetPassword } from '@/redux/actions/profileActions';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import AuthLeftSection from '@/components/icon-forget';
@@ -25,6 +25,7 @@ const ResetPassword: React.FC = () => {
   });
   const dispatch = useDispatch<AppDispatch>();
   const searchParams = useSearchParams();
+
   const token = searchParams.get('token');
   const email = searchParams.get('email');
 
@@ -162,4 +163,10 @@ const ResetPassword: React.FC = () => {
   );
 };
 
-export default ResetPassword;
+const ResetPasswordPage = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <ResetPassword />
+  </Suspense>
+);
+
+export default ResetPasswordPage;
