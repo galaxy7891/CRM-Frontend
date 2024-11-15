@@ -1,10 +1,6 @@
 import axios from 'axios';
 import {
   newPassword,
-  dashboardUser,
-  dashboardActivities,
-  dashboardDealsCount,
-  dashboardDealsValue,
   dataUser,
   dataCompany,
   changePasswordTypes,
@@ -12,7 +8,13 @@ import {
 
 import { AppDispatch, RootState } from '../store';
 import { paginationTypes } from '@/types/otherTypes';
-import { setLogProfile } from '../reducers/profileReducers';
+import {
+  setLogProfile,
+  setDashboardUser,
+  setDashboardActivities,
+  setDashboardDealsCount,
+  setDashboardDealsValue,
+} from '../reducers/profileReducers';
 
 export const getProfile =
   (
@@ -39,8 +41,40 @@ export const getProfile =
     }
   };
 
+export const getDashboardData =
+  () => async (dispatch: AppDispatch, getState: () => RootState) => {
+    const { token } = getState().auth;
+
+    try {
+      const config = {
+        method: 'get',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/dashboard`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.request(config);
+
+      if (response.data.success) {
+        dispatch(setDashboardUser(response.data.data));
+        dispatch(setDashboardActivities(response.data.data.activities));
+        dispatch(
+          setDashboardDealsValue(response.data.data.deals_pipeline.value)
+        );
+        dispatch(
+          setDashboardDealsCount(response.data.data.deals_pipeline.count)
+        );
+      }
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+    }
+  };
+
 export const updateUserProfile =
-  (userProfile: dataUser) =>
+  (
+    userProfile: dataUser,
+    setErrorMessage: (messages: { [key: string]: string }) => void
+  ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;
 
@@ -59,6 +93,7 @@ export const updateUserProfile =
 
       if (response.data.success) {
       } else {
+        setErrorMessage(response.data.message);
         console.error(response.data.message);
       }
     } catch (error) {
@@ -165,37 +200,6 @@ export const changePassword =
       }
     } catch (error) {
       console.error(error);
-    }
-  };
-
-export const getDashboardData =
-  (
-    setDashboardUser: (data: dashboardUser) => void,
-    setDashboardActivities: (activities: dashboardActivities) => void,
-    setDashboardDealsValue: (value: dashboardDealsValue) => void,
-    setDashboardDealsCount: (count: dashboardDealsCount) => void
-  ) =>
-  async (dispatch: AppDispatch, getState: () => RootState) => {
-    const { token } = getState().auth;
-
-    try {
-      const config = {
-        method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/dashboard`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      const response = await axios.request(config);
-
-      if (response.data.success) {
-        setDashboardUser(response.data.data);
-        setDashboardActivities(response.data.data.activities);
-        setDashboardDealsValue(response.data.data.deals_pipeline.value);
-        setDashboardDealsCount(response.data.data.deals_pipeline.count);
-      }
-    } catch (error) {
-      console.error('Error fetching dashboard data:', error);
     }
   };
 

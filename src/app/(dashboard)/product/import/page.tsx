@@ -9,6 +9,7 @@ import { useState, ChangeEvent } from 'react';
 import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import { importProducts } from '@/redux/actions/productsActions';
+import { ImportErrorMessageDetailTypes } from '@/types/otherTypes';
 import FailText from '@/components/status/fail-text';
 import DashboardCard from '@/components/layout/dashboard-card';
 import HeaderWithBackButton from '@/components/layout/header-with-back';
@@ -17,7 +18,8 @@ const ImporFile = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [fileName, setFileName] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>();
-  const [errorMessageDetail, setErrorMessageDetail] = useState<string>();
+  const [errorMessageDetail, setErrorMessageDetail] =
+    useState<ImportErrorMessageDetailTypes | null>(null);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isFailed, setIsFailed] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
@@ -50,7 +52,7 @@ const ImporFile = () => {
         {isSuccess ? (
           <ImportSuccess href="/product" />
         ) : isFailed ? (
-          <ImportFailed errorMessageDetail={errorMessageDetail} />
+          <ImportFailed errorMessageDetail={errorMessageDetail!} />
         ) : (
           <DashboardCard>
             <div className="flex flex-col justify-center items-center">

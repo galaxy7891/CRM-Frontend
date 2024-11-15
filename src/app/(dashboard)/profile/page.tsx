@@ -16,12 +16,9 @@ const User = () => {
   const [showProfile, setShowProfile] = useState<boolean>(true);
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleGetProfile = () => {
-    dispatch(getProfile(setDataUser, setDataCompany));
-  };
   useEffect(() => {
-    handleGetProfile();
-  }, []);
+    dispatch(getProfile(setDataUser, setDataCompany));
+  }, [dispatch]);
 
   return (
     <>

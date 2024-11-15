@@ -1,10 +1,11 @@
 import React, { FC } from 'react';
+import { ImportErrorMessageDetailTypes } from '@/types/otherTypes';
 import CardFailed from './resume-card';
 import ImportFailedResumeTable from './import-failed-resume-table';
 import DashboardCard from '@/components/layout/dashboard-card';
 import DashboardPositiveButton from '@/components/button/dashboard-positive-button';
 interface ResumeFailedImporProps {
-  errorMessageDetail: any;
+  errorMessageDetail: ImportErrorMessageDetailTypes;
 }
 
 const ResumeFailedImpor: FC<ResumeFailedImporProps> = ({
@@ -23,7 +24,7 @@ const ResumeFailedImpor: FC<ResumeFailedImporProps> = ({
           </DashboardPositiveButton>
         </div>
         <p className="mt-4 text-xs md:text-lg font-custom text-font-black dark:text-font-white font-bold">
-          {errorMessageDetail.type}
+          {errorMessageDetail.data_type}
         </p>
         <p className="mt-2 text-xs md:text-lg font-custom text-font-black dark:text-font-white font-medium">
           {errorMessageDetail.date}

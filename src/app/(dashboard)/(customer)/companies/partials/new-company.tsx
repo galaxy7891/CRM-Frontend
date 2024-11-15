@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { companiesTypes } from '@/types/companiesTypes';
 import { useDispatch } from 'react-redux';
 import { addCompany } from '@/redux/actions/companiesActions';
@@ -65,6 +65,40 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
   const handleAddCompany = () => {
     dispatch(addCompany(company, setIsSuccess, setErrorMessage));
   };
+
+  useEffect(() => {
+    const getLocation = async () => {
+      try {
+        const provinces = await getProvinces();
+        setProvinces(provinces);
+
+        if (company.province) {
+          const cities = await getCities(company.province);
+          setCities(cities);
+
+          if (company.city) {
+            const subDistricts = await getSubDistricts(company.city);
+            setSubDistricts(subDistricts);
+
+            if (company.subdistrict) {
+              const villages = await getVillage(company.subdistrict);
+              setVillages(villages);
+
+              const zipCodes = await getZipCodes(
+                company.city,
+                company.subdistrict
+              );
+              setZipCodes(zipCodes);
+            }
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getLocation();
+  }, [company.province, company.city, company.subdistrict]);
 
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Tambah Perusahaan">

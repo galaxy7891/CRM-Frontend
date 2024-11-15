@@ -1,10 +1,10 @@
-export interface dashboardActivities {
+interface dashboardActivities {
   leads: number;
   contacts: number;
   organizations: number;
 }
 
-export interface dashboardDealsCount {
+interface dashboardDealsCount {
   qualification: number;
   proposal: number;
   negotiation: number;
@@ -12,7 +12,7 @@ export interface dashboardDealsCount {
   lose: number;
 }
 
-export interface dashboardDealsValue {
+interface dashboardDealsValue {
   qualification: string;
   proposal: string;
   negotiation: string;
@@ -20,15 +20,18 @@ export interface dashboardDealsValue {
   lose: string;
 }
 
-export interface dashboardDeals {
-  count: dashboardDealsCount;
-  value: dashboardDealsValue;
-}
-
-export interface dashboardUser {
+interface dashboardUser {
   date: string;
   greeting: string;
   user: string;
+}
+
+export interface profileState {
+  logProfile: activityLogTypes[];
+  dashboardUser: dashboardUser ;
+  dashboardActivities: dashboardActivities;
+  dashboardDealsValue: dashboardDealsValue;
+  dashboardDealsCount: dashboardDealsCount;
 }
 
 export interface dataUser {

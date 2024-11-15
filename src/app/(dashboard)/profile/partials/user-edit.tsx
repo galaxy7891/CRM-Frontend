@@ -17,11 +17,13 @@ interface FormEditProps {
 }
 
 const EditUser: React.FC<FormEditProps> = ({ onClose, data }) => {
-  const [errorMessage, setErrorMessage] = useState<dataUser | null>(null);
+  const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
+    {}
+  );
   const [userProfile, setUserProfile] = useState<dataUser>(data);
   const dispatch = useDispatch<AppDispatch>();
   const handleUpdateUser = () => {
-    dispatch(updateUserProfile(userProfile));
+    dispatch(updateUserProfile(userProfile, setErrorMessage));
   };
 
   return (

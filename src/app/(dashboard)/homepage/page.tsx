@@ -1,31 +1,16 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
-import {
-  dashboardUser,
-  dashboardActivities,
-  dashboardDealsValue,
-  dashboardDealsCount,
-} from '@/types/profileTypes';
+import { useEffect } from 'react';
 import { getDashboardData } from '@/redux/actions/profileActions';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
 import { useRouter } from 'next/navigation';
-
 import DashboardPositiveButton from '@/components/button/dashboard-positive-button';
 import DashboardCard from '@/components/layout/dashboard-card';
 import CardActivity from './partials/card-activity';
 import CardDeals from '@/app/(dashboard)/homepage/partials/card-pipeline';
 
-const Dashboard: FC = () => {
-  const [dashboardUser, setDashboardUser] = useState<dashboardUser>();
-  const [dashboardActivities, setDashboardActivities] =
-    useState<dashboardActivities>();
-  const [dashboardDealsValue, setDashboardDealsValue] =
-    useState<dashboardDealsValue>();
-  const [dashboardDealsCount, setDashboardDealsCount] =
-    useState<dashboardDealsCount>();
-
+const Dashboard = () => {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
@@ -33,15 +18,15 @@ const Dashboard: FC = () => {
     router.push('/deals');
   };
 
+  const {
+    dashboardUser,
+    dashboardActivities,
+    dashboardDealsValue,
+    dashboardDealsCount,
+  } = useSelector((state: RootState) => state.profile);
+
   useEffect(() => {
-    dispatch(
-      getDashboardData(
-        setDashboardUser,
-        setDashboardActivities,
-        setDashboardDealsValue,
-        setDashboardDealsCount
-      )
-    );
+    dispatch(getDashboardData());
   }, [dispatch]);
 
   return (

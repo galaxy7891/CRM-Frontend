@@ -3,11 +3,9 @@ import axios from 'axios';
 
 const FileUpload: React.FC = () => {
   const [fileName, setFileName] = useState<string>('');
-  const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
 
   const handleSubmitFile = async () => {
-    console.log('gass', fileName);
     const token = localStorage.getItem('token');
     const formData = new FormData();
     formData.append('file', file!);
@@ -23,7 +21,6 @@ const FileUpload: React.FC = () => {
         }
       );
       if (response.data.success) {
-        setSuccess(true);
       } else {
         console.error(response.data.message);
       }

@@ -13,8 +13,6 @@ const EmailSend: React.FC<EmailSendProps> = ({
   handleBackButton,
   isLoading,
 }) => {
-  const email = localStorage.getItem('email');
-
   return (
     <>
       <HeaderWithBackButton title="Lupa Kata Sandi" />
@@ -32,7 +30,7 @@ const EmailSend: React.FC<EmailSendProps> = ({
           </h2>
 
           <p className="text-black dark:text-white text-xs md:text-base w-1/2 mt-5 text-center ">
-            Periksa email {email} untuk melakkan verifikasi Jika tidak menerima
+            Periksa email anda untuk melakkan verifikasi Jika tidak menerima
             pesan selama 3 menit.{' '}
             <span
               className="text-xs md:text-base font-bold text-dark-gold hover:underline cursor-pointer"

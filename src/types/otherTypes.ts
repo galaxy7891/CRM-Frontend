@@ -33,3 +33,47 @@ export type selectedIds = {
   villageId: string;
   zipCodeId: string;
 };
+
+export type RowData = {
+  row: string;
+  data: {
+    property: string;
+    fail: string;
+  };
+};
+
+interface dataFailedTypes {
+  property: string;
+  fail: string;
+}
+
+
+
+interface ImportFailedDetailDataTypes {
+  row: number;
+  dataFailed: dataFailedTypes;
+  
+}
+
+interface ImportFailedDataTypes {
+  currentPage: number;
+  data: ImportFailedDetailDataTypes;
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  links: string;
+}
+
+interface ImportSummaryDataTypes {
+  total_data: number;
+  valid_data: number;
+  invalid_data: number;
+}
+export interface ImportErrorMessageDetailTypes {
+  file: string;
+  data_type: string;
+  date: string;
+  summaryData: ImportSummaryDataTypes;
+  failedData: ImportFailedDataTypes;
+}

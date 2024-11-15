@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { companiesTypes } from '@/types/companiesTypes';
-import { paginationTypes } from '@/types/otherTypes';
+import {
+  paginationTypes,
+  ImportErrorMessageDetailTypes,
+} from '@/types/otherTypes';
 import {
   setCompany,
   setCompanies,
@@ -197,6 +200,44 @@ export const logActivityCompany =
         });
       } else {
         console.error(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+export const importCompanies =
+  (
+    file: File,
+    setIsSuccess: (success: boolean) => void,
+    setErrorMessage: (messages: string) => void,
+    setErrorMessageDetail: (messages: ImportErrorMessageDetailTypes) => void,
+    setIsFailed: (success: boolean) => void
+  ) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
+    const { token } = getState().auth;
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const config = {
+        method: 'post',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/import/customers_companies`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+        data: formData,
+      };
+
+      const response = await axios.request(config);
+
+      if (response.data.success) {
+        setIsSuccess(true);
+      } else {
+        setErrorMessage(response.data.message);
+        setErrorMessageDetail(response.data.data);
+        setIsFailed(true);
       }
     } catch (error) {
       console.error(error);

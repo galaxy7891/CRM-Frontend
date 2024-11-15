@@ -7,6 +7,7 @@ import {
 } from '../reducers/productsReducers';
 import { AppDispatch, RootState } from '@/redux/store';
 import { paginationTypes } from '@/types/otherTypes';
+import { ImportErrorMessageDetailTypes } from '@/types/otherTypes';
 
 export const getProducts =
   (
@@ -207,7 +208,7 @@ export const importProducts =
     file: File,
     setIsSuccess: (success: boolean) => void,
     setErrorMessage: (messages: string) => void,
-    setErrorMessageDetail: (messages: string) => void,
+    setErrorMessageDetail: (messages: ImportErrorMessageDetailTypes) => void,
     setIsFailed: (success: boolean) => void
   ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
@@ -242,7 +243,7 @@ export const importProducts =
 
 export const updatePhotoProduct =
   (
-    photo: File,
+    photo: File | null,
     id: string,
     setErrorMessage: (message: string) => void,
     setIsLoading: (loading: boolean) => void
@@ -250,7 +251,9 @@ export const updatePhotoProduct =
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;
     const formData = new FormData();
-    formData.append('photo_product', photo);
+    if (photo) {
+      formData.append('photo_product', photo);
+    }
 
     try {
       setIsLoading(true);

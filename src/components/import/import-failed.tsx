@@ -2,11 +2,14 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import React from 'react';
+import { ImportErrorMessageDetailTypes } from '@/types/otherTypes';
 import ImportFailedResume from './import-failed-resume';
 import DashboardCard from '@/components/layout/dashboard-card';
+
 interface ImportFailedProps {
-  errorMessageDetail: any;
+  errorMessageDetail: ImportErrorMessageDetailTypes;
 }
+
 const FailedImpor: React.FC<ImportFailedProps> = ({ errorMessageDetail }) => {
   const [showResume, setShowResume] = useState(false);
 
