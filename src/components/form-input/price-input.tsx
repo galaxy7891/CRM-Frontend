@@ -1,19 +1,25 @@
-import React from 'react';
-import Asterisk from '../status/required-asterisk';
+import React from "react";
+import Asterisk from "../status/required-asterisk";
 
 interface PriceInputProps {
+  label: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
   disabled?: boolean;
 }
 
-const PriceInput: React.FC<PriceInputProps> = ({ value, onChange, required, disabled }) => {
-
+const PriceInput: React.FC<PriceInputProps> = ({
+  label,
+  value,
+  onChange,
+  required,
+  disabled,
+}) => {
   return (
     <div className="flex-1">
       <label className="block text-xs md:text-base font-custom text-font-black dark:text-font-white">
-        Harga Produk
+        {label}
         {required && <Asterisk />}
       </label>
       <div className="flex mt-2">

@@ -1,14 +1,23 @@
+import Asterisk from "../status/required-asterisk";
+
 interface BirthdateProps {
   label: string;
   value: string;
+  required?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Birthdate: React.FC<BirthdateProps> = ({ label, value, onChange }) => {
+const DateInput: React.FC<BirthdateProps> = ({
+  label,
+  value,
+  onChange,
+  required,
+}) => {
   return (
-    <>
+    <div className="flex-1">
       <label className="block text-xs md:text-base font-custom text-font-black dark:text-font-white">
         {label}
+        {required && <Asterisk />}
       </label>
       <input
         type="date"
@@ -17,8 +26,8 @@ const Birthdate: React.FC<BirthdateProps> = ({ label, value, onChange }) => {
         value={value}
         onChange={onChange}
       />
-    </>
+    </div>
   );
 };
 
-export default Birthdate;
+export default DateInput;

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { MENU } from '@/constants/page';
 import Image from 'next/image';
-import useTheme from '../dark-mode';
+import useTheme from '@/components/useTheme';
 import Link from 'next/link';
 
 interface HeaderProps {
