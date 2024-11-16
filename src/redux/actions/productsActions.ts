@@ -159,11 +159,9 @@ export const deleteProduct =
         data: { id: Array.isArray(ids) ? ids : [ids] },
       };
       const response = await axios.request(config);
-
       if (response.data.success) {
         setIsSuccess(true);
-      }
-      if (!response.data.success) {
+      } else if (!response.data.success) {
         setIsDeleteFail(true);
       }
     } catch (error) {
@@ -238,8 +236,9 @@ export const importProducts =
 
       if (response.data.success) {
         setIsSuccess(true);
-      } else {
+      } else if (!response.data.success && !response.data.data) {
         setErrorMessage(response.data.message);
+      } else {
         setErrorMessageDetail(response.data.data);
         setIsFailed(true);
       }

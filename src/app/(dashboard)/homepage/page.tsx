@@ -63,7 +63,7 @@ const Dashboard = () => {
             />
             <CardActivity
               title="Perusahaan"
-              count={dashboardActivities?.organizations || 0}
+              count={dashboardActivities?.customers_companies || 0}
               link="/companies"
             />
           </div>

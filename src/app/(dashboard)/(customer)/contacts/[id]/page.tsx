@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { getContactById, deleteContact } from '@/redux/actions/contactsActions';
 import EditContact from '../partials/edit-contact';
-import ContactLog from '../../companies/[id]/partials/company-log';
+import ContactLog from './partials/contact-log';
 import DashboardCard from '@/components/layout/dashboard-card';
 import SuccessModal from '@/components/status/success-modal';
 import ActionConfirmModal from '@/components/status/action-confirm-modal';

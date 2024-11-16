@@ -56,9 +56,6 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
         console.error(response.data);
       }
 
-      // onClose();
-      // window.location.reload();
-      // console.log(response.data);
     } catch (error) {
       console.error(error);
     }

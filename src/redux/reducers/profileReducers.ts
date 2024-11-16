@@ -4,7 +4,7 @@ import { profileState } from '@/types/profileTypes';
 const initialState: profileState = {
   logProfile: [],
   dashboardUser: { date: '', greeting: '', user: '' },
-  dashboardActivities: { leads: 0, contacts: 0, organizations: 0 },
+  dashboardActivities: { leads: 0, contacts: 0, customers_companies: 0 },
   dashboardDealsValue: {
     qualification: '',
     proposal: '',

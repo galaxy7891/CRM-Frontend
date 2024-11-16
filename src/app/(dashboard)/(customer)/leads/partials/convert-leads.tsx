@@ -50,25 +50,7 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
   const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
     {}
   );
-  const [lead, setLead] = useState<leadsTypes>({
-    id: leadProps?.id || '',
-    first_name: leadProps?.first_name || '',
-    last_name: leadProps?.last_name || '',
-    job: leadProps?.job || '',
-    description: leadProps?.description || '',
-    status: leadProps?.status || '',
-    birthdate: leadProps?.birthdate || '',
-    email: leadProps?.email || '',
-    phone: leadProps?.phone || '',
-    owner: leadProps?.owner || '',
-    organization: leadProps?.organization || '',
-    address: leadProps?.address || '',
-    province: leadProps?.province || '',
-    city: leadProps?.city || '',
-    subdistrict: leadProps?.subdistrict || '',
-    village: leadProps?.village || '',
-    zip_code: leadProps?.zip_code || '',
-  });
+  const [lead, setLead] = useState<leadsTypes>(leadProps);
 
   const dispatch = useAppDispatch();
 
@@ -180,9 +162,11 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
         <div className="order-8 md:order-8">
           <SelectInput
             label="Perusahaan"
-            value={lead.organization || ''}
+            value={lead.customers_company || ''}
             options={[{ label: 'Pilih Organisasi', value: '', hidden: true }]}
-            onChange={(e) => setLead({ ...lead, organization: e.target.value })}
+            onChange={(e) =>
+              setLead({ ...lead, customers_company: e.target.value })
+            }
             required
           />
         </div>

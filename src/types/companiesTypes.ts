@@ -29,6 +29,7 @@ export interface formActionPropsTypes {
 
 export interface companiesState {
   companies: companiesTypes[];
+  companiesDropdown: companiesTypes[];
   company: companiesTypes | null;
   companyLog: activityLogTypes[];
 }

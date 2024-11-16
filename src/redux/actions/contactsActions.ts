@@ -212,6 +212,7 @@ export const importContacts =
     setIsFailed: (success: boolean) => void
   ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
+    console.log('hitting importContacts');
     const { token } = getState().auth;
     const formData = new FormData();
     formData.append('file', file);
@@ -231,8 +232,9 @@ export const importContacts =
 
       if (response.data.success) {
         setIsSuccess(true);
-      } else {
+      } else if (!response.data.success && !response.data.data) {
         setErrorMessage(response.data.message);
+      } else {
         setErrorMessageDetail(response.data.data);
         setIsFailed(true);
       }

@@ -234,8 +234,9 @@ export const importCompanies =
 
       if (response.data.success) {
         setIsSuccess(true);
-      } else {
+      } else if (!response.data.success && !response.data.data) {
         setErrorMessage(response.data.message);
+      } else {
         setErrorMessageDetail(response.data.data);
         setIsFailed(true);
       }

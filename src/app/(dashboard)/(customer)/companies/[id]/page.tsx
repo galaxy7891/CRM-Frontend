@@ -9,7 +9,7 @@ import {
   deleteCompany,
 } from '@/redux/actions/companiesActions';
 import EditCompany from '../partials/edit-company';
-import CompanyLog from './partials/company-log';
+import CompanyLog from './partials/companies-log';
 import DashboardCard from '@/components/layout/dashboard-card';
 import SuccessModal from '@/components/status/success-modal';
 import ActionConfirmModal from '@/components/status/action-confirm-modal';

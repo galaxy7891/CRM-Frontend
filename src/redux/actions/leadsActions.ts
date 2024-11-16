@@ -84,7 +84,7 @@ export const addLead =
     try {
       const config = {
         method: 'post',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/contact`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/leads`,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -266,6 +266,7 @@ export const importLeads =
     setIsFailed: (success: boolean) => void
   ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
+    console.log('hitting importLeads');
     const { token } = getState().auth;
     const formData = new FormData();
     formData.append('file', file);
@@ -283,13 +284,14 @@ export const importLeads =
 
       const response = await axios.request(config);
 
-      if (response.data.success) {
-        setIsSuccess(true);
-      } else {
-        setErrorMessage(response.data.message);
-        setErrorMessageDetail(response.data.data);
-        setIsFailed(true);
-      }
+     if (response.data.success) {
+       setIsSuccess(true);
+     } else if (!response.data.success && !response.data.data) {
+       setErrorMessage(response.data.message);
+     } else {
+       setErrorMessageDetail(response.data.data);
+       setIsFailed(true);
+     }
     } catch (error) {
       console.error(error);
     }

@@ -16,7 +16,7 @@ const ResumeFailedImpor: FC<ResumeFailedImporProps> = ({
       <DashboardCard>
         <div className="flex justify-between ">
           <p className="font-custom text-base text-font-black dark:text-font-white md:text-2xl">
-            {errorMessageDetail.file}
+            {errorMessageDetail?.file}
           </p>
 
           <DashboardPositiveButton onClick={() => window.location.reload()}>
@@ -24,10 +24,10 @@ const ResumeFailedImpor: FC<ResumeFailedImporProps> = ({
           </DashboardPositiveButton>
         </div>
         <p className="mt-4 text-xs md:text-lg font-custom text-font-black dark:text-font-white font-bold">
-          {errorMessageDetail.data_type}
+          {errorMessageDetail?.data_type}
         </p>
         <p className="mt-2 text-xs md:text-lg font-custom text-font-black dark:text-font-white font-medium">
-          {errorMessageDetail.date}
+          {errorMessageDetail?.date}
         </p>
         <p className="mt-8 text-lg md:text-[28px] font-custom text-font-black dark:text-font-white font-bold">
           Ringkasan
@@ -35,15 +35,15 @@ const ResumeFailedImpor: FC<ResumeFailedImporProps> = ({
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <CardFailed
             title="Jumlah Data"
-            count={errorMessageDetail.summaryData.total_data}
+            count={errorMessageDetail?.summaryData.total_data}
           />
           <CardFailed
             title="Data Valid"
-            count={errorMessageDetail.summaryData.valid_data}
+            count={errorMessageDetail?.summaryData.valid_data}
           />
           <CardFailed
             title="Data Tidak Valid"
-            count={errorMessageDetail.summaryData.invalid_data}
+            count={errorMessageDetail?.summaryData.invalid_data}
           />
         </div>
       </DashboardCard>

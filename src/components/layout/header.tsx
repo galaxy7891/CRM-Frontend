@@ -25,17 +25,16 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const pathName = usePathname();
-
-  let photo = null;
-  if (typeof window !== 'undefined') {
-    photo = localStorage.getItem('photo');
-  }
-
+  let photo: string | null = '';
   const handleLogout = () => {
     dispatch(logout());
     console.log('logout');
     router.push('/login');
   };
+  
+  if (typeof window !== 'undefined') {
+    photo = localStorage.getItem('photo');
+  }
 
   useEffect(() => {
     let matchedPage: { title: string; description?: string } | undefined =

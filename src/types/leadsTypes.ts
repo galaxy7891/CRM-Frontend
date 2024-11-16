@@ -7,7 +7,7 @@ export interface leadsTypes {
   description: string;
   status: string;
   birthdate: string;
-  organization?: string;
+  customers_company?: string;
   email: string;
   phone: string;
   owner: string;

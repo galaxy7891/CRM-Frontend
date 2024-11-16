@@ -1,7 +1,7 @@
 interface dashboardActivities {
   leads: number;
   contacts: number;
-  organizations: number;
+  customers_companies: number;
 }
 
 interface dashboardDealsCount {
@@ -28,7 +28,7 @@ interface dashboardUser {
 
 export interface profileState {
   logProfile: activityLogTypes[];
-  dashboardUser: dashboardUser ;
+  dashboardUser: dashboardUser;
   dashboardActivities: dashboardActivities;
   dashboardDealsValue: dashboardDealsValue;
   dashboardDealsCount: dashboardDealsCount;

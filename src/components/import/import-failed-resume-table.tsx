@@ -25,8 +25,8 @@ const TableFailedImport: React.FC<TableFailedImportProps> = ({
   const groupedRows: Record<string, RowData[]> = {};
 
   // Cek apakah failedData.data adalah array sebelum melakukan forEach
-  if (Array.isArray(errorMessageDetail.failedData.data)) {
-    errorMessageDetail.failedData.data.forEach((currentRow: RowData) => {
+  if (Array.isArray(errorMessageDetail?.failedData.data)) {
+    errorMessageDetail?.failedData.data.forEach((currentRow: RowData) => {
       const rowNumber = currentRow.row;
       if (!groupedRows[rowNumber]) {
         groupedRows[rowNumber] = [];
@@ -45,7 +45,7 @@ const TableFailedImport: React.FC<TableFailedImportProps> = ({
           Kesalahan Impor
         </p>
         <p className="mt-4 mb-4 text-xs font-custom text-font-black dark:text-font-white md:text-lg font-medium">
-          {errorMessageDetail.summaryData.invalid_data} Kesalahan
+          {errorMessageDetail?.summaryData.invalid_data} Kesalahan
         </p>
         <div className="relative h-[320px] overflow-auto">
           <table className="w-full border-collapse">

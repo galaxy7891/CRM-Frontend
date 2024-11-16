@@ -35,7 +35,7 @@ const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
   const [hoveredDropdown, setHoveredDropdown] = useState<number | null>(null);
   const pathName = usePathname();
   const [isDesktop, setIsDesktop] = useState(true);
-  let user = null;
+  let user: string | null = '';
 
   if (typeof window !== 'undefined') {
     user = localStorage.getItem('role');
