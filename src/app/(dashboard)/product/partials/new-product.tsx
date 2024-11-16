@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { productsTypes } from "@/types/productTypes";
-import { useDispatch } from "react-redux";
-import { addProduct } from "@/redux/actions/productsActions";
-import { AppDispatch } from "@/redux/store";
-import DashboardSidebarRedButton from "@/components/button/dashboard-sidebar-red-button";
-import SuccessModal from "@/components/status/success-modal";
-import DashboardSidebarYellowButton from "@/components/button/dashboard-sidebar-yellow-button";
-import SelectInput from "@/components/form-input/dropdown-input";
-import TextArea from "@/components/form-input/text-area-input";
-import TextInput from "@/components/form-input/text-input";
-import SidebarFooter from "@/components/layout/sidebar-footer";
-import SidebarModal from "@/components/layout/sidebar-modal";
-import FailText from "@/components/status/fail-text";
-import PriceInput from "@/components/form-input/price-input";
+import React, { useState } from 'react';
+import { productsTypes } from '@/types/productTypes';
+import { useDispatch } from 'react-redux';
+import { addProduct } from '@/redux/actions/productsActions';
+import { AppDispatch } from '@/redux/store';
+import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
+import SuccessModal from '@/components/status/success-modal';
+import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
+import SelectInput from '@/components/form-input/dropdown-input';
+import TextArea from '@/components/form-input/text-area-input';
+import TextInput from '@/components/form-input/text-input';
+import SidebarFooter from '@/components/layout/sidebar-footer';
+import SidebarModal from '@/components/layout/sidebar-modal';
+import FailText from '@/components/status/fail-text';
+import PriceInput from '@/components/form-input/price-input';
 
 interface newProductsProps {
   onClose: () => void;
@@ -24,19 +24,19 @@ const NewProduct: React.FC<newProductsProps> = ({ onClose }) => {
     {}
   );
   const [product, setProduct] = useState<productsTypes>({
-    id: "",
-    name: "",
-    category: "",
-    code: "",
-    quantity: "",
-    unit: "",
-    price: "",
-    description: "",
-    image_url: "",
+    id: '',
+    name: '',
+    category: '',
+    code: '',
+    quantity: '',
+    unit: '',
+    price: '',
+    description: '',
+    image_url: '',
   });
   const dispatch = useDispatch<AppDispatch>();
   const handleAddProduct = () => {
-    console.log("Data produk yang akan disimpan:", product);
+    console.log('Data produk yang akan disimpan:', product);
     dispatch(addProduct(product, setIsSuccess, setErrorMessage));
   };
 
@@ -50,7 +50,9 @@ const NewProduct: React.FC<newProductsProps> = ({ onClose }) => {
               placeholder="220624A1"
               value={product.code}
               onChange={(e) => setProduct({ ...product, code: e.target.value })}
+              required
             />
+            {errorMessage.code && <FailText>{errorMessage.code}</FailText>}
           </div>
           <div className="order-2">
             <TextInput
@@ -67,17 +69,18 @@ const NewProduct: React.FC<newProductsProps> = ({ onClose }) => {
               label="Kategori Produk"
               value={product.category}
               options={[
-                { label: "Kategori Produk", value: "", hidden: true },
-                { label: "Jasa", value: "jasa" },
-                { label: "Barang", value: "barang" },
+                { label: 'Kategori Produk', value: '', hidden: true },
+                { label: 'jasa', value: 'jasa' },
+                { label: 'barang', value: 'barang' },
               ]}
-              // if select "jasa" => jumlah produk & satuan produk hidden
               onChange={(e) =>
                 setProduct({ ...product, category: e.target.value })
               }
               required
             />
-            {errorMessage && <FailText>{errorMessage.status}</FailText>}
+            {errorMessage.category && (
+              <FailText>{errorMessage.category}</FailText>
+            )}
           </div>
           <div className="order-4">
             <PriceInput
@@ -89,7 +92,7 @@ const NewProduct: React.FC<newProductsProps> = ({ onClose }) => {
               required={true}
             />
           </div>
-          {product.category !== "jasa" && (
+          {product.category !== 'jasa' && (
             <>
               <div className="order-5">
                 <TextInput
@@ -108,10 +111,10 @@ const NewProduct: React.FC<newProductsProps> = ({ onClose }) => {
                   label="Satuan Produk"
                   value={product.unit}
                   options={[
-                    { label: "Satuan Produk", value: "", hidden: true },
-                    { label: "Box", value: "box" },
-                    { label: "Pcs", value: "pcs" },
-                    { label: "Unit", value: "unit" },
+                    { label: 'Satuan Produk', value: '', hidden: true },
+                    { label: 'Box', value: 'box' },
+                    { label: 'Pcs', value: 'pcs' },
+                    { label: 'Unit', value: 'unit' },
                   ]}
                   onChange={(e) =>
                     setProduct({ ...product, unit: e.target.value })

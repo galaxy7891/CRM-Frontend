@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { companiesTypes } from '@/types/companiesTypes';
 import { useDispatch } from 'react-redux';
 import { addCompany } from '@/redux/actions/companiesActions';
 import { AppDispatch } from '@/redux/store';
+import {
+  getProvinces,
+  getCities,
+  getSubDistricts,
+  getVillage,
+  getZipCodes,
+} from '@/utils/getAddressLocation';
 import FailText from '@/components/status/fail-text';
 import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
 import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
@@ -22,7 +29,16 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
   onClose,
   emailLocal,
 }) => {
-  const [isSuccess, setIsSuccess] = useState(true);
+  const [provinces, setProvinces] = useState<{ id: string; text: string }[]>(
+    []
+  );
+  const [cities, setCities] = useState<{ id: string; text: string }[]>([]);
+  const [subDistricts, setSubDistricts] = useState<
+    { id: string; text: string }[]
+  >([]);
+  const [villages, setVillages] = useState<{ id: string; text: string }[]>([]);
+  const [zipCodes, setZipCodes] = useState<{ id: string; text: string }[]>([]);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
     {}
   );
@@ -49,6 +65,40 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
   const handleAddCompany = () => {
     dispatch(addCompany(company, setIsSuccess, setErrorMessage));
   };
+
+  useEffect(() => {
+    const getLocation = async () => {
+      try {
+        const provinces = await getProvinces();
+        setProvinces(provinces);
+
+        if (company.province) {
+          const cities = await getCities(company.province);
+          setCities(cities);
+
+          if (company.city) {
+            const subDistricts = await getSubDistricts(company.city);
+            setSubDistricts(subDistricts);
+
+            if (company.subdistrict) {
+              const villages = await getVillage(company.subdistrict);
+              setVillages(villages);
+
+              const zipCodes = await getZipCodes(
+                company.city,
+                company.subdistrict
+              );
+              setZipCodes(zipCodes);
+            }
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getLocation();
+  }, [company.province, company.city, company.subdistrict]);
 
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Tambah Perusahaan">
@@ -108,6 +158,7 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
             label="Status Perusahaan"
             value={company.status}
             options={[
+              { label: 'Pilih Status', value: '', hidden: true },
               { label: 'rendah', value: 'rendah' },
               { label: 'sedang', value: 'sedang' },
               { label: 'tinggi', value: 'tinggi' },
@@ -142,25 +193,27 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
           <SelectInput
             label="Provinsi"
             value={company.province}
-            options={
-              [
-                // get data from api provinsi
-              ]
-            }
-            onChange={(e) =>
-              setCompany({ ...company, province: e.target.value })
-            }
+            options={[
+              { label: 'Pilih Provinsi', value: '', hidden: true },
+              ...provinces.map((province) => ({
+                label: province.text,
+                value: province.id,
+              })),
+            ]}
+            onChange={(e) => {
+              setCompany({ ...company, province: e.target.value });
+            }}
           />
         </div>
         <div className="order-10 ">
           <SelectInput
             label="Kota"
             value={company.city}
-            options={
-              [
-                // get data from api kota
-              ]
-            }
+            disabled={!company.province}
+            options={[
+              { label: 'Pilih Kota', value: '', hidden: true },
+              ...cities.map((city) => ({ label: city.text, value: city.id })),
+            ]}
             onChange={(e) => setCompany({ ...company, city: e.target.value })}
           />
         </div>
@@ -168,11 +221,14 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
           <SelectInput
             label="Kecamatan"
             value={company.subdistrict}
-            options={
-              [
-                // get data from api kecamatan
-              ]
-            }
+            disabled={!company.city}
+            options={[
+              { label: 'Pilih Kecamatan', value: '', hidden: true },
+              ...subDistricts.map((subDistrict) => ({
+                label: subDistrict.text,
+                value: subDistrict.id,
+              })),
+            ]}
             onChange={(e) =>
               setCompany({ ...company, subdistrict: e.target.value })
             }
@@ -180,13 +236,16 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
         </div>
         <div className="order-12">
           <SelectInput
-            label="Kelurahan"
+            label="Kelurahan/Desa"
             value={company.village}
-            options={
-              [
-                // get data from api kelurahan
-              ]
-            }
+            disabled={!company.subdistrict}
+            options={[
+              { label: 'Pilih Kelurahan/Desa', value: '', hidden: true },
+              ...villages.map((village) => ({
+                label: village.text,
+                value: village.id,
+              })),
+            ]}
             onChange={(e) =>
               setCompany({ ...company, village: e.target.value })
             }
@@ -196,11 +255,14 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
           <SelectInput
             label="Kode Pos"
             value={company.zip_code}
-            options={
-              [
-                // get data from api kode pos
-              ]
-            }
+            disabled={!company.village}
+            options={[
+              { label: 'Pilih Kode Pos', value: '', hidden: true },
+              ...zipCodes.map((zipCode) => ({
+                label: zipCode.text,
+                value: zipCode.id,
+              })),
+            ]}
             onChange={(e) =>
               setCompany({ ...company, zip_code: e.target.value })
             }

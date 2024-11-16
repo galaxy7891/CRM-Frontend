@@ -6,8 +6,8 @@ const DeleteTableButton: React.FC<DeleteTableButtonProps> = ({ onClick }) => {
   return (
     <button onClick={onClick}>
       <svg
-        width="11"
-        height="14"
+        width="20"
+        height="20"
         viewBox="0 0 11 14"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

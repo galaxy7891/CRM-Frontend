@@ -7,6 +7,7 @@ import {
 } from '../reducers/productsReducers';
 import { AppDispatch, RootState } from '@/redux/store';
 import { paginationTypes } from '@/types/otherTypes';
+import { ImportErrorMessageDetailTypes } from '@/types/otherTypes';
 
 export const getProducts =
   (
@@ -77,18 +78,19 @@ export const addProduct =
     setIsSuccess: (success: boolean) => void,
     setErrorMessage: (messages: { [key: string]: string }) => void
   ) =>
-  async () => {
+  async (dispatch: AppDispatch, getState: () => RootState) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/products`,
-        product,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const token = getState().auth.token;
+      const config = {
+        method: 'post',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/products`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: product,
+      };
+      const response = await axios.request(config);
       console.log('Response API:', response.data);
       if (response.data.success) {
         setIsSuccess(true);
@@ -96,6 +98,7 @@ export const addProduct =
         //   window.location.reload();
         // }, 2000);
       } else {
+        console.error(response.data.message);
         setErrorMessage(response.data.message);
       }
     } catch (error) {
@@ -138,7 +141,11 @@ export const updateProduct =
   };
 
 export const deleteProduct =
-  (ids: string | string[], setIsSuccess: (success: boolean) => void) =>
+  (
+    ids: string | string[],
+    setIsSuccess: (success: boolean) => void,
+    setIsDeleteFail: (fail: boolean) => void
+  ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const token = getState().auth.token;
 
@@ -152,9 +159,10 @@ export const deleteProduct =
         data: { id: Array.isArray(ids) ? ids : [ids] },
       };
       const response = await axios.request(config);
-
       if (response.data.success) {
         setIsSuccess(true);
+      } else if (!response.data.success) {
+        setIsDeleteFail(true);
       }
     } catch (error) {
       console.error('Error deleting product(s):', error);
@@ -205,7 +213,7 @@ export const importProducts =
     file: File,
     setIsSuccess: (success: boolean) => void,
     setErrorMessage: (messages: string) => void,
-    setErrorMessageDetail: (messages: string) => void,
+    setErrorMessageDetail: (messages: ImportErrorMessageDetailTypes) => void,
     setIsFailed: (success: boolean) => void
   ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
@@ -228,8 +236,9 @@ export const importProducts =
 
       if (response.data.success) {
         setIsSuccess(true);
-      } else {
+      } else if (!response.data.success && !response.data.data) {
         setErrorMessage(response.data.message);
+      } else {
         setErrorMessageDetail(response.data.data);
         setIsFailed(true);
       }
@@ -240,7 +249,7 @@ export const importProducts =
 
 export const updatePhotoProduct =
   (
-    photo: File,
+    photo: File | null,
     id: string,
     setErrorMessage: (message: string) => void,
     setIsLoading: (loading: boolean) => void
@@ -248,7 +257,9 @@ export const updatePhotoProduct =
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;
     const formData = new FormData();
-    formData.append('photo_product', photo);
+    if (photo) {
+      formData.append('photo_product', photo);
+    }
 
     try {
       setIsLoading(true);

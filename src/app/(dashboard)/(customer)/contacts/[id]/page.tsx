@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { getContactById, deleteContact } from '@/redux/actions/contactsActions';
 import EditContact from '../partials/edit-contact';
-import ContactLog from '../../companies/[id]/partials/company-log';
+import ContactLog from './partials/contact-log';
 import DashboardCard from '@/components/layout/dashboard-card';
 import SuccessModal from '@/components/status/success-modal';
 import ActionConfirmModal from '@/components/status/action-confirm-modal';
@@ -14,6 +14,7 @@ import CustomerInfo from '@/components/import/card-info-customer';
 import CardCustomer from '@/components/layout/detail-customer-card';
 import EditUserButton from '@/components/button/edit-user-button';
 import DeleteButton from '@/components/button/delete-button';
+import HeaderWithBackButton from '@/components/layout/header-with-back';
 import moment from 'moment';
 import 'moment/locale/id';
 moment.locale('id');
@@ -47,6 +48,7 @@ const DetailContact = () => {
 
   return (
     <>
+      <HeaderWithBackButton title="Detail Kontak" />
       <DashboardCard>
         <div className="grid grid-cols-12 ">
           {/* Photo with Primary Detail */}

@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 import { SuccessModalProps } from '@/types/otherTypes';
 
@@ -70,13 +71,13 @@ const SuccessModel: React.FC<SuccessModalProps> = ({
 
           {actionButton_href && (
             <div className="w-full">
-              <a
+              <Link
                 href={actionButton_href}
                 className=' className="flex justify-center px-8 py-2 w-full font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
               '
               >
                 {actionButton_name}
-              </a>
+              </Link>
             </div>
           )}
         </div>

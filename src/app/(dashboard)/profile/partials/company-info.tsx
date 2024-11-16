@@ -1,29 +1,16 @@
 'use client';
 
 import { useState } from 'react';
+import { companyInfoProps } from '@/types/profileTypes';
 import Image from 'next/image';
 import EditCompany from './company-edit';
 import EditImageCompany from './company-edit-photo';
 import EditUserButton from '@/components/button/edit-user-button';
+import DashboardCard from '@/components/layout/dashboard-card';
 
-interface CardCompanyProps {
-  data: DataCompany;
-}
-
-interface DataCompany {
-  name: string;
-  description: string;
-  image_url: string;
-  industry: string;
-  email: string;
-  phone: string;
-  website: string;
-}
-
-const CardCompany: React.FC<CardCompanyProps> = ({ data }) => {
-  const [isEditing, setIsEditing] = useState(false); // State untuk mengontrol tampilan form edit profil
-  const [isEditingImage, setIsEditingImage] = useState(false); // State untuk mengontrol tampilan form edit foto
-
+const CardCompany: React.FC<companyInfoProps> = ({ companyProps }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [isEditingImage, setIsEditingImage] = useState(false);
   const handleEditClick = () => {
     setIsEditing(true);
   };
@@ -38,7 +25,7 @@ const CardCompany: React.FC<CardCompanyProps> = ({ data }) => {
   };
 
   return (
-    <div className="bg-font-white dark:bg-dark-navy shadow-lg rounded-lg p-6">
+    <DashboardCard>
       <div className="grid grid-cols-12 gap-4">
         {/* Left column */}
         <div className="col-span-12 md:col-span-4 flex items-center justify-center relative">
@@ -49,7 +36,7 @@ const CardCompany: React.FC<CardCompanyProps> = ({ data }) => {
               onClick={handleEditImageClick}
             >
               <Image
-                src={data?.image_url || '/images/default.jpg'}
+                src={companyProps?.image_url || '/images/default.jpg'}
                 alt="image"
                 width={160}
                 height={160}
@@ -67,7 +54,7 @@ const CardCompany: React.FC<CardCompanyProps> = ({ data }) => {
             </div>
             {/* Name */}
             <p className="text-black dark:text-font-white text-lg font-medium font-custom md:text-lg">
-              {data?.name || 'N/A'}
+              {companyProps?.name || 'N/A'}
             </p>
           </div>
         </div>
@@ -81,18 +68,12 @@ const CardCompany: React.FC<CardCompanyProps> = ({ data }) => {
             <EditUserButton onClick={handleEditClick} />
           </div>
 
-          {isEditing && <EditCompany onClose={handleCloseForm} data={data} />}
-          {isEditingImage && (
-            <EditImageCompany onClose={handleCloseForm} data={data} />
-          )}
-
           <div className="md:px-4 py-1 bg-light-white dark:bg-dark-darkGray rounded-[10px]">
             {[
-              { label: 'Jenis Industri', value: data?.industry },
-              { label: 'Email', value: data?.email },
-              { label: 'Nomor Telepon', value: data?.phone },
-              { label: 'Website', value: data?.website },
-              // { label: 'Jenis Kelamin', value: data?.gender },
+              { label: 'Jenis Industri', value: companyProps?.industry },
+              { label: 'Email', value: companyProps?.email },
+              { label: 'Nomor Telepon', value: companyProps?.phone },
+              { label: 'Website', value: companyProps?.website },
             ].map((item, index) => (
               <div key={index} className="m-2 md:m-4 w-full">
                 <p className="font-bold dark:text-font-white font-custom text-font-black text-xs md:text-base mb-1">
@@ -106,7 +87,13 @@ const CardCompany: React.FC<CardCompanyProps> = ({ data }) => {
           </div>
         </div>
       </div>
-    </div>
+      {isEditing && (
+        <EditCompany onClose={handleCloseForm} data={companyProps} />
+      )}
+      {isEditingImage && (
+        <EditImageCompany onClose={handleCloseForm} data={companyProps} />
+      )}
+    </DashboardCard>
   );
 };
 

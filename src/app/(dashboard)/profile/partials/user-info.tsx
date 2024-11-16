@@ -1,26 +1,16 @@
 'use client';
+
 import { useState } from 'react';
+import { userInfoProps } from '@/types/profileTypes';
 import Image from 'next/image';
 import EditUser from './user-edit';
 import EditImageUser from './user-edit-photo';
 import EditUserButton from '@/components/button/edit-user-button';
+import DashboardCard from '@/components/layout/dashboard-card';
 
-interface CardProfileProps {
-  data: {
-    image_url: string;
-    first_name: string;
-    last_name: string;
-    job_position: string;
-    email: string;
-    phone: string;
-    gender: string;
-    role: string;
-  };
-}
-
-const CardProfile: React.FC<CardProfileProps> = ({ data }) => {
-  const [isEditing, setIsEditing] = useState(false); // State untuk mengontrol tampilan form edit profil
-  const [isEditingImage, setIsEditingImage] = useState(false); // State untuk mengontrol tampilan form edit foto
+const CardProfile: React.FC<userInfoProps> = ({ profileProps }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [isEditingImage, setIsEditingImage] = useState(false);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -32,14 +22,14 @@ const CardProfile: React.FC<CardProfileProps> = ({ data }) => {
 
   const handleCloseForm = () => {
     setIsEditing(false);
-    setIsEditingImage(false); // Tutup kedua form
+    setIsEditingImage(false);
   };
 
   return (
-    <div className="bg-font-white dark:bg-dark-navy shadow-lg rounded-lg p-6">
+    <DashboardCard>
       <div className="grid grid-cols-12 gap-4">
         {/* Left column */}
-        <div className="col-span-12 md:col-span-4 flex items-center justify-center relative">
+        <div className="col-span-12 lg:col-span-4 flex items-center justify-center relative">
           <div className="flex flex-col items-center relative">
             {/* Profile Picture */}
             <div
@@ -47,7 +37,7 @@ const CardProfile: React.FC<CardProfileProps> = ({ data }) => {
               onClick={handleEditImageClick}
             >
               <Image
-                src={data?.image_url || '/images/default.jpg'}
+                src={profileProps?.image_url || '/images/default.jpg'}
                 alt="image"
                 width={160}
                 height={160}
@@ -65,13 +55,13 @@ const CardProfile: React.FC<CardProfileProps> = ({ data }) => {
             </div>
             {/* Name */}
             <p className="text-black dark:text-font-white text-lg font-medium font-custom md:text-lg">
-              {data?.first_name || '-'} {data?.last_name}
+              {profileProps?.first_name || '-'} {profileProps?.last_name}
             </p>
           </div>
         </div>
 
         {/* Right column */}
-        <div className="col-span-12 md:col-start-5 md:col-span-8">
+        <div className="col-span-12 lg:col-start-5 lg:col-span-8">
           <div className="flex justify-between items-center mb-4">
             <p className="dark:text-font-white text-base font-medium md:text-2xl font-custom tex-font-black">
               Data Diri
@@ -79,18 +69,13 @@ const CardProfile: React.FC<CardProfileProps> = ({ data }) => {
             <EditUserButton onClick={handleEditClick} />
           </div>
 
-          {isEditing && <EditUser onClose={handleCloseForm} data={data} />}
-          {isEditingImage && (
-            <EditImageUser onClose={handleCloseForm} data={data} />
-          )}
-
           <div className="md:px-4 py-1 bg-light-white dark:bg-dark-darkGray rounded-[10px]">
             {[
-              { label: 'Jabatan', value: data?.job_position },
-              { label: 'Nomor Telepon', value: data?.phone },
-              { label: 'Email', value: data?.email },
-              { label: 'Akses', value: data?.role },
-              { label: 'Jenis Kelamin', value: data?.gender },
+              { label: 'Jabatan', value: profileProps?.job_position },
+              { label: 'Nomor Telepon', value: profileProps?.phone },
+              { label: 'Email', value: profileProps?.email },
+              { label: 'Akses', value: profileProps?.role },
+              { label: 'Jenis Kelamin', value: profileProps?.gender },
             ].map((item, index) => (
               <div key={index} className="m-2 md:m-4 w-full">
                 <p className="font-bold dark:text-font-white font-custom text-font-black text-xs md:text-base mb-1 min-w-[100px]">
@@ -104,7 +89,11 @@ const CardProfile: React.FC<CardProfileProps> = ({ data }) => {
           </div>
         </div>
       </div>
-    </div>
+      {isEditing && <EditUser onClose={handleCloseForm} data={profileProps} />}
+      {isEditingImage && (
+        <EditImageUser onClose={handleCloseForm} data={profileProps} />
+      )}
+    </DashboardCard>
   );
 };
 

@@ -1,5 +1,6 @@
 export interface contactsTypes {
   id: string;
+  customers_company_id: string;
   first_name: string;
   last_name: string;
   customerCategory: string;
@@ -9,8 +10,8 @@ export interface contactsTypes {
   birthdate: string;
   email: string;
   customers_company?: {
-    id: string;
     name: string;
+    id: string;
   };
   phone: string;
   owner: string;
@@ -21,6 +22,14 @@ export interface contactsTypes {
   village: string;
   zip_code: string;
 }
+
+export type selectedIds = {
+  provinceId: string;
+  cityId: string;
+  subdistrictId: string;
+  villageId: string;
+  zipCodeId: string;
+};
 
 export interface activityLogTypes {
   title: string;

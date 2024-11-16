@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { acceptInvitation } from '@/redux/actions/employeesActions';
 import { useAppDispatch } from '@/hook/redux';
 import { useSearchParams } from 'next/navigation';
@@ -109,4 +109,10 @@ const Register = () => {
   );
 };
 
-export default Register;
+const RegisterPage = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <Register />
+  </Suspense>
+);
+
+export default RegisterPage;

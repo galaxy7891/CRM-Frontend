@@ -2,6 +2,18 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import {
+  PasswordTypes,
+  PersonalDataTypes,
+  CompanyDataTypes,
+} from '@/types/authTypes';
+import {
+  sendOTP,
+  verifyOTP,
+  submitRegisterData,
+} from '@/redux/actions/authActions';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
 import Step1_email from '@/app/(auth)/register/partials/step1-email';
 import Step2_otp from '@/app/(auth)/register/partials/step2-otp';
 import Step3_password from '@/app/(auth)/register/partials/step3-password';
@@ -12,149 +24,56 @@ import RightAuthSection from '@/components/layout/auth-right-section';
 import SuccessModal from '@/components/status/success-modal';
 import { useOtpCountdown } from '@/hook/useOtpCountdown';
 
-interface PersonalData {
-  first_name: string;
-  last_name: string;
-  phone: string;
-}
-
-interface CompanyData {
-  name: string;
-  industry: string;
-  job_position: string;
-}
-
-interface Password {
-  password: string;
-  password_confirmation: string;
-}
-
 const Register = () => {
-  const [isLoading, setIsLoading] = useState<string>(''); // Loading state at where procces
+  const [isLoading, setIsLoading] = useState<string>('');
   const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
   const [OTP, setOTP] = useState<string>('');
   const [step, setStep] = useState<number>(1);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const { countdown, startCountdown } = useOtpCountdown(60); // Use countdown hook
+  const { countdown, startCountdown } = useOtpCountdown(60);
   const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<Password>({
+  const [password, setPassword] = useState<PasswordTypes>({
     password: '',
     password_confirmation: '',
   });
-  const [personalData, setPersonalData] = useState<PersonalData>({
+  const [personalData, setPersonalData] = useState<PersonalDataTypes>({
     first_name: '',
     last_name: '',
     phone: '',
   });
-  const [companyData, setCompanyData] = useState<CompanyData>({
+  const [companyData, setCompanyData] = useState<CompanyDataTypes>({
     name: '',
     industry: '',
     job_position: '',
   });
 
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handleSendOTP = async () => {
-    setIsLoading('Send OTP');
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/otp/send`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email }),
-        }
-      );
-      const data = await response.json();
-      if (data.success) {
-        setErrorMessage('');
-        startCountdown();
-        setStep(2); // Continue to step 2 (verifikasi OTP)
-      } else {
-        if (data.message.email) {
-          setErrorMessage(data.message.email[0]);
-        } else {
-          setErrorMessage(data.message);
-        }
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading('');
-    }
+  const handleSendOTP = () => {
+    dispatch(
+      sendOTP(email, setIsLoading, setErrorMessage, setStep, startCountdown)
+    );
   };
 
-  const handleVerifyOtp = async () => {
-    setIsLoading('Verify OTP');
-
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/otp/verify`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email, code: OTP }),
-        }
-      );
-
-      const data = await response.json();
-      if (data.success) {
-        setErrorMessage('');
-        setStep(3); // Continue to step 3 (input password)
-      } else {
-        if (data.message.code) {
-          setErrorMessage(data.message.code[0]);
-        } else if (data.message.email) {
-          setErrorMessage(data.message.email[0]);
-        } else {
-          setErrorMessage(data.message);
-        }
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading('');
-    }
+  const handleVerifyOtp = () => {
+    dispatch(verifyOTP(email, OTP, setIsLoading, setErrorMessage, setStep));
   };
 
   const handleRegister = async () => {
-    setIsLoading('Register');
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email,
-            ...password,
-            ...personalData,
-            ...companyData,
-          }),
-        }
-      );
-
-      const data = await response.json();
-      if (data.success) {
-        setErrorMessage('');
-        setIsSuccess(true);
-        setTimeout(() => {
-          router.push('/login');
-        }, 3000);
-      } else {
-        setErrorMessage(data.message);
-        console.error(data.message);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading('');
+    const response = await dispatch(
+      submitRegisterData(
+        email,
+        setIsLoading,
+        setErrorMessage,
+        setIsSuccess,
+        password,
+        personalData,
+        companyData
+      )
+    );
+    if (response?.success) {
+      router.push('/homepage');
     }
   };
 
@@ -253,8 +172,6 @@ const Register = () => {
           description="Selamat bergabung dengan Loyal Cust!"
           closeModal={false}
           actionButton={false}
-          actionButton_href=""
-          actionButton_name=""
         />
       )}
     </div>

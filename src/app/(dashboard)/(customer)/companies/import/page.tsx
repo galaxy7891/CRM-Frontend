@@ -1,13 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-import React from 'react';
 import Link from 'next/link';
-import { useState, ChangeEvent } from 'react';
-import { ImportErrorMessageDetailTypes } from '@/types/otherTypes';
+import React, { useState, ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
-import { importContacts } from '@/redux/actions/contactsActions';
+import { importCompanies } from '@/redux/actions/companiesActions';
+import { ImportErrorMessageDetailTypes } from '@/types/otherTypes';
 import ImportSuccess from '@/components/import/import-success';
 import ImportFailed from '@/components/import/import-failed';
 import FailText from '@/components/status/fail-text';
@@ -26,7 +25,7 @@ const ImporFile = () => {
   const handleSubmitFile = async () => {
     if (file) {
       dispatch(
-        importContacts(
+        importCompanies(
           file,
           setIsSuccess,
           setErrorMessage,
@@ -49,7 +48,7 @@ const ImporFile = () => {
     <>
       <HeaderWithBackButton title="Impor Dokumen" />
       {isSuccess ? (
-        <ImportSuccess href="/contacts" />
+        <ImportSuccess href="/companies" />
       ) : isFailed ? (
         <ImportFailed errorMessageDetail={errorMessageDetail!} />
       ) : (

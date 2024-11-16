@@ -104,6 +104,9 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
               }
               required
             />
+            {errorMessage?.job_potition && (
+              <FailText>{errorMessage.job_potition}</FailText>
+            )}
           </div>
           <div className="order-7">
             <SelectInput

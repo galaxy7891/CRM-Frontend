@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { activityLogTypes } from '@/types/profileTypes';
+import { activityLogTypes } from '@/types/employeeTypes';
 import { paginationTypes } from '@/types/otherTypes';
-import { logActivityCompany } from '@/redux/actions/companiesActions';
+import { logActivityEmployee } from '@/redux/actions/employeesActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '@/redux/store';
 import { useParams } from 'next/navigation';
@@ -13,7 +13,7 @@ import DashboardCard from '@/components/layout/dashboard-card';
 import PaginationButton from '@/components/button/pagination-button';
 import DashboardPositiveButton from '@/components/button/dashboard-positive-button';
 
-const UserLog = () => {
+const ProductLog = () => {
   const [pagination, setPagination] = useState<paginationTypes>({
     current_page: 1,
     last_page: 1,
@@ -25,13 +25,12 @@ const UserLog = () => {
   const { id } = useParams<{ id: string }>();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { companyLog } = useSelector((state: RootState) => state.companies);
-  console.log(companyLog);
+  const { employeeLog } = useSelector((state: RootState) => state.employees);
 
   const handleNextPage = () => {
     if (pagination.next_page_url) {
       dispatch(
-        logActivityCompany(pagination.current_page + 1, id, setPagination)
+        logActivityEmployee(pagination.current_page + 1, id, setPagination)
       );
     }
   };
@@ -39,13 +38,13 @@ const UserLog = () => {
   const handlePrevPage = () => {
     if (pagination.prev_page_url) {
       dispatch(
-        logActivityCompany(pagination.current_page - 1, id, setPagination)
+        logActivityEmployee(pagination.current_page - 1, id, setPagination)
       );
     }
   };
 
   useEffect(() => {
-    dispatch(logActivityCompany(pagination.current_page, id, setPagination));
+    dispatch(logActivityEmployee(pagination.current_page, id, setPagination));
   }, [id, dispatch, pagination.current_page]);
 
   return (
@@ -62,7 +61,7 @@ const UserLog = () => {
         </div>
         {/* Body */}
         <div className="col-span-12 space-y-4 mt-4">
-          {companyLog.map((log: activityLogTypes, index: number) => (
+          {employeeLog.map((log: activityLogTypes, index: number) => (
             <CardActivityLog
               key={index}
               title={log.title}
@@ -85,4 +84,4 @@ const UserLog = () => {
   );
 };
 
-export default UserLog;
+export default ProductLog;

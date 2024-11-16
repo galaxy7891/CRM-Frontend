@@ -1,11 +1,13 @@
-import Image from "next/image";
-import { useState } from "react";
-import axios from "axios";
-import SidebarModal from "@/components/layout/sidebar-modal";
-import SidebarFooter from "@/components/layout/sidebar-footer";
-import FailText from "@/components/status/fail-text";
-import DashboardSidebarYellowButton from "@/components/button/dashboard-sidebar-yellow-button";
-import DashboardChangePhotoButton from "@/components/button/dashboard-change-photo-button";
+import Image from 'next/image';
+import { useState } from 'react';
+import { updatePhotoProduct } from '@/redux/actions/productsActions';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import SidebarModal from '@/components/layout/sidebar-modal';
+import SidebarFooter from '@/components/layout/sidebar-footer';
+import FailText from '@/components/status/fail-text';
+import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
+import DashboardChangePhotoButton from '@/components/button/dashboard-change-photo-button';
 
 interface FormEditProps {
   onClose: () => void;
@@ -22,6 +24,7 @@ const EditImageProduct = ({ onClose, data, id }: FormEditProps) => {
   const [preview, setPreview] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
@@ -29,50 +32,8 @@ const EditImageProduct = ({ onClose, data, id }: FormEditProps) => {
     setPreview(file ? URL.createObjectURL(file) : null);
   };
 
-  const handleUpdatePhoto = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Debugging: log the photo selected
-    console.log("Selected photo:", photo);
-    
-    const token = localStorage.getItem("token");
-    const formData = new FormData();
-
-    if (photo) {
-      formData.append("photo_product", photo); // Pastikan Anda menggunakan nama 'photo' sesuai dengan API
-    }
-    
-    // Debugging: log formData to check if file is appended properly
-    console.log("Form data before sending:", formData);
-
-    try {
-      setIsLoading(true);
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/products/${id}`, // URL untuk API
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data", // Ini penting untuk mengirimkan form data
-          },
-        }
-      );
-
-      // Debugging: log response to check if the API response is as expected
-      console.log("API response:", response);
-
-      if (!response.data.success) {
-        setErrorMessage(response.data.message.photo[0]);
-      } else {
-        // Reload page after success
-        console.log("Photo updated successfully");
-        window.location.reload();
-      }
-    } catch (error) {
-      console.error("Error uploading photo:", error);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleUpdatePhoto = () => {
+    dispatch(updatePhotoProduct(photo, id, setErrorMessage, setIsLoading));
   };
 
   return (
@@ -84,7 +45,7 @@ const EditImageProduct = ({ onClose, data, id }: FormEditProps) => {
               ? preview
               : data?.image_url
               ? data?.image_url
-              : "/images/default.jpg"
+              : '/images/default.jpg'
           }
           alt="image"
           width={160}
@@ -102,11 +63,11 @@ const EditImageProduct = ({ onClose, data, id }: FormEditProps) => {
           Ganti Foto
         </DashboardChangePhotoButton>
         <DashboardSidebarYellowButton onClick={handleUpdatePhoto}>
-          {isLoading ? "Menyimpan..." : "Simpan"}
+          {isLoading ? 'Menyimpan...' : 'Simpan'}
         </DashboardSidebarYellowButton>
       </SidebarFooter>
     </SidebarModal>
   );
 };
 
-export default EditImageProduct ;
+export default EditImageProduct;

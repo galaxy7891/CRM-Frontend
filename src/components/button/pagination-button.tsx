@@ -38,9 +38,6 @@ const PaginationButton: React.FC<paginationButtonPropsTypes> = ({
           height={10}
         />
       </button>
-      <p className="dark:text-white text-xs md:text-base ps-4">
-        10 per halaman
-      </p>
     </div>
   );
 };

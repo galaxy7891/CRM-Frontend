@@ -2,7 +2,7 @@ import React from "react";
 import HeaderWithBackButton from "../layout/header-with-back";
 import DashBoardCard from "../layout/dashboard-card";
 import TableHeadLog from "./table-head-log";
-import FilterActivityLogButton from "../button/filter-activity-log-button";
+// import FilterActivityLogButton from "../button/filter-activity-log-button";
 
 const TableDetailLog = () => {
   const headers = ["Properti", "Sebelum", "Sesudah"];
@@ -12,7 +12,7 @@ const TableDetailLog = () => {
       <div>
         <DashBoardCard>
           <div className="flex justify-end mb-4">
-            <FilterActivityLogButton />
+            {/* <FilterActivityLogButton /> */}
           </div>
           <div className="relative  overflow-auto lg:w-full ">
             <table className="w-full mb-4">

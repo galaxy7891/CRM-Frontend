@@ -1,6 +1,5 @@
 import { parse } from 'json2csv';
-
-const handleExport = (data: any) => {
+const handleExport = <T>(data: T[]) => {
   try {
     // Konversi data JSON dari state ke CSV
     const csv = parse(data);

@@ -1,49 +1,38 @@
 'use client';
 
 import Image from 'next/image';
-import React from 'react';
+import React, { useState, ChangeEvent } from 'react';
+import Link from 'next/link';
+import { ImportErrorMessageDetailTypes } from '@/types/otherTypes';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import { importLeads } from '@/redux/actions/leadsActions';
 import ImportSuccess from '@/components/import/import-success';
 import ImportFailed from '@/components/import/import-failed';
-import Link from 'next/link';
-import { useState, ChangeEvent } from 'react';
-import axios from 'axios';
 import DashboardCard from '@/components/layout/dashboard-card';
 import FailText from '@/components/status/fail-text';
+import HeaderWithBackButton from '@/components/layout/header-with-back';
 
 const ImporFile = () => {
   const [fileName, setFileName] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const [errorMessageDetail, setErrorMessageDetail] = useState<string>('');
+  const [errorMessageDetail, setErrorMessageDetail] =
+    useState<ImportErrorMessageDetailTypes | null>(null);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isFailed, setIsFailed] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
-
+  const dispatch = useDispatch<AppDispatch>();
   const handleSubmitFile = async () => {
-    console.log('gass', fileName);
-    const token = localStorage.getItem('token');
-    const formData = new FormData();
-    formData.append('file', file!);
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/import/leads`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        }
+    if (file) {
+      dispatch(
+        importLeads(
+          file,
+          setIsSuccess,
+          setErrorMessage,
+          setErrorMessageDetail,
+          setIsFailed
+        )
       );
-      if (response.data.success) {
-        setIsSuccess(true);
-      } else {
-        setErrorMessage(response.data.message);
-        setErrorMessageDetail(response.data.data);
-        console.log(response.data.data.failedData);
-        setIsFailed(true);
-      }
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -57,14 +46,15 @@ const ImporFile = () => {
 
   return (
     <>
-      <div className="">
+      <HeaderWithBackButton title="Impor Dokumen" />
+      <div>
         {isSuccess ? (
           <ImportSuccess href="/leads" />
         ) : isFailed ? (
-          <ImportFailed errorMessageDetail={errorMessageDetail} />
+          <ImportFailed errorMessageDetail={errorMessageDetail!} />
         ) : (
           <DashboardCard>
-            <div className='flex flex-col items-center h-full w-full'>
+            <div className="flex flex-col items-center h-full w-full">
               <Image
                 src="/icons/table/impor.svg"
                 alt="impor"

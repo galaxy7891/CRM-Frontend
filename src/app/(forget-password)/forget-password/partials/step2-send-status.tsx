@@ -1,11 +1,12 @@
-import FormHeader from '@/components/layout/auth-form-header';
 import Image from 'next/image';
-interface SendStatusProps {
-  step: number;
-  onBack: () => void;
-}
+import { SendStatusForgotPasswordProps } from '@/types/profileTypes';
+import FormHeader from '@/components/layout/auth-form-header';
+import BackButton from '@/components/button/back-button';
 
-const sendStatus: React.FC<SendStatusProps> = ({ step, onBack }) => {
+const sendStatus: React.FC<SendStatusForgotPasswordProps> = ({
+  step,
+  onBack,
+}) => {
   return (
     <div>
       <FormHeader
@@ -23,12 +24,7 @@ const sendStatus: React.FC<SendStatusProps> = ({ step, onBack }) => {
           height={150}
         />
       </div>
-      <button
-        className=" mt-2 bg-white w-full px-1 h-12 lg:h-15  flex items-center font-bold justify-center border-2 text-light-gold border-dark-gold py-2 rounded-md hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
-        onClick={onBack}
-      >
-        Kembali
-      </button>
+      <BackButton onClick={onBack}>Kembali</BackButton>
     </div>
   );
 };

@@ -1,36 +1,51 @@
 import React from 'react';
-import DashBoardCard from '../layout/dashboard-card';
+import DashboardCard from '../layout/dashboard-card';
+import { ImportErrorMessageDetailTypes } from '@/types/otherTypes';
 
 interface TableFailedImportProps {
-  errorMessageDetail: any;
+  errorMessageDetail: ImportErrorMessageDetailTypes;
 }
+
+type RowData = {
+  row: string;
+  data: {
+    property: string;
+    fail: string;
+  };
+};
+
+type GroupedData = RowData[][];
 
 const TableFailedImport: React.FC<TableFailedImportProps> = ({
   errorMessageDetail,
 }) => {
   const headers = ['Baris', 'Properti', 'Jenis Kesalahan'];
 
-  // Group data by row number first, then by property
-  const groupedData = Object.values(
-    errorMessageDetail.failedData.data.reduce(
-      (acc: Record<number, any[]>, data: any) => {
-        const row = data.row;
-        if (!acc[row]) acc[row] = [];
-        acc[row].push(data);
-        return acc;
-      },
-      {}
-    )
-  );
+  // Inisialisasi groupedRows sebagai objek kosong
+  const groupedRows: Record<string, RowData[]> = {};
+
+  // Cek apakah failedData.data adalah array sebelum melakukan forEach
+  if (Array.isArray(errorMessageDetail?.failedData.data)) {
+    errorMessageDetail?.failedData.data.forEach((currentRow: RowData) => {
+      const rowNumber = currentRow.row;
+      if (!groupedRows[rowNumber]) {
+        groupedRows[rowNumber] = [];
+      }
+      groupedRows[rowNumber].push(currentRow);
+    });
+  }
+
+  // Konversi groupedRows ke bentuk GroupedData (array of arrays)
+  const groupedData: GroupedData = Object.values(groupedRows);
 
   return (
-    <div className="pt-4 lg:pt-8 ">
-      <DashBoardCard>
+    <div className="pt-4 lg:pt-8">
+      <DashboardCard>
         <p className="font-custom text-lg text-font-black dark:text-font-white md:text-[28px] font-medium">
           Kesalahan Impor
         </p>
         <p className="mt-4 mb-4 text-xs font-custom text-font-black dark:text-font-white md:text-lg font-medium">
-          {errorMessageDetail.invalid_data} Kesalahan
+          {errorMessageDetail?.summaryData.invalid_data} Kesalahan
         </p>
         <div className="relative h-[320px] overflow-auto">
           <table className="w-full border-collapse">
@@ -40,9 +55,9 @@ const TableFailedImport: React.FC<TableFailedImportProps> = ({
                   <th
                     key={index}
                     className={`p-3 font-custom text-dark-darkGray dark:text-font-white font-bold 
-            text-base text-left border border-font-gray ${
-              index === headers.length - 1 ? 'rounded-tr-lg' : ''
-            }`}
+                    text-base text-left border border-font-gray ${
+                      index === headers.length - 1 ? 'rounded-tr-lg' : ''
+                    }`}
                   >
                     {header}
                   </th>
@@ -52,9 +67,9 @@ const TableFailedImport: React.FC<TableFailedImportProps> = ({
             <tbody>
               {groupedData.map((rows, rowIndex) => (
                 <React.Fragment key={rowIndex}>
-                  {rows.map((data: any, index: number) => (
+                  {rows.map((rowDetail, index) => (
                     <tr
-                      key={`${data.row}-${data.data.property}-${index}`}
+                      key={`${rowDetail.row}-${rowDetail.data.property}-${index}`}
                       className="border border-font-gray hover:bg-dropdown-gray dark:hover:bg-dropdown-darkBlue group"
                     >
                       {/* Render row cell with rowSpan only on the first item of each group */}
@@ -63,14 +78,14 @@ const TableFailedImport: React.FC<TableFailedImportProps> = ({
                           rowSpan={rows.length}
                           className="px-3 py-2 text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base border-r border-font-gray"
                         >
-                          {data.row}
+                          {rowDetail.row}
                         </td>
                       )}
                       <td className="px-3 py-2 text-dark-navy dark:text-font-white font-custom font-bold text-xs md:text-base border-r border-font-gray">
-                        {data.data.property}
+                        {rowDetail.data.property}
                       </td>
                       <td className="px-3 py-2 text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
-                        {data.data.fail}
+                        {rowDetail.data.fail}
                       </td>
                     </tr>
                   ))}
@@ -79,7 +94,7 @@ const TableFailedImport: React.FC<TableFailedImportProps> = ({
             </tbody>
           </table>
         </div>
-      </DashBoardCard>
+      </DashboardCard>
     </div>
   );
 };

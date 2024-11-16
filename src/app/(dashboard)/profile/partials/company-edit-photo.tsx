@@ -19,7 +19,7 @@ const EditImageCompany = ({ onClose, data }: FormEditProps) => {
   const [preview, setPreview] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const company_id = localStorage.getItem('company_id');
+ 
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
@@ -46,7 +46,7 @@ const EditImageCompany = ({ onClose, data }: FormEditProps) => {
       setIsLoading(true);
 
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/companies/logo/${company_id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/companies/logo`,
         formData,
         {
           headers: {

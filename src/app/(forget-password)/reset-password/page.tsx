@@ -1,35 +1,33 @@
 'use client';
 
+import { newPassword } from '@/types/profileTypes';
+import { resetPassword } from '@/redux/actions/profileActions';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
 import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
-import axios from 'axios';
 import AuthLeftSection from '@/components/icon-forget';
 import AuthRightSection from '@/components/layout/auth-right-section';
 import FormHeader from '@/components/layout/auth-form-header';
 import FailText from '@/components/status/fail-text';
-import FailCard from '@/components/status/fail-card';
 import SuccessModal from '@/components/status/success-modal';
 
-interface newPassword {
-  new_password: string;
-  confirm_new_password: string;
-}
-
 const ResetPassword: React.FC = () => {
+  const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
+    {}
+  );
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [newPassword, setNewPassword] = useState<newPassword>({
     new_password: '',
     confirm_new_password: '',
   });
-
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [status, setStatus] = useState<string>('');
-  const [attemptedSubmit, setAttemptedSubmit] = useState<boolean>(false);
-
+  const dispatch = useDispatch<AppDispatch>();
   const searchParams = useSearchParams();
+
   const token = searchParams.get('token');
   const email = searchParams.get('email');
-  console.log('Token:', token, 'Email:', email);
 
   const rules = [
     { regex: /.{8,}/, label: 'Minimal 8 karakter' },
@@ -43,41 +41,16 @@ const ResetPassword: React.FC = () => {
   );
 
   const handleResetPassword = async () => {
-    setAttemptedSubmit(true);
-    if (
-      !isPasswordValid ||
-      newPassword.new_password !== newPassword.confirm_new_password
-    ) {
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/password/reset`,
-        {
-          token,
-          email,
-          ...newPassword,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-
-      if (response.data.success) {
-        setStatus('success');
-      } else {
-        console.error(response.data.message);
-        // setStatus(res.data.message);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+    dispatch(
+      resetPassword(
+        token!,
+        email!,
+        newPassword,
+        setIsLoading,
+        setIsSuccess,
+        setErrorMessage
+      )
+    );
   };
 
   return (
@@ -94,9 +67,6 @@ const ResetPassword: React.FC = () => {
             step={4}
             page_name="forget-password"
           />
-          {attemptedSubmit && status !== '' && status !== 'success' && (
-            <FailCard>{status}</FailCard>
-          )}
 
           <label
             htmlFor="new_password"
@@ -113,14 +83,11 @@ const ResetPassword: React.FC = () => {
               setNewPassword({ ...newPassword, new_password: e.target.value })
             }
             placeholder="Masukkan kata sandi"
-            className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black focus:outline-none rounded-lg bg-light-white focus:border-dark-navy ${
-              attemptedSubmit && !newPassword.new_password
-                ? 'error-fields'
-                : 'border-font-gray'
-            }`}
+            className="w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black focus:outline-none rounded-lg bg-light-white focus:border-dark-navy border-font-gray"
           />
-          {attemptedSubmit && newPassword.new_password === '' && (
-            <FailText>Kata sandi tidak boleh kosong</FailText>
+
+          {errorMessage.new_password && (
+            <FailText>{errorMessage.new_password[0]}</FailText>
           )}
 
           <label
@@ -141,21 +108,11 @@ const ResetPassword: React.FC = () => {
               })
             }
             placeholder="Masukkan kembali kata sandi"
-            className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black focus:outline-none rounded-lg bg-light-white focus:border-dark-navy ${
-              attemptedSubmit && !newPassword.confirm_new_password
-                ? 'error-fields'
-                : 'border-font-gray'
-            }`}
+            className="w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black focus:outline-none rounded-lg bg-light-white focus:border-dark-navy border-font-gray"
           />
-          {attemptedSubmit && newPassword.confirm_new_password === '' && (
-            <FailText>Ketikkan kembali kata sandi</FailText>
+          {errorMessage.confirm_new_password && (
+            <FailText>{errorMessage.confirm_new_password[0]}</FailText>
           )}
-          {attemptedSubmit &&
-            newPassword.confirm_new_password !== '' &&
-            newPassword.confirm_new_password !== newPassword.new_password && (
-              <FailText>Kata sandi tidak sama</FailText>
-            )}
-
           <ul className="list-none space-y-2 mt-4">
             {rules.map((rule, index) => {
               const isValid = rule.regex.test(newPassword.new_password);
@@ -190,7 +147,7 @@ const ResetPassword: React.FC = () => {
             {isLoading ? 'Menyimpan...' : 'Simpan'}
           </button>
 
-          {status == 'success' && (
+          {isSuccess && (
             <SuccessModal
               header="Kata Sandi Berhasil Diubah"
               description="Silahkan masuk kembali untuk melanjutkan"
@@ -206,11 +163,10 @@ const ResetPassword: React.FC = () => {
   );
 };
 
-// Wrap the ResetPassword component with Suspense when rendering it
-const PageWrapper = () => (
+const ResetPasswordPage = () => (
   <Suspense fallback={<div>Loading...</div>}>
     <ResetPassword />
   </Suspense>
 );
 
-export default PageWrapper;
+export default ResetPasswordPage;

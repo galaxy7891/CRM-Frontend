@@ -12,8 +12,8 @@ const SidebarModal: React.FC<SidebarModalProps> = ({
   return (
     <>
       <div
-        onClick={onClose} // <-- Klik pada overlay akan menutup sidebar
-        className="fixed inset-0 bg-black bg-opacity-50 z-50 " // <-- Overlay dengan warna hitam transparan
+        onClick={onClose} 
+        className="fixed inset-0 bg-black bg-opacity-50 z-50 " 
       />
 
       <div className="fixed rounded-lg md:rounded-none top-0 right-0 md:w-1/2 w-full h-full bg-light-white dark:bg-dark-darkGray shadow-lg z-[99] flex flex-col overflow-hidden ">

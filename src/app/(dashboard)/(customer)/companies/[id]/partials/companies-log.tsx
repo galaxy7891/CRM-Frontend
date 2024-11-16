@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { activityLogTypes } from '@/types/profileTypes';
 import { paginationTypes } from '@/types/otherTypes';
-import { logActivityProduct } from '@/redux/actions/productsActions';
+import { logActivityCompany } from '@/redux/actions/companiesActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '@/redux/store';
 import { useParams } from 'next/navigation';
@@ -13,7 +13,7 @@ import DashboardCard from '@/components/layout/dashboard-card';
 import PaginationButton from '@/components/button/pagination-button';
 import DashboardPositiveButton from '@/components/button/dashboard-positive-button';
 
-const ProductLog = () => {
+const UserLog = () => {
   const [pagination, setPagination] = useState<paginationTypes>({
     current_page: 1,
     last_page: 1,
@@ -25,12 +25,12 @@ const ProductLog = () => {
   const { id } = useParams<{ id: string }>();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { productLog } = useSelector((state: RootState) => state.products);
+  const { companyLog } = useSelector((state: RootState) => state.companies);
 
   const handleNextPage = () => {
     if (pagination.next_page_url) {
       dispatch(
-        logActivityProduct(pagination.current_page + 1, id, setPagination)
+        logActivityCompany(pagination.current_page + 1, id, setPagination)
       );
     }
   };
@@ -38,13 +38,13 @@ const ProductLog = () => {
   const handlePrevPage = () => {
     if (pagination.prev_page_url) {
       dispatch(
-        logActivityProduct(pagination.current_page - 1, id, setPagination)
+        logActivityCompany(pagination.current_page - 1, id, setPagination)
       );
     }
   };
 
   useEffect(() => {
-    dispatch(logActivityProduct(pagination.current_page, id, setPagination));
+    dispatch(logActivityCompany(pagination.current_page, id, setPagination));
   }, [id, dispatch, pagination.current_page]);
 
   return (
@@ -61,7 +61,7 @@ const ProductLog = () => {
         </div>
         {/* Body */}
         <div className="col-span-12 space-y-4 mt-4">
-          {productLog.map((log: activityLogTypes, index: number) => (
+          {companyLog.map((log: activityLogTypes, index: number) => (
             <CardActivityLog
               key={index}
               title={log.title}
@@ -84,4 +84,4 @@ const ProductLog = () => {
   );
 };
 
-export default ProductLog;
+export default UserLog;

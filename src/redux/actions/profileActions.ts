@@ -1,7 +1,105 @@
 import axios from 'axios';
+import {
+  newPassword,
+  dataUser,
+  dataCompany,
+  changePasswordTypes,
+} from '@/types/profileTypes';
+
 import { AppDispatch, RootState } from '../store';
 import { paginationTypes } from '@/types/otherTypes';
-import { setLogProfile } from '../reducers/profileReducers';
+import {
+  setLogProfile,
+  setDashboardUser,
+  setDashboardActivities,
+  setDashboardDealsCount,
+  setDashboardDealsValue,
+} from '../reducers/profileReducers';
+
+export const getProfile =
+  (
+    setDataUser: (user: dataUser) => void,
+    setDataCompany: (company: dataCompany) => void
+  ) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
+    try {
+      const { token } = getState().auth;
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/user`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.data.success) {
+        setDataUser(response.data.data);
+        setDataCompany(response.data.data.company);
+      }
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+    }
+  };
+
+export const getDashboardData =
+  () => async (dispatch: AppDispatch, getState: () => RootState) => {
+    const { token } = getState().auth;
+
+    try {
+      const config = {
+        method: 'get',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/dashboard`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.request(config);
+
+      if (response.data.success) {
+        dispatch(setDashboardUser(response.data.data));
+        dispatch(setDashboardActivities(response.data.data.activities));
+        dispatch(
+          setDashboardDealsValue(response.data.data.deals_pipeline.value)
+        );
+        dispatch(
+          setDashboardDealsCount(response.data.data.deals_pipeline.count)
+        );
+      }
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+    }
+  };
+
+export const updateUserProfile =
+  (
+    userProfile: dataUser,
+    setErrorMessage: (messages: { [key: string]: string }) => void
+  ) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
+    const { token } = getState().auth;
+
+    try {
+      const config = {
+        method: 'post',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/user`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: userProfile,
+      };
+
+      const response = await axios.request(config);
+
+      if (response.data.success) {
+      } else {
+        setErrorMessage(response.data.message);
+        console.error(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
 export const updateUserPhoto =
   (
@@ -10,7 +108,7 @@ export const updateUserPhoto =
     setErrorMessage: (errorMessage: string | null) => void
   ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
-    const token = getState().auth.token;
+    const { token } = getState().auth;
 
     const formData = new FormData();
 
@@ -42,18 +140,118 @@ export const updateUserPhoto =
     }
   };
 
-export const logActivityProfile =
+export const sendForgotPasswordEmail =
   (
-    currentPage: number,
-
-    setPagination: (pagination: paginationTypes) => void
+    email: string | null,
+    setIsLoading: (isLoading: boolean) => void,
+    setErrorMessage: (errorMessage: string) => void,
+    setStep?: (step: number) => void,
+    setIsEmailSent?: (isEmailSent: boolean) => void
   ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
-    const token = getState().auth.token;
+    setIsLoading(true);
+    const { token } = getState().auth;
+    try {
+      const config = {
+        method: 'post',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/password/forgot`,
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        data: email ? { email } : {},
+      };
+      const response = await axios.request(config);
+      if (response.data.success) {
+        if (setStep) {
+          setStep(2);
+        } else if (setIsEmailSent) {
+          setIsEmailSent(true);
+        }
+      } else {
+        setErrorMessage(response.data.message.email[0]);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+export const resetPassword =
+  (
+    token: string,
+    email: string,
+    newPassword: newPassword,
+    setIsLoading: (isLoading: boolean) => void,
+    setIsSuccess: (success: boolean) => void,
+    setErrorMessage: (messages: { [key: string]: string }) => void
+  ) =>
+  async () => {
+    setIsLoading(true);
+    try {
+      const config = {
+        method: 'post',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/password/reset`,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: { token, email, ...newPassword },
+      };
+
+      const response = await axios.request(config);
+
+      if (response.data.success) {
+        setIsSuccess(true);
+      } else {
+        setErrorMessage(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+export const changePassword =
+  (
+    password: changePasswordTypes,
+    setIsSuccess: (success: boolean) => void,
+    setErrorMessage: (messages: { [key: string]: string }) => void
+  ) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
+    const { token } = getState().auth;
+    try {
+      const config = {
+        method: 'post',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/password/change`,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        data: { ...password },
+      };
+      const response = await axios.request(config);
+
+      if (response.data.success) {
+        setIsSuccess(true);
+      } else {
+        console.error(response.data.message);
+        setErrorMessage(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+export const logActivityProfile =
+  (currentPage: number, setPagination: (pagination: paginationTypes) => void) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
+    const { token } = getState().auth;
+    const { id } = getState().auth.user;
     try {
       const config = {
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/activity/log/users?page=${currentPage}`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/activity/log/users?page=${currentPage}&id=${id}`,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-// import Link from 'next/link';
+import Link from 'next/link';
 import Image from 'next/image';
 import { employeesTypes } from '@/types/employeeTypes';
 import { paginationTypes } from '@/types/otherTypes';
@@ -20,7 +20,7 @@ import ActionConfirmModal from '@/components/status/action-confirm-modal';
 import TableHeader from '@/components/table/table-head';
 import DeleteButton from '@/components/button/delete-button';
 import SuccessModal from '@/components/status/success-modal';
-// import PaginationButton from '@/components/button/pagination-button';
+import PaginationButton from '@/components/button/pagination-button';
 import ExportButton from '@/components/button/export-button';
 import FilterTableButton from '@/components/button/filter-table-button';
 import EditTableButton from '@/components/button/edit-table-button';
@@ -91,6 +91,32 @@ const Employee = () => {
         return [...prevSelectedIds, id];
       }
     });
+  };
+
+  const handlePrevPage = () => {
+    if (pagination.prev_page_url) {
+      dispatch(
+        getEmployees(
+          sortBy,
+          perPage,
+          pagination.current_page - 1,
+          setPagination
+        )
+      );
+    }
+  };
+
+  const handleNextPage = () => {
+    if (pagination.next_page_url) {
+      dispatch(
+        getEmployees(
+          sortBy,
+          perPage,
+          pagination.current_page + 1,
+          setPagination
+        )
+      );
+    }
   };
 
   useEffect(() => {
@@ -202,9 +228,9 @@ const Employee = () => {
                       </div>
                     </td>
                     <td className="px-3 py-2 min-w-[200px] border-font-gray fpnt text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs md:text-base ">
-                      {/* <Link href={`/employee/${employee.id}`}> */}
-                      {employee.first_name} {employee.last_name}
-                      {/* </Link> */}
+                      <Link href={`/employee/${employee.id}`}>
+                        {employee.first_name} {employee.last_name}
+                      </Link>
                     </td>
                     <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
                       {employee.role || '-'}
@@ -224,14 +250,14 @@ const Employee = () => {
             </table>
           </div>
           {isAddUser && <InviteEmployee onClose={handleAddUser} />}
-          {/* <PaginationButton
+          <PaginationButton
             last_page={pagination.last_page}
             current_page={pagination.current_page}
             prev_page_url={pagination.prev_page_url}
             next_page_url={pagination.next_page_url}
             handlePrevPage={handlePrevPage}
             handleNextPage={handleNextPage}
-          /> */}
+          />
           {isEditEmployee && (
             <EditEmployee onClose={handleCloseEdit} employeeProps={employee!} />
           )}

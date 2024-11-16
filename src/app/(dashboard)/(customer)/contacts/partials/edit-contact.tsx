@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
 import { contactsTypes, formActionPropsTypes } from '@/types/contactsTypes';
 import { selectedIds } from '@/types/otherTypes';
 import {
@@ -11,6 +11,7 @@ import {
   getZipCodes,
 } from '@/utils/getAddressLocation';
 import { updateContact } from '@/redux/actions/contactsActions';
+import { getCompanies } from '@/redux/actions/companiesActions';
 import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
 import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
 import SelectInput from '@/components/form-input/dropdown-input';
@@ -47,13 +48,17 @@ const EditContact: React.FC<formActionPropsTypes> = ({
   );
   const [isSuccess, setIsSuccess] = useState(false);
   const [contact, setContact] = useState<contactsTypes>(contactProps);
+  const { companies } = useSelector((state: RootState) => state.companies);
   const dispatch = useDispatch<AppDispatch>();
 
   const handleEditContact = () => {
     dispatch(updateContact(contact, setIsSuccess, setErrorMessage));
   };
+  console.log(contactProps, 'zz');
 
   useEffect(() => {
+    
+    dispatch(getCompanies('', '', '', 0, () => {}));
     if (!provinces.length) {
       getProvinces().then(setProvinces);
     }
@@ -69,7 +74,7 @@ const EditContact: React.FC<formActionPropsTypes> = ({
     if (selectedIds.villageId) {
       getZipCodes(selectedIds.villageId, selectedIds.cityId).then(setZipCodes);
     }
-  }, [selectedIds, provinces]);
+  }, [selectedIds, provinces, dispatch]);
 
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Edit Contact">
@@ -105,6 +110,9 @@ const EditContact: React.FC<formActionPropsTypes> = ({
             type="date"
             className="w-full mt-2 p-2 border text-xs md:text-base font-custom focus:ring-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
             placeholder="Tanggal Lahir"
+            onChange={(e) =>
+              setContact({ ...contact, birthdate: e.target.value })
+            }
           />
         </div>
         <div className="order-4">
@@ -142,7 +150,7 @@ const EditContact: React.FC<formActionPropsTypes> = ({
           />
           {errorMessage && <FailText>{errorMessage.owner}</FailText>}
         </div>
-        <div className="order-6 md:order-7">
+        <div className="order-7 md:order-7">
           <TextInput
             label="Pekerjaan"
             placeholder="Manager"
@@ -150,7 +158,31 @@ const EditContact: React.FC<formActionPropsTypes> = ({
             onChange={(e) => setContact({ ...contact, job: e.target.value })}
           />
         </div>
-        <div className="order-8 md:order-3">
+        <div className="order-8 md:order-8">
+          <SelectInput
+            label="Perusahaan"
+            value={contact.customers_company?.name || ''}
+            options={[
+              {
+                label: 'Pilih Perusahaan',
+                value: '',
+                hidden: true,
+              },
+              ...companies.map((p) => ({
+                label: p.name,
+                value: p.id,
+              })),
+            ]}
+            onChange={(e) =>
+              setContact({
+                ...contact,
+                customers_company_id: e.target.value,
+              })
+            }
+            required
+          />
+        </div>
+        <div className="order-9 md:order-3">
           <PhoneInput
             value={contact.phone}
             onChange={(e) => setContact({ ...contact, phone: e.target.value })}
@@ -158,7 +190,7 @@ const EditContact: React.FC<formActionPropsTypes> = ({
           />
           {errorMessage && <FailText>{errorMessage.phone}</FailText>}
         </div>
-        <div className="order-9">
+        <div className="order-10 md:order-9">
           <TextArea
             label="Alamat"
             placeholder="Jl. Kemenangan No.99"
@@ -168,7 +200,6 @@ const EditContact: React.FC<formActionPropsTypes> = ({
             }
           />
         </div>
-        {/* Get Location APi */}
         <div className="order-[10]">
           <SelectInput
             label="Provinsi"
@@ -319,11 +350,11 @@ const EditContact: React.FC<formActionPropsTypes> = ({
             }}
           />
         </div>
-        <div className="order-[15]">
+        <div className="order-[16]">
           <TextArea
             label="Deskripsi"
             placeholder="Deskripsi"
-            value={contact.description}
+            value={contact.description || ''}
             onChange={(e) =>
               setContact({ ...contact, description: e.target.value })
             }
