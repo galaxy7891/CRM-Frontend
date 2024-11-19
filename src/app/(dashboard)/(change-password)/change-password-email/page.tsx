@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { resetPassword } from '@/redux/actions/profileActions';
@@ -149,4 +149,10 @@ const ChangePasswordEmail = () => {
   );
 };
 
-export default ChangePasswordEmail;
+const ChangePasswordEmailPage = () => (
+  <Suspense>
+    <ChangePasswordEmail />
+  </Suspense>
+);
+
+export default ChangePasswordEmailPage;

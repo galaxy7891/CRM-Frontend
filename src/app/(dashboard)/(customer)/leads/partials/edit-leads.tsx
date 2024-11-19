@@ -44,12 +44,13 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
     {}
   );
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isLoading, setIsloading] = useState(false);
   const [lead, setLead] = useState<leadsTypes>(leadProps);
 
   const dispatch = useDispatch<AppDispatch>();
 
   const handleEditLead = () => {
-    dispatch(updateLead(lead, setIsSuccess, setErrorMessage));
+    dispatch(updateLead(lead, setIsloading, setIsSuccess, setErrorMessage));
   };
 
   useEffect(() => {
@@ -317,10 +318,10 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
       </form>
       <SidebarFooter>
         <DashboardSidebarRedButton onClick={onClose}>
-          Hapus Semua
+          Batal
         </DashboardSidebarRedButton>
         <DashboardSidebarYellowButton onClick={handleEditLead}>
-          Simpan
+          {isLoading ? 'Menyimpan...' : 'Simpan'}
         </DashboardSidebarYellowButton>
       </SidebarFooter>
       {isSuccess && (
@@ -329,7 +330,7 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
           description="Data leads berhasil diubah"
           actionButton={true}
           actionButton_name="Kembali"
-          actionButton_action={() => onClose()}
+          actionButton_action={() => window.location.reload()}
         />
       )}
     </SidebarModal>

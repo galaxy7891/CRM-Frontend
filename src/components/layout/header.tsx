@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { AppDispatch } from '@/redux/store';
-import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
+import { getProfile } from '@/redux/actions/profileActions';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '@/redux/store';
 import { MENU } from '@/constants/page';
 import { logout } from '@/redux/actions/authActions';
 import Image from 'next/image';
@@ -21,22 +22,28 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
   >(undefined);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+  const [photo, setPhoto] = useState<string>('');
   const { isDarkMode, toggleTheme } = useTheme();
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const pathName = usePathname();
-  let photo: string | null = '';
+  // const { user } = useSelector((state: RootState) => state.auth);
+  const { user } = useSelector((state: RootState) => state.profile);
+
   const handleLogout = () => {
     dispatch(logout());
     console.log('logout');
     router.push('/login');
   };
-  
-  if (typeof window !== 'undefined') {
-    photo = localStorage.getItem('photo');
-  }
 
   useEffect(() => {
+    if (user?.image_url) {
+      setPhoto(user.image_url!);
+    }
+
+    dispatch(getProfile());
+
+    console.log('useffect loaded');
     let matchedPage: { title: string; description?: string } | undefined =
       undefined;
 
@@ -76,7 +83,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
     }
 
     setCurrentPage(matchedPage);
-  }, [pathName]);
+  }, [pathName, dispatch, user?.image_url]);
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
   const toggleTooltip = () => setIsTooltipVisible(!isTooltipVisible);
@@ -157,7 +164,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
               id="avatarButton"
               onClick={toggleDropdown}
               className="w-10 h-10 rounded-full cursor-pointer"
-              src={photo && photo !== 'null' ? photo : '/images/default.jpg'}
+              src={photo ? photo : '/images/default.jpg'}
               alt="User dropdown"
               width={40}
               height={40}

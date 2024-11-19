@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import { profileState } from '@/types/profileTypes';
 
 const initialState: profileState = {
+  user: null,
+  userCompany: null,
   logProfile: [],
   dashboardUser: { date: '', greeting: '', user: '' },
   dashboardActivities: { leads: 0, contacts: 0, customers_companies: 0 },
@@ -25,6 +27,12 @@ const profileSlice = createSlice({
   name: 'profile',
   initialState,
   reducers: {
+    setUser: (state, action) => {
+      state.user = action.payload;
+    },
+    setUserCompany: (state, action) => {
+      state.userCompany = action.payload;
+    },
     setLogProfile: (state, action) => {
       state.logProfile = action.payload;
     },
@@ -44,6 +52,8 @@ const profileSlice = createSlice({
 });
 
 export const {
+  setUser,
+  setUserCompany,
   setLogProfile,
   setDashboardUser,
   setDashboardActivities,

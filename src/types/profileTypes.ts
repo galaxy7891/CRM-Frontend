@@ -27,6 +27,8 @@ interface dashboardUser {
 }
 
 export interface profileState {
+  user: dataUser | null;
+  userCompany: dataCompany | null;
   logProfile: activityLogTypes[];
   dashboardUser: dashboardUser;
   dashboardActivities: dashboardActivities;
@@ -56,11 +58,11 @@ export interface dataCompany {
 }
 
 export interface userInfoProps {
-  profileProps: dataUser;
+  user: dataUser;
 }
 
 export interface companyInfoProps {
-  companyProps: dataCompany;
+  userCompanyProps: dataCompany;
 }
 export interface SendForgotPasswordEmailProps {
   email: string;

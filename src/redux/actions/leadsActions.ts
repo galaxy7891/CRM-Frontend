@@ -108,10 +108,12 @@ export const addLead =
 export const updateLead =
   (
     lead: leadsTypes,
+    setIsLoading: (loading: boolean) => void,
     setIsSuccess: (success: boolean) => void,
     setErrorMessage: (messages: { [key: string]: string }) => void
   ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
+    setIsLoading(true);
     const token = getState().auth.token;
     try {
       const config = {
@@ -133,6 +135,8 @@ export const updateLead =
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -284,14 +288,14 @@ export const importLeads =
 
       const response = await axios.request(config);
 
-     if (response.data.success) {
-       setIsSuccess(true);
-     } else if (!response.data.success && !response.data.data) {
-       setErrorMessage(response.data.message);
-     } else {
-       setErrorMessageDetail(response.data.data);
-       setIsFailed(true);
-     }
+      if (response.data.success) {
+        setIsSuccess(true);
+      } else if (!response.data.success && !response.data.data) {
+        setErrorMessage(response.data.message);
+      } else {
+        setErrorMessageDetail(response.data.data);
+        setIsFailed(true);
+      }
     } catch (error) {
       console.error(error);
     }

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { SuccessModalProps } from '@/types/otherTypes';
 
-const SuccessModel: React.FC<SuccessModalProps> = ({
+const SuccessModal: React.FC<SuccessModalProps> = ({
   header,
   description,
   closeModal,
@@ -86,4 +86,4 @@ const SuccessModel: React.FC<SuccessModalProps> = ({
   );
 };
 
-export default SuccessModel;
+export default SuccessModal;

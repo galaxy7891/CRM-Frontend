@@ -8,7 +8,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ onClick }) => {
   return (
     <button
       onClick={onClick}
-      className="bg-dark-redLight dark:bg-[#E0283A] rounded-[10px] inline-flex items-center justify-center px-3  md:px-[14px] hover:opacity-80 transition-shadow duration-200"
+      className="bg-dark-redLight dark:bg-[#E0283A] rounded-[10px] inline-flex items-center justify-center px-2 py-2  hover:opacity-80 transition-shadow duration-200"
     >
       <svg
         viewBox="0 0 20 22"

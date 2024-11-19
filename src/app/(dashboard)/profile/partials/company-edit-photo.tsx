@@ -1,11 +1,14 @@
 import Image from 'next/image';
 import { useState } from 'react';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import { updateCompanyUserLogo } from '@/redux/actions/profileActions';
 import SidebarModal from '@/components/layout/sidebar-modal';
 import SidebarFooter from '@/components/layout/sidebar-footer';
 import FailText from '@/components/status/fail-text';
 import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
 import DashboardChangePhotoButton from '@/components/button/dashboard-change-photo-button';
+import SuccessModal from '@/components/status/success-modal';
 interface FormEditProps {
   onClose: () => void;
   data: data;
@@ -15,55 +18,23 @@ interface data {
   image_url: string;
 }
 const EditImageCompany = ({ onClose, data }: FormEditProps) => {
-  const [photo, setPhoto] = useState<File | null>(null);
+  const [logo, setLogo] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
- 
-
+  const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
+  const dispatch = useDispatch<AppDispatch>();
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
-
-    setPhoto(file);
+    setLogo(file);
     setPreview(file ? URL.createObjectURL(file) : null);
-    if (file) {
-      // Handle the uploaded file (e.g., upload it to a server or preview it)
-      console.log('Selected file:', file);
-    }
   };
 
-  const handleUpdatePhoto = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const token = localStorage.getItem('token');
-
-    const formData = new FormData();
-
-    if (photo) {
-      formData.append('logo', photo);
-    }
-
-    try {
-      setIsLoading(true);
-
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/companies/logo`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (!response.data.success) {
-        setErrorMessage(response.data.message);
-      } else {
-        window.location.reload();
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleUpdateLogoo = () => {
+    console.log('hitted');
+    dispatch(
+      updateCompanyUserLogo(logo, setIsLoading, setIsSuccess, setErrorMessage)
+    );
   };
 
   return (
@@ -92,10 +63,18 @@ const EditImageCompany = ({ onClose, data }: FormEditProps) => {
         <DashboardChangePhotoButton onChange={handleFileChange}>
           Ganti Foto
         </DashboardChangePhotoButton>
-        <DashboardSidebarYellowButton onClick={handleUpdatePhoto}>
+        <DashboardSidebarYellowButton onClick={handleUpdateLogoo}>
           {isLoading ? 'Menyimpan...' : 'Simpan'}
         </DashboardSidebarYellowButton>
       </SidebarFooter>
+      {isSuccess && (
+        <SuccessModal
+          header="Berhasil"
+          description="Logo perusahaan berhasil diubah"
+          actionButton_name="Kembali"
+          actionButton_action={onClose}
+        />
+      )}
     </SidebarModal>
   );
 };

@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   icons: '/icons/sidebar/logo.svg',
 };
 
+
+
 export default function RootLayout({
   children,
 }: Readonly<{

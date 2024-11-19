@@ -1,64 +1,39 @@
 import { useState } from 'react';
-import axios from 'axios';
+import { dataCompany } from '@/types/profileTypes';
+import { updateCompanyUserProfile } from '@/redux/actions/profileActions';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import TextInput from '@/components/form-input/text-input';
+import SelectInput from '@/components/form-input/dropdown-input';
 import FailText from '@/components/status/fail-text';
+import PhoneInput from '@/components/form-input/phone-input';
 import SidebarModal from '@/components/layout/sidebar-modal';
 import SidebarFooter from '@/components/layout/sidebar-footer';
-import Asterisk from '@/components/status/required-asterisk';
 import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
 import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
+import SuccessModal from '@/components/status/success-modal';
 
 interface FormEditProps {
   onClose: () => void;
-  data: data;
-}
-
-interface data {
-  name: string;
-  email: string;
-  industry: string;
-  phone: string;
-  website: string;
+  data: dataCompany;
 }
 
 const EditCompany = ({ onClose, data }: FormEditProps) => {
-  const [errorMessage, setErrorMessage] = useState<data | null>(null);
-  const [name, setName] = useState(data?.name || '');
-  const [email, setEmail] = useState(data?.email || '');
-  const [industry, setIndustry] = useState(data?.industry || '');
-  const [phone, setPhone] = useState(data?.phone || '');
-  const [website, setWebsite] = useState(data?.website || '');
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const token = localStorage.getItem('token');
-
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('email', email);
-    formData.append('industry', industry);
-    formData.append('phone', phone);
-    formData.append('website', website);
-
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/companies`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      if (!response.data.success) {
-        setErrorMessage(response.data.message);
-      } else {
-        console.error(response.data);
-      }
-
-    } catch (error) {
-      console.error(error);
-    }
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
+    {}
+  );
+  const [companyUserProfile, setCompanyUserProfile] =
+    useState<dataCompany>(data);
+  const dispatch = useDispatch<AppDispatch>();
+  const handleUpdateCompanyUser = () => {
+    dispatch(
+      updateCompanyUserProfile(
+        companyUserProfile,
+        setIsSuccess,
+        setErrorMessage
+      )
+    );
   };
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Edit Perusahaan">
@@ -67,83 +42,69 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
         {/* Nama Perusahaan dan Email */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex-1">
-            <label
-              htmlFor="name"
-              className="block text-xs md:text-base font-custom text-font-black dark:text-font-white"
-            >
-              Nama Perusahaan
-              <Asterisk />
-            </label>
-            <input
-              value={name}
-              name="name"
-              type="text"
-              onChange={(e) => setName(e.target.value)}
-              className="w-full mt-2 p-2 text-xs md:text-base border focus:border-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
+            <TextInput
+              label="Nama Perusahaan"
               placeholder="Nama Perusahaan"
+              value={companyUserProfile.name || ''}
+              onChange={(e) =>
+                setCompanyUserProfile({
+                  ...companyUserProfile,
+                  name: e.target.value,
+                })
+              }
+              required
             />
             {errorMessage && <FailText>{errorMessage?.name}</FailText>}
           </div>
           <div className="flex-1">
-            <label
-              htmlFor="email"
-              className="block text-xs md:text-base font-custom text-font-black dark:text-font-white"
-            >
-              Email
-            </label>
-            <input
-              name="email"
-              value={email}
-              type="text"
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full mt-2 p-2 text-xs md:text-base border focus:border-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
+            <TextInput
+              label="Email"
               placeholder="Email"
+              value={companyUserProfile.email || ''}
+              onChange={(e) =>
+                setCompanyUserProfile({
+                  ...companyUserProfile,
+                  email: e.target.value,
+                })
+              }
             />
+            {errorMessage && <FailText>{errorMessage?.email}</FailText>}
           </div>
         </div>
 
         {/* Jenis Industri dan Nomor Telepon */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex-1">
-            <label
-              htmlFor="industry"
-              className="block text-xs md:text-base font-custom text-font-black dark:text-font-white"
-            >
-              Jenis Industri
-            </label>
-            <select
-              name="industry"
-              onChange={(e) => setIndustry(e.target.value)}
-              className="w-full mt-2 p-2 text-xs md:text-base border focus:border-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
-              defaultValue={industry}
-            >
-              <option value="Manufaktur">Manufaktur</option>
-              <option value="Teknologi">Teknologi</option>
-              <option value="Jasa">Jasa</option>
-              <option value="Lainnya">Lainnya</option>
-            </select>
+            <SelectInput
+              label="Jenis Industri"
+              value={companyUserProfile.industry || ''}
+              options={[
+                // Tinggi, Tinggi
+                { label: 'Pilih', value: '', hidden: true },
+                { label: 'manufaktur', value: 'manufaktur' },
+                { label: 'teknologi', value: 'teknologi' },
+                { label: 'jasa', value: 'jasa' },
+                { label: 'lainnya', value: 'lainnya' },
+              ]}
+              onChange={(e) =>
+                setCompanyUserProfile({
+                  ...companyUserProfile,
+                  industry: e.target.value,
+                })
+              }
+            />
           </div>
           <div className="flex-1">
-            <label
-              htmlFor="phone"
-              className="block text-xs md:text-base font-custom text-font-black dark:text-font-white"
-            >
-              Nomor Telepon
-              <Asterisk />
-            </label>
-            <div className="flex mt-2">
-              <span className="inline-flex items-center px-3 text-xs md:text-sm border border-r-0 rounded-l-[4px] bg-gray-200 dark:bg-dark-navy dark:text-font-white border-font-black">
-                +62
-              </span>
-              <input
-                name="phone"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                type="tel"
-                className="w-full p-2 text-xs md:text-base border focus:border-dark-navy focus:outline-none border-font-black rounded-r-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
-                placeholder="81234567890"
-              />
-            </div>
+            <PhoneInput
+              value={companyUserProfile.phone}
+              onChange={(e) =>
+                setCompanyUserProfile({
+                  ...companyUserProfile,
+                  phone: e.target.value,
+                })
+              }
+              required
+            />
             {errorMessage?.phone && <FailText>{errorMessage?.phone}</FailText>}
           </div>
         </div>
@@ -151,19 +112,16 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
         {/* Website */}
         <div className="grid md:grid-cols-2 gap-x-4">
           <div className="flex-1">
-            <label
-              htmlFor="website"
-              className="block text-xs md:text-base font-custom text-font-black dark:text-font-white"
-            >
-              Website
-            </label>
-            <input
-              name="website"
-              value={website}
-              onChange={(e) => setWebsite(e.target.value)}
-              type="text"
-              className="w-full mt-2 p-2 text-xs md:text-base border focus:border-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
+            <TextInput
+              label="Website"
               placeholder="Website"
+              value={companyUserProfile.website || ''}
+              onChange={(e) =>
+                setCompanyUserProfile({
+                  ...companyUserProfile,
+                  website: e.target.value,
+                })
+              }
             />
           </div>
         </div>
@@ -174,10 +132,19 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
         <DashboardSidebarRedButton onClick={onClose}>
           Hapus semua
         </DashboardSidebarRedButton>
-        <DashboardSidebarYellowButton onClick={handleSubmit}>
+        <DashboardSidebarYellowButton onClick={handleUpdateCompanyUser}>
           Simpan
         </DashboardSidebarYellowButton>
       </SidebarFooter>
+
+      {isSuccess && (
+        <SuccessModal
+          header="Berhasil"
+          description="Data perhasilan berhasil diperbarui"
+          actionButton_name="Kembali"
+          actionButton_action={onClose}
+        />
+      )}
     </SidebarModal>
   );
 };

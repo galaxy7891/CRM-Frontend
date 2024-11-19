@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { ActionConfirmModalProps } from '@/types/otherTypes';
 
-const SuccessModel: React.FC<ActionConfirmModalProps> = ({
+const SuccessModal: React.FC<ActionConfirmModalProps> = ({
   header,
   description,
   closeModal,
@@ -80,4 +80,4 @@ const SuccessModel: React.FC<ActionConfirmModalProps> = ({
   );
 };
 
-export default SuccessModel;
+export default SuccessModal;

@@ -1,8 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
 import { companiesTypes } from '@/types/companiesTypes';
 import { paginationTypes } from '@/types/otherTypes';
 import { useSelector, useDispatch } from 'react-redux';
@@ -16,8 +14,14 @@ import handleExport from '@/utils/export_CSV';
 import DashboardCard from '@/components/layout/dashboard-card';
 import ActionConfirmModal from '@/components/status/action-confirm-modal';
 import StatusBadge from '@/components/table/status-badge';
+import DeleteTableButton from '@/components/button/delete-table-button';
 import EditCompany from './partials/edit-company';
-import TableHeader from '@/components/table/table-head';
+import TableHeader from '@/components/table/table-header';
+import TableRow from '@/components/table/table-row';
+import TableDataAction from '@/components/table/table-data-actions';
+import TableDataLink from '@/components/table/table-data-link';
+import TableDataLong from '@/components/table/table-data-long';
+import TableDataShort from '@/components/table/table-data-short';
 import DeleteButton from '@/components/button/delete-button';
 import SuccessModal from '@/components/status/success-modal';
 import PaginationButton from '@/components/button/pagination-button';
@@ -25,11 +29,14 @@ import ExportButton from '@/components/button/export-button';
 import FilterTableButton from '@/components/button/filter-table-button';
 import EditTableButton from '@/components/button/edit-table-button';
 import Checkbox from '@/components/button/checkbox';
+import EmptyTable from '@/components/table/empty-table';
+import Loading from '@/components/status/loading';
 
 const CompanyPage = () => {
   const [sortBy, setSortBy] = useState<string>('terbaru');
   const [statusBy, setStatusBy] = useState<string>('rendah');
   const [perPage, setPerPage] = useState<string>('10');
+  const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isEditCompany, setIsEditCompany] = useState<boolean>(false);
   const [isDeleteCompany, setIsDeleteCompany] = useState<boolean>(false);
@@ -128,7 +135,7 @@ const CompanyPage = () => {
         pagination.current_page,
         setPagination
       )
-    );
+    ).then(() => setIsLoadingPage(false));
   }, [
     dispatch,
     sortBy,
@@ -141,11 +148,16 @@ const CompanyPage = () => {
   ]);
 
   return (
-    <DashboardCard>
-      <div className="lg:items-center mb-4 grid grid-cols-12">
-        {/* Search Bar */}
-        <div className="col-span-12 md:col-span-4 relative">
-          {/* <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+    <>
+      {' '}
+      {isLoadingPage && companies.length === 0 ? (
+        <Loading />
+      ) : (
+        <DashboardCard>
+          <div className="lg:items-center mb-4 grid grid-cols-12">
+            {/* Search Bar */}
+            <div className="col-span-12 md:col-span-4 relative">
+              {/* <div className="absolute inset-y-0 left-0 flex items-center pl-3">
                 <Image
                   src="/icons/table/search.svg"
                   alt="search icon"
@@ -159,109 +171,94 @@ const CompanyPage = () => {
                 placeholder="Cari Leads"
                 className="pl-10 p-2 border-2 font-custom text-xs lg:text-base border-font-gray bg-light-white rounded-[10px] focus:outline-none  dark:bg-dark-darkGray w-full"
               /> */}
-        </div>
+            </div>
 
-        <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
-          {/* Trash Icon, Export, and Filter Buttons */}
-          {/* Delete Button */}
-          <DeleteButton onClick={() => handleDeleteConfirmation(selectedIds)} />
-          <ExportButton onClick={() => handleExport(companies)} />
+            <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
+              {/* Trash Icon, Export, and Filter Buttons */}
+              {/* Delete Button */}
+              <DeleteButton
+                onClick={() => handleDeleteConfirmation(selectedIds)}
+              />
+              <ExportButton onClick={() => handleExport(companies)} />
 
-          <FilterTableButton
-            setSortBy={setSortBy}
-            setStatusBy={setStatusBy}
-            setPerPage={setPerPage}
+              <FilterTableButton
+                setSortBy={setSortBy}
+                setStatusBy={setStatusBy}
+                setPerPage={setPerPage}
+              />
+            </div>
+          </div>
+          {companies.length === 0 ? (
+            <EmptyTable />
+          ) : (
+            <>
+              {' '}
+              {/* Table */}
+              <div className="relative  overflow-auto lg:w-full ">
+                <TableHeader headers={headers}>
+                  {companies.map((company: companiesTypes, index: number) => (
+                    <TableRow key={index} index={index}>
+                      <TableDataAction>
+                        <Checkbox
+                          id={`checkbox-${company.id}`}
+                          checked={selectedIds.includes(company.id)}
+                          onChange={() => handleCheckboxChange(company.id)}
+                        />
+                        <EditTableButton
+                          onClick={() => handleEdit(company.id)}
+                        />
+                        <DeleteTableButton
+                          onClick={() => handleDeleteConfirmation(company.id)}
+                        />
+                      </TableDataAction>
+                      <TableDataLink href={`/companies/${company.id}`}>
+                        {company.name}
+                      </TableDataLink>
+                      <TableDataLong>{company.email || '-'}</TableDataLong>
+                      <TableDataLong>{company.industry || '-'}</TableDataLong>
+                      <TableDataShort>
+                        <StatusBadge status={company.status || '-'} />
+                      </TableDataShort>
+                      <TableDataLong> {company.owner || '-'}</TableDataLong>
+                    </TableRow>
+                  ))}
+                </TableHeader>
+              </div>
+            </>
+          )}
+
+          <PaginationButton
+            last_page={pagination.last_page}
+            current_page={pagination.current_page}
+            prev_page_url={pagination.prev_page_url}
+            next_page_url={pagination.next_page_url}
+            handlePrevPage={handlePrevPage}
+            handleNextPage={handleNextPage}
           />
-        </div>
-      </div>
-      {/* Table */}
-      <div className="relative  overflow-auto lg:w-full ">
-        <table className="w-full mb-4">
-          <TableHeader headers={headers} />
-          <tbody>
-            {companies.map((company: companiesTypes, index: number) => (
-              <tr
-                key={index}
-                className="border-l border-r border-b border-font-gray hover:bg-dropdown-gray dark:hover:bg-dropdown-darkBlue group"
-              >
-                <td className="border px-2 min-w-[80px] border-font-gray bg-font-white dark:bg-dark-navy sticky top-o left-0 group-hover:bg-dropdown-gray dark:group-hover:bg-dropdown-darkBlue">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`checkbox-${company.id}`}
-                      checked={selectedIds.includes(company.id)}
-                      onChange={() => handleCheckboxChange(company.id)}
-                    />
-                    <EditTableButton onClick={() => handleEdit(company.id)} />
-                    <button
-                      onClick={() => handleDeleteConfirmation(company.id)}
-                    >
-                      <Image
-                        src="/icons/table/dustbin.svg"
-                        alt="deletebtn"
-                        width={16}
-                        height={16}
-                        className="w-5 h-5"
-                      />
-                    </button>
-                  </div>
-                </td>
-                <td className="px-3 py-2 min-w-[200px] border-font-gray fpnt text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs md:text-base w-full ">
-                  <Link
-                    href={`/companies/${company.id}`}
-                    className="truncate max-w-[200px] block"
-                  >
-                    {company.name}
-                  </Link>
-                </td>
-                <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base w-full">
-                  <div className="truncate max-w-[200px] block">
-                    {company.email || '-'}
-                  </div>
-                </td>
-                <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
-                  {company.industry}
-                </td>
-                <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
-                  <StatusBadge status={company.status} />
-                </td>
-                <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
-                  {company.owner}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <PaginationButton
-        last_page={pagination.last_page}
-        current_page={pagination.current_page}
-        prev_page_url={pagination.prev_page_url}
-        next_page_url={pagination.next_page_url}
-        handlePrevPage={handlePrevPage}
-        handleNextPage={handleNextPage}
-      />
-      {isEditCompany && (
-        <EditCompany onClose={handleCloseEdit} companyProps={company!} />
+          {isEditCompany && (
+            <EditCompany onClose={handleCloseEdit} companyProps={company!} />
+          )}
+          {isDeleteCompany && (
+            <ActionConfirmModal
+              header="Apakah ingin menghapus perusahaan?"
+              description="Data yang sudah terhapus tidak akan dapat dikembalikan"
+              actionButtonNegative_action={() => setIsDeleteCompany(false)}
+              actionButtonPositive_name="Hapus"
+              actionButtonPositive_action={handleDeleteCompany}
+            />
+          )}
+          {isSuccess && (
+            <SuccessModal
+              header="Berhasil"
+              description="Data perusahaan berhasil dihapus"
+              actionButton={true}
+              actionButton_name="Kembali"
+              actionButton_action={() => setIsSuccess(false)}
+            />
+          )}
+        </DashboardCard>
       )}
-      {isDeleteCompany && (
-        <ActionConfirmModal
-          header="Apakah ingin menghapus perusahaan?"
-          description="Data yang sudah terhapus tidak akan dapat dikembalikan"
-          actionButtonNegative_action={() => setIsDeleteCompany(false)}
-          actionButtonPositive_name="Hapus"
-          actionButtonPositive_action={handleDeleteCompany}
-        />
-      )}
-      {isSuccess && (
-        <SuccessModal
-          header="Berhasil"
-          description="Data perusahaan berhasil dihapus"
-          actionButton={true}
-          actionButton_name="Kembali"
-          actionButton_action={() => setIsSuccess(false)}
-        />
-      )}
-    </DashboardCard>
+    </>
   );
 };
 

@@ -5,25 +5,37 @@ import {
   dataCompany,
   changePasswordTypes,
 } from '@/types/profileTypes';
-
 import { AppDispatch, RootState } from '../store';
 import { paginationTypes } from '@/types/otherTypes';
 import {
+  setUser,
+  setUserCompany,
   setLogProfile,
   setDashboardUser,
   setDashboardActivities,
   setDashboardDealsCount,
   setDashboardDealsValue,
 } from '../reducers/profileReducers';
+import { logout } from './authActions';
 
 export const getProfile =
   (
-    setDataUser: (user: dataUser) => void,
-    setDataCompany: (company: dataCompany) => void
+    navigate?: (path: string) => void,
+    successRedirect?: string,
+    errorRedirect?: string
   ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
+    const { token } = getState().auth;
+    if (!token) {
+      dispatch(logout());
+
+      if (navigate && errorRedirect) {
+        navigate(errorRedirect);
+      }
+      return;
+    }
+
     try {
-      const { token } = getState().auth;
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/api/user`,
         {
@@ -33,11 +45,16 @@ export const getProfile =
         }
       );
       if (response.data.success) {
-        setDataUser(response.data.data);
-        setDataCompany(response.data.data.company);
+        dispatch(setUser(response.data.data));
+        dispatch(setUserCompany(response.data.data.company));
       }
     } catch (error) {
-      console.error('Error fetching dashboard data:', error);
+      console.error(error);
+      dispatch(logout());
+
+      if (navigate && errorRedirect) {
+        navigate(errorRedirect);
+      }
     }
   };
 
@@ -101,10 +118,44 @@ export const updateUserProfile =
     }
   };
 
+export const updateCompanyUserProfile =
+  (
+    companyUserProfile: dataCompany,
+    setIsSuccess: (success: boolean) => void,
+    setErrorMessage: (messages: { [key: string]: string }) => void
+  ) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
+    const { token } = getState().auth;
+
+    try {
+      const config = {
+        method: 'post',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/users/companies`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: companyUserProfile,
+      };
+
+      const response = await axios.request(config);
+
+      if (response.data.success) {
+        setIsSuccess(true);
+      } else {
+        setErrorMessage(response.data.message);
+        console.error(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 export const updateUserPhoto =
   (
     photo: File | null,
     setIsLoading: (loading: boolean) => void,
+    setIsSuccess: (success: boolean) => void,
     setErrorMessage: (errorMessage: string | null) => void
   ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
@@ -128,10 +179,48 @@ export const updateUserPhoto =
           },
         }
       );
-      if (!response.data.success) {
-        setErrorMessage(response.data.message.photo[0]);
+      if (response.data.success) {
+        setIsSuccess(true);
       } else {
-        window.location.reload();
+        setErrorMessage(response.data.message.photo[0]);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+export const updateCompanyUserLogo =
+  (
+    logo: File | null,
+    setIsLoading: (loading: boolean) => void,
+    setIsSuccess: (success: boolean) => void,
+    setErrorMessage: (errorMessage: string | null) => void
+  ) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
+    const { token } = getState().auth;
+
+    const formData = new FormData();
+    if (logo) {
+      formData.append('logo', logo);
+    }
+
+    try {
+      setIsLoading(true);
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/users/companies/logo`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.data.success) {
+        setIsSuccess(true);
+      } else {
+        setErrorMessage(response.data.message.logo[0]);
       }
     } catch (error) {
       console.error(error);
