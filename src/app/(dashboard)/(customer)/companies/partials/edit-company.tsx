@@ -332,7 +332,7 @@ const EditCompany: React.FC<formActionPropsTypes> = ({
           description="Data perusahaan berhasil diubah"
           actionButton={true}
           actionButton_name="Kembali"
-          actionButton_action={() => onClose()}
+          actionButton_action={() => window.location.reload()}
         />
       )}
     </SidebarModal>

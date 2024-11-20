@@ -16,8 +16,11 @@ import DeleteButton from '@/components/button/delete-button';
 import SuccessModal from '@/components/status/success-modal';
 import ActionConfirmModal from '@/components/status/action-confirm-modal';
 import ProductLog from './partials/employee-log';
+import HeaderWithBackButton from '@/components/layout/header-with-back';
+import Loading from '@/components/status/loading';
 
 const DetailProduct = () => {
+  const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
   const [isEditEmployee, setIsEditEmployee] = useState<boolean>(false);
   const [isDeleteProduct, setIsDeleteProduct] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -45,73 +48,91 @@ const DetailProduct = () => {
 
   useEffect(() => {
     if (id) {
-      dispatch(getEmployeeById(id));
+      dispatch(getEmployeeById(id)).then(() => setIsLoadingPage(false));
     }
   }, [dispatch, id, isEditEmployee]);
 
   return (
-    <div>
-      <DashboardCard>
-        <div className="grid grid-cols-12">
-          <div className="col-span-12 lg:col-span-4 flex justify-center items-center ">
-            <CardCustomer
-              data={{
-                name:
-                  employee?.first_name +
-                    (employee?.last_name ? ' ' + employee?.last_name : '') ||
-                  '-',
-                email: employee?.email || '-',
-              }}
-              imageSrc="/images/customer.png"
-              emailHref={`mailto:${employee?.email}`}
-              waHref={`https://wa.me/62${employee?.phone}`}
-            />
-          </div>
-          <div className="col-span-12 lg:col-start-5 lg:col-span-8">
-            <div className="flex items-center mt-2 justify-between">
-              <p className="font-custom text-font-black dark:text-font-white text-sm md:text-2xl font-medium">
-                Data Produk
-              </p>
-              <div className="flex items-center space-x-2">
-                {employee && (
-                  <EditUserButton onClick={() => handleEdit(employee.id)} />
-                )}
-                <DeleteButton onClick={handleDeleteConfirmation} />
+    <>
+      <HeaderWithBackButton title="Detail Karyawan" />
+      {isLoadingPage && employee?.id != id ? (
+        <Loading />
+      ) : (
+        <>
+          {' '}
+          <DashboardCard>
+            <div className="grid grid-cols-12">
+              <div className="col-span-12 lg:col-span-4 flex justify-center items-center ">
+                <CardCustomer
+                  data={{
+                    name:
+                      employee?.first_name +
+                        (employee?.last_name
+                          ? ' ' + employee?.last_name
+                          : '') || '-',
+                    email: employee?.email || '-',
+                  }}
+                  imageSrc="/images/customer.png"
+                  emailHref={`mailto:${employee?.email}`}
+                  waHref={`https://wa.me/62${employee?.phone}`}
+                />
+              </div>
+              <div className="col-span-12 lg:col-start-5 lg:col-span-8">
+                <div className="flex items-center mt-2 justify-between">
+                  <p className="font-custom text-font-black dark:text-font-white text-sm md:text-2xl font-medium">
+                    Data Produk
+                  </p>
+                  <div className="flex items-center space-x-2">
+                    {employee && (
+                      <EditUserButton onClick={() => handleEdit(employee.id)} />
+                    )}
+                    <DeleteButton onClick={handleDeleteConfirmation} />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 gap-4 p-4 mt-2 bg-light-white dark:bg-dark-darkGray rounded-[10px]">
+                  <CustomerInfo
+                    label="Jabatan"
+                    value={employee?.job_position}
+                  />
+                  <CustomerInfo label="Nomor Telepon" value={employee?.phone} />
+                  <CustomerInfo label="Email" value={employee?.email} />
+                  <CustomerInfo label="Akses" value={employee?.role} />
+                  <CustomerInfo
+                    label="Jenis Kelamin"
+                    value={employee?.gender}
+                  />
+                </div>
               </div>
             </div>
-            <div className="grid grid-cols-1 gap-4 p-4 mt-2 bg-light-white dark:bg-dark-darkGray rounded-[10px]">
-              <CustomerInfo label="Jabatan" value={employee?.job_position} />
-              <CustomerInfo label="Nomor Telepon" value={employee?.phone} />
-              <CustomerInfo label="Email" value={employee?.email} />
-              <CustomerInfo label="Akses" value={employee?.role} />
-              <CustomerInfo label="Jenis Kelamin" value={employee?.gender} />
-            </div>
-          </div>
-        </div>
-        {isDeleteProduct && (
-          <ActionConfirmModal
-            header="Apakah ingin menghapus produk?"
-            description="Data yang sudah terhapus tidak akan dapat dikembalikan"
-            actionButtonNegative_action={handleDeleteConfirmation}
-            actionButtonPositive_name="Hapus"
-            actionButtonPositive_action={handleDeleteProduct}
-          />
-        )}
-        {isSuccess && (
-          <SuccessModal
-            header="Berhasil"
-            description="Data produk berhasil dihapus"
-            actionButton={true}
-            actionButton_name="Kembali ke Halaman Produk"
-            actionButton_href="/product"
-          />
-        )}
-        {isEditEmployee && (
-          <EditEmployee onClose={handleCloseEdit} employeeProps={employee!} />
-        )}
-      </DashboardCard>
-      <ProductLog />
-    </div>
+            {isDeleteProduct && (
+              <ActionConfirmModal
+                header="Apakah ingin menghapus produk?"
+                description="Data yang sudah terhapus tidak akan dapat dikembalikan"
+                actionButtonNegative_action={handleDeleteConfirmation}
+                actionButtonPositive_name="Hapus"
+                actionButtonPositive_action={handleDeleteProduct}
+              />
+            )}
+            {isSuccess && (
+              <SuccessModal
+                header="Berhasil"
+                description="Data produk berhasil dihapus"
+                actionButton={true}
+                actionButton_name="Kembali ke Halaman Produk"
+                actionButton_href="/product"
+              />
+            )}
+            {isEditEmployee && (
+              <EditEmployee
+                onClose={handleCloseEdit}
+                employeeProps={employee!}
+              />
+            )}
+          </DashboardCard>
+          <ProductLog />
+        </>
+      )}
+    </>
   );
 };
 

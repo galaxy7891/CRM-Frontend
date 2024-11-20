@@ -36,6 +36,7 @@ const Employee = () => {
   const [sortBy, setSortBy] = useState<string>('terbaru');
   const [perPage, setPerPage] = useState<string>('10');
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
+  const [isTriggerFetch, setIsTriggerFetch] = useState<boolean>(false);
   const [isAddUser, setAddUser] = useState(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isEditEmployee, setIsEditEmployee] = useState<boolean>(false);
@@ -127,18 +128,24 @@ const Employee = () => {
   };
 
   useEffect(() => {
-    dispatch(
-      getEmployees(sortBy, perPage, pagination.current_page, setPagination)
-    ).then(() => setIsLoadingPage(false));
-  }, [
-    sortBy,
-    perPage,
-    pagination.current_page,
-    isSuccess,
-    dispatch,
-    isEditEmployee,
-    isDeleteEmployee,
-  ]);
+    if (isTriggerFetch) {
+      setPagination((prev) => ({
+        ...prev,
+        current_page: 1,
+      }));
+
+      dispatch(getEmployees(sortBy, perPage, 1, setPagination)).then(() => {
+        setIsLoadingPage(false);
+        setIsTriggerFetch(false);
+      });
+    }
+  }, [dispatch, sortBy, perPage, isTriggerFetch]);
+
+  useEffect(() => {
+    if (sortBy || perPage) {
+      setIsTriggerFetch(true);
+    }
+  }, [sortBy, perPage]);
   return (
     <>
       {/* Header */}
@@ -155,7 +162,7 @@ const Employee = () => {
       </div>
       {/* Content */}
       <div>
-        {isLoadingPage && employees.length === 0 ? (
+        {isLoadingPage ? (
           <Loading />
         ) : (
           <DashboardCard>

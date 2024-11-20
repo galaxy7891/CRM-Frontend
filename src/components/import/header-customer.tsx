@@ -64,7 +64,7 @@ const HeaderCustomer: React.FC = () => {
   }
 
   return (
-    <div className="relative mb-4">
+    <div className="relative mb-5">
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <p className="text-base lg:text-3xl font-custom text-font-black dark:text-font-white">

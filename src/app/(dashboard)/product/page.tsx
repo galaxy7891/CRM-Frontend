@@ -36,6 +36,7 @@ const Product = () => {
   const [sortBy, setSortBy] = useState<string>('terbaru');
   const [perPage, setPerPage] = useState<string>('10');
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [isTriggerFetch, setIsTriggerFetch] = useState<boolean>(false);
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
   const [isEditProduct, setIsEditProduct] = useState<boolean>(false);
   const [isAddProduct, setIsAddProduct] = useState<boolean>(false);
@@ -134,18 +135,24 @@ const Product = () => {
   };
 
   useEffect(() => {
-    dispatch(
-      getProducts(sortBy, perPage, pagination.current_page, setPagination)
-    ).then(() => setIsLoadingPage(false));
-  }, [
-    dispatch,
-    sortBy,
-    perPage,
-    isSuccess,
-    isAddProduct,
-    isEditProduct,
-    pagination.current_page,
-  ]);
+    if (isTriggerFetch) {
+      setPagination((prev) => ({
+        ...prev,
+        current_page: 1,
+      }));
+
+      dispatch(getProducts(sortBy, perPage, 1, setPagination)).then(() => {
+        setIsLoadingPage(false);
+        setIsTriggerFetch(false);
+      });
+    }
+  }, [dispatch, sortBy, perPage, isTriggerFetch]);
+
+  useEffect(() => {
+    if (sortBy || perPage) {
+      setIsTriggerFetch(true);
+    }
+  }, [sortBy, perPage]);
 
   return (
     <>
@@ -171,7 +178,7 @@ const Product = () => {
         </div>
       </div>
       <div>
-        {isLoadingPage && products.length === 0 ? (
+        {isLoadingPage ? (
           <Loading />
         ) : (
           <DashboardCard>

@@ -36,6 +36,7 @@ const ContactsPage = () => {
   const [sortBy, setSortBy] = useState<string>('terbaru');
   const [statusBy, setStatusBy] = useState<string>('rendah');
   const [perPage, setPerPage] = useState<string>('10');
+  const [isTriggerFetch, setIsTriggerFetch] = useState<boolean>(false);
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isEditContact, setIsEditContact] = useState<boolean>(false);
@@ -128,28 +129,30 @@ const ContactsPage = () => {
   };
 
   useEffect(() => {
-    dispatch(
-      getContacts(
-        sortBy,
-        statusBy,
-        perPage,
-        pagination.current_page,
-        setPagination
-      )
-    ).then(() => setIsLoadingPage(false));
-  }, [
-    dispatch,
-    sortBy,
-    statusBy,
-    perPage,
-    isSuccess,
-    isEditContact,
-    pagination.current_page,
-  ]);
+    if (isTriggerFetch) {
+      setPagination((prev) => ({
+        ...prev,
+        current_page: 1,
+      }));
+
+      dispatch(getContacts(sortBy, statusBy, perPage, 1, setPagination)).then(
+        () => {
+          setIsLoadingPage(false);
+          setIsTriggerFetch(false);
+        }
+      );
+    }
+  }, [dispatch, sortBy, statusBy, perPage, isTriggerFetch]);
+
+  useEffect(() => {
+    if (sortBy || statusBy || perPage) {
+      setIsTriggerFetch(true);
+    }
+  }, [sortBy, statusBy, perPage]);
 
   return (
     <>
-      {isLoadingPage && contacts.length === 0 ? (
+      {isLoadingPage ? (
         <Loading />
       ) : (
         <DashboardCard>

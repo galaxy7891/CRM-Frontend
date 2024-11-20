@@ -33,21 +33,20 @@ const Dashboard = () => {
 
   return (
     <>
-      {isLoadingPage ? (
+      {isLoadingPage && dashboardUser === null ? (
         <Loading />
       ) : (
         <>
-          {' '}
           {/* Card Activity */}
           <DashboardCard>
             <section className="row-span-1">
               <p className="text-base font-custom dark:text-font-white">
-                {dashboardUser?.date || 'Loading...'}
+                {dashboardUser?.date || 'Memuat...'}
               </p>
               <h1 className="font-custom font-bold lg:text-2xl text-base text-font-black dark:text-font-white pt-1">
-                {dashboardUser?.greeting || 'Loading...'}{' '}
+                {dashboardUser?.greeting || 'Memuat...'}{' '}
                 <span className="text-light-gold lg:text-2xl text-base font-bold font-custom">
-                  {dashboardUser?.user || 'Loading..'}
+                  {dashboardUser?.user || 'Memuat..'}
                 </span>
               </h1>
               <p className="text-sm lg:text-2xl font-custom text-font-black dark:text-font-white font-medium pt-6">
