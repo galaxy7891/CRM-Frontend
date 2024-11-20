@@ -3,6 +3,7 @@
 import Sidebar from '@/components/layout/sidebar';
 import Header from '@/components/layout/header';
 import { ReactNode, useEffect, useState } from 'react';
+import SidebarRev from '@/components/layout/sidebar-rev';
 
 interface LayoutDashboardProps {
   children: ReactNode;
@@ -32,7 +33,7 @@ const LayoutDashboard: React.FC<LayoutDashboardProps> = ({ children }) => {
   return (
     <section className="flex h-screen ">
       <div className='overflow-hidden'>
-      <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen}/>
+      <SidebarRev isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen}/>
       </div>
       <div className="flex flex-1 flex-col overflow-hidden">
         <Header onToggleSidebar={toggleSidebar} />
