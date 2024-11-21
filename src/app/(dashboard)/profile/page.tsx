@@ -14,9 +14,10 @@ const User = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.profile);
   const { userCompany } = useSelector((state: RootState) => state.profile);
+
   useEffect(() => {
     dispatch(getProfile());
-  }, [dispatch, userCompany, user]);
+  }, [dispatch]);
 
   return (
     <>

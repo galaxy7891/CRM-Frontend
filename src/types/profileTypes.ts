@@ -37,6 +37,7 @@ export interface profileState {
 }
 
 export interface dataUser {
+  id: string;
   image_url: string;
   first_name: string;
   last_name: string;

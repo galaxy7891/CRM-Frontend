@@ -46,6 +46,7 @@ export const getProfile =
       );
       if (response.data.success) {
         dispatch(setUser(response.data.data));
+        console.log(response.data.data);
         dispatch(setUserCompany(response.data.data.company));
       }
     } catch (error) {
@@ -336,7 +337,7 @@ export const logActivityProfile =
   (currentPage: number, setPagination: (pagination: paginationTypes) => void) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;
-    const { id } = getState().auth.user;
+    const id = getState().profile.user?.id;
     try {
       const config = {
         method: 'get',
