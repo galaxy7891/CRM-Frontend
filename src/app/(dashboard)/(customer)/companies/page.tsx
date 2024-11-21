@@ -152,7 +152,7 @@ const CompanyPage = () => {
   return (
     <>
       {' '}
-      {isLoadingPage  ? (
+      {isLoadingPage ? (
         <Loading />
       ) : (
         <DashboardCard>
@@ -226,37 +226,39 @@ const CompanyPage = () => {
                   ))}
                 </TableHeader>
               </div>
+              <PaginationButton
+                last_page={pagination.last_page}
+                current_page={pagination.current_page}
+                prev_page_url={pagination.prev_page_url}
+                next_page_url={pagination.next_page_url}
+                handlePrevPage={handlePrevPage}
+                handleNextPage={handleNextPage}
+              />
+              {isEditCompany && (
+                <EditCompany
+                  onClose={handleCloseEdit}
+                  companyProps={company!}
+                />
+              )}
+              {isDeleteCompany && (
+                <ActionConfirmModal
+                  header="Apakah ingin menghapus perusahaan?"
+                  description="Data yang sudah terhapus tidak akan dapat dikembalikan"
+                  actionButtonNegative_action={() => setIsDeleteCompany(false)}
+                  actionButtonPositive_name="Hapus"
+                  actionButtonPositive_action={handleDeleteCompany}
+                />
+              )}
+              {isSuccess && (
+                <SuccessModal
+                  header="Berhasil"
+                  description="Data perusahaan berhasil dihapus"
+                  actionButton={true}
+                  actionButton_name="Kembali"
+                  actionButton_action={() => setIsSuccess(false)}
+                />
+              )}
             </>
-          )}
-
-          <PaginationButton
-            last_page={pagination.last_page}
-            current_page={pagination.current_page}
-            prev_page_url={pagination.prev_page_url}
-            next_page_url={pagination.next_page_url}
-            handlePrevPage={handlePrevPage}
-            handleNextPage={handleNextPage}
-          />
-          {isEditCompany && (
-            <EditCompany onClose={handleCloseEdit} companyProps={company!} />
-          )}
-          {isDeleteCompany && (
-            <ActionConfirmModal
-              header="Apakah ingin menghapus perusahaan?"
-              description="Data yang sudah terhapus tidak akan dapat dikembalikan"
-              actionButtonNegative_action={() => setIsDeleteCompany(false)}
-              actionButtonPositive_name="Hapus"
-              actionButtonPositive_action={handleDeleteCompany}
-            />
-          )}
-          {isSuccess && (
-            <SuccessModal
-              header="Berhasil"
-              description="Data perusahaan berhasil dihapus"
-              actionButton={true}
-              actionButton_name="Kembali"
-              actionButton_action={() => setIsSuccess(false)}
-            />
           )}
         </DashboardCard>
       )}

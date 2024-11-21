@@ -182,7 +182,6 @@ const ContactsPage = () => {
               <EmptyTable />
             ) : (
               <>
-                {' '}
                 {/* Table */}
                 <div className="relative  overflow-auto lg:w-full ">
                   <TableHeader headers={headers}>
@@ -225,37 +224,41 @@ const ContactsPage = () => {
                     ))}
                   </TableHeader>
                 </div>
+                <PaginationButton
+                  last_page={pagination.last_page}
+                  current_page={pagination.current_page}
+                  prev_page_url={pagination.prev_page_url}
+                  next_page_url={pagination.next_page_url}
+                  handlePrevPage={handlePrevPage}
+                  handleNextPage={handleNextPage}
+                />
+                {isEditContact && (
+                  <EditContact
+                    onClose={handleCloseEdit}
+                    contactProps={contact!}
+                  />
+                )}
+                {isDeleteContact && (
+                  <ActionConfirmModal
+                    header="Apakah ingin menghapus kontak?"
+                    description="Data yang sudah terhapus tidak akan dapat dikembalikan"
+                    actionButtonNegative_action={() =>
+                      setIsDeleteContact(false)
+                    }
+                    actionButtonPositive_name="Hapus"
+                    actionButtonPositive_action={handleDeleteContact}
+                  />
+                )}
+                {isSuccess && (
+                  <SuccessModal
+                    header="Berhasil"
+                    description="Data kontak berhasil dihapus"
+                    actionButton={true}
+                    actionButton_name="Kembali"
+                    actionButton_action={() => setIsSuccess(false)}
+                  />
+                )}
               </>
-            )}
-
-            <PaginationButton
-              last_page={pagination.last_page}
-              current_page={pagination.current_page}
-              prev_page_url={pagination.prev_page_url}
-              next_page_url={pagination.next_page_url}
-              handlePrevPage={handlePrevPage}
-              handleNextPage={handleNextPage}
-            />
-            {isEditContact && (
-              <EditContact onClose={handleCloseEdit} contactProps={contact!} />
-            )}
-            {isDeleteContact && (
-              <ActionConfirmModal
-                header="Apakah ingin menghapus kontak?"
-                description="Data yang sudah terhapus tidak akan dapat dikembalikan"
-                actionButtonNegative_action={() => setIsDeleteContact(false)}
-                actionButtonPositive_name="Hapus"
-                actionButtonPositive_action={handleDeleteContact}
-              />
-            )}
-            {isSuccess && (
-              <SuccessModal
-                header="Berhasil"
-                description="Data kontak berhasil dihapus"
-                actionButton={true}
-                actionButton_name="Kembali"
-                actionButton_action={() => setIsSuccess(false)}
-              />
             )}
           </>
         </DashboardCard>

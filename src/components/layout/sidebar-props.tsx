@@ -32,7 +32,7 @@ const SidebarProps = ({ href, icon, title }: SidebarPropsProps) => {
         {icon}
       </div>
       <span
-        className={`font-custom text-base transition-all duration-200 ${
+        className={`font-custom text-xs md:text-base transition-all duration-200 ${
           isActive
             ? "text-font-brown font-bold"
             : "text-font-light group-hover:text-dark-goldLight font-medium" 

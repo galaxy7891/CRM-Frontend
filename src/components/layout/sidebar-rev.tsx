@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useEffect, useState, useRef } from "react";
-import Image from "next/image";
-import SidebarProps from "./sidebar-props";
-import { usePathname } from "next/navigation";
+import Link from 'next/link';
+import { useEffect, useState, useRef } from 'react';
+import Image from 'next/image';
+import SidebarProps from './sidebar-props';
+import { usePathname } from 'next/navigation';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -20,9 +20,9 @@ const SidebarRev = ({ isOpen, setIsOpen }: SidebarProps) => {
   const toggleActive = () => setIsActive(!isActive);
 
   const menuItems = [
-    { label: "Leads", href: "/leads" },
-    { label: "Kontak", href: "/contacts" },
-    { label: "Perusahaan", href: "/companies" },
+    { label: 'Leads', href: '/leads' },
+    { label: 'Kontak', href: '/contacts' },
+    { label: 'Perusahaan', href: '/companies' },
   ];
 
   // Check if the current pathname matches any menu item
@@ -33,8 +33,8 @@ const SidebarRev = ({ isOpen, setIsOpen }: SidebarProps) => {
   const [user, setUser] = useState<string | null>(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setUser(localStorage.getItem("role"));
+    if (typeof window !== 'undefined') {
+      setUser(localStorage.getItem('role'));
     }
   }, []);
   // let user: string | null = "";
@@ -67,13 +67,13 @@ const SidebarRev = ({ isOpen, setIsOpen }: SidebarProps) => {
     handleResize();
 
     // Tambahkan event listener
-    window.addEventListener("resize", handleResize);
-    document.addEventListener("mousedown", handleClickOutside);
+    window.addEventListener('resize', handleResize);
+    document.addEventListener('mousedown', handleClickOutside);
 
     // Cleanup event listener
     return () => {
-      window.removeEventListener("resize", handleResize);
-      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener('resize', handleResize);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [setIsOpen, isDesktop]);
 
@@ -90,12 +90,12 @@ const SidebarRev = ({ isOpen, setIsOpen }: SidebarProps) => {
         ref={sidebarRef}
         className={`${
           isOpen || isDesktop
-            ? "translate-x-0 opacity-100"
-            : "-translate-x-full opacity-0"
+            ? 'translate-x-0 opacity-100'
+            : '-translate-x-full opacity-0'
         } fixed top-0 left-0 h-screen transition-all duration-300 bg-dark-navy z-40 md:translate-x-0 md:opacity-100 md:static w-[190px] md:min-w-[200px] shadow-lg md:shadow-none shadow-gray-600 flex flex-col pt-4`}
         style={{
-          visibility: isOpen || isDesktop ? "visible" : "hidden",
-          maxWidth: isOpen && !isDesktop ? "50vw" : isDesktop ? "none" : "0",
+          visibility: isOpen || isDesktop ? 'visible' : 'hidden',
+          maxWidth: isOpen && !isDesktop ? '50vw' : isDesktop ? 'none' : '0',
         }}
       >
         <div className="flex flex-col  gap-[8px] md:gap-4">
@@ -122,7 +122,7 @@ const SidebarRev = ({ isOpen, setIsOpen }: SidebarProps) => {
                 </svg>
               }
             />
-            {!(user === "employee") && (
+            {user === 'employee' && (
               <SidebarProps
                 href="/employee"
                 title="Karyawan"
@@ -143,10 +143,10 @@ const SidebarRev = ({ isOpen, setIsOpen }: SidebarProps) => {
             <div
               className={`group flex items-center ps-4 md:ps-10 py-3 md:py-5 cursor-pointer ${
                 isAnyItemActive
-                  ? "text-font-brown font-bold bg-dark-goldLight"
+                  ? 'text-font-brown font-bold bg-dark-goldLight'
                   : isActive
-                  ? "text-dark-goldLight font-medium"
-                  : "text-font-light font-medium hover:text-dark-goldLight"
+                  ? 'text-dark-goldLight font-medium'
+                  : 'text-font-light font-medium hover:text-dark-goldLight'
               } `}
               onClick={toggleActive}
             >
@@ -160,10 +160,10 @@ const SidebarRev = ({ isOpen, setIsOpen }: SidebarProps) => {
                   xmlns="http://www.w3.org/2000/svg"
                   className={`transition-colors duration-300 ${
                     isAnyItemActive
-                      ? "text-font-brown "
+                      ? 'text-font-brown '
                       : isActive
-                      ? "text-dark-goldLight font-medium"
-                      : "text-font-light group-hover:text-dark-goldLight font-medium"
+                      ? 'text-dark-goldLight font-medium'
+                      : 'text-font-light group-hover:text-dark-goldLight font-medium'
                   }`}
                 >
                   <path
@@ -174,7 +174,7 @@ const SidebarRev = ({ isOpen, setIsOpen }: SidebarProps) => {
                   />
                 </svg>
                 {/* Label */}
-                <span>Pelanggan</span>
+                <span className="text-xs md:text-base">Pelanggan</span>
                 {/* Dropdown Arrow */}
                 <svg
                   width="11"
@@ -183,7 +183,7 @@ const SidebarRev = ({ isOpen, setIsOpen }: SidebarProps) => {
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   className={`transform transition-transform duration-300 ${
-                    isActive ? "rotate-180" : "rotate-0"
+                    isActive ? 'rotate-180' : 'rotate-0'
                   }`}
                 >
                   <path
@@ -207,10 +207,10 @@ const SidebarRev = ({ isOpen, setIsOpen }: SidebarProps) => {
                   return (
                     <Link href={item.href} key={item.href}>
                       <p
-                        className={`py-3 cursor-pointer ${
+                        className={`py-3 cursor-pointer text-xs md:text-base ${
                           isItemActive
-                            ? "text-dark-navy bg-dropdown-gold font-bold ps-6 md:ps-14"
-                            : "hover:text-dark-goldLight hover:font-bold ps-6 md:ps-14"
+                            ? 'text-dark-navy bg-dropdown-gold font-bold ps-6 md:ps-14'
+                            : 'hover:text-dark-goldLight hover:font-bold ps-6 md:ps-14'
                         }`}
                       >
                         {item.label}
@@ -283,7 +283,7 @@ const SidebarRev = ({ isOpen, setIsOpen }: SidebarProps) => {
                 />
               </svg>
 
-              <p className="font-custom text-font-white text-base group-hover:font-bold">
+              <p className="font-custom text-font-white text-xs md:text-base group-hover:font-bold">
                 Hubungi Kami
               </p>
             </Link>

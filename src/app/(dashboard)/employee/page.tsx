@@ -247,11 +247,14 @@ const Employee = () => {
                           <TableDataLink href={`/employee/${employee.id}`}>
                             {employee.first_name} {employee.last_name}
                           </TableDataLink>
-                          <TableDataLong> {employee.role || '-'}</TableDataLong>
-                          <TableDataLong>
+                          <TableDataShort>
+                            {' '}
+                            {employee.role || '-'}
+                          </TableDataShort>
+                          <TableDataShort>
                             {' '}
                             {employee.job_position || '-'}
-                          </TableDataLong>
+                          </TableDataShort>
                           <TableDataLong>
                             {' '}
                             {employee.email || '-'}

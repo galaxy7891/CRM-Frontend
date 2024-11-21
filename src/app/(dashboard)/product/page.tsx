@@ -253,49 +253,53 @@ const Product = () => {
                       ))}
                     </TableHeader>
                   </div>
+                  <PaginationButton
+                    last_page={pagination.last_page}
+                    current_page={pagination.current_page}
+                    prev_page_url={pagination.prev_page_url}
+                    next_page_url={pagination.next_page_url}
+                    handlePrevPage={handlePrevPage}
+                    handleNextPage={handleNextPage}
+                  />
+                  {isEditProduct && (
+                    <EditProduct
+                      onClose={handleCloseEdit}
+                      productProps={product!}
+                    />
+                  )}
+                  {isAddProduct && (
+                    <NewProduct onClose={handleCloseAddProduct} />
+                  )}
+                  {isDeleteProduct && (
+                    <ActionConfirmModal
+                      header="Apakah ingin menghapus Produk?"
+                      description="Data yang sudah terhapus tidak akan dapat dikembalikan"
+                      actionButtonNegative_action={() =>
+                        setIsDeleteProduct(false)
+                      }
+                      actionButtonPositive_name="Hapus"
+                      actionButtonPositive_action={handleDeleteProduct}
+                    />
+                  )}
+                  {isSuccess && (
+                    <SuccessModal
+                      header="Berhasil"
+                      description="Data Produk berhasil dihapus"
+                      actionButton={true}
+                      actionButton_name="Kembali"
+                      actionButton_action={() => setIsSuccess(false)}
+                    />
+                  )}
+                  {isDeleteFail && (
+                    <FailModal
+                      description="Beberapa data gagal dihapus, terdapat deals yang sedang berlangsung"
+                      closeModal={true}
+                      actionButton={false}
+                      actionButton_href=""
+                      actionButton_name=""
+                    />
+                  )}
                 </>
-              )}
-              <PaginationButton
-                last_page={pagination.last_page}
-                current_page={pagination.current_page}
-                prev_page_url={pagination.prev_page_url}
-                next_page_url={pagination.next_page_url}
-                handlePrevPage={handlePrevPage}
-                handleNextPage={handleNextPage}
-              />
-              {isEditProduct && (
-                <EditProduct
-                  onClose={handleCloseEdit}
-                  productProps={product!}
-                />
-              )}
-              {isAddProduct && <NewProduct onClose={handleCloseAddProduct} />}
-              {isDeleteProduct && (
-                <ActionConfirmModal
-                  header="Apakah ingin menghapus Produk?"
-                  description="Data yang sudah terhapus tidak akan dapat dikembalikan"
-                  actionButtonNegative_action={() => setIsDeleteProduct(false)}
-                  actionButtonPositive_name="Hapus"
-                  actionButtonPositive_action={handleDeleteProduct}
-                />
-              )}
-              {isSuccess && (
-                <SuccessModal
-                  header="Berhasil"
-                  description="Data Produk berhasil dihapus"
-                  actionButton={true}
-                  actionButton_name="Kembali"
-                  actionButton_action={() => setIsSuccess(false)}
-                />
-              )}
-              {isDeleteFail && (
-                <FailModal
-                  description="Beberapa data gagal dihapus, terdapat deals yang sedang berlangsung"
-                  closeModal={true}
-                  actionButton={false}
-                  actionButton_href=""
-                  actionButton_name=""
-                />
               )}
             </>
           </DashboardCard>

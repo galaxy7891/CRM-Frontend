@@ -1,16 +1,16 @@
 import React from 'react';
 
 interface StatusBadgeProps {
-  status: 'Rendah' | 'Sedang' | 'Tinggi' | string;
+  status: 'rendah' | 'sedang' | 'tinggi' | string;
 }
 
 const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
   const statusStyles: Record<string, string> = {
-    Rendah:
+    rendah:
       'border border-font-green bg-light-greenLight font-custom text-font-green text-xs dark:border-light-greenLight dark:text-light-greenLight dark:bg-dark-green',
-    Sedang:
+    sedang:
       'border border-light-brownLight bg-light-yellowLight text-light-brownLight font-custom text-xs dark:border-dark-yellowLight dark:text-dark-yellowLight dark:bg-dark-brownLight',
-    Tinggi:
+    tinggi:
       'border border-dark-red bg-dark-redLight font-custom text-xs text-dark-red dark:border-dark-redLight dark:text-dark-redLight dark:bg-dark-red',
   };
 
