@@ -1,8 +1,11 @@
 'use client';
 
-import Sidebar from '@/components/layout/sidebar';
-import Header from '@/components/layout/header';
 import { ReactNode, useEffect, useState } from 'react';
+import { AppDispatch } from '@/redux/store';
+import { useDispatch } from 'react-redux';
+import { getProfile } from '@/redux/actions/profileActions';
+import { useRouter } from 'next/navigation';
+import Header from '@/components/layout/header';
 import SidebarRev from '@/components/layout/sidebar-rev';
 
 interface LayoutDashboardProps {
@@ -11,15 +14,19 @@ interface LayoutDashboardProps {
 
 const LayoutDashboard: React.FC<LayoutDashboardProps> = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
   useEffect(() => {
+    dispatch(getProfile((path) => router.push(path), '', '/login'));
+
     const handleResize = () => {
       if (window.innerWidth < 768) {
-        setIsSidebarOpen(false); 
+        setIsSidebarOpen(false);
       }
     };
 
@@ -28,12 +35,12 @@ const LayoutDashboard: React.FC<LayoutDashboardProps> = ({ children }) => {
 
     // Cleanup listener on component unmount
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [dispatch, router]);
 
   return (
     <section className="flex h-screen ">
-      <div className='overflow-hidden'>
-      <SidebarRev isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen}/>
+      <div className="overflow-hidden">
+        <SidebarRev isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       </div>
       <div className="flex flex-1 flex-col overflow-hidden">
         <Header onToggleSidebar={toggleSidebar} />

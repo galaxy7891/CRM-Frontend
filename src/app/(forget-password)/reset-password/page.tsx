@@ -164,7 +164,7 @@ const ResetPassword: React.FC = () => {
 };
 
 const ResetPasswordPage = () => (
-  <Suspense fallback={<div>Loading...</div>}>
+  <Suspense>
     <ResetPassword />
   </Suspense>
 );

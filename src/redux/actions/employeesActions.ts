@@ -227,6 +227,10 @@ export const logActivityEmployee =
 
       if (response.data.success) {
         const logLead = response.data.data[0];
+        if (!response.data.data.data) {
+          console.log('kosong');
+          return;
+        }
         dispatch(setEmployeeLog(logLead.data[0].activities));
         setPagination({
           current_page: logLead.current_page,

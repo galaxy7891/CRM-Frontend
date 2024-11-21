@@ -8,10 +8,10 @@ import EditImageUser from './user-edit-photo';
 import EditUserButton from '@/components/button/edit-user-button';
 import DashboardCard from '@/components/layout/dashboard-card';
 
-const CardProfile: React.FC<userInfoProps> = ({ profileProps }) => {
+const CardProfile: React.FC<userInfoProps> = ({ user }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingImage, setIsEditingImage] = useState(false);
-
+  console.log(user);
   const handleEditClick = () => {
     setIsEditing(true);
   };
@@ -37,7 +37,7 @@ const CardProfile: React.FC<userInfoProps> = ({ profileProps }) => {
               onClick={handleEditImageClick}
             >
               <Image
-                src={profileProps?.image_url || '/images/default.jpg'}
+                src={user?.image_url || '/images/default.jpg'}
                 alt="image"
                 width={160}
                 height={160}
@@ -55,7 +55,7 @@ const CardProfile: React.FC<userInfoProps> = ({ profileProps }) => {
             </div>
             {/* Name */}
             <p className="text-black dark:text-font-white text-lg font-medium font-custom md:text-lg">
-              {profileProps?.first_name || '-'} {profileProps?.last_name}
+              {user?.first_name || '-'} {user?.last_name}
             </p>
           </div>
         </div>
@@ -71,11 +71,11 @@ const CardProfile: React.FC<userInfoProps> = ({ profileProps }) => {
 
           <div className="md:px-4 py-1 bg-light-white dark:bg-dark-darkGray rounded-[10px]">
             {[
-              { label: 'Jabatan', value: profileProps?.job_position },
-              { label: 'Nomor Telepon', value: profileProps?.phone },
-              { label: 'Email', value: profileProps?.email },
-              { label: 'Akses', value: profileProps?.role },
-              { label: 'Jenis Kelamin', value: profileProps?.gender },
+              { label: 'Jabatan', value: user?.job_position },
+              { label: 'Nomor Telepon', value: user?.phone },
+              { label: 'Email', value: user?.email },
+              { label: 'Akses', value: user?.role },
+              { label: 'Jenis Kelamin', value: user?.gender },
             ].map((item, index) => (
               <div key={index} className="m-2 md:m-4 w-full">
                 <p className="font-bold dark:text-font-white font-custom text-font-black text-xs md:text-base mb-1 min-w-[100px]">
@@ -89,9 +89,9 @@ const CardProfile: React.FC<userInfoProps> = ({ profileProps }) => {
           </div>
         </div>
       </div>
-      {isEditing && <EditUser onClose={handleCloseForm} data={profileProps} />}
+      {isEditing && <EditUser onClose={handleCloseForm} data={user} />}
       {isEditingImage && (
-        <EditImageUser onClose={handleCloseForm} data={profileProps} />
+        <EditImageUser onClose={handleCloseForm} data={user} />
       )}
     </DashboardCard>
   );

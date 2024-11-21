@@ -47,12 +47,9 @@ interface dataFailedTypes {
   fail: string;
 }
 
-
-
 interface ImportFailedDetailDataTypes {
   row: number;
   dataFailed: dataFailedTypes;
-  
 }
 
 interface ImportFailedDataTypes {

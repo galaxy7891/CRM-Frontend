@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { setToken, setUser } from '../reducers/authReducers';
+import { setToken } from '../reducers/authReducers';
+import { setUser } from '../reducers/profileReducers';
 import { AppDispatch } from '../store';
 import {
   PersonalDataTypes,

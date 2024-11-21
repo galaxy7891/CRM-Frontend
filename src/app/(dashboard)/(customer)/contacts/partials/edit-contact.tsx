@@ -57,7 +57,6 @@ const EditContact: React.FC<formActionPropsTypes> = ({
   console.log(contactProps, 'zz');
 
   useEffect(() => {
-    
     dispatch(getCompanies('', '', '', 0, () => {}));
     if (!provinces.length) {
       getProvinces().then(setProvinces);
@@ -375,7 +374,7 @@ const EditContact: React.FC<formActionPropsTypes> = ({
           description="Data contacts berhasil diubah"
           actionButton={true}
           actionButton_name="Kembali"
-          actionButton_action={() => onClose()}
+          actionButton_action={() => window.location.reload()}
         />
       )}
     </SidebarModal>

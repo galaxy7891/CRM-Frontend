@@ -8,6 +8,7 @@ import SidebarFooter from '@/components/layout/sidebar-footer';
 import FailText from '@/components/status/fail-text';
 import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
 import DashboardChangePhotoButton from '@/components/button/dashboard-change-photo-button';
+import SuccessModal from '@/components/status/success-modal';
 interface FormEditProps {
   onClose: () => void;
   data: Data;
@@ -20,22 +21,20 @@ const EditImageUser = ({ onClose, data }: FormEditProps) => {
   const [photo, setPhoto] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
-
     setPhoto(file);
     setPreview(file ? URL.createObjectURL(file) : null);
-    if (file) {
-      // Handle the uploaded file (e.g., upload it to a server or preview it)
-      console.log('Selected file:', file);
-    }
   };
 
-  const handleUpdatePhoto =  () => {
-    dispatch(updateUserPhoto(photo, setIsLoading, setErrorMessage));
+  const handleUpdatePhoto = () => {
+    dispatch(
+      updateUserPhoto(photo, setIsLoading, setIsSuccess, setErrorMessage)
+    );
   };
 
   return (
@@ -69,6 +68,15 @@ const EditImageUser = ({ onClose, data }: FormEditProps) => {
           {isLoading ? 'Menyimpan...' : 'Simpan'}
         </DashboardSidebarYellowButton>
       </SidebarFooter>
+
+      {isSuccess && (
+        <SuccessModal
+          header="Berhasil"
+          description="Foto profil berhasil diubah"
+          actionButton_name="Kembali"
+          actionButton_action={onClose}
+        />
+      )}
     </SidebarModal>
   );
 };

@@ -138,7 +138,7 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
           description="Data leads berhasil diubah"
           actionButton={true}
           actionButton_name="Kembali"
-          actionButton_action={() => onClose()}
+          actionButton_action={() => window.location.reload()}
         />
       )}
     </SidebarModal>

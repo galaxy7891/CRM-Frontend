@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { productsTypes } from '@/types/productTypes';
 import { paginationTypes } from '@/types/otherTypes';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,7 +14,11 @@ import handleExport from '@/utils/export_CSV';
 import DashboardCard from '@/components/layout/dashboard-card';
 import ActionConfirmModal from '@/components/status/action-confirm-modal';
 import EditProduct from './partials/edit-product';
-import TableHeader from '@/components/table/table-head';
+import TableHeader from '@/components/table/table-header';
+import TableRow from '@/components/table/table-row';
+import TableDataAction from '@/components/table/table-data-actions';
+import TableDataLink from '@/components/table/table-data-link';
+import TableDataShort from '@/components/table/table-data-short';
 import DeleteButton from '@/components/button/delete-button';
 import SuccessModal from '@/components/status/success-modal';
 import PaginationButton from '@/components/button/pagination-button';
@@ -26,12 +29,15 @@ import DeleteTableButton from '@/components/button/delete-table-button';
 import ExportButton from '@/components/button/export-button';
 import NewProduct from './partials/new-product';
 import FailModal from '@/components/status/fail-modal';
-// import EmptyTable from '@/components/table/empty-table';
+import EmptyTable from '@/components/table/empty-table';
+import Loading from '@/components/status/loading';
 
 const Product = () => {
   const [sortBy, setSortBy] = useState<string>('terbaru');
   const [perPage, setPerPage] = useState<string>('10');
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [isTriggerFetch, setIsTriggerFetch] = useState<boolean>(false);
+  const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
   const [isEditProduct, setIsEditProduct] = useState<boolean>(false);
   const [isAddProduct, setIsAddProduct] = useState<boolean>(false);
   const [isDeleteFail, setIsDeleteFail] = useState<boolean>(false);
@@ -129,18 +135,24 @@ const Product = () => {
   };
 
   useEffect(() => {
-    dispatch(
-      getProducts(sortBy, perPage, pagination.current_page, setPagination)
-    );
-  }, [
-    dispatch,
-    sortBy,
-    perPage,
-    isSuccess,
-    isAddProduct,
-    isEditProduct,
-    pagination.current_page,
-  ]);
+    if (isTriggerFetch) {
+      setPagination((prev) => ({
+        ...prev,
+        current_page: 1,
+      }));
+
+      dispatch(getProducts(sortBy, perPage, 1, setPagination)).then(() => {
+        setIsLoadingPage(false);
+        setIsTriggerFetch(false);
+      });
+    }
+  }, [dispatch, sortBy, perPage, isTriggerFetch]);
+
+  useEffect(() => {
+    if (sortBy || perPage) {
+      setIsTriggerFetch(true);
+    }
+  }, [sortBy, perPage]);
 
   return (
     <>
@@ -166,12 +178,15 @@ const Product = () => {
         </div>
       </div>
       <div>
-        <DashboardCard>
-          {/* Search Input */}
-          <div className="lg:items-center mb-4 grid grid-cols-12">
-            {/* Search Bar */}
-            <div className="col-span-12 md:col-span-4 relative">
-              {/* <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+        {isLoadingPage ? (
+          <Loading />
+        ) : (
+          <DashboardCard>
+            {/* Search Input */}
+            <div className="lg:items-center mb-4 grid grid-cols-12">
+              {/* Search Bar */}
+              <div className="col-span-12 md:col-span-4 relative">
+                {/* <div className="absolute inset-y-0 left-0 flex items-center pl-3">
                 <Image
                   src="/icons/table/search.svg"
                   alt="search icon"
@@ -185,108 +200,110 @@ const Product = () => {
                 placeholder="Cari Product"
                 className="pl-10 p-2 border-2 font-custom text-xs lg:text-base border-font-gray bg-light-white rounded-[10px] focus:outline-none  dark:bg-dark-darkGray w-full"
               /> */}
-            </div>
+              </div>
 
-            <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
-              <DeleteButton
-                onClick={() => handleDeleteConfirmation(selectedIds)}
-              />
-              <ExportButton onClick={() => handleExport(products)} />
-              <FilterTableButton
-                setSortBy={setSortBy}
-                setPerPage={setPerPage}
-              />
+              <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
+                <DeleteButton
+                  onClick={() => handleDeleteConfirmation(selectedIds)}
+                />
+                <ExportButton onClick={() => handleExport(products)} />
+                <FilterTableButton
+                  setSortBy={setSortBy}
+                  setPerPage={setPerPage}
+                />
+              </div>
             </div>
-          </div>
-          <>
-            {/* Table */}
-            <div className="relative  overflow-auto lg:w-full ">
-              <table className="w-full mb-4">
-                <TableHeader headers={headers} />
-                <tbody>
-                  {products.map((product: productsTypes, index: number) => (
-                    <tr
-                      key={index}
-                      className="border-l border-r border-b border-font-gray hover:bg-dropdown-gray dark:hover:bg-dropdown-darkBlue group"
-                    >
-                      <td className="border px-2 min-w-[80px] border-font-gray bg-font-white dark:bg-dark-navy sticky top-o left-0 group-hover:bg-dropdown-gray dark:group-hover:bg-dropdown-darkBlue">
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id={`checkbox-${product.id}`}
-                            checked={selectedIds.includes(product.id)}
-                            onChange={() => handleCheckboxChange(product.id)}
-                          />
-                          <EditTableButton
-                            onClick={() => handleEdit(product.id)}
-                          />
-                          <DeleteTableButton
-                            onClick={() => handleDeleteConfirmation(product.id)}
-                          />
-                        </div>
-                      </td>
-                      <td className="px-3 py-2 min-w-[200px] border-font-gray fpnt text-dark-navy hover:underline dark:text-font-white font-custom font-bold text-xs md:text-base ">
-                        <Link href={`/product/${product.id}`}>
-                          {product.name}
-                        </Link>
-                      </td>
-                      <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
-                        {product.code}
-                      </td>
-                      <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
-                        {product.category}
-                      </td>
-                      <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
-                        {product.quantity}
-                      </td>
-                      <td className="px-3 py-2 min-w-[200px] border-font-gray text-font-black dark:text-font-white font-custom font-normal text-xs md:text-base">
-                        {formatRupiah(Number(product.price))}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <PaginationButton
-              last_page={pagination.last_page}
-              current_page={pagination.current_page}
-              prev_page_url={pagination.prev_page_url}
-              next_page_url={pagination.next_page_url}
-              handlePrevPage={handlePrevPage}
-              handleNextPage={handleNextPage}
-            />
-            {isEditProduct && (
-              <EditProduct onClose={handleCloseEdit} productProps={product!} />
-            )}
-            {isAddProduct && <NewProduct onClose={handleCloseAddProduct} />}
-            {isDeleteProduct && (
-              <ActionConfirmModal
-                header="Apakah ingin menghapus Produk?"
-                description="Data yang sudah terhapus tidak akan dapat dikembalikan"
-                actionButtonNegative_action={() => setIsDeleteProduct(false)}
-                actionButtonPositive_name="Hapus"
-                actionButtonPositive_action={handleDeleteProduct}
-              />
-            )}
-            {isSuccess && (
-              <SuccessModal
-                header="Berhasil"
-                description="Data Produk berhasil dihapus"
-                actionButton={true}
-                actionButton_name="Kembali"
-                actionButton_action={() => setIsSuccess(false)}
-              />
-            )}
-            {isDeleteFail && (
-              <FailModal
-                description="Beberapa data gagal dihapus, terdapat deals yang sedang berlangsung"
-                closeModal={true}
-                actionButton={false}
-                actionButton_href=""
-                actionButton_name=""
-              />
-            )}
-          </>
-        </DashboardCard>
+            <>
+              {products.length === 0 ? (
+                <EmptyTable />
+              ) : (
+                <>
+                  {' '}
+                  {/* Table */}
+                  <div className="relative  overflow-auto lg:w-full ">
+                    <TableHeader headers={headers}>
+                      {products.map((product: productsTypes, index: number) => (
+                        <TableRow index={index} key={product.id}>
+                          <TableDataAction>
+                            <Checkbox
+                              id={`checkbox-${product.id}`}
+                              checked={selectedIds.includes(product.id)}
+                              onChange={() => handleCheckboxChange(product.id)}
+                            />
+                            <EditTableButton
+                              onClick={() => handleEdit(product.id)}
+                            />
+                            <DeleteTableButton
+                              onClick={() =>
+                                handleDeleteConfirmation(product.id)
+                              }
+                            />
+                          </TableDataAction>
+                          <TableDataLink href={`/product/${product.id}`}>
+                            {product.name}
+                          </TableDataLink>
+
+                          <TableDataShort>{product.code}</TableDataShort>
+                          <TableDataShort>{product.category}</TableDataShort>
+                          <TableDataShort>{product.quantity}</TableDataShort>
+                          <TableDataShort>
+                            {formatRupiah(Number(product.price))}
+                          </TableDataShort>
+                        </TableRow>
+                      ))}
+                    </TableHeader>
+                  </div>
+                  <PaginationButton
+                    last_page={pagination.last_page}
+                    current_page={pagination.current_page}
+                    prev_page_url={pagination.prev_page_url}
+                    next_page_url={pagination.next_page_url}
+                    handlePrevPage={handlePrevPage}
+                    handleNextPage={handleNextPage}
+                  />
+                  {isEditProduct && (
+                    <EditProduct
+                      onClose={handleCloseEdit}
+                      productProps={product!}
+                    />
+                  )}
+                  {isAddProduct && (
+                    <NewProduct onClose={handleCloseAddProduct} />
+                  )}
+                  {isDeleteProduct && (
+                    <ActionConfirmModal
+                      header="Apakah ingin menghapus Produk?"
+                      description="Data yang sudah terhapus tidak akan dapat dikembalikan"
+                      actionButtonNegative_action={() =>
+                        setIsDeleteProduct(false)
+                      }
+                      actionButtonPositive_name="Hapus"
+                      actionButtonPositive_action={handleDeleteProduct}
+                    />
+                  )}
+                  {isSuccess && (
+                    <SuccessModal
+                      header="Berhasil"
+                      description="Data Produk berhasil dihapus"
+                      actionButton={true}
+                      actionButton_name="Kembali"
+                      actionButton_action={() => setIsSuccess(false)}
+                    />
+                  )}
+                  {isDeleteFail && (
+                    <FailModal
+                      description="Beberapa data gagal dihapus, terdapat deals yang sedang berlangsung"
+                      closeModal={true}
+                      actionButton={false}
+                      actionButton_href=""
+                      actionButton_name=""
+                    />
+                  )}
+                </>
+              )}
+            </>
+          </DashboardCard>
+        )}
       </div>
     </>
   );

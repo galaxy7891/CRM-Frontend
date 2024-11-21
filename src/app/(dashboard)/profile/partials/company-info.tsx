@@ -8,7 +8,7 @@ import EditImageCompany from './company-edit-photo';
 import EditUserButton from '@/components/button/edit-user-button';
 import DashboardCard from '@/components/layout/dashboard-card';
 
-const CardCompany: React.FC<companyInfoProps> = ({ companyProps }) => {
+const CardCompany: React.FC<companyInfoProps> = ({ userCompanyProps }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingImage, setIsEditingImage] = useState(false);
   const handleEditClick = () => {
@@ -28,7 +28,7 @@ const CardCompany: React.FC<companyInfoProps> = ({ companyProps }) => {
     <DashboardCard>
       <div className="grid grid-cols-12 gap-4">
         {/* Left column */}
-        <div className="col-span-12 md:col-span-4 flex items-center justify-center relative">
+        <div className="col-span-12 lg:col-span-4 flex items-center justify-center relative">
           <div className="flex flex-col items-center relative">
             {/* Profile Picture */}
             <div
@@ -36,7 +36,7 @@ const CardCompany: React.FC<companyInfoProps> = ({ companyProps }) => {
               onClick={handleEditImageClick}
             >
               <Image
-                src={companyProps?.image_url || '/images/default.jpg'}
+                src={userCompanyProps?.image_url || '/images/default.jpg'}
                 alt="image"
                 width={160}
                 height={160}
@@ -54,13 +54,13 @@ const CardCompany: React.FC<companyInfoProps> = ({ companyProps }) => {
             </div>
             {/* Name */}
             <p className="text-black dark:text-font-white text-lg font-medium font-custom md:text-lg">
-              {companyProps?.name || 'N/A'}
+              {userCompanyProps?.name || 'N/A'}
             </p>
           </div>
         </div>
 
         {/* Right column */}
-        <div className="col-span-12 md:col-start-5 md:col-span-8">
+        <div className="col-span-12 lg:col-start-5 lg:col-span-8">
           <div className="flex justify-between items-center mb-4">
             <p className="dark:text-font-white text-base font-medium md:text-2xl font-custom tex-font-black">
               Data Diri
@@ -70,10 +70,10 @@ const CardCompany: React.FC<companyInfoProps> = ({ companyProps }) => {
 
           <div className="md:px-4 py-1 bg-light-white dark:bg-dark-darkGray rounded-[10px]">
             {[
-              { label: 'Jenis Industri', value: companyProps?.industry },
-              { label: 'Email', value: companyProps?.email },
-              { label: 'Nomor Telepon', value: companyProps?.phone },
-              { label: 'Website', value: companyProps?.website },
+              { label: 'Jenis Industri', value: userCompanyProps?.industry },
+              { label: 'Email', value: userCompanyProps?.email },
+              { label: 'Nomor Telepon', value: userCompanyProps?.phone },
+              { label: 'Website', value: userCompanyProps?.website },
             ].map((item, index) => (
               <div key={index} className="m-2 md:m-4 w-full">
                 <p className="font-bold dark:text-font-white font-custom text-font-black text-xs md:text-base mb-1">
@@ -88,10 +88,10 @@ const CardCompany: React.FC<companyInfoProps> = ({ companyProps }) => {
         </div>
       </div>
       {isEditing && (
-        <EditCompany onClose={handleCloseForm} data={companyProps} />
+        <EditCompany onClose={handleCloseForm} data={userCompanyProps} />
       )}
       {isEditingImage && (
-        <EditImageCompany onClose={handleCloseForm} data={companyProps} />
+        <EditImageCompany onClose={handleCloseForm} data={userCompanyProps} />
       )}
     </DashboardCard>
   );

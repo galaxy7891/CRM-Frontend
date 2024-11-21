@@ -2,23 +2,21 @@
 
 import { useEffect, useState } from 'react';
 import { getProfile } from '@/redux/actions/profileActions';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
-import { dataUser, dataCompany } from '@/types/profileTypes';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
 import UserLog from '@/app/(dashboard)/profile/partials/user-log';
 import CardUserInfo from './partials/user-info';
 import CardCompany from './partials/company-info';
 import RouterBackButton from '@/components/button/route-back-button';
 
 const User = () => {
-  const [dataUser, setDataUser] = useState<dataUser>();
-  const [dataCompany, setDataCompany] = useState<dataCompany>();
   const [showProfile, setShowProfile] = useState<boolean>(true);
   const dispatch = useDispatch<AppDispatch>();
-
+  const { user } = useSelector((state: RootState) => state.profile);
+  const { userCompany } = useSelector((state: RootState) => state.profile);
   useEffect(() => {
-    dispatch(getProfile(setDataUser, setDataCompany));
-  }, [dispatch]);
+    dispatch(getProfile());
+  }, [dispatch, userCompany, user]);
 
   return (
     <>
@@ -59,9 +57,9 @@ const User = () => {
       </div>
 
       {showProfile ? (
-        <CardUserInfo profileProps={dataUser!} />
+        <CardUserInfo user={user!} />
       ) : (
-        <CardCompany companyProps={dataCompany!} />
+        <CardCompany userCompanyProps={userCompany!} />
       )}
 
       <UserLog />

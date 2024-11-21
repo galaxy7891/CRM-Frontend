@@ -141,7 +141,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
               id="avatarButton"
               onClick={toggleDropdown}
               className="w-10 h-10 rounded-full cursor-pointer"
-              src={photo ? photo : "/images/default.jpg"}
+              src={photo ? photo : '/images/default.jpg'}
               alt="User dropdown"
               width={40}
               height={40}
