@@ -1,17 +1,17 @@
-import { useState } from 'react';
-import { dataCompany } from '@/types/profileTypes';
-import { updateCompanyUserProfile } from '@/redux/actions/profileActions';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
-import TextInput from '@/components/form-input/text-input';
-import SelectInput from '@/components/form-input/dropdown-input';
-import FailText from '@/components/status/fail-text';
-import PhoneInput from '@/components/form-input/phone-input';
-import SidebarModal from '@/components/layout/sidebar-modal';
-import SidebarFooter from '@/components/layout/sidebar-footer';
-import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
-import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
-import SuccessModal from '@/components/status/success-modal';
+import { useState } from "react";
+import { dataCompany } from "@/types/profileTypes";
+import { updateCompanyUserProfile } from "@/redux/actions/profileActions";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import TextInput from "@/components/form-input/text-input";
+import SelectInput from "@/components/form-input/dropdown-input";
+import FailText from "@/components/status/fail-text";
+import PhoneInput from "@/components/form-input/phone-input";
+import SidebarModal from "@/components/layout/sidebar-modal";
+import SidebarFooter from "@/components/layout/sidebar-footer";
+import DashboardSidebarRedButton from "@/components/button/dashboard-sidebar-red-button";
+import DashboardSidebarYellowButton from "@/components/button/dashboard-sidebar-yellow-button";
+import SuccessModal from "@/components/status/success-modal";
 
 interface FormEditProps {
   onClose: () => void;
@@ -45,7 +45,7 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
             <TextInput
               label="Nama Perusahaan"
               placeholder="Nama Perusahaan"
-              value={companyUserProfile.name || ''}
+              value={companyUserProfile.name || ""}
               onChange={(e) =>
                 setCompanyUserProfile({
                   ...companyUserProfile,
@@ -60,7 +60,7 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
             <TextInput
               label="Email"
               placeholder="Email"
-              value={companyUserProfile.email || ''}
+              value={companyUserProfile.email || ""}
               onChange={(e) =>
                 setCompanyUserProfile({
                   ...companyUserProfile,
@@ -77,14 +77,18 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
           <div className="flex-1">
             <SelectInput
               label="Jenis Industri"
-              value={companyUserProfile.industry || ''}
+              value={companyUserProfile.industry || ""}
               options={[
-                // Tinggi, Tinggi
-                { label: 'Pilih', value: '', hidden: true },
-                { label: 'manufaktur', value: 'manufaktur' },
-                { label: 'teknologi', value: 'teknologi' },
-                { label: 'jasa', value: 'jasa' },
-                { label: 'lainnya', value: 'lainnya' },
+                { label: "Pilih Industri", value: "", hidden: true },
+                { label: "Edukasi", value: "Edukasi" },
+                { label: "Kesehatan", value: "Kesehatan" },
+                { label: "Manufaktur", value: "Manufaktur" },
+                { label: "Pariwisata", value: "Pariwisata" },
+                { label: "Real Estate", value: "Real Estate" },
+                { label: "Retail", value: "Retail" },
+                { label: "Teknologi", value: "Teknologi" },
+                { label: "Transportasi", value: "Transportasi" },
+                { label: "Lainnya", value: "Lainnya" },
               ]}
               onChange={(e) =>
                 setCompanyUserProfile({
@@ -115,7 +119,7 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
             <TextInput
               label="Website"
               placeholder="Website"
-              value={companyUserProfile.website || ''}
+              value={companyUserProfile.website || ""}
               onChange={(e) =>
                 setCompanyUserProfile({
                   ...companyUserProfile,
@@ -140,7 +144,7 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
       {isSuccess && (
         <SuccessModal
           header="Berhasil"
-          description="Data perhasilan berhasil diperbarui"
+          description="Data perusahaan berhasil diperbarui"
           actionButton_name="Kembali"
           actionButton_action={onClose}
         />

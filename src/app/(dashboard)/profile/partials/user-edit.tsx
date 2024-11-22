@@ -11,6 +11,7 @@ import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-
 import Asterisk from '@/components/status/required-asterisk';
 import TextInput from '@/components/form-input/text-input';
 import SelectInput from '@/components/form-input/dropdown-input';
+import SuccessModal from '@/components/status/success-modal';
 interface FormEditProps {
   onClose: () => void;
   data: dataUser;
@@ -20,15 +21,16 @@ const EditUser: React.FC<FormEditProps> = ({ onClose, data }) => {
   const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
     {}
   );
+  const [isSuccess, setIsSuccess] = useState(false);
   const [userProfile, setUserProfile] = useState<dataUser>(data);
   const dispatch = useDispatch<AppDispatch>();
   const handleUpdateUser = () => {
-    dispatch(updateUserProfile(userProfile, setErrorMessage));
+    dispatch(updateUserProfile(userProfile, setIsSuccess, setErrorMessage));
   };
 
   return (
     <>
-      <SidebarModal onClose={onClose} SidebarModalTitle="Edit User">
+      <SidebarModal onClose={onClose} SidebarModalTitle="Edit Profil">
         {/* Scrollable Form*/}
         <form className="flex-grow overflow-y-auto p-2 space-y-4 px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -67,10 +69,11 @@ const EditUser: React.FC<FormEditProps> = ({ onClose, data }) => {
                 value={userProfile.job_position || ''}
                 options={[
                   { label: 'Pilih Jabatan', value: '', hidden: true },
-                  { label: 'presiden', value: 'presiden' },
-                  { label: 'wakil CEO', value: 'wakil CEO' },
-                  { label: 'manager', value: 'manager' },
-                  { label: 'sales', value: 'sales' },
+                  { label: 'Presiden', value: 'Presiden' },
+                  { label: 'C-Level', value: 'C-Level' },
+                  { label: 'Manager', value: 'Manager' },
+                  { label: 'Sales', value: 'Sales' },
+                  { label: 'Lainnya', value: 'Lainnya' },
                 ]}
                 onChange={(e) =>
                   setUserProfile({
@@ -168,6 +171,15 @@ const EditUser: React.FC<FormEditProps> = ({ onClose, data }) => {
             Simpan
           </DashboardSidebarYellowButton>
         </SidebarFooter>
+        
+        {isSuccess && (
+        <SuccessModal
+          header="Berhasil"
+          description="Data pengguna berhasil diperbarui"
+          actionButton_name="Kembali"
+          actionButton_action={onClose}
+        />
+      )}
       </SidebarModal>
     </>
   );
