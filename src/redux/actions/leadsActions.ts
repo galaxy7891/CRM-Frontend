@@ -17,7 +17,6 @@ export const getLeads =
   ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;
-    console.log(currentPage, 'currentPage');
     try {
       const config = {
         method: 'get',

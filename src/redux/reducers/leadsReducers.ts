@@ -13,6 +13,7 @@ const leadsSlice = createSlice({
   name: 'leads',
   initialState,
   reducers: {
+
     setLead: (state, action) => {
       state.lead = action.payload;
     },

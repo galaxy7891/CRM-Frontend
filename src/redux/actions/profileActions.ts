@@ -46,7 +46,6 @@ export const getProfile =
       );
       if (response.data.success) {
         dispatch(setUser(response.data.data));
-        console.log(response.data.data);
         dispatch(setUserCompany(response.data.data.company));
       }
     } catch (error) {
