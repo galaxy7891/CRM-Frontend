@@ -30,11 +30,11 @@ const SidebarRev = ({ isOpen, setIsOpen }: SidebarProps) => {
     pathname.startsWith(item.href)
   );
 
-  const [user, setUser] = useState<string | null>(null);
+  const [role, setRole] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setUser(localStorage.getItem('role'));
+      setRole(localStorage.getItem('role'));
     }
   }, []);
   // let user: string | null = "";
@@ -122,7 +122,7 @@ const SidebarRev = ({ isOpen, setIsOpen }: SidebarProps) => {
                 </svg>
               }
             />
-            {user === 'employee' && (
+            {role !== 'employee' && (
               <SidebarProps
                 href="/employee"
                 title="Karyawan"

@@ -152,8 +152,8 @@ const NewProduct: React.FC<newProductsProps> = ({ onClose }) => {
         <SuccessModal
           header="Berhasil"
           description="Data produk berhasil ditambahkan"
-          actionButton_href="/product"
           actionButton_name="Menuju ke halaman produk"
+          actionButton_action={window.location.reload}
         />
       )}
     </SidebarModal>
