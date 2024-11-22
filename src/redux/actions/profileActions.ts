@@ -336,7 +336,7 @@ export const logActivityProfile =
   (currentPage: number, setPagination: (pagination: paginationTypes) => void) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;
-    const { id } = getState().auth.user;
+    const id = getState().profile.user?.id;
     try {
       const config = {
         method: 'get',

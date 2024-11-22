@@ -1,13 +1,18 @@
-"use client"
+'use client';
 
-import React, { useState } from "react";
-import QualificationCard from "./partials/qualification-card";
-import DashBoardCard from "@/components/layout/dashboard-card";
-import NewDeals from "./partials/new-deals";
+import React, { useState, useEffect } from 'react';
+import { getDealsNegotiation } from '@/redux/actions/dealsActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import QualificationCard from './partials/qualification-card';
+import DashBoardCard from '@/components/layout/dashboard-card';
+import NewDeals from './partials/new-deals';
 
 const Deals = () => {
   const [isAddDeals, setIsAddDeals] = useState<boolean>(false);
-
+  const dispatch = useDispatch<AppDispatch>();
+  const { dealsNegotiation } = useSelector((state: RootState) => state.deals);
+  console.log(dealsNegotiation);
   const handleAddDealsClick = () => {
     setIsAddDeals(true);
   };
@@ -15,6 +20,10 @@ const Deals = () => {
   const handleCloseAddDeals = () => {
     setIsAddDeals(false);
   };
+
+  useEffect(() => {
+    dispatch(getDealsNegotiation());
+  }, [dispatch]);
   return (
     <>
       <div className="flex justify-between items-center mb-5">
@@ -30,11 +39,16 @@ const Deals = () => {
       </div>
       <div>
         <DashBoardCard>
-          <div className="relative overflow-x-auto lg:w-full">
+          <div className="relative overflow-auto h-screen ">
             <div className="grid grid-flow-col gap-4">
-              <QualificationCard />
-              <QualificationCard />
-              <QualificationCard />
+              <QualificationCard title="Kualikasi" />
+              <QualificationCard title="Proposal" />
+              <QualificationCard
+                title="Negosiasi"
+                dealsProps={dealsNegotiation}
+              />
+              <QualificationCard title="Tercapai" />
+              <QualificationCard title="Gagal" />
             </div>
           </div>
         </DashBoardCard>

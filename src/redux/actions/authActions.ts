@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { setToken } from '../reducers/authReducers';
-import { setUser } from '../reducers/profileReducers';
+import { setToken, setUser } from '../reducers/authReducers';
 import { AppDispatch } from '../store';
 import {
   PersonalDataTypes,
@@ -29,6 +28,7 @@ export const login =
 
       if (response.data.success) {
         dispatch(setUser(response.data.data.user));
+        console.log(response.data.data.user);
         dispatch(setToken(response.data.data.access_token));
         return { success: true };
       } else {
@@ -147,7 +147,6 @@ export const submitRegisterData =
       if (response.data.success) {
         setErrorMessage('');
         dispatch(setToken(response.data.data.access_token));
-        dispatch(setUser(response.data.data.user));
         setIsSuccess(true);
         return { success: true };
       } else {

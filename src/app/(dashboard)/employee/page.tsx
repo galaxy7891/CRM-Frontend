@@ -42,6 +42,7 @@ const Employee = () => {
   const [isEditEmployee, setIsEditEmployee] = useState<boolean>(false);
   const [isDeleteEmployee, setIsDeleteEmployee] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<string>('');
+  const [role, setRole] = useState<string | null>(null);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [pagination, setPagination] = useState<paginationTypes>({
     current_page: 1,
@@ -128,6 +129,10 @@ const Employee = () => {
   };
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setRole(localStorage.getItem('role'));
+    }
+
     if (isTriggerFetch) {
       setPagination((prev) => ({
         ...prev,
@@ -188,11 +193,13 @@ const Employee = () => {
               <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
                 {/* Trash Icon, Export, and Filter Buttons */}
                 {/* Delete Button */}
-                <DeleteButton
-                  onClick={() => {
-                    handleDeleteConfirmation(selectedIds);
-                  }}
-                />
+                {role === 'super_admin' && (
+                  <DeleteButton
+                    onClick={() => {
+                      handleDeleteConfirmation(selectedIds);
+                    }}
+                  />
+                )}
 
                 <ExportButton
                   onClick={() => {
@@ -217,33 +224,36 @@ const Employee = () => {
                     {employees.map(
                       (employee: employeesTypes, index: number) => (
                         <TableRow index={index} key={employee.id}>
-                          <TableDataAction>
-                            <Checkbox
-                              id={`checkbox-${employee.id}`}
-                              checked={selectedIds.includes(employee.id)}
-                              onChange={() => {
-                                handleCheckboxChange(employee.id);
-                              }}
-                            />
-                            <EditTableButton
-                              onClick={() => {
-                                handleEdit(employee.id);
-                              }}
-                            />
-                            <button
-                              onClick={() =>
-                                handleDeleteConfirmation(employee.id)
-                              }
-                            >
-                              <Image
-                                src="/icons/table/dustbin.svg"
-                                alt="deletebtn"
-                                width={16}
-                                height={16}
-                                className="w-5 h-5"
+                          {role !== 'admin' && (
+                            <TableDataAction>
+                              <Checkbox
+                                id={`checkbox-${employee.id}`}
+                                checked={selectedIds.includes(employee.id)}
+                                onChange={() => {
+                                  handleCheckboxChange(employee.id);
+                                }}
                               />
-                            </button>
-                          </TableDataAction>
+                              <EditTableButton
+                                onClick={() => {
+                                  handleEdit(employee.id);
+                                }}
+                              />
+                              <button
+                                onClick={() =>
+                                  handleDeleteConfirmation(employee.id)
+                                }
+                              >
+                                <Image
+                                  src="/icons/table/dustbin.svg"
+                                  alt="deletebtn"
+                                  width={16}
+                                  height={16}
+                                  className="w-5 h-5"
+                                />
+                              </button>
+                            </TableDataAction>
+                          )}
+
                           <TableDataLink href={`/employee/${employee.id}`}>
                             {employee.first_name} {employee.last_name}
                           </TableDataLink>

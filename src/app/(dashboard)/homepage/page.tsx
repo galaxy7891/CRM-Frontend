@@ -15,7 +15,6 @@ const Dashboard = () => {
   const [isLoadingPage, setIsLoadingPage] = useState(true);
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
-
   const handleDealsDetail = () => {
     router.push('/deals');
   };
