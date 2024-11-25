@@ -76,12 +76,12 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
           </div>
           <div className="order-5">
             <SelectInput
-              label="Jabatan"
+              label="Akses"
               value={employee.role}
               options={[
                 { value: 'super_admin', label: 'Super Admin' },
                 { value: 'admin', label: 'Admin' },
-                { value: 'employee', label: 'Karyawan' },
+                { value: 'karyawan', label: 'Karyawan' },
               ]}
               onChange={(e) =>
                 setEmployee({ ...employee, role: e.target.value })
@@ -113,9 +113,9 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
               label="Jenis Kelamin"
               value={employee.gender} // Use state for gender
               options={[
-                { label: 'Laki-laki', value: 'laki-laki' },
-                { label: 'Perempuan', value: 'perempuan' },
-                { label: 'Lainnya', value: 'lainnya' },
+                { label: 'laki-laki', value: 'laki-laki' },
+                { label: 'perempuan', value: 'perempuan' },
+                { label: 'lainnya', value: 'lainnya' },
               ]}
               onChange={(e) =>
                 setEmployee({ ...employee, gender: e.target.value })
@@ -135,7 +135,7 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
       {isSuccess && (
         <SuccessModal
           header="Berhasil"
-          description="Data leads berhasil diubah"
+          description="Data Karyawan berhasil diubah"
           actionButton={true}
           actionButton_name="Kembali"
           actionButton_action={() => window.location.reload()}

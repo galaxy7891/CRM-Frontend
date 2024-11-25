@@ -79,7 +79,7 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
               label="Jenis Industri"
               value={companyUserProfile.industry || ""}
               options={[
-                { label: "Pilih Industri", value: "", hidden: true },
+                { label: "Pilih Jenis Industri", value: "", hidden: true },
                 { label: "Edukasi", value: "Edukasi" },
                 { label: "Kesehatan", value: "Kesehatan" },
                 { label: "Manufaktur", value: "Manufaktur" },

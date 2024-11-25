@@ -1,22 +1,22 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import React from 'react';
-import Link from 'next/link';
-import { useState, ChangeEvent } from 'react';
-import { ImportErrorMessageDetailTypes } from '@/types/otherTypes';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
-import { importContacts } from '@/redux/actions/contactsActions';
-import ImportSuccess from '@/components/import/import-success';
-import ImportFailed from '@/components/import/import-failed';
-import FailText from '@/components/status/fail-text';
-import DashboardCard from '@/components/layout/dashboard-card';
-import HeaderWithBackButton from '@/components/layout/header-with-back';
+import Image from "next/image";
+import React from "react";
+import Link from "next/link";
+import { useState, ChangeEvent } from "react";
+import { ImportErrorMessageDetailTypes } from "@/types/otherTypes";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { importContacts } from "@/redux/actions/contactsActions";
+import ImportSuccess from "@/components/import/import-success";
+import ImportFailed from "@/components/import/import-failed";
+import FailText from "@/components/status/fail-text";
+import DashboardCard from "@/components/layout/dashboard-card";
+import HeaderWithBackButton from "@/components/layout/header-with-back";
 
 const ImporFile = () => {
-  const [fileName, setFileName] = useState<string>('');
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [fileName, setFileName] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [errorMessageDetail, setErrorMessageDetail] =
     useState<ImportErrorMessageDetailTypes | null>(null);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -66,15 +66,16 @@ const ImporFile = () => {
             </p>
             <div className="font-custom text-xs md:text-base text-center text-font-black mt-2">
               <p>
-                Unggah dokumen dengan format{' '}
+                Unggah dokumen dengan format{" "}
                 <span className="font-bold">xlsx</span> atau
                 <span className="block">
-                  {' '}
+                  {" "}
                   unduh template sesuai format yang telah ditentukan.
                 </span>
                 <Link
-                  href={`https://drive.google.com/uc?export=download&id=1Roidvdc-NiEXgnt08FmCP80UdRf7Gu-4`}
-                  download="template-export-leads.xlsx"
+                  href={`https://drive.google.com/uc?export=download&id=1VPqYpO-rq3Y1_B8Q2yV9KYGGcfdaM7Au
+`}
+                  download="template-import-kontak.xlsx"
                   className="font-bold text-dark-gold hover:underline cursor-pointer"
                 >
                   Unduh Template
@@ -84,7 +85,7 @@ const ImporFile = () => {
             <div>
               <input
                 type="text"
-                value={fileName || 'Belum ada file dipilih'}
+                value={fileName || "Belum ada file dipilih"}
                 disabled
                 className=" p-2 mt-4  border rounded-[4px] w-full border-font-gray text-start bg-light-white"
               />
