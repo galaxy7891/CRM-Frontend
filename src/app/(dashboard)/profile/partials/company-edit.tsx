@@ -38,8 +38,7 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Edit Perusahaan">
       {/* Scrollable Form */}
-      <form className="flex-grow overflow-y-auto p-2 md:p-4 space-y-4">
-        {/* Nama Perusahaan dan Email */}
+      <form className="overflow-y-auto p-2 md:p-4 space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex-1">
             <TextInput
@@ -72,7 +71,6 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
           </div>
         </div>
 
-        {/* Jenis Industri dan Nomor Telepon */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex-1">
             <SelectInput

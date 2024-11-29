@@ -1,5 +1,5 @@
-import React from "react";
-import Asterisk from "../status/required-asterisk";
+import React from 'react';
+import Asterisk from '../status/required-asterisk';
 
 interface DurationInputProps {
   label: string;
@@ -35,10 +35,10 @@ const DurationInput: React.FC<DurationInputProps> = ({
     <div className="flex gap-1">
       {/* Text Input */}
       <input
+        type="number"
         disabled={disabled}
-        type="text"
         className={`w-full p-2 border text-xs md:text-base font-custom focus:border-dark-navy focus:outline-none border-font-black rounded-[4px] dark:bg-dark-navy dark:border-none dark:text-font-white ${
-          disabled ? "dark:bg-gray-800 bg-gray-300" : "bg-font-white"
+          disabled ? 'dark:bg-gray-800 bg-gray-300' : 'bg-font-white'
         }`}
         placeholder={placeholder}
         value={textValue}
@@ -49,7 +49,7 @@ const DurationInput: React.FC<DurationInputProps> = ({
       <select
         disabled={disabled}
         className={`w-full p-2 border text-xs md:text-base font-custom focus:border-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white ${
-          selectValue ? "text-black" : "text-gray-500"
+          selectValue ? 'text-black' : 'text-gray-500'
         }`}
         value={selectValue}
         onChange={onSelectChange}

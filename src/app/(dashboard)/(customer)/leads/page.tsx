@@ -137,10 +137,10 @@ const LeadsPage = () => {
   }, [dispatch, sortBy, statusBy, perPage, isTriggerFetch]);
 
   useEffect(() => {
-  if (sortBy || statusBy || perPage) {
-    setIsTriggerFetch(true);
-  }
-}, [sortBy, statusBy, perPage]);
+    if (sortBy || statusBy || perPage) {
+      setIsTriggerFetch(true);
+    }
+  }, [sortBy, statusBy, perPage]);
 
   return (
     <>

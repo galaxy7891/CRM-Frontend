@@ -30,7 +30,7 @@ const EditUser: React.FC<FormEditProps> = ({ onClose, data }) => {
     <>
       <SidebarModal onClose={onClose} SidebarModalTitle="Edit User">
         {/* Scrollable Form*/}
-        <form className="flex-grow overflow-y-auto p-2 space-y-4 px-4">
+        <form className="overflow-y-auto p-2 space-y-4 px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex-1">
               <TextInput

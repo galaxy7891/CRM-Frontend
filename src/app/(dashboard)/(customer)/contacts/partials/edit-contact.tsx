@@ -77,7 +77,7 @@ const EditContact: React.FC<formActionPropsTypes> = ({
 
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Edit Contact">
-      <form className="flex-grow overflow-y-auto px-4 grid grid-cols-1 gap-4 md:grid-cols-2 p-2">
+      <form className=" overflow-y-auto px-4 grid grid-cols-1 gap-4 md:grid-cols-2 p-2">
         <div className="order-1">
           <TextInput
             label="Nama Depan"
@@ -160,7 +160,7 @@ const EditContact: React.FC<formActionPropsTypes> = ({
         <div className="order-8 md:order-8">
           <SelectInput
             label="Perusahaan"
-            value={contact.customers_company?.name || ''}
+            value={contact.customers_company_id || ''}
             options={[
               {
                 label: 'Pilih Perusahaan',

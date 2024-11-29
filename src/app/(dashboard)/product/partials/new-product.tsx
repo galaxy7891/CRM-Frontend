@@ -42,7 +42,7 @@ const NewProduct: React.FC<newProductsProps> = ({ onClose }) => {
 
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Tambah products">
-      <form className="flex-grow ">
+      <form className="">
         <div className="overflow-y-auto px-4 grid grid-cols-1 gap-4 md:grid-cols-2 p-2">
           <div className="order-1">
             <TextInput
@@ -153,7 +153,7 @@ const NewProduct: React.FC<newProductsProps> = ({ onClose }) => {
           header="Berhasil"
           description="Data produk berhasil ditambahkan"
           actionButton_name="Menuju ke halaman produk"
-          actionButton_action={window.location.reload}
+          actionButton_href="/product"
         />
       )}
     </SidebarModal>
