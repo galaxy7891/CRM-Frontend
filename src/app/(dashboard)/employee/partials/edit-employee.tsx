@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { employeesTypes, formActionPropsTypes } from '@/types/employeeTypes';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
-import { updateEmployee } from '@/redux/actions/employeesActions';
-import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
-import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
-import SelectInput from '@/components/form-input/dropdown-input';
-import FailText from '@/components/status/fail-text';
-import PhoneInput from '@/components/form-input/phone-input';
-import TextInput from '@/components/form-input/text-input';
-import SuccessModal from '@/components/status/success-modal';
-import SidebarFooter from '@/components/layout/sidebar-footer';
-import SidebarModal from '@/components/layout/sidebar-modal';
+import React, { useState } from "react";
+import { employeesTypes, formActionPropsTypes } from "@/types/employeeTypes";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { updateEmployee } from "@/redux/actions/employeesActions";
+import DashboardSidebarRedButton from "@/components/button/dashboard-sidebar-red-button";
+import DashboardSidebarYellowButton from "@/components/button/dashboard-sidebar-yellow-button";
+import SelectInput from "@/components/form-input/dropdown-input";
+import FailText from "@/components/status/fail-text";
+import PhoneInput from "@/components/form-input/phone-input";
+import TextInput from "@/components/form-input/text-input";
+import SuccessModal from "@/components/status/success-modal";
+import SidebarFooter from "@/components/layout/sidebar-footer";
+import SidebarModal from "@/components/layout/sidebar-modal";
 
 const EditEmployee: React.FC<formActionPropsTypes> = ({
   onClose,
@@ -66,7 +66,7 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
           </div>
           <div className="order-4">
             <PhoneInput
-              value={employee.phone || ''}
+              value={employee.phone || ""}
               onChange={(e) =>
                 setEmployee({ ...employee, phone: e.target.value })
               }
@@ -79,9 +79,10 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
               label="Akses"
               value={employee.role}
               options={[
-                { value: 'super_admin', label: 'Super Admin' },
-                { value: 'admin', label: 'Admin' },
-                { value: 'karyawan', label: 'Karyawan' },
+                { value: "", label: "Pilih Akses", hidden: true },
+                { value: "super_admin", label: "Super Admin" },
+                { value: "admin", label: "Admin" },
+                { value: "karyawan", label: "Karyawan" },
               ]}
               onChange={(e) =>
                 setEmployee({ ...employee, role: e.target.value })
@@ -94,10 +95,11 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
               label="Jabatan"
               value={employee.job_position}
               options={[
-                { value: 'Presiden', label: 'Presiden' },
-                { value: 'C-Level', label: 'C-Level' },
-                { value: 'Manager', label: 'Manager' },
-                { value: 'Sales', label: 'Sales' },
+                { value: "", label: "Pilih Jabatan", hidden: true },
+                { value: "Presiden", label: "Presiden" },
+                { value: "C-Level", label: "C-Level" },
+                { value: "Manager", label: "Manager" },
+                { value: "Sales", label: "Sales" },
               ]}
               onChange={(e) =>
                 setEmployee({ ...employee, job_position: e.target.value })
@@ -113,9 +115,10 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
               label="Jenis Kelamin"
               value={employee.gender} // Use state for gender
               options={[
-                { label: 'laki-laki', value: 'laki-laki' },
-                { label: 'perempuan', value: 'perempuan' },
-                { label: 'lainnya', value: 'lainnya' },
+                { label: "Pilih Jenis Kelamin", value: "", hidden: true },
+                { label: "laki-laki", value: "laki-laki" },
+                { label: "perempuan", value: "perempuan" },
+                { label: "lainnya", value: "lainnya" },
               ]}
               onChange={(e) =>
                 setEmployee({ ...employee, gender: e.target.value })
