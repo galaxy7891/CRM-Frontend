@@ -1,11 +1,11 @@
-import axios from 'axios';
-import { leadsTypes } from '@/types/leadsTypes';
-import { AppDispatch, RootState } from '../store';
-import { setLead, setLeads, setLogLead } from '../reducers/leadsReducers';
+import axios from "axios";
+import { leadsTypes } from "@/types/leadsTypes";
+import { AppDispatch, RootState } from "../store";
+import { setLead, setLeads, setLogLead } from "../reducers/leadsReducers";
 import {
   paginationTypes,
   ImportErrorMessageDetailTypes,
-} from '@/types/otherTypes';
+} from "@/types/otherTypes";
 
 export const getLeads =
   (
@@ -19,11 +19,11 @@ export const getLeads =
     const { token } = getState().auth;
     try {
       const config = {
-        method: 'get',
+        method: "get",
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/leads?sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=${currentPage}`,
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       };
 
@@ -53,11 +53,11 @@ export const getLeadById =
 
     try {
       const config = {
-        method: 'get',
+        method: "get",
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/leads/${id}`,
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       };
 
@@ -82,20 +82,20 @@ export const addLead =
     const { token } = getState().auth;
     try {
       const config = {
-        method: 'post',
+        method: "post",
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/leads`,
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         data: lead,
       };
       const response = await axios.request(config);
       if (response.data.success) {
         setIsSuccess(true);
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 2000);
       } else {
         setErrorMessage(response.data.message);
       }
@@ -116,11 +116,11 @@ export const updateLead =
     const token = getState().auth.token;
     try {
       const config = {
-        method: 'post',
+        method: "post",
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/leads/${lead?.id}`,
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         data: lead,
       };
@@ -147,7 +147,7 @@ export const deleteLead =
     try {
       const config = {
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/leads/`,
-        method: 'delete',
+        method: "delete",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -159,7 +159,7 @@ export const deleteLead =
         setIsSuccess(true);
       }
     } catch (error) {
-      console.error('Error deleting lead(s):', error);
+      console.error("Error deleting lead(s):", error);
     }
   };
 
@@ -174,11 +174,11 @@ export const convertManualLead =
 
     try {
       const config = {
-        method: 'post',
+        method: "post",
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/leads/convert/${lead?.id}`,
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         data: lead,
       };
@@ -202,11 +202,11 @@ export const convertAutoLead =
 
     try {
       const config = {
-        method: 'post',
+        method: "post",
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/leads/convert/${id}`,
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       };
 
@@ -231,11 +231,11 @@ export const logActivityLead =
     const token = getState().auth.token;
     try {
       const config = {
-        method: 'get',
+        method: "get",
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/activity/log/leads?page=${currentPage}&id=${id}`,
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       };
 
@@ -269,18 +269,18 @@ export const importLeads =
     setIsFailed: (success: boolean) => void
   ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
-    console.log('hitting importLeads');
+    console.log("hitting importLeads");
     const { token } = getState().auth;
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
 
     try {
       const config = {
-        method: 'post',
+        method: "post",
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/import/leads`,
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
         data: formData,
       };
