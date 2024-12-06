@@ -1,0 +1,34 @@
+[
+    {
+        "id": 1,
+        "tipe": "percobaann",
+        "batasLangganan": "2024-12-31",
+        "namaPerusahaan": "PT Maju Jaya",
+        "emailPerusahaan": "contact@majujaya.com",
+        "nomorTeleponPerusahaan": "+62-812-3456-7890"
+    },
+    {
+        "id": 2,
+        "tipe": "percobaann",
+        "batasLangganan": "2025-01-15",
+        "namaPerusahaan": "CV Sejahtera Abadi",
+        "emailPerusahaan": "info@sejahteraabadi.co.id",
+        "nomorTeleponPerusahaan": "+62-813-2345-6789"
+    },
+    {
+        "id": 3,
+        "tipe": "percobaann",
+        "batasLangganan": "2024-11-30",
+        "namaPerusahaan": "PT Global Teknologi",
+        "emailPerusahaan": "support@globaltech.com",
+        "nomorTeleponPerusahaan": "+62-811-5678-1234"
+    },
+    {
+        "id": 4,
+        "tipe": "percobaann",
+        "batasLangganan": "2024-10-20",
+        "namaPerusahaan": "PT Inovasi Digital",
+        "emailPerusahaan": "hello@inovasidigital.co",
+        "nomorTeleponPerusahaan": "+62-822-4567-8901"
+    }
+]

@@ -18,45 +18,45 @@ import {
 } from '../reducers/profileReducers';
 import { logout } from './authActions';
 
-// export const getProfile =
-//   (
-//     navigate?: (path: string) => void,
-//     successRedirect?: string,
-//     errorRedirect?: string
-//   ) =>
-//   async (dispatch: AppDispatch, getState: () => RootState) => {
-//     const { token } = getState().auth;
-//     if (!token) {
-//       dispatch(logout());
+export const getProfile =
+  (
+    navigate?: (path: string) => void,
+    successRedirect?: string,
+    errorRedirect?: string
+  ) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
+    const { token } = getState().auth;
+    if (!token) {
+      dispatch(logout());
 
-//       if (navigate && errorRedirect) {
-//         navigate(errorRedirect);
-//       }
-//       return;
-//     }
+      if (navigate && errorRedirect) {
+        navigate(errorRedirect);
+      }
+      return;
+    }
 
-//     try {
-//       const response = await axios.get(
-//         `${process.env.NEXT_PUBLIC_API_URL}/api/user`,
-//         {
-//           headers: {
-//             Authorization: `Bearer ${token}`,
-//           },
-//         }
-//       );
-//       if (response.data.success) {
-//         dispatch(setUser(response.data.data));
-//         dispatch(setUserCompany(response.data.data.company));
-//       }
-//     } catch (error) {
-//       console.error(error);
-//       dispatch(logout());
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/user`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.data.success) {
+        dispatch(setUser(response.data.data));
+        dispatch(setUserCompany(response.data.data.company));
+      }
+    } catch (error) {
+      console.error(error);
+      dispatch(logout());
 
-//       if (navigate && errorRedirect) {
-//         navigate(errorRedirect);
-//       }
-//     }
-//   };
+      if (navigate && errorRedirect) {
+        navigate(errorRedirect);
+      }
+    }
+  };
 
 export const getDashboardData =
   () => async (dispatch: AppDispatch, getState: () => RootState) => {

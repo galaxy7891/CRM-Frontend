@@ -5,7 +5,7 @@ import { sendForgotPasswordEmail } from '@/redux/actions/profileActions';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import Link from 'next/link';
-import AuthLeftSection from '@/components/icon-forget';
+import AuthLeftSection from "@/components/layout/auth-left-section";
 import AuthRightSection from '@/components/layout/auth-right-section';
 import Step1_email from '@/app/(forget-password)/forget-password/partials/step1-email';
 import Step2_send_status from '@/app/(forget-password)/forget-password/partials/step2-send-status';
@@ -29,7 +29,10 @@ const ForgetPassword = () => {
   return (
     <div className="flex flex-row min-h-screen justify-center">
       <div className="sm:w-1/2 hidden md:block ">
-        <AuthLeftSection />
+      <AuthLeftSection
+          title="Amankan akun Anda, kendalikan akses Anda"
+          imageSrc="/images/forget-password.png"
+        />
       </div>
       <div className="sm:w-1/2 flex flex-col w-full p-4 lg:px-10 lg:py-5">
         <AuthRightSection>
