@@ -1,50 +1,50 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   PasswordTypes,
   PersonalDataTypes,
   CompanyDataTypes,
-} from '@/types/authTypes';
+} from "@/types/authTypes";
 import {
   sendOTP,
   verifyOTP,
   submitRegisterData,
-} from '@/redux/actions/authActions';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
-import Step1_email from '@/app/(auth)/register/partials/step1-email';
-import Step2_otp from '@/app/(auth)/register/partials/step2-otp';
-import Step3_password from '@/app/(auth)/register/partials/step3-password';
-import Step4_personal_data from '@/app/(auth)/register/partials/step4-personal-data';
-import Step5_company_data from '@/app/(auth)/register/partials/step5-company-data';
-import AuthLeftSection from '@/components/layout/auth-left-section';
-import RightAuthSection from '@/components/layout/auth-right-section';
-import SuccessModal from '@/components/status/success-modal';
-import { useOtpCountdown } from '@/hook/useOtpCountdown';
+} from "@/redux/actions/authActions";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import Step1_email from "@/app/(auth)/register/partials/step1-email";
+import Step2_otp from "@/app/(auth)/register/partials/step2-otp";
+import Step3_password from "@/app/(auth)/register/partials/step3-password";
+import Step4_personal_data from "@/app/(auth)/register/partials/step4-personal-data";
+import Step5_company_data from "@/app/(auth)/register/partials/step5-company-data";
+import AuthLeftSection from "@/components/layout/auth-left-section";
+import RightAuthSection from "@/components/layout/auth-right-section";
+import SuccessModal from "@/components/status/success-modal";
+import { useOtpCountdown } from "@/hook/useOtpCountdown";
 
 const Register = () => {
-  const [isLoading, setIsLoading] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<string>("");
   const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
-  const [OTP, setOTP] = useState<string>('');
+  const [OTP, setOTP] = useState<string>("");
   const [step, setStep] = useState<number>(1);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const { countdown, startCountdown } = useOtpCountdown(60);
-  const [email, setEmail] = useState<string>('');
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<PasswordTypes>({
-    password: '',
-    password_confirmation: '',
+    password: "",
+    password_confirmation: "",
   });
   const [personalData, setPersonalData] = useState<PersonalDataTypes>({
-    first_name: '',
-    last_name: '',
-    phone: '',
+    first_name: "",
+    last_name: "",
+    phone: "",
   });
   const [companyData, setCompanyData] = useState<CompanyDataTypes>({
-    name: '',
-    industry: '',
-    job_position: '',
+    name: "",
+    industry: "",
+    job_position: "",
   });
 
   const router = useRouter();
@@ -73,19 +73,22 @@ const Register = () => {
       )
     );
     if (response?.success) {
-      router.push('/homepage');
+      router.push("/homepage");
     }
   };
 
   const handleBackButton = () => {
-    setErrorMessage('');
+    setErrorMessage("");
     setStep(step - 1);
   };
 
   return (
     <div className="flex flex-row min-h-screen justify-center">
       <div className="sm:w-1/2 hidden md:block ">
-        <AuthLeftSection />
+        <AuthLeftSection
+          title="Jalin Hubungan, Raih Kesuksesan."
+          imageSrc="/images/vector-login.png"
+        />
       </div>
       <div className="sm:w-1/2 flex flex-col w-full p-4 lg:px-10 lg:py-5">
         <RightAuthSection>
@@ -155,7 +158,7 @@ const Register = () => {
 
           <div className="mt-5 text-center">
             <p className="text-xs md:text-base  font-custom font-medium">
-              Sudah punya akun?{' '}
+              Sudah punya akun?{" "}
               <a
                 href="/login"
                 className="text-xs md:text-base font-custom text-light-gold font-bold ml-1 hover:underline"

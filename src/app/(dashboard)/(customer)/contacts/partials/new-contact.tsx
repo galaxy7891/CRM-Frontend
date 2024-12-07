@@ -201,7 +201,7 @@ const NewContact: React.FC<FormEditProps> = ({ onClose, emailLocal }) => {
             value={contact.customers_company?.name || ''}
             options={[
               {
-                label: 'Pilih Organisasi',
+                label: 'Pilih Perusahaan',
                 value: '',
                 hidden: true,
               },

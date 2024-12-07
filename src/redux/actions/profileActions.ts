@@ -90,6 +90,7 @@ export const getDashboardData =
 export const updateUserProfile =
   (
     userProfile: dataUser,
+    setIsSuccess: (success: boolean) => void,
     setErrorMessage: (messages: { [key: string]: string }) => void
   ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
@@ -109,6 +110,7 @@ export const updateUserProfile =
       const response = await axios.request(config);
 
       if (response.data.success) {
+        setIsSuccess(true);
       } else {
         setErrorMessage(response.data.message);
         console.error(response.data.message);

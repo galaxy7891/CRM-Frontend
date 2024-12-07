@@ -1,9 +1,9 @@
 // components/companyDataStep.tsx
-import React from 'react';
-import { useState } from 'react';
-import FailText from '@/components/status/fail-text';
-import FormHeader from '@/components/layout/auth-form-header';
-import BackButton from '@/components/button/back-button';
+import React from "react";
+import { useState } from "react";
+import FailText from "@/components/status/fail-text";
+import FormHeader from "@/components/layout/auth-form-header";
+import BackButton from "@/components/button/back-button";
 
 interface CompanyDataStepProps {
   companyData: CompanyData;
@@ -62,7 +62,7 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
         }
         placeholder="PT. Terang Benderang"
         className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black  focus:outline-none ${
-          isOnClick && !companyData?.name ? 'error-fields' : 'border-font-gray'
+          isOnClick && !companyData?.name ? "error-fields" : "border-font-gray"
         } rounded-lg bg-light-white focus:border-dark-navy `}
       />
       {isOnClick && !companyData?.name && (
@@ -83,7 +83,7 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
           setCompanyData({ ...companyData, job_position: e.target.value })
         }
         className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 focus:outline-none border-font-gray rounded-lg bg-light-white focus:border-dark-navy ${
-          companyData?.job_position ? 'text-black' : 'text-gray-500'
+          companyData?.job_position ? "text-black" : "text-gray-500"
         }`}
       >
         <option value="" disabled hidden>
@@ -105,7 +105,7 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
           Lainnya
         </option>
       </select>
-      {isOnClick && companyData?.job_position == '' && (
+      {isOnClick && companyData?.job_position == "" && (
         <FailText>Jabatan tidak boleh kosong</FailText>
       )}
       {/* Job Position */}
@@ -122,36 +122,54 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
           setCompanyData({ ...companyData, industry: e.target.value })
         }
         className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 focus:outline-none ${
-          isOnClick && companyData?.industry == ''
-            ? 'error-fields'
-            : 'border-font-gray'
+          isOnClick && companyData?.industry == ""
+            ? "error-fields"
+            : "border-font-gray"
         } rounded-lg bg-light-white focus:border-dark-navy ${
-          companyData?.industry === '' ? 'text-gray-500' : 'text-black'
+          companyData?.industry === "" ? "text-gray-500" : "text-black"
         }`}
       >
         <option value="" disabled hidden>
           Pilih Jenis Industri
         </option>
+        <option value="Edukasi" className="bg-white">
+          Edukasi
+        </option>
+        <option value="Kesehatan" className="bg-white">
+          Kesehatan
+        </option>
         <option value="Manufaktur" className="bg-white">
           Manufaktur
         </option>
+        <option value="Pariwisata" className="bg-white">
+          Pariwisata
+        </option>
+        <option value="Real Estate" className="bg-white">
+          Real Estate
+        </option>
+        <option value="Retail" className="bg-white">
+          Retail
+        </option>
         <option value="Teknologi" className="bg-white">
           Teknologi
+        </option>
+        <option value="Transportasi" className="bg-white">
+          Transportasi
         </option>
         <option value="Lainnya" className="bg-white">
           Lainnya
         </option>
       </select>
-      {isOnClick && companyData?.industry == '' && (
+      {isOnClick && companyData?.industry == "" && (
         <FailText>Jenis industri tidak boleh kosong</FailText>
       )}
 
       <button
         onClick={handleCheckField}
-        disabled={isLoading == 'Register'}
+        disabled={isLoading == "Register"}
         className="mt-4 w-full px-1 h-12 lg:h-15 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
       >
-        {isLoading == 'Register' ? 'Mengirim...' : 'Kirim'}
+        {isLoading == "Register" ? "Mengirim..." : "Kirim"}
       </button>
       <BackButton onClick={handleBackButton}>Kembali</BackButton>
     </div>
