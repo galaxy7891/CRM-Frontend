@@ -26,8 +26,9 @@ const SelectInput: React.FC<SelectInputProps> = ({
     <select
       disabled={disabled}
       className={`w-full mt-2 p-2 border text-xs md:text-base font-custom
-         focus:border-dark-navy focus:outline-none border-font-black rounded-[4px]
-          bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white ${
+         focus:border-dark-navy focus:outline-none border-font-black rounded-[4px] text-black
+         ${disabled ? 'dark:bg-gray-800 bg-gray-300 ' : 'bg-font-white'}
+          dark:bg-dark-navy dark:border-none dark:text-font-white ${
             value ? 'text-black' : 'text-gray-500'
           } `}
       value={value}

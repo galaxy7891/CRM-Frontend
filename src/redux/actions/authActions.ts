@@ -39,6 +39,25 @@ export const login =
     }
   };
 
+export const loginWithGoogle = () => async () => {
+  try {
+    const config = {
+      method: 'get',
+      url: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const response = await axios.request(config);
+
+    if (response.data.success) {
+      console.log(response.data.data);
+    }
+  } finally {
+  }
+};
+
 export const sendOTP =
   (
     email: string,

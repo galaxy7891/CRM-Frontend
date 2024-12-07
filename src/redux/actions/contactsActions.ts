@@ -21,7 +21,6 @@ export const getContacts =
   ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;
-    console.log(currentPage, 'currentPage');
     try {
       const config = {
         method: 'get',
@@ -206,13 +205,14 @@ export const logActivityContact =
 export const importContacts =
   (
     file: File,
+    setIsLoading: (loading: boolean) => void,
     setIsSuccess: (success: boolean) => void,
     setErrorMessage: (messages: string) => void,
     setErrorMessageDetail: (messages: ImportErrorMessageDetailTypes) => void,
     setIsFailed: (success: boolean) => void
   ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
-    console.log('hitting importContacts');
+    setIsLoading(true);
     const { token } = getState().auth;
     const formData = new FormData();
     formData.append('file', file);
@@ -240,5 +240,7 @@ export const importContacts =
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };

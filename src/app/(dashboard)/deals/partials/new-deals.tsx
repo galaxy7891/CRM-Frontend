@@ -6,7 +6,7 @@ import { getContacts } from '@/redux/actions/contactsActions';
 import { getCompanies } from '@/redux/actions/companiesActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
-import { dealsTypes } from '@/types/dealsTypes';
+import { dealsDataTypes } from '@/types/dealsTypes';
 import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
 import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
 import DateInput from '@/components/form-input/date-input';
@@ -32,14 +32,14 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
     {}
   );
   const [tempPayment_Category, setTempPayment_Category] = useState<string>('');
-  const [deal, setDeal] = useState<dealsTypes>({
+  const [deal, setDeal] = useState<dealsDataTypes>({
     id: '',
     category: '',
     customer_id: '',
     customers_company_id: '',
     name: '',
     product_id: '',
-    quantity: '',
+    quantity: null,
     unit: '',
     description: '',
     tag: '',
@@ -94,8 +94,8 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
             value={deal.category}
             options={[
               { label: 'Pilih Kategori Pelanggan', value: '', hidden: true },
-              { label: 'Pelanggan', value: 'pelanggan' },
-              { label: 'Perusahaan', value: 'perusahaan' },
+              { label: 'pelanggan', value: 'pelanggan' },
+              { label: 'perusahaan', value: 'perusahaan' },
             ]}
             onChange={(e) => setDeal({ ...deal, category: e.target.value })}
             required
@@ -116,7 +116,7 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
                   value: lead.id,
                 })),
               ]}
-              value={deal.customer_id}
+              value={deal.customer_id!}
               onChange={(e) =>
                 setDeal({ ...deal, customer_id: e.target.value })
               }
@@ -128,7 +128,7 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
           <div>
             <SelectInput
               label="Nama Perusahaan"
-              value={deal.customers_company_id}
+              value={deal.customers_company_id!}
               options={[
                 { label: 'Pilih Perusahaan', value: '', hidden: true },
                 ...companies.map((company) => ({
@@ -146,7 +146,7 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
         <div>
           <SelectInput
             label="Nama Produk "
-            value={deal.product_id}
+            value={deal.product_id!}
             options={[
               { label: 'Pilih Nama Produk', value: '', hidden: true },
               ...products.map((product) => ({
@@ -161,18 +161,22 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
             <FailText>{errorMessage.products_id}</FailText>
           )}
         </div>
-        <div>
-          <NumberInput
-            label="Jumlah Produk"
-            placeholder="Jumlah Produk Dijual"
-            value={deal.quantity}
-            onChange={(e) => setDeal({ ...deal, quantity: e.target.value })}
-            required
-          />
-          {errorMessage.quantity && (
-            <FailText>{errorMessage.quantity}</FailText>
-          )}
-        </div>
+        {products.find((product) => product.id === deal.product_id)?.unit && (
+          <div>
+            <NumberInput
+              label="Jumlah Produk"
+              placeholder="Jumlah Produk Dijual"
+              value={String(deal.quantity)}
+              onChange={(e) =>
+                setDeal({ ...deal, quantity: Number(e.target.value) })
+              }
+              required
+            />
+            {errorMessage.quantity && (
+              <FailText>{errorMessage.quantity}</FailText>
+            )}
+          </div>
+        )}
         {/* If the product has a unit value (stuff not a service), show the unit type product input */}
         {deal.product_id &&
           products.find((product) => product.id === deal.product_id)?.unit && (
@@ -180,7 +184,7 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
               <TextInput
                 label="Satuan Produk"
                 placeholder="Jenis Satuan Produk"
-                value={deal.unit}
+                value={deal.unit!}
                 onChange={(e) => setDeal({ ...deal, unit: e.target.value })}
                 required
                 disabled
@@ -212,6 +216,9 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
               }
             }}
           />
+          {errorMessage.payment_category && (
+            <FailText>{errorMessage.payment_category}</FailText>
+          )}
         </div>
         {/* If the payment category is not cash, show the duration input */}
         {tempPayment_Category === 'berulang' && (
@@ -238,6 +245,7 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
         )}
         <div>
           <PriceInput
+            placeholder="Perkiraan Nilai"
             label="Perkiraan Nilai"
             value={deal.value_estimated}
             onChange={(e) =>

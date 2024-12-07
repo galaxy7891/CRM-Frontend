@@ -2,6 +2,12 @@ export interface InviteEmployeeProps {
   onClose: () => void;
 }
 
+export interface inviteEmployeeDataTypes {
+  email: string;
+  role: string;
+  job_position: string;
+}
+
 export interface employeesTypes {
   id: string;
   user_company_id: string;

@@ -5,21 +5,67 @@ import {
   setDealsNegotiation,
   setDealsWon,
   setDealsLose,
+  setDeals,
   setDeal,
+  setLogDeal,
 } from '../reducers/dealsReducers';
-// import { dealsTypes } from '@/types/dealsTypes';
-// import { paginationTypes } from '@/types/otherTypes';
+// import { dealDataTypes } from '@/types/dealDataTypes';
+import { paginationTypes } from '@/types/otherTypes';
 import { AppDispatch, RootState } from '../store';
-import { dealsTypes, dealsDataTypes } from '@/types/dealsTypes';
+import { dealsDataTypes } from '@/types/dealsTypes';
 // import { ImportErrorMessageDetailTypes } from '@/types/otherTypes';
 
-export const getDealsQualification =
-  () => async (dispatch: AppDispatch, getState: () => RootState) => {
+export const getDeals =
+  (
+    sortBy: string,
+    statusBy: string,
+    perPage: string,
+    currentPage: number,
+    setPagination: (pagination: paginationTypes) => void
+  ) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;
     try {
       const config = {
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?tahapan=kualifikasi&sort=terbaru&per_page=10&page=1`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=${currentPage}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      };
+      const response = await axios.request(config);
+      if (response.data.success) {
+        const deals = response.data.data;
+        dispatch(setDeals(response.data.data.data));
+        setPagination({
+          current_page: deals.current_page,
+          last_page: deals.last_page,
+          total: deals.total,
+          per_page: deals.per_page,
+          next_page_url: deals.next_page_url,
+          prev_page_url: deals.prev_page_url,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+export const getDealsQualification =
+  (
+    sortBy: string,
+    statusBy: string,
+    perPage: string,
+    currentPage: number,
+    setPagination: (pagination: paginationTypes) => void
+  ) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
+    const { token } = getState().auth;
+    try {
+      const config = {
+        method: 'get',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?tahapan=kualifikasi&sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=1=${currentPage}`,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -28,7 +74,16 @@ export const getDealsQualification =
 
       const response = await axios.request(config);
       if (response.data.success) {
+        const deals = response.data.data;
         dispatch(setDealsQualification(response.data.data.data));
+        setPagination({
+          current_page: deals.current_page,
+          last_page: deals.last_page,
+          total: deals.total,
+          per_page: deals.per_page,
+          next_page_url: deals.next_page_url,
+          prev_page_url: deals.prev_page_url,
+        });
       }
     } catch (error) {
       console.error(error);
@@ -36,12 +91,19 @@ export const getDealsQualification =
   };
 
 export const getDealsProposal =
-  () => async (dispatch: AppDispatch, getState: () => RootState) => {
+  (
+    sortBy: string,
+    statusBy: string,
+    perPage: string,
+    currentPage: number,
+    setPagination: (pagination: paginationTypes) => void
+  ) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;
     try {
       const config = {
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?tahapan=proposal&sort=terbaru&per_page=10&page=1`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?tahapan=proposal&sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=1=${currentPage}`,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -49,8 +111,17 @@ export const getDealsProposal =
       };
 
       const response = await axios.request(config);
+      const deals = response.data.data;
       if (response.data.success) {
         dispatch(setDealsProposal(response.data.data.data));
+        setPagination({
+          current_page: deals.current_page,
+          last_page: deals.last_page,
+          total: deals.total,
+          per_page: deals.per_page,
+          next_page_url: deals.next_page_url,
+          prev_page_url: deals.prev_page_url,
+        });
       }
     } catch (error) {
       console.error(error);
@@ -58,12 +129,19 @@ export const getDealsProposal =
   };
 
 export const getDealsNegotiation =
-  () => async (dispatch: AppDispatch, getState: () => RootState) => {
+  (
+    sortBy: string,
+    statusBy: string,
+    perPage: string,
+    currentPage: number,
+    setPagination: (pagination: paginationTypes) => void
+  ) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;
     try {
       const config = {
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?tahapan=negosiasi&sort=terbaru&per_page=10&page=1`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?tahapan=negosiasi&sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=1=${currentPage}`,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -71,8 +149,17 @@ export const getDealsNegotiation =
       };
 
       const response = await axios.request(config);
+      const deals = response.data.data;
       if (response.data.success) {
         dispatch(setDealsNegotiation(response.data.data.data));
+        setPagination({
+          current_page: deals.current_page,
+          last_page: deals.last_page,
+          total: deals.total,
+          per_page: deals.per_page,
+          next_page_url: deals.next_page_url,
+          prev_page_url: deals.prev_page_url,
+        });
       }
     } catch (error) {
       console.error(error);
@@ -80,12 +167,19 @@ export const getDealsNegotiation =
   };
 
 export const getDealsWon =
-  () => async (dispatch: AppDispatch, getState: () => RootState) => {
+  (
+    sortBy: string,
+    statusBy: string,
+    perPage: string,
+    currentPage: number,
+    setPagination: (pagination: paginationTypes) => void
+  ) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;
     try {
       const config = {
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?tahapan=tercapai&sort=terbaru&per_page=10&page=1`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?tahapan=tercapai&sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=1=${currentPage}`,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -93,8 +187,17 @@ export const getDealsWon =
       };
 
       const response = await axios.request(config);
+      const deals = response.data.data;
       if (response.data.success) {
         dispatch(setDealsWon(response.data.data.data));
+        setPagination({
+          current_page: deals.current_page,
+          last_page: deals.last_page,
+          total: deals.total,
+          per_page: deals.per_page,
+          next_page_url: deals.next_page_url,
+          prev_page_url: deals.prev_page_url,
+        });
       }
     } catch (error) {
       console.error(error);
@@ -102,19 +205,34 @@ export const getDealsWon =
   };
 
 export const getDealsLose =
-  () => async (dispatch: AppDispatch, getState: () => RootState) => {
+  (
+    sortBy: string,
+    statusBy: string,
+    perPage: string,
+    currentPage: number,
+    setPagination: (pagination: paginationTypes) => void
+  ) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;
     try {
       const config = {
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?tahapan=gagal&sort=terbaru&per_page=10&page=1`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?tahapan=gagal&sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=1=${currentPage}`,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       };
-
       const response = await axios.request(config);
+      const deals = response.data.data;
+      setPagination({
+        current_page: deals.current_page,
+        last_page: deals.last_page,
+        total: deals.total,
+        per_page: deals.per_page,
+        next_page_url: deals.next_page_url,
+        prev_page_url: deals.prev_page_url,
+      });
       if (response.data.success) {
         dispatch(setDealsLose(response.data.data.data));
       }
@@ -150,7 +268,7 @@ export const getDealById =
 
 export const addDeals =
   (
-    deal: dealsTypes,
+    deal: dealsDataTypes,
     setIsSuccess: (success: boolean) => void,
     setErrorMessage: (messages: { [key: string]: string }) => void
   ) =>
@@ -268,5 +386,44 @@ export const deleteDeal =
       }
     } catch (error) {
       console.error('Error deleting deal(s):', error);
+    }
+  };
+
+export const logActivityDeals =
+  (
+    currentPage: number,
+    id: string,
+    setPagination: (pagination: paginationTypes) => void
+  ) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
+    const token = getState().auth.token;
+    try {
+      const config = {
+        method: 'get',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/activity/log/deals?page=${currentPage}&id=${id}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const response = await axios.request(config);
+
+      if (response.data.success) {
+        const logLead = response.data.data[0];
+        dispatch(setLogDeal(logLead.data[0].activities));
+        setPagination({
+          current_page: logLead.current_page,
+          last_page: logLead.last_page,
+          total: logLead.total,
+          per_page: logLead.per_page,
+          next_page_url: logLead.next_page_url,
+          prev_page_url: logLead.prev_page_url,
+        });
+      } else {
+        console.error(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };

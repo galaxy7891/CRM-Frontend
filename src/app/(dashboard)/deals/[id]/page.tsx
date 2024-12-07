@@ -2,9 +2,13 @@
 
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import { dealsDataTypes } from '@/types/dealsTypes';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { getDealById, deleteDeal } from '@/redux/actions/dealsActions';
+import { getLeads } from '@/redux/actions/leadsActions';
+import { getContacts } from '@/redux/actions/contactsActions';
+import { getCompanies } from '@/redux/actions/companiesActions';
 import DeleteButton from '@/components/button/delete-button';
 import EditUserButton from '@/components/button/edit-user-button';
 import CustomerInfo from '@/components/import/card-info-customer';
@@ -16,6 +20,7 @@ import EditDeals from '../partials/edit-deals';
 import Loading from '@/components/status/loading';
 import ActionConfirmModal from '@/components/status/action-confirm-modal';
 import SuccessModal from '@/components/status/success-modal';
+import DealsLog from './deals-log';
 
 const DetailDeals = () => {
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
@@ -25,6 +30,9 @@ const DetailDeals = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams<{ id: string }>();
   const { deal } = useSelector((state: RootState) => state.deals);
+  const { leads } = useSelector((state: RootState) => state.leads);
+  const { contacts } = useSelector((state: RootState) => state.contacts);
+  const { companies } = useSelector((state: RootState) => state.companies);
   const handleEditDealsClick = () => {
     setIsEditDeal(true);
   };
@@ -47,6 +55,31 @@ const DetailDeals = () => {
       dispatch(getDealById(id)).then(() => setIsLoadingPage(false));
     }
   });
+
+  useEffect(() => {
+    dispatch(getLeads('terbaru', '', 'semua', 1, () => {}));
+    dispatch(getContacts('terbaru', '', 'semua', 1, () => {}));
+    dispatch(getCompanies('terbaru', '', 'semua', 1, () => {}));
+  }, [dispatch]);
+
+  const getCustomerName = (deal: dealsDataTypes): string => {
+    const lead = leads.find((lead) => lead.id === deal?.customer_id);
+    if (lead) return `${lead.first_name} ${lead.last_name || ''}`.trim();
+
+    const contact = contacts.find(
+      (contact) => contact.id === deal?.customer_id
+    );
+    if (contact)
+      return `${contact.first_name} ${contact.last_name || ''}`.trim();
+
+    const company = companies.find(
+      (company) => company.id === deal?.customers_company_id
+    );
+    if (company) return company.name;
+
+    return 'Memuat...';
+  };
+
   return (
     <>
       <HeaderWithBackButton title="Detail Deals" />
@@ -62,17 +95,17 @@ const DetailDeals = () => {
                 <DeleteButton onClick={handleDeleteConfirmation} />
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:mt-4">
               {/* Bagian Kiri */}
-              <div className="space-y-4">
+              <div>
                 <p className="font-medium text-base md:text-2xl">
                   {deal?.value_estimated}
                 </p>
-                <div className="flex gap-x-4">
+                <div className="flex gap-x-4 mt-2 md:mt-4 mb-4 md:mb-7">
                   <StatusBadge status={deal!.status} />
                   <StageBadge status={deal!.stage} />
                 </div>
-                <div className="p-4 space-y-4 bg-light-white dark:bg-dark-darkGray rounded-[10px]">
+                <div className="p-4 space-y-4 bg-light-white dark:bg-dark-darkGray rounded-[10px] ">
                   <CustomerInfo
                     label="Durasi Pembayaran"
                     value={deal?.payment_category}
@@ -89,24 +122,26 @@ const DetailDeals = () => {
               </div>
               {/* Bagian Kanan */}
               <div>
-                <p className="text-sm md:text-2xl font-medium">Data Deals</p>
+                <p className="text-sm md:text-2xl font-medium mb-2">
+                  Data Deals
+                </p>
                 <div className="p-4 space-y-4 md:space-y-0 bg-light-white dark:bg-dark-darkGray rounded-[10px] md:grid md:grid-cols-2">
                   <div className="space-y-4">
                     <CustomerInfo
                       label="Kategori Pembeli"
                       value={deal?.category}
                     />
-                    {deal?.category === 'customers_companies' && (
+                    {deal?.category === 'perusahaan' && (
                       <CustomerInfo
                         label="Nama Perusahaan"
-                        value={deal?.customers_company_id}
+                        value={getCustomerName(deal!) || '-'}
                       />
                     )}
 
-                    {deal?.category === 'customers' && (
+                    {deal?.category === 'pelanggan' && (
                       <CustomerInfo
                         label="Nama Pelanggan"
-                        value={deal?.customer_id}
+                        value={getCustomerName(deal!) || '-'}
                       />
                     )}
 
@@ -114,7 +149,7 @@ const DetailDeals = () => {
 
                     <CustomerInfo
                       label="Jumlah Produk"
-                      value={deal?.quantity || '-'}
+                      value={String(deal?.quantity) || '-'}
                     />
                   </div>
                   <div className="space-y-4">
@@ -132,28 +167,29 @@ const DetailDeals = () => {
                 </div>
               </div>
             </div>
+            {isEditDeal && (
+              <EditDeals onClose={handleCloseEditDeals} dealProp={deal!} />
+            )}
+            {isDeleteDeal && (
+              <ActionConfirmModal
+                header="Apakah ingin menghapus deal?"
+                description="Data yang sudah terhapus tidak akan dapat dikembalikan"
+                actionButtonNegative_action={handleDeleteConfirmation}
+                actionButtonPositive_name="Hapus"
+                actionButtonPositive_action={handleDeleteDeal}
+              />
+            )}
+            {isSuccess == 'DeleteSuccess' && (
+              <SuccessModal
+                header="Berhasil"
+                description="Data deals berhasil dihapus"
+                actionButton={true}
+                actionButton_name="Kembali ke Halaman Deals"
+                actionButton_href="/deals"
+              />
+            )}
           </DashBoardCard>
-          {isEditDeal && (
-            <EditDeals onClose={handleCloseEditDeals} dealProp={deal!} />
-          )}
-          {isDeleteDeal && (
-            <ActionConfirmModal
-              header="Apakah ingin menghapus deal?"
-              description="Data yang sudah terhapus tidak akan dapat dikembalikan"
-              actionButtonNegative_action={handleDeleteConfirmation}
-              actionButtonPositive_name="Hapus"
-              actionButtonPositive_action={handleDeleteDeal}
-            />
-          )}
-          {isSuccess == 'DeleteSuccess' && (
-            <SuccessModal
-              header="Berhasil"
-              description="Data deals berhasil dihapus"
-              actionButton={true}
-              actionButton_name="Kembali ke Halaman Deals"
-              actionButton_href="/deals"
-            />
-          )}
+          <DealsLog />
         </div>
       )}
     </>

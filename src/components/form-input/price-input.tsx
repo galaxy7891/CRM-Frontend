@@ -1,9 +1,10 @@
-import React from "react";
-import Asterisk from "../status/required-asterisk";
+import React from 'react';
+import Asterisk from '../status/required-asterisk';
 
 interface PriceInputProps {
   label: string;
   value: string;
+  placeholder: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
   disabled?: boolean;
@@ -15,6 +16,7 @@ const PriceInput: React.FC<PriceInputProps> = ({
   onChange,
   required,
   disabled,
+  placeholder,
 }) => {
   return (
     <div className="flex-1">
@@ -29,7 +31,7 @@ const PriceInput: React.FC<PriceInputProps> = ({
         <input
           type="text"
           className="w-full p-2 border text-xs md:text-base font-custom focus:border-dark-navy focus:outline-none border-font-black rounded-r-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
-          placeholder="100.000"
+          placeholder={placeholder}
           value={value}
           onChange={onChange}
           disabled={disabled}

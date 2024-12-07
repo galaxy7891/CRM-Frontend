@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { dealsState } from '@/types/dealsTypes';
-import { act } from 'react';
 // Define the initial state
 const initialState: dealsState = {
   dealsQualification: [],
@@ -8,7 +7,9 @@ const initialState: dealsState = {
   dealsNegotiation: [],
   dealsWon: [],
   dealsLose: [],
+  deals: [],
   deal: null,
+  dealLog: [],
 };
 
 // Define the slice
@@ -31,8 +32,14 @@ const dealsSlice = createSlice({
     setDealsLose: (state, action) => {
       state.dealsLose = action.payload;
     },
+    setDeals: (state, action) => {
+      state.deals = action.payload;
+    },
     setDeal: (state, action) => {
       state.deal = action.payload;
+    },
+    setLogDeal: (state, action) => {
+      state.dealLog = action.payload;
     },
   },
 });
@@ -44,7 +51,9 @@ export const {
   setDealsNegotiation,
   setDealsWon,
   setDealsLose,
+  setDeals,
   setDeal,
+  setLogDeal,
 } = dealsSlice.actions;
 
 // export the reducer

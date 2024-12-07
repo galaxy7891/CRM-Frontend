@@ -211,12 +211,14 @@ export const logActivityProduct =
 export const importProducts =
   (
     file: File,
+    setIsLoading: (loading: boolean) => void,
     setIsSuccess: (success: boolean) => void,
     setErrorMessage: (messages: string) => void,
     setErrorMessageDetail: (messages: ImportErrorMessageDetailTypes) => void,
     setIsFailed: (success: boolean) => void
   ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
+    setIsLoading(true);
     const { token } = getState().auth;
     const formData = new FormData();
     formData.append('file', file);
@@ -244,6 +246,8 @@ export const importProducts =
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 

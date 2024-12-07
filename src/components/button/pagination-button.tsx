@@ -7,7 +7,7 @@ interface paginationButtonPropsTypes {
   handleNextPage: () => void;
 }
 const PaginationButton: React.FC<paginationButtonPropsTypes> = ({
-  last_page,
+  last_page, 
   current_page,
   prev_page_url,
   next_page_url,

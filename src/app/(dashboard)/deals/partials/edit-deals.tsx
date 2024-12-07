@@ -27,7 +27,28 @@ interface editDealsProps {
 }
 
 const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
-  const [deal, setDeal] = useState<dealsTypes>(dealProp);
+  const [deal, setDeal] = useState<dealsDataTypes>({
+    id: dealProp.id,
+    category: dealProp.category,
+    customer_id: dealProp.customer_id,
+    customers_company_id: dealProp.customers_company_id,
+    name: dealProp.name,
+    deals_customer: dealProp.deals_customer,
+    description: dealProp.description,
+    tag: dealProp.tag,
+    stage: dealProp.stage,
+    open_date: dealProp.open_date,
+    status: dealProp.status,
+    close_date: dealProp.close_date,
+    expected_close_date: dealProp.expected_close_date,
+    value_estimated: dealProp.value_estimated,
+    payment_category: dealProp.payment_category,
+    payment_duration: dealProp.payment_duration,
+    owner: dealProp.owner,
+    product_id: dealProp.product?.product_id || null,
+    quantity: dealProp.product?.quantity || null,
+    unit: dealProp.product?.unit || null,
+  });
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
     {}
@@ -45,12 +66,11 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
   };
 
   useEffect(() => {
-    dispatch(getProducts('', '', 0, () => {}));
-    dispatch(getLeads('', '', '', 0, () => {}));
-    dispatch(getContacts('', '', '', 0, () => {}));
-    dispatch(getCompanies('', '', '', 0, () => {}));
+    dispatch(getProducts('terbaru', 'semua', 0, () => {}));
+    dispatch(getLeads('terbaru', '', 'semua', 1, () => {}));
+    dispatch(getContacts('terbaru', '', 'semua', 1, () => {}));
+    dispatch(getCompanies('terbaru', '', 'semua', 1, () => {}));
   }, [dispatch]);
-  console.log(deal);
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Edit Deals">
       <form className="overflow-y-auto px-4 grid grid-cols-1 gap-4 md:grid-cols-2 p-2">
@@ -65,16 +85,13 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
           {errorMessage.name && <FailText>{errorMessage.name}</FailText>}
         </div>
         <div>
-          <SelectInput
+          <TextInput
             label="Kategori Pembeli"
-            value={deal?.category}
-            options={[
-              { label: 'Pilih Kategori Pelanggan', value: '', hidden: true },
-              { label: 'Pelanggan', value: 'pelanggan' },
-              { label: 'Perusahaan', value: 'perusahaan' },
-            ]}
+            placeholder="kategori pembeli"
+            value={deal.category}
             onChange={(e) => setDeal({ ...deal, category: e.target.value })}
             required
+            disabled
           />
         </div>{' '}
         {deal.category === 'pelanggan' && (
@@ -92,10 +109,11 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
                   value: lead.id,
                 })),
               ]}
-              value={deal.customer_id}
-              onChange={(e) =>
-                setDeal({ ...deal, customer_id: e.target.value })
-              }
+              value={deal.customer_id || ''}
+              onChange={(e) => {
+                const value = e.target.value; // Ambil nilai dari event
+                setDeal({ ...deal, customer_id: value });
+              }}
               required
             />
           </div>
@@ -104,40 +122,34 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
           <div>
             <SelectInput
               label="Nama Perusahaan"
-              value={deal.customers_company_id}
+              value={deal.customers_company_id || ''}
               options={[
-                { label: 'Pilih Perusahaan', value: '', hidden: true },
+                { label: 'Pilih Perusahaan', value: '-', hidden: true },
                 ...companies.map((company) => ({
                   label: company.name,
                   value: company.id,
                 })),
               ]}
-              onChange={(e) =>
-                setDeal({ ...deal, customers_company_id: e.target.value })
-              }
+              onChange={(e) => {
+                setDeal({
+                  ...deal,
+                  customers_company_id: e.target.value,
+                });
+              }}
               required
             />
           </div>
         )}
         <div>
-          <SelectInput
+          <TextInput
+            disabled
             label="Nama Produk"
-            value={deal?.product_id || deal?.products[0]?.id || ''} // Prioritize `product_id` or fallback to first product's id
-            options={[
-              { label: 'Pilih Nama Produk', value: '', hidden: true }, // placeholder
-              ...products.map((product) => ({
-                label: product.name,
-                value: product.id,
-              })),
-            ]}
-            onChange={(e) => {
-              const selectedProductId = e.target.value;
-
-              setDeal((prevDeal) => ({
-                ...prevDeal,
-                product_id: selectedProductId || products[0]?.id, // Fallback to products[0].id if no value is selected
-              }));
-            }}
+            value={
+              products.find((product) => product.id === deal?.product_id)
+                ?.name || '' // Cari nama produk berdasarkan ID
+            }
+            placeholder="Pilih Produk"
+            onChange={(e) => setDeal({ ...deal, product_id: e.target.value })}
             required
           />
 
@@ -145,36 +157,39 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
             <FailText>{errorMessage.products_id}</FailText>
           )}
         </div>
-        <div>
-          <NumberInput
-            label="Jumlah Produk"
-            placeholder="Jumlah Produk Dijual"
-            value={deal.quantity}
-            onChange={(e) => setDeal({ ...deal, quantity: e.target.value })}
-            required
-          />
-          {errorMessage.quantity && (
-            <FailText>{errorMessage.quantity}</FailText>
-          )}
-        </div>
-        {/* If the product has a unit value (stuff not a service), show the unit type product input */}
-        {((deal.product_id &&
-          products.find((product) => product.id === deal.product_id)?.unit) ||
-          deal.products[0]?.pivot.unit) && (
+        {products.find((product) => product.id === deal.product_id)?.unit && (
           <div>
-            <TextInput
-              label="Satuan Produk"
-              placeholder="Jenis Satuan Produk"
-              // value={deal.unit}
-              value={deal.unit || deal.products[0]?.pivot.unit}
-              onChange={(e) => setDeal({ ...deal, unit: e.target.value })}
+            <NumberInput
+              label="Jumlah Produk"
+              placeholder="Jumlah Produk Dijual"
+              value={String(deal.quantity)}
+              onChange={(e) =>
+                setDeal({ ...deal, quantity: Number(e.target.value) })
+              }
               required
             />
-            {errorMessage.products && (
-              <FailText>{errorMessage.products}</FailText>
+            {errorMessage.quantity && (
+              <FailText>{errorMessage.quantity}</FailText>
             )}
           </div>
         )}
+        {/* If the product has a unit value (stuff not a service), show the unit type product input */}
+        {deal.product_id &&
+          products.find((product) => product.id === deal.product_id)?.unit && (
+            <div>
+              <TextInput
+                label="Satuan Produk"
+                placeholder="Jenis Satuan Produk"
+                value={deal.unit || ''}
+                onChange={(e) => setDeal({ ...deal, unit: e.target.value })}
+                required
+                disabled
+              />
+              {errorMessage.products && (
+                <FailText>{errorMessage.products}</FailText>
+              )}
+            </div>
+          )}
         <div>
           <SelectInput
             label="Kategori Pembayaran"
@@ -224,6 +239,7 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
         <div>
           <PriceInput
             label="Perkiraan Nilai"
+            placeholder="Perkiraan pendapatan"
             value={deal.value_estimated}
             onChange={(e) =>
               setDeal({ ...deal, value_estimated: e.target.value })
@@ -233,6 +249,21 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
             <FailText>{errorMessage.value_estimated}</FailText>
           )}
         </div>
+        {deal.stage === 'tercapai' && (
+          <div>
+            <PriceInput
+              label="Nilai Sebenarnya"
+              placeholder="Pendapatan yang didapat"
+              value={deal.value_actual || ''}
+              onChange={(e) =>
+                setDeal({ ...deal, value_actual: e.target.value })
+              }
+            />
+            {errorMessage.value_actual && (
+              <FailText>{errorMessage.value_actual}</FailText>
+            )}
+          </div>
+        )}
         <div>
           <SelectInput
             label="Tahapan"
@@ -263,6 +294,20 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
             <FailText>{errorMessage.expected_close_date}</FailText>
           )}
         </div>
+        {/* If the stage is closed, show the close date input */}
+        {deal.stage === 'tercapai' && (
+          <div>
+            <DateInput
+              label="Tanggal  Penutupan"
+              value={deal.close_date || ''}
+              onChange={(e) => setDeal({ ...deal, close_date: e.target.value })}
+              required
+            />
+            {errorMessage.close_date && (
+              <FailText>{errorMessage.close_date}</FailText>
+            )}
+          </div>
+        )}
         <div>
           <SelectInput
             label="Status"

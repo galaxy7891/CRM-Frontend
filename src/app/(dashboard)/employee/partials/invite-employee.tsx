@@ -1,17 +1,23 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { inviteEmployeeDataTypes } from '@/types/employeeTypes';
 import { InviteEmployeeProps } from '@/types/employeeTypes';
-import InviteComponents from './invite-image';
 import { inviteUser } from '@/redux/actions/employeesActions';
 import { useAppDispatch } from '@/hook/redux';
+import InviteComponents from './invite-image';
 import InviteSuccess from './invite-success';
+import EmailInput from '@/components/form-input/email-input';
+import SelectInput from '@/components/form-input/dropdown-input';
 import SidebarModal from '@/components/layout/sidebar-modal';
 import FailText from '@/components/status/fail-text';
 import SidebarFooter from '@/components/layout/sidebar-footer';
 import EmployeeButton from '@/components/button/dashboard-sidebar-employee-button';
 
 const InviteUser: React.FC<InviteEmployeeProps> = ({ onClose }) => {
-  const [email, setEmail] = useState<string>('');
+  const [employeeData, setEmployeeData] = useState<inviteEmployeeDataTypes>({
+    email: '',
+    role: '',
+    job_position: '',
+  });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
@@ -21,7 +27,9 @@ const InviteUser: React.FC<InviteEmployeeProps> = ({ onClose }) => {
 
   const handleInvite = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(inviteUser(email, setIsLoading, setIsSuccess, setErrorMessage));
+    dispatch(
+      inviteUser(employeeData, setIsLoading, setIsSuccess, setErrorMessage)
+    );
   };
 
   return (
@@ -30,27 +38,61 @@ const InviteUser: React.FC<InviteEmployeeProps> = ({ onClose }) => {
         <InviteSuccess onClose={onClose} />
       ) : (
         <>
-          <div className="flex flex-col justify-center items-center flex-grow">
+          <div className="flex flex-col justify-center items-center flex-grow  overflow-y-auto mb-6">
             <InviteComponents
               imageSrc="/icons/employee/invite.svg"
-              title="Masukkan Email"
+              title="Masukkan Data"
             />
-            <p className="block md:hidden font-custom mt-2 p-4 text-sm text-font-black dark:text-font-white md:text-base text-center">
-              Masukkan email pengguna yang akan diajak <br />
-              kolaborasi
-            </p>
-            <p className="text-center hidden md:block font-custom mt-2 p-4 text-sm text-font-black dark:text-font-white md:text-base">
-              Masukkan email pengguna yang akan diajak kolaborasi
+
+            <p className="text-center  font-custom p-4 text-sm text-font-black dark:text-font-white md:text-base">
+              Masukan Data Pengguna yang akan diajak kolaborasi
             </p>
             <div className="px-8 w-full">
-              <input
-                type="text"
-                className="w-full p-2 border text-xs md:text-base font-custom focus:border-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white dark:bg-dark-navy dark:border-none dark:text-font-white"
+              <EmailInput
+                label="Email"
                 placeholder="user@gmail.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={employeeData.email}
+                onChange={(e) =>
+                  setEmployeeData({ ...employeeData, email: e.target.value })
+                }
+                required
               />
               {errorMessage.email && <FailText>{errorMessage.email}</FailText>}
+            </div>
+            <div className="px-8 w-full mt-2">
+              <SelectInput
+                label="Akses"
+                value={employeeData.role}
+                options={[
+                  { value: '-', label: 'Pilih Akses', hidden: true },
+                  { value: 'admin', label: 'admin' },
+                  { value: 'employee', label: 'employee' },
+                ]}
+                onChange={(e) =>
+                  setEmployeeData({ ...employeeData, role: e.target.value })
+                }
+                required
+              />
+              {errorMessage.role && <FailText>{errorMessage.role}</FailText>}
+            </div>
+            <div className="px-8 w-full mt-2">
+              <SelectInput
+                label="Jabatan"
+                value={employeeData.job_position}
+                options={[
+                  { value: '-', label: 'Pilih Jabatan', hidden: true },
+                  { value: 'C-Level', label: 'C-Level' },
+                  { value: 'Presiden', label: 'Presiden' },
+                  { value: 'Manager', label: 'Manager' },
+                  { value: 'Sales', label: 'Sales' },
+                  { value: 'Lainnya', label: 'Lainnya' },
+                ]}
+                onChange={(e) =>
+                  setEmployeeData({ ...employeeData, job_position: e.target.value })
+                }
+                required
+              />
+              {errorMessage.role && <FailText>{errorMessage.role}</FailText>}
             </div>
           </div>
           <SidebarFooter>
