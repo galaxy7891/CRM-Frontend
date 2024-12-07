@@ -27,6 +27,7 @@ const Password: React.FC<PasswordProps> = ({
   onNext,
 }) => {
   const [isOnClick, setIsOnClick] = useState<boolean | null>(null);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const rules = [
     { regex: /.{8,}/, label: 'Minimal 8 karakter' },
@@ -75,25 +76,55 @@ const Password: React.FC<PasswordProps> = ({
         className="w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black focus:outline-none border-font-gray rounded-lg bg-light-white focus:border-dark-navy"
       />
       {/* password */}
-      <label
-        htmlFor="password"
-        className="block text-black text-xs font-custom font-medium my-3 md:text-base"
-      >
-        Kata Sandi
-      </label>
-      <input
-        name="password"
-        type="password"
-        value={password?.password}
-        onChange={(e) => setPassword({ ...password, password: e.target.value })}
-        placeholder="Masukkan kata sandi"
-        className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black  focus:outline-none  rounded-lg bg-light-white focus:border-dark-navy  ${
-          isOnClick && !password.password ? 'error-fields' : 'border-font-gray'
-        } `}
-      />
-      {isOnClick && password.password == '' && (
-        <FailText>Kata sandi tidak boleh kosong</FailText>
-      )}
+
+      <div className="relative">
+        <label
+          htmlFor="password"
+          className="block text-black text-xs font-custom font-medium my-3 md:text-base"
+        >
+          Kata Sandi
+        </label>
+        <input
+          name="password"
+          type={`${!showPassword ? 'text' : 'password'}`}
+          value={password?.password}
+          onChange={(e) =>
+            setPassword({ ...password, password: e.target.value })
+          }
+          placeholder="Masukkan kata sandi"
+          className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black  focus:outline-none  rounded-lg bg-light-white focus:border-dark-navy  ${
+            isOnClick && !password.password
+              ? 'error-fields'
+              : 'border-font-gray'
+          } `}
+        />
+        <span className="absolute right-3 top-10 md:top-12">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="gray"
+            className="size-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+            />
+          </svg>
+        </span>
+        <button onClick={() => setShowPassword(!showPassword)}></button>
+        {isOnClick && password.password == '' && (
+          <FailText>Kata sandi tidak boleh kosong</FailText>
+        )}
+      </div>
+
       {/* confirm password */}
       <label
         htmlFor="password_confirmation"

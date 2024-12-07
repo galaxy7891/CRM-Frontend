@@ -84,6 +84,7 @@ const NewProduct: React.FC<newProductsProps> = ({ onClose }) => {
           </div>
           <div className="order-4">
             <PriceInput
+              placeholder="Harga Produk"
               label="Harga Produk"
               value={product.price}
               onChange={(e) =>
