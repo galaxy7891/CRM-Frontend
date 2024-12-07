@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Image from 'next/image';
 import React from 'react';
@@ -17,8 +17,8 @@ import DashboardCard from '@/components/layout/dashboard-card';
 import HeaderWithBackButton from '@/components/layout/header-with-back';
 
 const ImporFile = () => {
-  const [fileName, setFileName] = useState<string>('');
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [fileName, setFileName] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [errorMessageDetail, setErrorMessageDetail] =
     useState<ImportErrorMessageDetailTypes | null>(null);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -73,12 +73,13 @@ const ImporFile = () => {
                 Unggah dokumen dengan format{' '}
                 <span className="font-bold">xlsx</span> atau
                 <span className="block">
-                  {' '}
+                  {" "}
                   unduh template sesuai format yang telah ditentukan.
                 </span>
                 <Link
-                  href={`https://drive.google.com/uc?export=download&id=1Roidvdc-NiEXgnt08FmCP80UdRf7Gu-4`}
-                  download="template-export-leads.xlsx"
+                  href={`https://drive.google.com/uc?export=download&id=1VPqYpO-rq3Y1_B8Q2yV9KYGGcfdaM7Au
+`}
+                  download="template-import-kontak.xlsx"
                   className="font-bold text-dark-gold hover:underline cursor-pointer"
                 >
                   Unduh Template

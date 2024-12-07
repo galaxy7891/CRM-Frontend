@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Image from 'next/image';
 import React, { useState, ChangeEvent } from 'react';
@@ -16,8 +16,8 @@ import DashboardCard from '@/components/layout/dashboard-card';
 import HeaderWithBackButton from '@/components/layout/header-with-back';
 
 const ImporFile = () => {
-  const [fileName, setFileName] = useState<string>('');
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [fileName, setFileName] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [errorMessageDetail, setErrorMessageDetail] =
     useState<ImportErrorMessageDetailTypes | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -64,7 +64,7 @@ const ImporFile = () => {
               width={150}
               height={150}
             />
-            <p className="font-custom font-bold md:text-2xl text-lg text-font-black mt-4">
+            <p className="font-custom font-bold md:text-2xl text-lg text-font-black dark:text-font-white mt-4">
               Unggah Dokumen
             </p>
             <div className="flex flex-col w-full mt-2 sm:px-32 2xl:px-60">

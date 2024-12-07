@@ -74,3 +74,8 @@ export interface ImportErrorMessageDetailTypes {
   summaryData: ImportSummaryDataTypes;
   failedData: ImportFailedDataTypes;
 }
+
+export interface AuthLeftSectionProps{
+  imageSrc: string;
+  title: string;
+}

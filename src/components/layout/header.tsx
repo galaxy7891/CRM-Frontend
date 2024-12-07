@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { getProfile } from "@/redux/actions/profileActions";
@@ -31,6 +31,16 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
   const pathName = usePathname();
   // const { user } = useSelector((state: RootState) => state.auth);
   const { user } = useSelector((state: RootState) => state.profile);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setIsDropdownOpen(false); // Tutup dropdown jika klik di luar elemen
+    }
+  };
 
   const handleLogout = () => {
     dispatch(logout());
@@ -73,6 +83,11 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
     }
 
     setCurrentPage(matchedPage);
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, [pathName, dispatch, user?.image_url]);
 
   return (
@@ -136,12 +151,12 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
         </div>
 
         <div className="flex items-center gap-5">
-          <div className="relative">
+          <div ref={dropdownRef} className="relative">
             <Image
               id="avatarButton"
               onClick={toggleDropdown}
               className="w-10 h-10 rounded-full cursor-pointer"
-              src={photo ? photo : '/images/default.jpg'}
+              src={photo ? photo : "/images/default.jpg"}
               alt="User dropdown"
               width={40}
               height={40}

@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { newPassword } from '@/types/profileTypes';
-import { resetPassword } from '@/redux/actions/profileActions';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
-import { useState, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
-import Image from 'next/image';
-import AuthLeftSection from '@/components/icon-forget';
-import AuthRightSection from '@/components/layout/auth-right-section';
-import FormHeader from '@/components/layout/auth-form-header';
-import FailText from '@/components/status/fail-text';
-import SuccessModal from '@/components/status/success-modal';
+import { newPassword } from "@/types/profileTypes";
+import { resetPassword } from "@/redux/actions/profileActions";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import Image from "next/image";
+import AuthLeftSection from "@/components/layout/auth-left-section";
+import AuthRightSection from "@/components/layout/auth-right-section";
+import FormHeader from "@/components/layout/auth-form-header";
+import FailText from "@/components/status/fail-text";
+import SuccessModal from "@/components/status/success-modal";
 
 const ResetPassword: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
@@ -20,20 +20,20 @@ const ResetPassword: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [newPassword, setNewPassword] = useState<newPassword>({
-    new_password: '',
-    confirm_new_password: '',
+    new_password: "",
+    confirm_new_password: "",
   });
   const dispatch = useDispatch<AppDispatch>();
   const searchParams = useSearchParams();
 
-  const token = searchParams.get('token');
-  const email = searchParams.get('email');
+  const token = searchParams.get("token");
+  const email = searchParams.get("email");
 
   const rules = [
-    { regex: /.{8,}/, label: 'Minimal 8 karakter' },
-    { regex: /[a-z]/, label: 'Satu karakter huruf kecil' },
-    { regex: /[A-Z]/, label: 'Satu karakter huruf besar' },
-    { regex: /[\d\W]/, label: 'Satu angka, simbol, atau karakter spasi' },
+    { regex: /.{8,}/, label: "Minimal 8 karakter" },
+    { regex: /[a-z]/, label: "Satu karakter huruf kecil" },
+    { regex: /[A-Z]/, label: "Satu karakter huruf besar" },
+    { regex: /[\d\W]/, label: "Satu angka, simbol, atau karakter spasi" },
   ];
 
   const isPasswordValid = rules.every((rule) =>
@@ -56,7 +56,10 @@ const ResetPassword: React.FC = () => {
   return (
     <div className="flex flex-row min-h-screen justify-center">
       <div className="sm:w-1/2 hidden md:block">
-        <AuthLeftSection />
+        <AuthLeftSection
+          title="Amankan akun Anda, kendalikan akses Anda"
+          imageSrc="/images/forget-password.png"
+        />
       </div>
       <div className="sm:w-1/2 flex flex-col w-full p-4 lg:px-10 lg:py-5">
         <AuthRightSection>
@@ -120,16 +123,16 @@ const ResetPassword: React.FC = () => {
                 <li key={index} className="flex items-center">
                   <Image
                     src={
-                      isValid ? '/icons/checked.svg' : '/icons/red-cross.svg'
+                      isValid ? "/icons/checked.svg" : "/icons/red-cross.svg"
                     }
-                    alt={isValid ? 'Valid' : 'Invalid'}
+                    alt={isValid ? "Valid" : "Invalid"}
                     width={16}
                     height={16}
                     className="mr-2"
                   />
                   <span
                     className={`text-xs lg:text-base font-custom ${
-                      isValid ? 'text-font-green' : 'text-light-redLight'
+                      isValid ? "text-font-green" : "text-light-redLight"
                     }`}
                   >
                     {rule.label}
@@ -144,7 +147,7 @@ const ResetPassword: React.FC = () => {
             onClick={handleResetPassword}
             className="mt-4 w-full px-1 h-12 lg:h-15 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md disabled:opacity-60 disabled:hover:shadow-none"
           >
-            {isLoading ? 'Menyimpan...' : 'Simpan'}
+            {isLoading ? "Menyimpan..." : "Simpan"}
           </button>
 
           {isSuccess && (

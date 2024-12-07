@@ -80,7 +80,7 @@ const DetailProduct = () => {
               <div className="col-span-12 lg:col-start-5 lg:col-span-8">
                 <div className="flex items-center mt-2 justify-between">
                   <p className="font-custom text-font-black dark:text-font-white text-sm md:text-2xl font-medium">
-                    Data Produk
+                    Data Karyawan
                   </p>
                   <div className="flex items-center space-x-2">
                     {employee && (
@@ -106,7 +106,7 @@ const DetailProduct = () => {
             </div>
             {isDeleteProduct && (
               <ActionConfirmModal
-                header="Apakah ingin menghapus produk?"
+                header="Apakah ingin menghapus data karyawan?"
                 description="Data yang sudah terhapus tidak akan dapat dikembalikan"
                 actionButtonNegative_action={handleDeleteConfirmation}
                 actionButtonPositive_name="Hapus"
@@ -116,10 +116,10 @@ const DetailProduct = () => {
             {isSuccess && (
               <SuccessModal
                 header="Berhasil"
-                description="Data produk berhasil dihapus"
+                description="Data karyawan berhasil dihapus"
                 actionButton={true}
-                actionButton_name="Kembali ke Halaman Produk"
-                actionButton_href="/product"
+                actionButton_name="Kembali ke Halaman Karyawan"
+                actionButton_href="/employee"
               />
             )}
             {isEditEmployee && (

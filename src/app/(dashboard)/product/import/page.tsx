@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Image from 'next/image';
 import React, { useState, ChangeEvent } from 'react';
@@ -17,7 +17,7 @@ import HeaderWithBackButton from '@/components/layout/header-with-back';
 
 const ImporFile = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const [fileName, setFileName] = useState<string>('');
+  const [fileName, setFileName] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>();
   const [errorMessageDetail, setErrorMessageDetail] =
     useState<ImportErrorMessageDetailTypes | null>(null);

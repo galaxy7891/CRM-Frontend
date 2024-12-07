@@ -141,7 +141,7 @@ const ChangePasswordEmail = () => {
             header="Berhasil!"
             description="Berhasil!"
             actionButton_name="Kembali"
-            actionButton_href="/dashboard"
+            actionButton_href="/homepage"
           />
         )}
       </DashboardCard>

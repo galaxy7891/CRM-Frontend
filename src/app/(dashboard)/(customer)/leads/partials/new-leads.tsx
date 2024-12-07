@@ -241,7 +241,7 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
               { label: 'Pilih Kecamatan', value: '', hidden: true },
               ...subDistricts.map((subDistrict) => ({
                 label: subDistrict.text,
-                value: subDistrict.id,
+                value: subDistrict.id,  
               })),
             ]}
             onChange={(e) => setLead({ ...lead, subdistrict: e.target.value })}

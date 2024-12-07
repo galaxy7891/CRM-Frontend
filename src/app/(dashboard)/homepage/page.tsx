@@ -10,6 +10,7 @@ import DashboardCard from '@/components/layout/dashboard-card';
 import CardActivity from './partials/card-activity';
 import CardDeals from '@/app/(dashboard)/homepage/partials/card-pipeline';
 import Loading from '@/components/status/loading';
+import HomepageText from './partials/homepage-text';
 
 const Dashboard = () => {
   const [isLoadingPage, setIsLoadingPage] = useState(true);
@@ -39,21 +40,12 @@ const Dashboard = () => {
           {/* Card Activity */}
           <DashboardCard>
             <section className="row-span-1">
-              <p className="text-base font-custom dark:text-font-white">
-                {dashboardUser?.date || 'Memuat...'}
-              </p>
-              <h1 className="font-custom font-bold lg:text-2xl text-base text-font-black dark:text-font-white pt-1">
-                {dashboardUser?.greeting || 'Memuat...'}{' '}
-                <span className="text-light-gold lg:text-2xl text-base font-bold font-custom">
-                  {dashboardUser?.user || 'Memuat..'}
-                </span>
-              </h1>
-              <p className="text-sm lg:text-2xl font-custom text-font-black dark:text-font-white font-medium pt-6">
-                Data Pelanggan
-              </p>
-              <p className="text-xs lg:text-base font-custom text-font-black dark:text-font-white pt-1">
-                Ringkasan data pelanggan Anda
-              </p>
+              <HomepageText
+              date={dashboardUser?.date || 'Memuat...'}
+              greeting={dashboardUser?.greeting || 'Memuat...'}
+              user={dashboardUser?.user || 'Memuat..'}
+              title='Data Pelanggan'
+              description='Ringkasan data pelanggan Anda'/>
 
               <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <CardActivity

@@ -93,9 +93,9 @@ export const addLead =
       const response = await axios.request(config);
       if (response.data.success) {
         setIsSuccess(true);
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 2000);
       } else {
         setErrorMessage(response.data.message);
       }
