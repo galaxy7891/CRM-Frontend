@@ -1,15 +1,22 @@
 import { useGoogleLogin } from '@react-oauth/google';
 import Image from 'next/image';
+// import { loginWithGoogle } from '@/redux/actions/authActions';
+// import { useDispatch } from 'react-redux';
+// import { AppDispatch } from '@/redux/store';
 
 const GoogleLoginButton = () => {
+  // const dispatch = useDispatch<AppDispatch>();
+
+  // const handleLoginWithGoogle = () => {
+  //   dispatch(loginWithGoogle());
+  // };
+
   const login = useGoogleLogin({
     onSuccess: (tokenResponse) => {
-      // Tampilkan alert jika login berhasil
       alert('Login berhasil!');
       console.log('Token Response:', tokenResponse);
     },
     onError: (error) => {
-      // Tampilkan alert jika login gagal
       alert('Login gagal! Coba lagi.');
       console.log('Error:', error);
     },

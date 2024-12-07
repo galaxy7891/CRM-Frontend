@@ -1,8 +1,20 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import Link from 'next/link';
+interface StageActionProps {
+  handleDeleteConfirmation: () => void;
+  handleEdit: () => void;
+  handleEditStageDeal: (id: string, stageChangeValue: string) => void;
+  deal_id: string;
+}
 
-const QualificationEdit: React.FC = () => {
+const QualificationEdit: React.FC<StageActionProps> = ({
+  handleDeleteConfirmation,
+  handleEdit,
+  handleEditStageDeal,
+  deal_id,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMoved, setIsMoved] = useState(false);
 
@@ -35,11 +47,10 @@ const QualificationEdit: React.FC = () => {
       {isOpen && (
         <div
           onMouseLeave={closeDropdown}
-          className="absolute right-0 z-10 mt-1 rounded-[10px] border-collapse border border-font-light dark:border-light-grayBright shadow-lg"
+          className="  cursor-pointer absolute right-0 z-10 mt-1 rounded-[10px] border-collapse border border-font-light dark:border-light-grayBright shadow-lg"
         >
           <ul aria-labelledby="dropdownButton">
             {isMoved ? (
-              // Isi dropdown saat mode pindah
               <>
                 <li
                   onClick={handleBackClick}
@@ -60,29 +71,48 @@ const QualificationEdit: React.FC = () => {
                     <p>Kembali</p>
                   </div>
                 </li>
-                <li className="flex items-center justify-center text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray">
+                <li
+                  onClick={() => handleEditStageDeal(deal_id, 'kualifikasi')}
+                  className="flex items-center justify-center text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray"
+                >
                   Kualifikasi
                 </li>
-                <li className="flex items-center justify-center text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray">
+                <li
+                  onClick={() => handleEditStageDeal(deal_id, 'proposal')}
+                  className="flex items-center justify-center text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray"
+                >
                   Proposal
                 </li>
-                <li className="flex items-center justify-center text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray">
+                <li
+                  onClick={() => handleEditStageDeal(deal_id, 'negosiasi')}
+                  className="flex items-center justify-center text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray"
+                >
                   Negosiasi
                 </li>
-                <li className="flex items-center justify-center text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray">
+                <li
+                  onClick={() => handleEditStageDeal(deal_id, 'tercapai')}
+                  className="flex items-center justify-center text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray"
+                >
                   Tercapai
                 </li>
-                <li className="flex items-center justify-center rounded-b-[10px] text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray">
+                <li
+                  onClick={() => handleEditStageDeal(deal_id, 'gagal')}
+                  className="flex items-center justify-center rounded-b-[10px] text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray"
+                >
                   Gagal
                 </li>
               </>
             ) : (
-              // Isi dropdown default
               <>
-                <li className="flex items-center justify-center rounded-t-[10px] text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray">
-                  Detail
-                </li>
-                <li className="flex items-center justify-center text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray">
+                <Link href={`/deals/${deal_id}`}>
+                  <li className="flex items-center justify-center rounded-t-[10px] text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray">
+                    Detail
+                  </li>
+                </Link>
+                <li
+                  onClick={handleEdit}
+                  className="flex items-center justify-center text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray"
+                >
                   Edit
                 </li>
                 <li
@@ -115,7 +145,10 @@ const QualificationEdit: React.FC = () => {
                     </svg>
                   </div>
                 </li>
-                <li className="flex items-center justify-center rounded-b-[10px] text-xs md:text-base bg-font-white dark:bg-dark-navy text-light-redLight font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray">
+                <li
+                  onClick={handleDeleteConfirmation}
+                  className="flex items-center justify-center rounded-b-[10px] text-xs md:text-base bg-font-white dark:bg-dark-navy text-light-redLight font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray"
+                >
                   Hapus
                 </li>
               </>

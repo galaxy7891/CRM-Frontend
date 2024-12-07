@@ -27,7 +27,7 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
 
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Edit Karyawan">
-      <form className="flex-grow">
+      <form className="">
         <div className="overflow-y-auto grid grid-cols-1 gap-4 md:grid-cols-2 p-4">
           <div className="order-1">
             <TextInput

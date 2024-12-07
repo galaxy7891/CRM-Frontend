@@ -44,13 +44,13 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
     {}
   );
   const [isSuccess, setIsSuccess] = useState(false);
-  const [isLoading, setIsloading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [lead, setLead] = useState<leadsTypes>(leadProps);
 
   const dispatch = useDispatch<AppDispatch>();
 
   const handleEditLead = () => {
-    dispatch(updateLead(lead, setIsloading, setIsSuccess, setErrorMessage));
+    dispatch(updateLead(lead, setIsLoading, setIsSuccess, setErrorMessage));
   };
 
   useEffect(() => {
@@ -73,7 +73,7 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
 
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Edit Leads">
-      <form className="flex-grow overflow-y-auto px-4 grid grid-cols-1 gap-4 md:grid-cols-2 p-2">
+      <form className="overflow-y-auto px-4 grid grid-cols-1 gap-4 md:grid-cols-2 p-2">
         <div className="order-1">
           <TextInput
             label="Nama Depan"

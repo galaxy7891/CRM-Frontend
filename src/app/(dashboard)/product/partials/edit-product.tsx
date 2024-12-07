@@ -36,7 +36,7 @@ const EditProduct: React.FC<editProductsPropsTypes> = ({
 
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Edit Produk">
-      <form className="flex-grow ">
+      <form className="">
         <div className="overflow-y-auto px-4 grid grid-cols-1 gap-4 md:grid-cols-2 p-2">
           <div className="order-1">
             <TextInput

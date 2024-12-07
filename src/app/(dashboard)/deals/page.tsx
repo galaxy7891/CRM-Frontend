@@ -1,60 +1,66 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { getDealsNegotiation } from '@/redux/actions/dealsActions';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
-import QualificationCard from './partials/qualification-card';
-import DashBoardCard from '@/components/layout/dashboard-card';
 import NewDeals from './partials/new-deals';
-
+import DealsCardSectionButton from '@/components/button/deals-card-section-button';
+import DealsTableSectionButton from '@/components/button/deals-table-section-button';
+import DealsTableView from './partials/deals-table-view';
+import DealsCardView from './partials/deals-card-view';
 const Deals = () => {
+  const [isTableView, setIsTableView] = useState<boolean>(true);
   const [isAddDeals, setIsAddDeals] = useState<boolean>(false);
-  const dispatch = useDispatch<AppDispatch>();
-  const { dealsNegotiation } = useSelector((state: RootState) => state.deals);
-  console.log(dealsNegotiation);
-  const handleAddDealsClick = () => {
-    setIsAddDeals(true);
+  const [owner, setOwner] = useState<string | null>(null);
+
+  const handleTableView = () => {
+    setIsTableView(true);
   };
 
-  const handleCloseAddDeals = () => {
-    setIsAddDeals(false);
+  const handleCardView = () => {
+    setIsTableView(false);
+  };
+
+  const handleAddDealsClick = () => {
+    setIsAddDeals(isAddDeals);
   };
 
   useEffect(() => {
-    dispatch(getDealsNegotiation());
-  }, [dispatch]);
+    if (typeof window !== 'undefined') {
+      setOwner(localStorage.getItem('email'));
+    }
+  }, []);
   return (
-    <>
-      <div className="flex justify-between items-center mb-5">
-        <p className="text-font-black dark:text-font-white text-base font-custom md:text-[32px]">
-          Data Deals
-        </p>
-        <button
-          onClick={handleAddDealsClick}
-          className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
-        >
-          Tambah Data
-        </button>
-      </div>
-      <div>
-        <DashBoardCard>
-          <div className="relative overflow-auto h-screen ">
-            <div className="grid grid-flow-col gap-4">
-              <QualificationCard title="Kualikasi" />
-              <QualificationCard title="Proposal" />
-              <QualificationCard
-                title="Negosiasi"
-                dealsProps={dealsNegotiation}
-              />
-              <QualificationCard title="Tercapai" />
-              <QualificationCard title="Gagal" />
-            </div>
+    <div className="flex flex-col h-full mb-6">
+      {/* Header */}
+      <div className="flex flex-shrink-0 items-center mb-5">
+        <div className="grid grid-cols-12 w-full">
+          <div className="col-span-12 md:col-span-4">
+            <p className="text-font-black dark:text-font-white text-base font-custom md:text-[32px]">
+              Data Deals
+            </p>
           </div>
-        </DashBoardCard>
-        {isAddDeals && <NewDeals onClose={handleCloseAddDeals} />}
+          <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0 ">
+            <DealsTableSectionButton
+              onClick={handleTableView}
+              isTableView={isTableView}
+            />
+            <DealsCardSectionButton
+              onClick={handleCardView}
+              isTableView={!isTableView}
+            />
+            <button
+              onClick={handleAddDealsClick}
+              className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
+            >
+              Tambah Data
+            </button>
+          </div>
+        </div>
       </div>
-    </>
+
+      {isTableView && <DealsTableView />}
+      {!isTableView && <DealsCardView />}
+      {isAddDeals && <NewDeals onClose={handleAddDealsClick} owner={owner!} />}
+    </div>
   );
 };
 

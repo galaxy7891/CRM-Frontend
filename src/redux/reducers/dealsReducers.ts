@@ -7,6 +7,9 @@ const initialState: dealsState = {
   dealsNegotiation: [],
   dealsWon: [],
   dealsLose: [],
+  deals: [],
+  deal: null,
+  dealLog: [],
 };
 
 // Define the slice
@@ -21,13 +24,22 @@ const dealsSlice = createSlice({
       state.dealsProposal = action.payload;
     },
     setDealsNegotiation: (state, action) => {
-      state.dealsLose = action.payload;
+      state.dealsNegotiation = action.payload;
     },
     setDealsWon: (state, action) => {
       state.dealsWon = action.payload;
     },
     setDealsLose: (state, action) => {
       state.dealsLose = action.payload;
+    },
+    setDeals: (state, action) => {
+      state.deals = action.payload;
+    },
+    setDeal: (state, action) => {
+      state.deal = action.payload;
+    },
+    setLogDeal: (state, action) => {
+      state.dealLog = action.payload;
     },
   },
 });
@@ -39,6 +51,9 @@ export const {
   setDealsNegotiation,
   setDealsWon,
   setDealsLose,
+  setDeals,
+  setDeal,
+  setLogDeal,
 } = dealsSlice.actions;
 
 // export the reducer

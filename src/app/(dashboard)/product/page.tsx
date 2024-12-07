@@ -71,7 +71,6 @@ const Product = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { product } = useSelector((state: RootState) => state.products);
   const { products } = useSelector((state: RootState) => state.products);
-  console.log('Product data:', products);
 
   const handleEdit = async (id: string) => {
     await dispatch(getProductById(id));

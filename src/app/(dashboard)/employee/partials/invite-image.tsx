@@ -9,7 +9,7 @@ interface InviteData {
 const InviteComponents: React.FC<InviteData> = ({ imageSrc, title }) => {
   return (
     <div className="px-10">
-      <Image src={imageSrc} alt="invite" width={300} height={190} />
+      <Image src={imageSrc} alt="invite" width={260} height={170} />
       <p className="font-custom font-bold mt-10 text-font-black text-lg dark:text-font-white md:text-[28px] text-center">
         {title}
       </p>

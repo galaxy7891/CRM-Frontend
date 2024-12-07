@@ -28,7 +28,7 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState<string>("");
   const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
   const [OTP, setOTP] = useState<string>("");
-  const [step, setStep] = useState<number>(1);
+  const [step, setStep] = useState<number>(3);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const { countdown, startCountdown } = useOtpCountdown(60);
   const [email, setEmail] = useState<string>("");

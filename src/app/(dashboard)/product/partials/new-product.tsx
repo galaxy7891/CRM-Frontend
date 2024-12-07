@@ -42,7 +42,7 @@ const NewProduct: React.FC<newProductsProps> = ({ onClose }) => {
 
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Tambah products">
-      <form className="flex-grow ">
+      <form className="">
         <div className="overflow-y-auto px-4 grid grid-cols-1 gap-4 md:grid-cols-2 p-2">
           <div className="order-1">
             <TextInput
@@ -84,6 +84,7 @@ const NewProduct: React.FC<newProductsProps> = ({ onClose }) => {
           </div>
           <div className="order-4">
             <PriceInput
+              placeholder="Harga Produk"
               label="Harga Produk"
               value={product.price}
               onChange={(e) =>

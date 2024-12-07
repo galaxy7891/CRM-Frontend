@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ParamsData, Password, PersonalData } from '@/types/authTypes';
-import { employeesTypes } from '@/types/employeeTypes';
+import { employeesTypes, inviteEmployeeDataTypes } from '@/types/employeeTypes';
 import { paginationTypes } from '@/types/otherTypes';
 import {
   setEmployees,
@@ -18,7 +18,6 @@ export const getEmployees =
   ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;
-    console.log(currentPage, 'currentPage');
     try {
       const config = {
         method: 'get',
@@ -131,7 +130,7 @@ export const deleteEmployee =
 
 export const inviteUser =
   (
-    email: string,
+    employeeData: inviteEmployeeDataTypes,
     setIsLoading: (loading: boolean) => void,
     setIsSuccess: (sent: boolean) => void,
     setErrorMessage: (messages: { [key: string]: string }) => void
@@ -148,13 +147,14 @@ export const inviteUser =
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        data: { email },
+        data: employeeData,
       };
 
       const response = await axios.request(config);
       if (response.data.success) {
         setIsSuccess(true);
       } else {
+        console.log(response.data.message);
         setErrorMessage(response.data.message);
       }
     } catch (error) {

@@ -37,7 +37,7 @@ const LeadsPage = () => {
   const [statusBy, setStatusBy] = useState<string>('rendah');
   const [perPage, setPerPage] = useState<string>('10');
   const [isTriggerFetch, setIsTriggerFetch] = useState<boolean>(false);
-  const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
+  const [isLoadingPage, setIsLoadingPage] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isEditLead, setIsEditLead] = useState<boolean>(false);
   const [isDeleteLead, setIsDeleteLead] = useState<boolean>(false);
@@ -137,10 +137,10 @@ const LeadsPage = () => {
   }, [dispatch, sortBy, statusBy, perPage, isTriggerFetch]);
 
   useEffect(() => {
-  if (sortBy || statusBy || perPage) {
-    setIsTriggerFetch(true);
-  }
-}, [sortBy, statusBy, perPage]);
+    if (sortBy || statusBy || perPage) {
+      setIsTriggerFetch(true);
+    }
+  }, [sortBy, statusBy, perPage]);
 
   return (
     <>

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { activityLogTypes } from '@/types/profileTypes';
 import { paginationTypes } from '@/types/otherTypes';
-import { logActivityLead } from '@/redux/actions/leadsActions';
+import { logActivityDeals } from '@/redux/actions/dealsActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '@/redux/store';
 import { useParams } from 'next/navigation';
@@ -14,6 +14,7 @@ import PaginationButton from '@/components/button/pagination-button';
 import DashboardPositiveButton from '@/components/button/dashboard-positive-button';
 
 const DealsLog = () => {
+  const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
   const [pagination, setPagination] = useState<paginationTypes>({
     current_page: 1,
     last_page: 1,
@@ -25,22 +26,30 @@ const DealsLog = () => {
   const { id } = useParams<{ id: string }>();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { leadLog } = useSelector((state: RootState) => state.leads);
+  const { dealLog } = useSelector((state: RootState) => state.deals);
 
   const handleNextPage = () => {
     if (pagination.next_page_url) {
-      dispatch(logActivityLead(pagination.current_page + 1, id, setPagination));
+      dispatch(
+        logActivityDeals(pagination.current_page + 1, id, setPagination)
+      );
     }
   };
 
   const handlePrevPage = () => {
     if (pagination.prev_page_url) {
-      dispatch(logActivityLead(pagination.current_page - 1, id, setPagination));
+      dispatch(
+        logActivityDeals(pagination.current_page - 1, id, setPagination)
+      );
     }
   };
 
   useEffect(() => {
-    dispatch(logActivityLead(pagination.current_page, id, setPagination));
+    dispatch(logActivityDeals(pagination.current_page, id, setPagination)).then(
+      () => {
+        setIsLoadingPage(false);
+      }
+    );
   }, [id, dispatch, pagination.current_page]);
 
   return (
@@ -56,25 +65,29 @@ const DealsLog = () => {
           </Link>
         </div>
         {/* Body */}
-        <div className="col-span-12 space-y-4 mt-4">
-          {leadLog.map((log: activityLogTypes, index: number) => (
-            <CardActivityLog
-              key={index}
-              title={log.title}
-              date={log.datetime}
-              description={log.description}
+        {isLoadingPage ? (
+          <div className="flex justify-center">Memuat...</div>
+        ) : (
+          <div className="col-span-12 space-y-4 mt-4">
+            {dealLog.map((log: activityLogTypes, index: number) => (
+              <CardActivityLog
+                key={index}
+                title={log.title}
+                date={log.datetime}
+                description={log.description}
+              />
+            ))}
+            {/* Pagination Button */}
+            <PaginationButton
+              last_page={pagination.last_page}
+              current_page={pagination.current_page}
+              prev_page_url={pagination.prev_page_url}
+              next_page_url={pagination.next_page_url}
+              handlePrevPage={handlePrevPage}
+              handleNextPage={handleNextPage}
             />
-          ))}
-          {/* Pagination Button */}
-          <PaginationButton
-            last_page={pagination.last_page}
-            current_page={pagination.current_page}
-            prev_page_url={pagination.prev_page_url}
-            next_page_url={pagination.next_page_url}
-            handlePrevPage={handlePrevPage}
-            handleNextPage={handleNextPage}
-          />
-        </div>
+          </div>
+        )}
       </DashboardCard>
     </div>
   );

@@ -18,7 +18,7 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
 
   return (
     <div
-      className={`flex justify-center items-center md:w-[79px] md:h-[32px] w-[69px] h-[22px] rounded-[5px] p-2 ${badgeStyle}`}
+      className={`flex justify-center items-center  md:w-[79px] md:h-[32px] w-[69px] h-[22px] rounded-[5px] p-2 ${badgeStyle}`}
     >
       <p>{status}</p>
     </div>

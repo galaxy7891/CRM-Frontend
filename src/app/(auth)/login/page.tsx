@@ -1,15 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAppDispatch } from "@/hook/redux";
-import { login } from "@/redux/actions/authActions";
-import Link from "next/link";
-// import GoogleLoginButton from '@/components/button/google-login-button';
-import FormComponent from "@/app/(auth)/login/partials/form-login";
-import AuthLeftSection from "@/components/layout/auth-left-section";
-import AuthRightSection from "@/components/layout/auth-right-section";
-import FailPopUp from "@/components/status/fail-card";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAppDispatch } from '@/hook/redux';
+import { login } from '@/redux/actions/authActions';
+import Link from 'next/link';
+import GoogleLoginButton from '@/components/button/google-login-button';
+import FormComponent from '@/app/(auth)/login/partials/form-login';
+import AuthLeftSection from '@/components/layout/auth-left-section';
+import AuthRightSection from '@/components/layout/auth-right-section';
+import FailPopUp from '@/components/status/fail-card';
 
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -81,11 +81,11 @@ const LoginPage: React.FC = () => {
               buttonText="Masuk"
             />
           </div>
-          {/* <div className="text-center my-3 text-xs md:text-base font-custom ">
+          <div className="text-center my-3 text-xs md:text-base font-custom ">
             <p>Atau</p>
           </div>
 
-          <GoogleLoginButton /> */}
+          <GoogleLoginButton />
           <div className="mt-5 text-center">
             <p className="text-xs md:text-base font-custom font-medium">
               Belum punya akun?{" "}

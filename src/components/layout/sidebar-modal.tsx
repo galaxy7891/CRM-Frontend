@@ -12,12 +12,13 @@ const SidebarModal: React.FC<SidebarModalProps> = ({
   return (
     <>
       <div
-        onClick={onClose} 
-        className="fixed inset-0 bg-black bg-opacity-50 z-50 " 
+        onClick={onClose}
+        className="fixed inset-0 bg-black bg-opacity-50 z-50 "
       />
 
-      <div className="fixed rounded-lg md:rounded-none top-0 right-0 md:w-1/2 w-full h-full bg-light-white dark:bg-dark-darkGray shadow-lg z-[99] flex flex-col overflow-hidden ">
-        <div className="top-0 py-4 px-4">
+      <div className="fixed rounded-lg md:rounded-none top-0 right-0 md:w-1/2 w-full h-full bg-light-white dark:bg-dark-darkGray shadow-lg z-[99] flex flex-col overflow-hidden">
+        {/* Sidebar Header */}
+        <div className=" py-4 px-4">
           <div className="flex">
             <button onClick={onClose}>
               <svg
@@ -37,6 +38,7 @@ const SidebarModal: React.FC<SidebarModalProps> = ({
             </h2>
           </div>
         </div>
+        {/* Sidebar Content */}
         {children}
       </div>
     </>

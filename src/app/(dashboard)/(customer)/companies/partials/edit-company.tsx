@@ -75,7 +75,7 @@ const EditCompany: React.FC<formActionPropsTypes> = ({
 
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Edit Perusahaan">
-      <form className="flex-grow overflow-y-auto px-4 grid grid-cols-1 gap-4 md:grid-cols-2 p-2">
+      <form className="overflow-y-auto px-4 grid grid-cols-1 gap-4 md:grid-cols-2 p-2">
         <div className="order-1">
           <TextInput
             label="Nama Perusahaan"
