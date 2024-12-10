@@ -1,15 +1,8 @@
 import React from 'react';
+import { SendEmailProps } from '@/types/authTypes';
 import FormHeader from '@/components/layout/auth-form-header';
-import FailText from '@/components/status/fail-text';
-
-interface SendEmailProps {
-  email: string;
-  step: number;
-  setEmail: (email: string) => void;
-  onNext: () => void;
-  errorMessage: string;
-  isLoading: string;
-}
+import InputAuth from '@/components/form-input/auth-input';
+import AuthPositiveButton from '@/components/button/auth-positive-button';
 
 const SendEmail: React.FC<SendEmailProps> = ({
   email,
@@ -20,7 +13,7 @@ const SendEmail: React.FC<SendEmailProps> = ({
   isLoading,
 }) => {
   return (
-    <div>
+    <>
       <FormHeader
         title="Daftar Akun"
         subtitle="Masukkan Email"
@@ -28,34 +21,24 @@ const SendEmail: React.FC<SendEmailProps> = ({
         step={step}
         page_name="register"
       />
+      <form onSubmit={onNext}>
+        <InputAuth
+          required
+          type="email"
+          label="Email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-      <label
-        htmlFor="email"
-        className="block text-black text-xs font-custom font-medium my-3 md:text-base"
-      >
-        Email
-      </label>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="user@example.com"
-        required
-        className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black text-opacity-50 focus:outline-none  rounded-lg bg-light-white focus:border-dark-navy ${
-          errorMessage && !email ? 'border-red-500' : 'border-font-gray'
-        }`}
-      />
-
-      {errorMessage && <FailText>{errorMessage}</FailText>}
-      <button
-        type="submit"
-        onClick={onNext}
-        disabled={isLoading == 'Send OTP'}
-        className="mt-4 w-full px-1 h-12 lg:h-15 font-custom  bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
-      >
-        {isLoading == 'Send OTP' ? 'Mengirim OTP...' : 'Kirim OTP'}
-      </button>
-    </div>
+        {errorMessage && (
+          <p className="text-xs text-red-500 mt-2">{errorMessage}</p>
+        )}
+        <AuthPositiveButton disabled={isLoading == 'Send OTP'}>
+          {isLoading == 'Send OTP' ? 'Mengirim OTP...' : 'Kirim OTP'}
+        </AuthPositiveButton>
+      </form>
+    </>
   );
 };
 
