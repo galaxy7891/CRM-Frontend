@@ -1,23 +1,10 @@
-// components/companyDataStep.tsx
-import React from "react";
-import { useState } from "react";
-import FailText from "@/components/status/fail-text";
-import FormHeader from "@/components/layout/auth-form-header";
-import BackButton from "@/components/button/back-button";
-
-interface CompanyDataStepProps {
-  companyData: CompanyData;
-  step: number;
-  isLoading: string;
-  setCompanyData: (data: CompanyData) => void;
-  handleRegister: () => void;
-  handleBackButton: () => void;
-}
-interface CompanyData {
-  name: string;
-  industry: string;
-  job_position: string;
-}
+import React from 'react';
+import { CompanyDataStepProps } from '@/types/authTypes';
+import AuthInput from '@/components/form-input/auth-input';
+import AuthSelectInput from '@/components/form-input/auth-dropdown-input';
+import FormHeader from '@/components/layout/auth-form-header';
+import BackButton from '@/components/button/back-button';
+import AuthPositiveButton from '@/components/button/auth-positive-button';
 
 const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
   companyData,
@@ -27,15 +14,6 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
   handleRegister,
   handleBackButton,
 }) => {
-  const [isOnClick, setIsOnClick] = useState<boolean>(false);
-
-  const handleCheckField = () => {
-    setIsOnClick(true);
-    if (companyData.name && companyData.industry && companyData.industry) {
-      handleRegister();
-    }
-  };
-
   return (
     <div>
       <FormHeader
@@ -45,132 +23,99 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
         step={step}
         page_name="register"
       />
+      <form onSubmit={handleRegister}>
+        {/* Company Name */}
+        <AuthInput
+          label="Nama Perusahaan"
+          placeholder="PT. Terang Benderang"
+          value={companyData?.name}
+          onChange={(e) =>
+            setCompanyData({ ...companyData, name: e.target.value })
+          }
+          required
+          type="text"
+        />
+        <AuthSelectInput
+          label="Jenis Jabatan "
+          value={companyData?.job_position}
+          options={[
+            { label: 'Pilih Jabatan', value: '', hidden: true },
+            {
+              label: 'Presiden',
+              value: 'Presiden',
+            },
+            {
+              label: 'C-Level',
+              value: 'C-Level',
+            },
+            {
+              label: 'Manager',
+              value: 'Manager',
+            },
+            {
+              label: 'Sales',
+              value: 'Sales',
+            },
+            {
+              label: 'Lainnya',
+              value: 'Lainnya',
+            },
+          ]}
+          onChange={(e) =>
+            setCompanyData({ ...companyData, job_position: e.target.value })
+          }
+        />
+        <AuthSelectInput
+          label="Jenis Industri"
+          value={companyData?.industry}
+          options={[
+            { label: 'Pilih Jabatan', value: '', hidden: true },
+            {
+              label: 'Edukasi',
+              value: 'Edukasi',
+            },
+            {
+              label: 'Kesehatan',
+              value: 'Kesehatan',
+            },
+            {
+              label: 'Manufaktur',
+              value: 'Manufaktur',
+            },
+            {
+              label: 'Pariwisata',
+              value: 'Pariwisata',
+            },
+            {
+              label: 'Real Estate',
+              value: 'Real Estate',
+            },
+            {
+              label: 'Teknologi',
+              value: 'Teknologi',
+            },
+            {
+              label: 'Retail',
+              value: 'Retail',
+            },
+            {
+              label: 'Transportasi',
+              value: 'Transportasi',
+            },
 
-      {/* Name */}
-      <label
-        htmlFor="company_name"
-        className="block text-black text-xs font-custom font-medium my-3 md:text-base"
-      >
-        Nama Perusahaan
-      </label>
-      <input
-        name="company_name"
-        type="text"
-        value={companyData?.name}
-        onChange={(e) =>
-          setCompanyData({ ...companyData, name: e.target.value })
-        }
-        placeholder="PT. Terang Benderang"
-        className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black  focus:outline-none ${
-          isOnClick && !companyData?.name ? "error-fields" : "border-font-gray"
-        } rounded-lg bg-light-white focus:border-dark-navy `}
-      />
-      {isOnClick && !companyData?.name && (
-        <FailText>Nama perushaan tidak boleh kosong</FailText>
-      )}
-
-      {/* Industry */}
-      <label
-        htmlFor="job_potition"
-        className="block text-black text-xs font-custom font-medium my-3 md:text-base"
-      >
-        Jenis Jabatan
-      </label>
-      <select
-        name="job_potition"
-        value={companyData?.job_position}
-        onChange={(e) =>
-          setCompanyData({ ...companyData, job_position: e.target.value })
-        }
-        className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 focus:outline-none border-font-gray rounded-lg bg-light-white focus:border-dark-navy ${
-          companyData?.job_position ? "text-black" : "text-gray-500"
-        }`}
-      >
-        <option value="" disabled hidden>
-          Pilih Jabatan
-        </option>
-        <option value="Presiden" className="bg-white ">
-          Presiden
-        </option>
-        <option value="C-Level" className="bg-white">
-          C-Level
-        </option>
-        <option value="Manager" className="bg-white">
-          Manager
-        </option>
-        <option value="Sales" className="bg-white">
-          Sales
-        </option>
-        <option value="Lainnya" className="bg-white">
-          Lainnya
-        </option>
-      </select>
-      {isOnClick && companyData?.job_position == "" && (
-        <FailText>Jabatan tidak boleh kosong</FailText>
-      )}
-      {/* Job Position */}
-      <label
-        htmlFor="job_position"
-        className="block text-black text-xs font-custom font-medium my-3 md:text-base"
-      >
-        Jenis Industri
-      </label>
-      <select
-        name="job_position"
-        value={companyData?.industry}
-        onChange={(e) =>
-          setCompanyData({ ...companyData, industry: e.target.value })
-        }
-        className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 focus:outline-none ${
-          isOnClick && companyData?.industry == ""
-            ? "error-fields"
-            : "border-font-gray"
-        } rounded-lg bg-light-white focus:border-dark-navy ${
-          companyData?.industry === "" ? "text-gray-500" : "text-black"
-        }`}
-      >
-        <option value="" disabled hidden>
-          Pilih Jenis Industri
-        </option>
-        <option value="Edukasi" className="bg-white">
-          Edukasi
-        </option>
-        <option value="Kesehatan" className="bg-white">
-          Kesehatan
-        </option>
-        <option value="Manufaktur" className="bg-white">
-          Manufaktur
-        </option>
-        <option value="Pariwisata" className="bg-white">
-          Pariwisata
-        </option>
-        <option value="Real Estate" className="bg-white">
-          Real Estate
-        </option>
-        <option value="Retail" className="bg-white">
-          Retail
-        </option>
-        <option value="Teknologi" className="bg-white">
-          Teknologi
-        </option>
-        <option value="Transportasi" className="bg-white">
-          Transportasi
-        </option>
-        <option value="Lainnya" className="bg-white">
-          Lainnya
-        </option>
-      </select>
-      {isOnClick && companyData?.industry == "" && (
-        <FailText>Jenis industri tidak boleh kosong</FailText>
-      )}
-
-      <button
-        onClick={handleCheckField}
-        disabled={isLoading == "Register"}
-        className="mt-4 w-full px-1 h-12 lg:h-15 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
-      >
-        {isLoading == "Register" ? "Mengirim..." : "Kirim"}
-      </button>
+            {
+              label: 'Lainnya',
+              value: 'Lainnya',
+            },
+          ]}
+          onChange={(e) =>
+            setCompanyData({ ...companyData, industry: e.target.value })
+          }
+        />
+        <AuthPositiveButton disabled={isLoading == 'Register'}>
+          {isLoading == 'Register' ? 'Mengirim...' : 'Kirim'}
+        </AuthPositiveButton>
+      </form>
       <BackButton onClick={handleBackButton}>Kembali</BackButton>
     </div>
   );

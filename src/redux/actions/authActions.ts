@@ -28,11 +28,11 @@ export const login =
 
       if (response.data.success) {
         dispatch(setUser(response.data.data.user));
-        console.log(response.data.data.user);
         dispatch(setToken(response.data.data.access_token));
         return { success: true };
       } else {
         setErrorMessage(response.data.message);
+        console.error(response.data.message);
       }
     } catch (error) {
       console.error(error);
