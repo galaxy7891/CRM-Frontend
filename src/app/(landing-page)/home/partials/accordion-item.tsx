@@ -1,63 +1,48 @@
 "use client";
-import React, { useState } from "react";
+
+import React from "react";
 import Accordion from "./accordion";
 
-const AccordionItems: React.FC = () => {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-  const handleAccordionClick = (index: number) => {
-    setActiveIndex(activeIndex === index ? null : index);
-  };
-
-  return (
-    <div className="space-y-4">
-      <Accordion
-        title="Apa Itu Loyalcust?"
-        isOpen={activeIndex === 0}
-        onClick={() => handleAccordionClick(0)}
-      >
-        <p>
-          Loyalcust adalah Website CRM yang akan membantu anda dalam
-          meningkatkan bisnis anda.
-        </p>
-      </Accordion>
-
-      <Accordion
-        title="Apa Manfaat Loyalcust?"
-        isOpen={activeIndex === 1}
-        onClick={() => handleAccordionClick(1)}
-      >
+const Home: React.FC = () => {
+  const accordionItems = [
+    {
+      id: 1,
+      title: "Apa Itu Loyalcust",
+      content:
+        "Loyalcust adalah Website CRM yang akan membantu anda dalam meningkatkan bisnis anda.",
+    },
+    {
+      id: 2,
+      title: "Apa Manfaat Loyalcust?",
+      content: (
         <ul className="list-disc pl-6 space-y-2">
           <li>Meningkatkan loyalitas pelanggan</li>
           <li>Meningkatkan efisiensi aktivitas bisnis</li>
           <li>Manajemen data yang terstruktur</li>
         </ul>
-      </Accordion>
+      ),
+    },
+    {
+      id: 3,
+      title: "Bagaimana Cara Kerja Loyalcust?",
+      content:
+        "Memasukkan dan mengelola data pelanggan secara efektif, serta menghubungkannya dengan kesepakatan yang telah dibuat untuk memaksimalkan potensi bisnis.",
+    },
+    {
+      id: 4,
+      title: "Bagaimana Cara Memulai Loyalcust?",
+      content:
+        "Hubungi kami dan lakukan register atau masuk ke dalam website untuk memulai Loyalcust.",
+    },
+  ];
 
-      <Accordion
-        title="Bagaimana Cara Kerja Loyalcust?"
-        isOpen={activeIndex === 2}
-        onClick={() => handleAccordionClick(2)}
-      >
-        <p>
-          Memasukkan dan mengelola data pelanggan secara efektif, serta
-          menghubungkannya dengan kesepakatan yang telah dibuat untuk
-          memaksimalkan potensi bisnis.
-        </p>
-      </Accordion>
-
-      <Accordion
-        title="Bagaimana Cara Memulai Loyalcust?"
-        isOpen={activeIndex === 3}
-        onClick={() => handleAccordionClick(3)}
-      >
-        <p>
-          Hubungi kami dan lakukan register atau masuk ke dalam website untuk
-          memulai Loyalcust.
-        </p>
-      </Accordion>
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+      {accordionItems.map((item) => (
+        <Accordion key={item.id} items={[item]} />
+      ))}
     </div>
   );
 };
 
-export default AccordionItems;
+export default Home;

@@ -4,6 +4,11 @@ import CardPlatform from "./card-platform";
 const Platform = () => {
   return (
     <div className="bg-gradient-to-b from-font-white to-dark-navy p-10">
+       <div className="">
+        <div>
+          
+        </div>
+       </div>
       <div className="bg-font-white shadow-md p-8 md:p-14 rounded-3xl w-full">
         <p className="mb-12 font-custom text-font-black font-bold text-xl md:text-[32px] text-center">
           Platform Terbaik untuk Mengelola Bisnis Anda
