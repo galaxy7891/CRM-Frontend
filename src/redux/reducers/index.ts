@@ -1,4 +1,5 @@
 import { combineReducers } from '@reduxjs/toolkit';
+import administrator from './administratorReducers';
 import auth from './authReducers';
 import employees from './employeesReducers';
 import leads from './leadsReducers';
@@ -9,6 +10,7 @@ import deals from './dealsReducers';
 import products from './productsReducers';
 
 export default combineReducers({
+  administrator,
   auth,
   employees,
   leads,

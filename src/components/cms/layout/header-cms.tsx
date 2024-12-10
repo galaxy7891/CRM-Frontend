@@ -1,30 +1,29 @@
-import React from "react";
-import { useEffect, useRef, useState } from "react";
-// import { useRouter } from "next/navigation";
-// import { getProfile } from "@/redux/actions/profileActions";
-// import { useSelector, useDispatch } from "react-redux";
-// import { RootState, AppDispatch } from "@/redux/store";
-// import { logout } from "@/redux/actions/authActions";
-import Image from "next/image";
-import useTheme from "@/components/useTheme";
-import HeaderText from "./header-text";
+import React from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { getProfile } from '@/redux/actions/administratorActions';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import { logout } from '@/redux/actions/authActions';
+import Image from 'next/image';
+import useTheme from '@/components/useTheme';
+import HeaderText from './header-text';
 
 interface HeaderCmsProps {
   onToggleSidebar: () => void;
 }
 
 const headerTitles = [
-  { title: "Beranda", link: "/cms-homepage" },
-  { title: "Pelanggan", link: "/cms-customer" },
-  { title: "Artikel", link: "/cms-article" },
+  { title: 'Beranda', link: '/cms-homepage' },
+  { title: 'Pelanggan', link: '/cms-customer' },
+  { title: 'Artikel', link: '/cms-article' },
 ];
 const HeaderCms: React.FC<HeaderCmsProps> = ({ onToggleSidebar }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
   const { isDarkMode, toggleTheme } = useTheme();
-  //   const dispatch = useDispatch<AppDispatch>();
-  //   const router = useRouter();
-  //   const { user } = useSelector((state: RootState) => state.profile);
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -36,18 +35,19 @@ const HeaderCms: React.FC<HeaderCmsProps> = ({ onToggleSidebar }) => {
     }
   };
 
-  //   const handleLogout = () => {
-  //     dispatch(logout());
-  //     console.log("logout");
-  //     router.push("/login");
-  //   };
+  const handleLogout = () => {
+    dispatch(logout());
+    console.log('logout');
+    router.push('/cms-login');
+  };
 
   useEffect(
     () => {
-      document.addEventListener("mousedown", handleClickOutside);
+      dispatch(getProfile());
+      document.addEventListener('mousedown', handleClickOutside);
 
       return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
+        document.removeEventListener('mousedown', handleClickOutside);
       };
     }
     // [dispatch]
@@ -111,7 +111,7 @@ const HeaderCms: React.FC<HeaderCmsProps> = ({ onToggleSidebar }) => {
                 </ul>
                 <div className="py-1">
                   <button
-                    // onClick={handleLogout}
+                    onClick={handleLogout}
                     className="block w-max px-2 py-2 text-sm text-dark-red dark:text-dark-redLight"
                   >
                     Keluar

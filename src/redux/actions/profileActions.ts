@@ -83,7 +83,7 @@ export const getDashboardData =
         );
       }
     } catch (error) {
-      console.error('Error fetching dashboard data:', error);
+      console.error(error);
     }
   };
 

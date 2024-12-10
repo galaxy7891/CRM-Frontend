@@ -1,14 +1,14 @@
 import { parse } from 'json2csv';
 const handleExport = <T>(data: T[]) => {
   try {
-    // Konversi data JSON dari state ke CSV
+    // convert JSON to CSV
     const csv = parse(data);
 
-    // Buat blob dari CSV dan URL unduhan
+    // Create blob from CSV and URL
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
 
-    // Buat link untuk mengunduh file
+    // Create Link
     const a = document.createElement('a');
     a.href = url;
     a.download = 'data.csv';
@@ -17,7 +17,7 @@ const handleExport = <T>(data: T[]) => {
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
   } catch (error) {
-    console.error('Gagal mengekspor data:', error);
+    console.error(error);
   }
 };
 
