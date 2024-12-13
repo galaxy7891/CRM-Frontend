@@ -77,8 +77,7 @@ const ImporFile = () => {
                   unduh template sesuai format yang telah ditentukan.
                 </span>
                 <Link
-                  href={`https://drive.google.com/uc?export=download&id=1VPqYpO-rq3Y1_B8Q2yV9KYGGcfdaM7Au
-`}
+                  href={`https://drive.google.com/uc?export=download&id=1VPqYpO-rq3Y1_B8Q2yV9KYGGcfdaM7Au`}
                   download="template-import-kontak.xlsx"
                   className="font-bold text-dark-gold hover:underline cursor-pointer"
                 >

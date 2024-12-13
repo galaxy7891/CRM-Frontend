@@ -68,7 +68,7 @@ const ImporFile = () => {
               Unggah Dokumen
             </p>
             <div className="flex flex-col w-full mt-2 sm:px-32 2xl:px-60">
-              <ImportInstruction href="https://drive.google.com/uc?export=download&id=1Roidvdc-NiEXgnt08FmCP80UdRf7Gu-4" />
+              <ImportInstruction href="https://drive.google.com/uc?export=download&id=1OonNaDeWIupjRR0eRcGoBRWqhoJ85Dgo" />
               <FileInput value={fileName || 'Belum ada file dipilih'} />
               {errorMessage && <FailText>{errorMessage} </FailText>}
               <FileImportSubmit
@@ -87,3 +87,4 @@ const ImporFile = () => {
 };
 
 export default ImporFile;
+

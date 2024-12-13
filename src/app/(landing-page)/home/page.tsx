@@ -6,7 +6,7 @@ import Price from "./partials/price";
 import Faq from "./partials/faq";
 import Testimonial from "./partials/testimonial";
 
-const page = () => {
+const Home = () => {
   return (
     <div>
       <Landing />
@@ -19,4 +19,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Home;

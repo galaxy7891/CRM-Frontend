@@ -87,7 +87,7 @@ const LoginPage: React.FC = () => {
             <p>Atau</p>
           </div>
 
-          <GoogleLoginButton />
+          {/* <GoogleLoginButton /> */}
           <div className="mt-5 text-center">
             <p className="text-xs md:text-base font-custom font-medium">
               Belum punya akun?{' '}

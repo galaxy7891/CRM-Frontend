@@ -27,7 +27,7 @@ const CarouselTutorials: React.FC<CarouselTutorialsProps> = ({ items }) => {
   return (
     <div>
       {/* Navigation Buttons */}
-      <div className="flex justify-between items-center ">
+      <div className="flex justify-between items-center gap-3">
         <button className="items-center" onClick={prevSlide}>
           <svg
             width="11"
@@ -46,13 +46,14 @@ const CarouselTutorials: React.FC<CarouselTutorialsProps> = ({ items }) => {
             />
           </svg>
         </button>
-        <div className="w-full max-w-full border-2 border-font-black rounded-[10px]">
+        <div>
           <Image
             src={items[currentIndex]?.image}
             alt="tutorials"
-            width={200}
-            height={200}
-            className="w-auto h-auto object-cover rounded-[10px]"
+            width={500}
+            height={500}
+            unoptimized
+            className="w-auto h-auto"
           />
         </div>
         <button className="items-center" onClick={nextSlide}>
