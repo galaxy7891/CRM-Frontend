@@ -168,7 +168,7 @@ const Product = () => {
     if (sortBy || perPage) {
       setIsTriggerFetch(true);
     }
-  }, [sortBy, perPage]);
+  }, [sortBy, perPage, isSuccess]);
 
   return (
     <>

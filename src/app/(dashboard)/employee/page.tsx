@@ -152,7 +152,7 @@ const Employee = () => {
     if (sortBy || perPage) {
       setIsTriggerFetch(true);
     }
-  }, [sortBy, perPage]);
+  }, [sortBy, perPage, isSuccess]);
   return (
     <>
       {/* Header */}
