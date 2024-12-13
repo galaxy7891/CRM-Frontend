@@ -30,6 +30,7 @@ import FilterTableButton from '@/components/button/filter-table-button';
 import EditTableButton from '@/components/button/edit-table-button';
 import Checkbox from '@/components/button/checkbox';
 import EmptyTable from '@/components/table/empty-table';
+import ErrorModal from '@/components/status/error-modal';
 import Loading from '@/components/status/loading';
 
 const Employee = () => {
@@ -37,6 +38,7 @@ const Employee = () => {
   const [perPage, setPerPage] = useState<string>('10');
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
   const [isTriggerFetch, setIsTriggerFetch] = useState<boolean>(false);
+  const [isDeleteError, setIsDeleteError] = useState<boolean>(false);
   const [isAddUser, setAddUser] = useState(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isEditEmployee, setIsEditEmployee] = useState<boolean>(false);
@@ -196,7 +198,11 @@ const Employee = () => {
                 {role === 'super_admin' && (
                   <DeleteButton
                     onClick={() => {
-                      handleDeleteConfirmation(selectedIds);
+                      if (selectedIds.length > 0) {
+                        handleDeleteConfirmation(selectedIds);
+                      } else {
+                        setIsDeleteError(true);
+                      }
                     }}
                   />
                 )}
@@ -310,6 +316,15 @@ const Employee = () => {
                 actionButton={true}
                 actionButton_name="Kembali"
                 actionButton_action={() => setIsSuccess(false)}
+              />
+            )}
+            {isDeleteError && (
+              <ErrorModal
+                header="Pilih data sebelum menghapus!"
+                description="Silahkan pilih minimal satu data untuk bisa dihapus"
+                actionButton={true}
+                actionButton_name="Kembali"
+                actionButton_action={() => setIsDeleteError(false)}
               />
             )}
           </DashboardCard>

@@ -31,6 +31,7 @@ import FilterTableButton from '@/components/button/filter-table-button';
 import EditTableButton from '@/components/button/edit-table-button';
 import Checkbox from '@/components/button/checkbox';
 import EmptyTable from '@/components/table/empty-table';
+import ErrorModal from '@/components/status/error-modal';
 import Loading from '@/components/status/loading';
 
 const LeadsPage = () => {
@@ -41,6 +42,7 @@ const LeadsPage = () => {
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isEditLead, setIsEditLead] = useState<boolean>(false);
+  const [isDeleteError, setIsDeleteError] = useState<boolean>(false);
   const [isDeleteLead, setIsDeleteLead] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<string>('');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -155,7 +157,7 @@ const LeadsPage = () => {
     if (sortBy || statusBy || perPage) {
       setIsTriggerFetch(true);
     }
-  }, [sortBy, statusBy, perPage]);
+  }, [sortBy, statusBy, isSuccess, perPage]);
 
   return (
     <>
@@ -187,7 +189,13 @@ const LeadsPage = () => {
               {/* Trash Icon, Export, and Filter Buttons */}
               {/* Delete Button */}
               <DeleteButton
-                onClick={() => handleDeleteConfirmation(selectedIds)}
+                onClick={() => {
+                  if (selectedIds.length > 0) {
+                    handleDeleteConfirmation(selectedIds);
+                  } else {
+                    setIsDeleteError(true);
+                  }
+                }}
               />
 
               <ExportButton onClick={() => handleExportData()} />
@@ -263,6 +271,15 @@ const LeadsPage = () => {
                     actionButton={true}
                     actionButton_name="Kembali"
                     actionButton_action={() => setIsSuccess(false)}
+                  />
+                )}
+                {isDeleteError && (
+                  <ErrorModal
+                    header="Pilih data sebelum menghapus!"
+                    description="Silahkan pilih minimal satu data untuk bisa dihapus"
+                    actionButton={true}
+                    actionButton_name="Kembali"
+                    actionButton_action={() => setIsDeleteError(false)}
                   />
                 )}
               </>

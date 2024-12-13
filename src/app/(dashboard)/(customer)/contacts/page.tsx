@@ -31,6 +31,7 @@ import FilterTableButton from '@/components/button/filter-table-button';
 import EditTableButton from '@/components/button/edit-table-button';
 import Checkbox from '@/components/button/checkbox';
 import EmptyTable from '@/components/table/empty-table';
+import ErrorModal from '@/components/status/error-modal';
 import Loading from '@/components/status/loading';
 
 const ContactsPage = () => {
@@ -39,6 +40,7 @@ const ContactsPage = () => {
   const [perPage, setPerPage] = useState<string>('10');
   const [isTriggerFetch, setIsTriggerFetch] = useState<boolean>(false);
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
+  const [isDeleteError, setIsDeleteError] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isEditContact, setIsEditContact] = useState<boolean>(false);
   const [isDeleteContact, setIsDeleteContact] = useState<boolean>(false);
@@ -163,7 +165,7 @@ const ContactsPage = () => {
     if (sortBy || statusBy || perPage) {
       setIsTriggerFetch(true);
     }
-  }, [sortBy, statusBy, perPage]);
+  }, [sortBy, statusBy, isSuccess, perPage]);
 
   return (
     <>
@@ -179,7 +181,13 @@ const ContactsPage = () => {
               {/* Trash Icon, Export, and Filter Buttons */}
               {/* Delete Button */}
               <DeleteButton
-                onClick={() => handleDeleteConfirmation(selectedIds)}
+                onClick={() => {
+                  if (selectedIds.length > 0) {
+                    handleDeleteConfirmation(selectedIds);
+                  } else {
+                    setIsDeleteError(true);
+                  }
+                }}
               />
 
               <ExportButton onClick={() => handleExportData()} />
@@ -275,6 +283,15 @@ const ContactsPage = () => {
                   />
                 )}
               </>
+            )}
+            {isDeleteError && (
+              <ErrorModal
+                header="Pilih data sebelum menghapus!"
+                description="Silahkan pilih minimal satu data untuk bisa dihapus"
+                actionButton={true}
+                actionButton_name="Kembali"
+                actionButton_action={() => setIsDeleteError(false)}
+              />
             )}
           </>
         </DashboardCard>

@@ -74,7 +74,7 @@ const EditImageUser = ({ onClose, data }: FormEditProps) => {
           header="Berhasil"
           description="Foto profil berhasil diubah"
           actionButton_name="Kembali"
-          actionButton_action={onClose}
+          actionButton_action={() => window.location.reload()}
         />
       )}
     </SidebarModal>

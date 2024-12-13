@@ -177,7 +177,7 @@ const EditUser: React.FC<FormEditProps> = ({ onClose, data }) => {
             header="Berhasil"
             description="Data pengguna berhasil diperbarui"
             actionButton_name="Kembali"
-            actionButton_action={onClose}
+            actionButton_action={() => window.location.reload()}
           />
         )}
       </SidebarModal>

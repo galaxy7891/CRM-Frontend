@@ -28,6 +28,7 @@ import TableDataShort from '@/components/table/table-data-short';
 import DeleteButton from '@/components/button/delete-button';
 import DeleteTableButton from '@/components/button/delete-table-button';
 import SuccessModal from '@/components/status/success-modal';
+import ErrorModal from '@/components/status/error-modal';
 import EditDeals from './edit-deals';
 import PaginationButton from '@/components/button/pagination-button';
 import Loading from '@/components/status/loading';
@@ -39,6 +40,7 @@ const DealsTableView = () => {
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
   const [isTriggerFetch, setIsTriggerFetch] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<string>('');
+  const [isDeleteError, setIsDeleteError] = useState<boolean>(false);
   const [isDeleteDeal, setIsDeleteDeal] = useState<boolean>(false);
   const [isEditDeals, setIsEditDeals] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<string>('');
@@ -166,7 +168,7 @@ const DealsTableView = () => {
     if (sortBy || statusBy || perPage) {
       setIsTriggerFetch(true);
     }
-  }, [sortBy, statusBy, perPage]);
+  }, [sortBy, statusBy, isSuccess, perPage]);
 
   return (
     <>
@@ -199,9 +201,14 @@ const DealsTableView = () => {
                 {/* Trash Icon, Export, and Filter Buttons */}
                 {/* Delete Button */}
                 <DeleteButton
-                  onClick={() => handleDeleteConfirmation(selectedIds)}
+                  onClick={() => {
+                    if (selectedIds.length > 0) {
+                      handleDeleteConfirmation(selectedIds);
+                    } else {
+                      setIsDeleteError(true);
+                    }
+                  }}
                 />
-
                 <ExportButton onClick={() => handleExportData()} />
 
                 <FilterTableButton
@@ -290,6 +297,15 @@ const DealsTableView = () => {
                     />
                   )}
                 </>
+              )}
+              {isDeleteError && (
+                <ErrorModal
+                  header="Pilih data sebelum menghapus!"
+                  description="Silahkan pilih minimal satu data untuk bisa dihapus"
+                  actionButton={true}
+                  actionButton_name="Kembali"
+                  actionButton_action={() => setIsDeleteError(false)}
+                />
               )}
             </>
           </DashboardCard>

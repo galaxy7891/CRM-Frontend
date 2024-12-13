@@ -31,6 +31,7 @@ import FilterTableButton from '@/components/button/filter-table-button';
 import EditTableButton from '@/components/button/edit-table-button';
 import Checkbox from '@/components/button/checkbox';
 import EmptyTable from '@/components/table/empty-table';
+import ErrorModal from '@/components/status/error-modal';
 import Loading from '@/components/status/loading';
 
 const CompanyPage = () => {
@@ -40,6 +41,7 @@ const CompanyPage = () => {
   const [isTriggerFetch, setIsTriggerFetch] = useState<boolean>(false);
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [isDeleteError, setIsDeleteError] = useState<boolean>(false);
   const [isEditCompany, setIsEditCompany] = useState<boolean>(false);
   const [isDeleteCompany, setIsDeleteCompany] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<string>('');
@@ -196,7 +198,13 @@ const CompanyPage = () => {
               {/* Trash Icon, Export, and Filter Buttons */}
               {/* Delete Button */}
               <DeleteButton
-                onClick={() => handleDeleteConfirmation(selectedIds)}
+                onClick={() => {
+                  if (selectedIds.length > 0) {
+                    handleDeleteConfirmation(selectedIds);
+                  } else {
+                    setIsDeleteError(true);
+                  }
+                }}
               />
               <ExportButton onClick={() => handleExportData()} />
 
@@ -274,6 +282,15 @@ const CompanyPage = () => {
                   actionButton={true}
                   actionButton_name="Kembali"
                   actionButton_action={() => setIsSuccess(false)}
+                />
+              )}
+              {isDeleteError && (
+                <ErrorModal
+                  header="Pilih data sebelum menghapus!"
+                  description="Silahkan pilih minimal satu data untuk bisa dihapus"
+                  actionButton={true}
+                  actionButton_name="Kembali"
+                  actionButton_action={() => setIsDeleteError(false)}
                 />
               )}
             </>
