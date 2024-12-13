@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch } from '@/hook/redux';
@@ -11,9 +10,11 @@ import AuthLeftSection from '@/components/layout/auth-left-section';
 import AuthRightSection from '@/components/layout/auth-right-section';
 import AuthPositiveButton from '@/components/button/auth-positive-button';
 import FailPopUp from '@/components/status/fail-card';
+import Loading from '@/components/status/loading';
 
 const LoginPageCms: React.FC = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -21,7 +22,7 @@ const LoginPageCms: React.FC = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const response = await dispatch(
-      login(formData.email, formData.password, setErrorMessage)
+      login(formData.email, formData.password, setErrorMessage, setIsLoading)
     );
     if (response?.success) {
       router.push('/cms-homepage');
@@ -30,6 +31,7 @@ const LoginPageCms: React.FC = () => {
 
   return (
     <div className="flex flex-row min-h-screen justify-center">
+      {isLoading && <Loading />}
       <div className="sm:w-1/2 hidden md:block ">
         <AuthLeftSection
           title="Jalin Hubungan, Raih Kesuksesan"
@@ -69,14 +71,7 @@ const LoginPageCms: React.FC = () => {
                   }
                 />
               </div>
-              <div className="mt-3 flex justify-end">
-                <Link
-                  href={'/forget-password'}
-                  className="text-xs text-light-gold font-custom font-bold ml-1 md:text-base  hover:underline "
-                >
-                  Lupa Kata Sandi?
-                </Link>
-              </div>
+
               <AuthPositiveButton> Masuk </AuthPositiveButton>
             </form>
           </div>

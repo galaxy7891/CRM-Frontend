@@ -1,14 +1,16 @@
 import React from "react";
 import AccordionItems from "./accordion-item";
+import BgLightWhite from "@/components/landing-page/layout/bg-light-white";
+import Title from "@/components/landing-page/layout/title";
 
 const Faq = () => {
   return (
-    <div className="bg-light-white p-8">
-      <p className="font-custom text-center mb-9 font-bold text-font-black text-xl lg:text-[32px]">
-        Pertanyaan Yang Sering Ditanyakan
-      </p>
-      <AccordionItems />
-    </div>
+    <>
+      <BgLightWhite>
+        <Title>Pertanyaan Yang Sering Ditanyakan</Title>
+        <AccordionItems />
+      </BgLightWhite>
+    </>
   );
 };
 

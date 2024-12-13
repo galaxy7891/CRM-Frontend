@@ -7,7 +7,7 @@ import { login } from '@/redux/actions/authActions';
 import Link from 'next/link';
 import InputAuth from '@/components/form-input/auth-input';
 import InputPassword from '@/components/form-input/password-input';
-import GoogleLoginButton from '@/components/button/google-login-button';
+// import GoogleLoginButton from '@/components/button/google-login-button';
 import AuthLeftSection from '@/components/layout/auth-left-section';
 import AuthRightSection from '@/components/layout/auth-right-section';
 import FailPopUp from '@/components/status/fail-card';
@@ -91,7 +91,7 @@ const LoginPage: React.FC = () => {
               <p>Atau</p>
             </div>
 
-            <GoogleLoginButton />
+            {/* <GoogleLoginButton /> */}
             <div className="mt-5 text-center">
               <p className="text-xs md:text-base font-custom font-medium">
                 Belum punya akun?{' '}

@@ -19,8 +19,7 @@ const Footer = () => {
             className="height:auto width:auto"
           />
           <TitleFooter>
-            Membangun Loyalitas, <br />
-            Meningkatkan Hubungan
+            Solusi cerdas Untuk bisnis yang berkualitas
           </TitleFooter>
         </div>
 
@@ -91,7 +90,15 @@ const Footer = () => {
         <div className="flex flex-col gap-y-3">
           <TitleFooter>Hubungi</TitleFooter>
           <ListFooter>loyalcust@gmail.com</ListFooter>
-          <ListFooter>+62820202220</ListFooter>
+          <ListFooter>
+            <Link
+              href="https://wa.me/62816282136"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              +62816282136
+            </Link>
+          </ListFooter>
         </div>
       </div>
       <hr className="h-px mt-11 w-full bg-font-white border-0 mx-auto"></hr>

@@ -118,9 +118,9 @@ export const addProduct =
       console.log('Response API:', response.data);
       if (response.data.success) {
         setIsSuccess(true);
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 2000);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       } else {
         console.error(response.data.message);
         setErrorMessage(response.data.message);

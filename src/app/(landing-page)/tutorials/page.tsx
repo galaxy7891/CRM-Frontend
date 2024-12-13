@@ -1,10 +1,13 @@
-import React from 'react'
-import CarouselItem from './partials/carousel-items'
+import React from "react";
+import Tutorials from "./partials/carousel-items";
+import BgLightWhite from "@/components/landing-page/layout/bg-light-white";
 
 const Tutorial = () => {
   return (
-   <CarouselItem/>
-  )
-}
+    <BgLightWhite>
+      <Tutorials />
+    </BgLightWhite>
+  );
+};
 
-export default Tutorial
+export default Tutorial;
