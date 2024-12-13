@@ -59,21 +59,7 @@ const FormComponent: React.FC<FormComponentProps> = ({
             <span
               className="absolute inset-y-0 right-3 pt-5 lg:pt-7 flex items-center cursor-pointer"
               onClick={() => togglePasswordVisibility(field.name)}
-            >
-              {/* <Image
-                src={
-                  showPassword[field.name]
-                    ? "/icons/open-eye.svg"
-                    : "/icons/closed-eye.svg"
-                }
-                alt={
-                  showPassword[field.name] ? "Show password" : "Hide password"
-                }
-                width={12}
-                height={12}
-                className="lg:h-6 lg:w-6 h-5 w-5"
-              /> */}
-            </span>
+            ></span>
           )}
         </div>
       ))}

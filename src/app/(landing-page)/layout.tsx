@@ -5,6 +5,7 @@ import HeaderLandingPage from "@/components/landing-page/layout/header-landing-p
 import SidebarLandingPage from "@/components/landing-page/layout/sidebar-landing-page";
 import Footer from "@/components/landing-page/layout/footer";
 import Trial from "@/components/landing-page/layout/trial";
+import WaHelpdesk from "@/components/landing-page/layout/wa-helpdesk";
 
 interface LayoutDashboardProps {
   children: ReactNode;
@@ -25,8 +26,9 @@ const LayoutDashboard: React.FC<LayoutDashboardProps> = ({ children }) => {
     <section>
       <SidebarLandingPage isOpen={isSidebarOpen} onClose={closeSidebar} />
       <HeaderLandingPage onToggleSidebar={toggleSidebar} />
+      <WaHelpdesk />
       {children}
-      <Trial/>
+      <Trial />
       <Footer />
     </section>
   );

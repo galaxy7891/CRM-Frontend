@@ -1,19 +1,19 @@
 "use client";
 
-import Image from 'next/image';
-import React, { useState, ChangeEvent } from 'react';
-import { ImportErrorMessageDetailTypes } from '@/types/otherTypes';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
-import { importLeads } from '@/redux/actions/leadsActions';
-import ImportInstruction from '@/components/import/import-instruction';
-import FileInput from '@/components/form-input/file-input';
-import FileImportSubmit from '@/components/form-input/file-import-submit';
-import ImportSuccess from '@/components/import/import-success';
-import ImportFailed from '@/components/import/import-failed';
-import DashboardCard from '@/components/layout/dashboard-card';
-import FailText from '@/components/status/fail-text';
-import HeaderWithBackButton from '@/components/layout/header-with-back';
+import Image from "next/image";
+import React, { useState, ChangeEvent } from "react";
+import { ImportErrorMessageDetailTypes } from "@/types/otherTypes";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { importLeads } from "@/redux/actions/leadsActions";
+import ImportInstruction from "@/components/import/import-instruction";
+import FileInput from "@/components/form-input/file-input";
+import FileImportSubmit from "@/components/form-input/file-import-submit";
+import ImportSuccess from "@/components/import/import-success";
+import ImportFailed from "@/components/import/import-failed";
+import DashboardCard from "@/components/layout/dashboard-card";
+import FailText from "@/components/status/fail-text";
+import HeaderWithBackButton from "@/components/layout/header-with-back";
 
 const ImporFile = () => {
   const [fileName, setFileName] = useState<string>("");
@@ -69,16 +69,16 @@ const ImporFile = () => {
               Unggah Dokumen
             </p>
             <div className="flex flex-col w-full mt-2 sm:px-32 2xl:px-60">
-              <ImportInstruction href="https://drive.google.com/uc?export=download&id=1Roidvdc-NiEXgnt08FmCP80UdRf7Gu-4" />
+              <ImportInstruction href="https://drive.google.com/uc?export=download&id=1GkYrWRMJZr9-tRnRqRxDHXdkZ4vhFfNs" />
 
-              <FileInput value={fileName || 'Belum ada file dipilih'} />
+              <FileInput value={fileName || "Belum ada file dipilih"} />
               {errorMessage && <FailText>{errorMessage} </FailText>}
               <FileImportSubmit
                 fileName={fileName}
                 handleSubmitFile={handleSubmitFile}
                 handleFileChange={handleFileChange}
               >
-                {isLoading ? 'Memuat...' : 'Selanjutnya'}
+                {isLoading ? "Memuat..." : "Selanjutnya"}
               </FileImportSubmit>
             </div>
           </div>

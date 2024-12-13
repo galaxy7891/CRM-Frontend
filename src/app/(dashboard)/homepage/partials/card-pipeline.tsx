@@ -28,7 +28,7 @@ const CardDeals: FC<CardProps> = ({ title, total_pipeline, funds }) => {
 
   return (
     <Link href="/deals">
-      <div className="flex flex-col p-4 rounded-lg bg-light-white dark:bg-dark-darkGray w-full  transform transition-transform duration-500 hover:scale-105 hover:shadow-lg">
+      <div className="flex flex-col p-4 rounded-lg bg-light-white dark:bg-dark-darkGray w-full  transform transition-transform duration-500 hover:border-light-gold hover:border hover:scale-105 hover:shadow-lg">
         {/* colour change depends on title */}
         <p
           className={`text-xs lg:text-base font-custom ${titleColor} transition-opacity duration-300 delay-100 hover:opacity-100 text-black `}

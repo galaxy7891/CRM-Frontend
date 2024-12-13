@@ -1,22 +1,13 @@
+import Image from 'next/image';
+import { useState } from 'react';
+import { PasswordProps } from '@/types/authTypes';
+import InputAuth from '@/components/form-input/auth-input';
+import InputPassword from '@/components/form-input/password-input';
 import FormHeader from '@/components/layout/auth-form-header';
 import FailCard from '@/components/status/fail-card';
 import FailText from '@/components/status/fail-text';
-import Image from 'next/image';
-import { useState } from 'react';
+import AuthPositiveButton from '@/components/button/auth-positive-button';
 
-interface Password {
-  password: string;
-  password_confirmation: string;
-}
-interface PasswordProps {
-  email: string;
-  password: Password;
-  step: number;
-  setPassword: (data: Password) => void;
-  errorMessage: string;
-  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
-  onNext: () => void;
-}
 const Password: React.FC<PasswordProps> = ({
   step,
   password,
@@ -27,7 +18,6 @@ const Password: React.FC<PasswordProps> = ({
   onNext,
 }) => {
   const [isOnClick, setIsOnClick] = useState<boolean | null>(null);
-  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const rules = [
     { regex: /.{8,}/, label: 'Minimal 8 karakter' },
@@ -40,7 +30,8 @@ const Password: React.FC<PasswordProps> = ({
     rule.regex.test(password.password)
   );
 
-  const handleIsPasswordSame = () => {
+  const handleIsPasswordSame = (e: React.FormEvent) => {
+    e.preventDefault();
     setIsOnClick(true);
     if (
       isPasswordValid &&
@@ -62,101 +53,42 @@ const Password: React.FC<PasswordProps> = ({
       />
       {errorMessage && <FailCard>{errorMessage}</FailCard>}
       {/* email */}
-      <label
-        htmlFor="email"
-        className="block text-black text-xs font-custom font-medium my-3 md:text-base"
-      >
-        Email
-      </label>
-      <input
-        value={email}
-        type="email"
-        disabled
-        placeholder="user@example.com"
-        className="w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black focus:outline-none border-font-gray rounded-lg bg-light-white focus:border-dark-navy"
-      />
-      {/* password */}
-
-      <div className="relative">
-        <label
-          htmlFor="password"
-          className="block text-black text-xs font-custom font-medium my-3 md:text-base"
-        >
-          Kata Sandi
-        </label>
-        <input
-          name="password"
-          type={`${!showPassword ? 'text' : 'password'}`}
+      <form onSubmit={handleIsPasswordSame}>
+        <InputAuth
+          required
+          type="email"
+          label="Email"
+          placeholder="Email"
+          value={email}
+          onChange={() => setErrorMessage('')}
+        />
+        {/* password */}
+        <InputPassword
           value={password?.password}
           onChange={(e) =>
             setPassword({ ...password, password: e.target.value })
           }
-          placeholder="Masukkan kata sandi"
-          className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black  focus:outline-none  rounded-lg bg-light-white focus:border-dark-navy  ${
-            isOnClick && !password.password
-              ? 'error-fields'
-              : 'border-font-gray'
-          } `}
         />
-        <span className="absolute right-3 top-10 md:top-12">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="gray"
-            className="size-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
-            />
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-            />
-          </svg>
-        </span>
-        <button onClick={() => setShowPassword(!showPassword)}></button>
-        {isOnClick && password.password == '' && (
-          <FailText>Kata sandi tidak boleh kosong</FailText>
-        )}
-      </div>
+        <InputPassword
+          value={password?.password_confirmation}
+          onChange={(e) =>
+            setPassword({
+              ...password,
+              password_confirmation: e.target.value,
+            })
+          }
+        />
 
-      {/* confirm password */}
-      <label
-        htmlFor="password_confirmation"
-        className="block text-black text-xs font-custom font-medium my-3 md:text-base"
-      >
-        Konfirmasi Kata Sandi
-      </label>
-      <input
-        name="password_confirmation"
-        type="password"
-        value={password?.password_confirmation}
-        onChange={(e) =>
-          setPassword({
-            ...password,
-            password_confirmation: e.target.value,
-          })
-        }
-        placeholder="Masukkan kembali kata sandi"
-        className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black  focus:outline-none  rounded-lg bg-light-white focus:border-dark-navy  ${
-          isOnClick && !password.password_confirmation
-            ? 'error-fields'
-            : 'border-font-gray'
-        } `}
-      />
-      {isOnClick && password.password_confirmation == '' && (
-        <FailText>Ketik ulang kata sandi</FailText>
-      )}
-      {isOnClick &&
-        password.password_confirmation !== '' &&
-        password.password_confirmation !== password.password && (
-          <FailText>Kata sandi tidak sama</FailText>
-        )}
+        {isOnClick &&
+          password.password_confirmation !== '' &&
+          password.password_confirmation !== password.password && (
+            <FailText>Kata sandi tidak sama</FailText>
+          )}
+
+        <AuthPositiveButton disabled={!isPasswordValid}>
+          Selanjutnya
+        </AuthPositiveButton>
+      </form>
 
       <ul className="list-none space-y-2 mt-4">
         {rules.map((rule, index) => {
@@ -182,13 +114,6 @@ const Password: React.FC<PasswordProps> = ({
           );
         })}
       </ul>
-      <button
-        onClick={handleIsPasswordSame}
-        disabled={!isPasswordValid}
-        className="mt-4 w-full px-1 h-12 lg:h-15 font-custom  bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md disabled:opacity-60 disabled:hover:shadow-none"
-      >
-        Selanjutnya
-      </button>
     </div>
   );
 };

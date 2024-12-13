@@ -48,3 +48,58 @@ export interface Password {
   password: string;
   password_confirmation: string;
 }
+
+export interface SendEmailProps {
+  email: string;
+  step: number;
+  setEmail: (email: string) => void;
+  onNext: (e: React.FormEvent) => void;
+  errorMessage: string;
+  isLoading: string;
+}
+
+export interface SendOtpProps {
+  email: string;
+  OTP: string; // Current OTP value
+  step: number;
+  setOTP: (OTP: string) => void; // Function to set the OTP
+  errorMessage: string;
+  isLoading: string;
+  countdown: number | null;
+  handleVerifyOTP: () => void; // Function to call on OTP verification
+  handleBackButton: () => void; // Function for back to prev step
+  handleSendOTP: (e: React.FormEvent) => void;
+}
+
+export interface PasswordProps {
+  email: string;
+  password: Password;
+  step: number;
+  setPassword: (data: PasswordTypes) => void;
+  errorMessage: string;
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
+  onNext: () => void;
+}
+
+export interface PersonalDataStepProps {
+  personalData: PersonalData;
+  step: number;
+  onNext: () => void;
+  setPersonalData: (data: PersonalData) => void;
+  handleBackButton: () => void;
+}
+
+interface CompanyData {
+  name: string;
+  industry: string;
+  job_position: string;
+}
+
+export interface CompanyDataStepProps {
+  companyData: CompanyData;
+  step: number;
+  isLoading: string;
+  setCompanyData: (data: CompanyData) => void;
+  handleRegister: (e: React.FormEvent) => void;
+  handleBackButton: () => void;
+}

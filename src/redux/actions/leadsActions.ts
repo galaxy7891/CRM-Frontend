@@ -130,7 +130,9 @@ export const updateLead =
       if (response.data.success) {
         setIsSuccess(true);
       } else {
-        setErrorMessage(response.data.message);
+        if (response.data.message) {
+          setErrorMessage(response.data.message);
+        }
       }
     } catch (error) {
       console.error(error);
@@ -274,7 +276,6 @@ export const importLeads =
     const { token } = getState().auth;
     const formData = new FormData();
     formData.append('file', file);
-
     try {
       const config = {
         method: 'post',

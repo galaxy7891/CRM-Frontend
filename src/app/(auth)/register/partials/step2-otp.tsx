@@ -1,20 +1,10 @@
 import React, { useState } from 'react';
+import { SendOtpProps } from '@/types/authTypes';
+
 import FormHeader from '@/components/layout/auth-form-header';
 import FailText from '@/components/status/fail-text';
 import BackButton from '@/components/button/back-button';
-
-interface SendOtpProps {
-  email: string;
-  OTP: string; // Current OTP value
-  step: number;
-  setOTP: (OTP: string) => void; // Function to set the OTP
-  errorMessage: string;
-  isLoading: string;
-  countdown: number | null;
-  handleVerifyOTP: () => void; // Function to call on OTP verification
-  handleBackButton: () => void; // Function for back to prev step
-  handleSendOTP: () => void;
-}
+import AuthPositiveButton from '@/components/button/auth-positive-button';
 
 const SendOtp: React.FC<SendOtpProps> = ({
   email,
@@ -27,7 +17,6 @@ const SendOtp: React.FC<SendOtpProps> = ({
   handleBackButton,
   handleSendOTP,
 }) => {
-  //otp -
   const [otpValues, setOTPValues] = useState<string[]>(Array(6).fill('')); // Initialize OTP values for 6 digits
 
   const handleInputChange = (index: number, value: string) => {
@@ -69,7 +58,7 @@ const SendOtp: React.FC<SendOtpProps> = ({
       <FormHeader
         title="Daftar Akun"
         subtitle="Verifikasi"
-        description={`Cek email ${email} dan masukan 6 digit kode otp yang telah terkirim`}
+        description={`Cek email ${email} dan masukan 6 digit kode OTP yang telah terkirim`}
         step={step}
         page_name="register"
       />
@@ -114,13 +103,13 @@ const SendOtp: React.FC<SendOtpProps> = ({
         </p>
       </div>
 
-      <button
-        onClick={handleVerifyOTP}
+      <AuthPositiveButton
         disabled={isLoading == 'Send OTP'}
-        className="mt-4 w-full px-1 h-12 lg:h-15 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
+        onClick={handleVerifyOTP}
       >
         {isLoading == 'Verify OTP' ? 'Memverifikasi...' : 'Verifikasi'}
-      </button>
+      </AuthPositiveButton>
+
       <BackButton onClick={handleBackButton}>Kembali</BackButton>
     </div>
   );
