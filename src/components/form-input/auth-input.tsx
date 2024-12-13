@@ -19,6 +19,7 @@ const AuthInput = ({
         {label}
       </label>
       <input
+        autoComplete={type}
         type={type}
         placeholder={placeholder}
         value={value}

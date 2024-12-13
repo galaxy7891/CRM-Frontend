@@ -7,12 +7,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
   getCompanies,
+  getCompaniesForExport,
   getCompanyById,
   deleteCompany,
 } from '@/redux/actions/companiesActions';
 import handleExport from '@/utils/export_CSV';
 import DashboardCard from '@/components/layout/dashboard-card';
-import ActionConfirmModal from '@/components/status/action-confirm-modal';
+import ActionConfirmModal from '@/components/status/action-confirm-yellow-modal';
 import StatusBadge from '@/components/table/status-badge';
 import DeleteTableButton from '@/components/button/delete-table-button';
 import EditCompany from './partials/edit-company';
@@ -34,7 +35,7 @@ import Loading from '@/components/status/loading';
 
 const CompanyPage = () => {
   const [sortBy, setSortBy] = useState<string>('terbaru');
-  const [statusBy, setStatusBy] = useState<string>('rendah');
+  const [statusBy, setStatusBy] = useState<string>('semua');
   const [perPage, setPerPage] = useState<string>('10');
   const [isTriggerFetch, setIsTriggerFetch] = useState<boolean>(false);
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
@@ -127,6 +128,22 @@ const CompanyPage = () => {
     }
   };
 
+  const handleExportData = async () => {
+    try {
+      // Call redux and gettin data to variable
+      const fetchedData = await dispatch(getCompaniesForExport());
+
+      // Make sure the data is available
+      if (fetchedData && Array.isArray(fetchedData)) {
+        handleExport(fetchedData);
+      } else {
+        alert('error');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     if (isTriggerFetch) {
       setPagination((prev) => ({
@@ -147,7 +164,7 @@ const CompanyPage = () => {
     if (sortBy || statusBy || perPage) {
       setIsTriggerFetch(true);
     }
-  }, [sortBy, statusBy, perPage]);
+  }, [sortBy, statusBy, perPage, isSuccess]);
 
   return (
     <>
@@ -181,7 +198,7 @@ const CompanyPage = () => {
               <DeleteButton
                 onClick={() => handleDeleteConfirmation(selectedIds)}
               />
-              <ExportButton onClick={() => handleExport(companies)} />
+              <ExportButton onClick={() => handleExportData()} />
 
               <FilterTableButton
                 setSortBy={setSortBy}
@@ -233,6 +250,7 @@ const CompanyPage = () => {
                 next_page_url={pagination.next_page_url}
                 handlePrevPage={handlePrevPage}
                 handleNextPage={handleNextPage}
+                perPage={pagination.per_page}
               />
               {isEditCompany && (
                 <EditCompany

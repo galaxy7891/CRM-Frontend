@@ -15,7 +15,7 @@ import InviteEmployee from './partials/invite-employee';
 import EditEmployee from './partials/edit-employee';
 import handleExport from '@/utils/export_CSV';
 import DashboardCard from '@/components/layout/dashboard-card';
-import ActionConfirmModal from '@/components/status/action-confirm-modal';
+import ActionConfirmModal from '@/components/status/action-confirm-yellow-modal';
 import TableHeader from '@/components/table/table-header';
 import TableRow from '@/components/table/table-row';
 import TableDataAction from '@/components/table/table-data-actions';
@@ -154,7 +154,7 @@ const Employee = () => {
   return (
     <>
       {/* Header */}
-      <div className="flex justify-between items-center mb-5">
+      <div className="flex justify-between items-center mb-4 lg:mb-8">
         <p className="text-font-black dark:text-font-white text-base font-custom md:text-[32px]">
           Data Karyawan
         </p>
@@ -286,6 +286,7 @@ const Employee = () => {
               next_page_url={pagination.next_page_url}
               handlePrevPage={handlePrevPage}
               handleNextPage={handleNextPage}
+              perPage={pagination.per_page}
             />
             {isEditEmployee && (
               <EditEmployee

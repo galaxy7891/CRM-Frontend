@@ -7,12 +7,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
   getLeads,
+  getLeadsForExport,
   getLeadById,
   deleteLead,
 } from '@/redux/actions/leadsActions';
 import handleExport from '@/utils/export_CSV';
 import DashboardCard from '@/components/layout/dashboard-card';
-import ActionConfirmModal from '@/components/status/action-confirm-modal';
+import ActionConfirmModal from '@/components/status/action-confirm-yellow-modal';
 import StatusBadge from '@/components/table/status-badge';
 import EditLeads from './partials/edit-leads';
 import TableHeader from '@/components/table/table-header';
@@ -34,10 +35,10 @@ import Loading from '@/components/status/loading';
 
 const LeadsPage = () => {
   const [sortBy, setSortBy] = useState<string>('terbaru');
-  const [statusBy, setStatusBy] = useState<string>('rendah');
+  const [statusBy, setStatusBy] = useState<string>('semua');
   const [perPage, setPerPage] = useState<string>('10');
   const [isTriggerFetch, setIsTriggerFetch] = useState<boolean>(false);
-  const [isLoadingPage, setIsLoadingPage] = useState<boolean>(false);
+  const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isEditLead, setIsEditLead] = useState<boolean>(false);
   const [isDeleteLead, setIsDeleteLead] = useState<boolean>(false);
@@ -120,6 +121,20 @@ const LeadsPage = () => {
     }
   };
 
+  const handleExportData = async () => {
+    try {
+      // Call redux and gettin data to variable
+      const fetchedData = await dispatch(getLeadsForExport());
+
+      // Make sure the data is available
+      if (fetchedData && Array.isArray(fetchedData)) {
+        handleExport(fetchedData);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     if (isTriggerFetch) {
       setPagination((prev) => ({
@@ -175,7 +190,7 @@ const LeadsPage = () => {
                 onClick={() => handleDeleteConfirmation(selectedIds)}
               />
 
-              <ExportButton onClick={() => handleExport(leads)} />
+              <ExportButton onClick={() => handleExportData()} />
 
               <FilterTableButton
                 setSortBy={setSortBy}
@@ -227,6 +242,7 @@ const LeadsPage = () => {
                   next_page_url={pagination.next_page_url}
                   handlePrevPage={handlePrevPage}
                   handleNextPage={handleNextPage}
+                  perPage={pagination.per_page}
                 />
                 {isEditLead && (
                   <EditLeads onClose={handleCloseEdit} leadProps={lead!} />

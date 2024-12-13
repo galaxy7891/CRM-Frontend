@@ -14,7 +14,7 @@ import ConvertLeads from '../partials/convert-leads';
 import LeadLog from './partials/lead-log';
 import DashboardCard from '@/components/layout/dashboard-card';
 import SuccessModal from '@/components/status/success-modal';
-import ActionConfirmModal from '@/components/status/action-confirm-modal';
+import ActionConfirmModal from '@/components/status/action-confirm-yellow-modal';
 import ButtonConvert from '@/components/button/convert-leads-button';
 import CustomerInfo from '@/components/import/card-info-customer';
 import CardCustomer from '@/components/layout/detail-customer-card';
@@ -157,10 +157,10 @@ const DetailLeads = () => {
             {isSuccess && (
               <SuccessModal
                 header="Berhasil"
-                description="Data leads berhasil dihapus"
+                description="Data leads berhasil dikonversi menjadi kontak"
                 actionButton={true}
-                actionButton_name="Kembali ke Halaman Leads"
-                actionButton_href="/leads"
+                actionButton_name="Menuju ke Halaman Kontak"
+                actionButton_href="/contacts"
               />
             )}
           </DashboardCard>

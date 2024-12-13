@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { leadsTypes } from '@/types/leadsTypes';
+import { leadsTypes, newLeadsProps } from '@/types/leadsTypes';
 import { useDispatch } from 'react-redux';
 import { addLead } from '@/redux/actions/leadsActions';
 import { AppDispatch } from '@/redux/store';
@@ -20,11 +20,6 @@ import TextInput from '@/components/form-input/text-input';
 import SidebarFooter from '@/components/layout/sidebar-footer';
 import SidebarModal from '@/components/layout/sidebar-modal';
 import FailText from '@/components/status/fail-text';
-
-interface newLeadsProps {
-  onClose: () => void;
-  emailLocal: string;
-}
 
 const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
   const [provinces, setProvinces] = useState<{ id: string; text: string }[]>(
@@ -64,6 +59,7 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
   const handleAddLead = () => {
     const leadWithLocation = {
       ...lead,
+      phone: `62${lead.phone}`,
       province:
         provinces.find((province) => province.id === lead.province)?.text || '',
       city: cities.find((city) => city.id === lead.city)?.text || '',
@@ -241,7 +237,7 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
               { label: 'Pilih Kecamatan', value: '', hidden: true },
               ...subDistricts.map((subDistrict) => ({
                 label: subDistrict.text,
-                value: subDistrict.id,  
+                value: subDistrict.id,
               })),
             ]}
             onChange={(e) => setLead({ ...lead, subdistrict: e.target.value })}
@@ -289,7 +285,7 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
       <SidebarFooter>
         {/* if data empty button disabled */}
         <DashboardSidebarRedButton onClick={onClose}>
-          Hapus Semua
+          Batal
         </DashboardSidebarRedButton>
         {/* Tambah button is used  */}
         <DashboardSidebarYellowButton onClick={handleAddLead}>
@@ -300,7 +296,7 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
         <SuccessModal
           header="Berhasil"
           description="Data leads berhasil ditambahkan"
-          actionButton_href="/leads"
+          actionButton_action={() => window.location.reload()}
           actionButton_name="Kembali ke Daftar Leads"
         />
       )}

@@ -38,14 +38,14 @@ const EditImageProduct = ({ onClose, data, id }: FormEditProps) => {
 
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Edit Foto Produk">
-      <div className="flex flex-col justify-center items-center text-center">
+      <div className="flex flex-col justify-center items-center text-center h-full ">
         <Image
           src={
             preview
               ? preview
               : data?.image_url
               ? data?.image_url
-              : '/images/default.jpg'
+              : '/images/default-product.svg'
           }
           alt="image"
           width={160}

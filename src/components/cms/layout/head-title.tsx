@@ -1,18 +1,18 @@
-import Link from "next/link";
-import React from "react";
-import { usePathname } from "next/navigation";
+import Link from 'next/link';
+import React from 'react';
+import { usePathname } from 'next/navigation';
 
 const HeadTitle = () => {
   const pathname = usePathname();
-  const isArticlePage = pathname === "/cms-article";
-  const isCustomerPage = pathname === "/cms-customer";
+  const isArticlePage = pathname === '/cms-article';
+  const isCustomerPage = pathname === '/cms-clients';
 
   return (
-    <div className="relative mb-5">
+    <div className="relative mb-4 lg:mb-8">
       <div className="flex justify-between items-center">
         <h1 className="font-custom text-font-black  dark:text-font-white text-base md:text-[32px]">
-          {isCustomerPage && "Data Pelanggan"}
-          {isArticlePage && "Data Artikel"}
+          {isCustomerPage && 'Data Pelanggan'}
+          {isArticlePage && 'Data Artikel'}
         </h1>
         {isArticlePage && (
           <Link href="/cms-article/new">

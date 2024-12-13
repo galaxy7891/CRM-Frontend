@@ -29,6 +29,8 @@ export interface clientTypes {
   account_type: string;
   end_date: string;
   user_company: userCompany;
+  quantity?: number | null;
+  category?: string;
 }
 
 interface userCompany {
@@ -36,6 +38,11 @@ interface userCompany {
   name: string;
   email: string;
   phone: string;
+}
+
+export interface EditCustomerProps {
+  onClose: () => void;
+  clientProps: clientTypes;
 }
 
 export interface administratorState {

@@ -335,7 +335,7 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
       </form>
       <SidebarFooter>
         <DashboardSidebarRedButton onClick={onClose}>
-          Hapus Semua
+          Batal
         </DashboardSidebarRedButton>
         <DashboardSidebarYellowButton onClick={handleAddDeals}>
           Simpan

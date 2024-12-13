@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 
 import {
   EditorCommand,
@@ -10,31 +10,32 @@ import {
   EditorContent,
   type JSONContent,
   EditorRoot,
-} from "novel";
-import { slashCommand, suggestionItems } from "./slash-command";
-import EditorMenu from "./editor-menu";
-import { defaultExtensions } from "./extensions";
-import { TextButtons } from "../selectors/text-buttons";
-import { LinkSelector } from "../selectors/link-selector";
-import { NodeSelector } from "../selectors/node-selector";
+} from 'novel';
+import { slashCommand, suggestionItems } from './slash-command';
+import EditorMenu from './editor-menu';
+import { defaultExtensions } from './extensions';
+import { TextButtons } from '../selectors/text-buttons';
+import { LinkSelector } from '../selectors/link-selector';
+import { NodeSelector } from '../selectors/node-selector';
 
-import { Separator } from "../ui/separator";
-import { handleCommandNavigation } from "novel/extensions";
+import { Separator } from '../ui/separator';
+import { handleCommandNavigation } from 'novel/extensions';
+import { HTMLContent } from '@tiptap/core';
 
 const extensions = [...defaultExtensions, slashCommand];
 
 export const defaultEditorContent = {
-  type: "doc",
+  type: 'doc',
   content: [
     {
-      type: "paragraph",
+      type: 'paragraph',
       content: [],
     },
   ],
 };
 
 interface EditorProps {
-  initialValue?: JSONContent;
+  initialValue?: HTMLContent | JSONContent;
   onChange: (content: string) => void;
 }
 
@@ -57,7 +58,7 @@ export default function Editor({ initialValue, onChange }: EditorProps) {
             },
             attributes: {
               class:
-                "prose dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full",
+                'prose dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full',
             },
           }}
           onUpdate={({ editor }) => {

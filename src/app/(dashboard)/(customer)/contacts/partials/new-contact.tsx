@@ -400,7 +400,7 @@ const NewContact: React.FC<FormEditProps> = ({ onClose, emailLocal }) => {
       </form>
       <SidebarFooter>
         <DashboardSidebarRedButton onClick={onClose}>
-          Hapus Semua
+          Batal
         </DashboardSidebarRedButton>
         <DashboardSidebarYellowButton onClick={handcontactdContact}>
           Tambah

@@ -5,14 +5,16 @@ interface paginationButtonPropsTypes {
   next_page_url: string | null;
   handlePrevPage: () => void;
   handleNextPage: () => void;
+  perPage: number;
 }
 const PaginationButton: React.FC<paginationButtonPropsTypes> = ({
-  last_page, 
+  last_page,
   current_page,
   prev_page_url,
   next_page_url,
   handlePrevPage,
   handleNextPage,
+  perPage,
 }) => {
   return (
     <div className="flex justify-center items-center">
@@ -34,9 +36,9 @@ const PaginationButton: React.FC<paginationButtonPropsTypes> = ({
           />
         </svg>
       </button>
-      <p className="dark:text-white text-xs md:text-base px-4">
+      <p className="dark:text-white text-xs md:text-base px-3">
         {current_page}
-        {" / "} {last_page}
+        {' / '} {last_page}
       </p>
       <button onClick={handleNextPage} disabled={!next_page_url}>
         <svg
@@ -56,6 +58,7 @@ const PaginationButton: React.FC<paginationButtonPropsTypes> = ({
           />
         </svg>
       </button>
+      <p className="ps-3"> {perPage} per halaman</p>
     </div>
   );
 };

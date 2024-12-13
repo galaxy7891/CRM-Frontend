@@ -5,12 +5,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
   getClients,
-  getClientsForPrint,
+  getClientsForExport,
 } from '@/redux/actions/administratorActions';
 import { clientTypes } from '@/types/administratorTypes';
 import { paginationTypes } from '@/types/otherTypes';
 import handleExport from '@/utils/export_CSV';
-import EditCustomer from './partials/edit-customer';
+import EditCustomer from './partials/edit-client';
 import ExportButton from '@/components/button/export-button';
 import FilterTableButton from '@/components/button/filter-table-button';
 import DashboardCard from '@/components/layout/dashboard-card';
@@ -23,16 +23,17 @@ import TableHeader from '@/components/table/table-head';
 import TableRow from '@/components/table/table-row';
 import TableDataAction from '@/components/table/table-data-actions';
 import EditTableButton from '@/components/button/edit-table-button';
+import FailModal from '@/components/status/fail-modal';
 
 const Customer = () => {
   const [sortBy, setSortBy] = useState<string>('terbaru');
   const [typeBy, setTypeBy] = useState<string>('semua');
   const [perPage, setPerPage] = useState<string>('10');
-  const [printData, setPrintData] = useState<clientTypes[]>([]);
   const [isTriggerFetch, setIsTriggerFetch] = useState<boolean>(false);
-
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
   const [isEditCustomer, setIsEditCustomer] = useState<boolean>(false);
+  const [isExportFailed, setIsExportFailed] = useState<boolean>(false);
+  const [clientProps, setClientProps] = useState<clientTypes | null>(null);
   const [pagination, setPagination] = useState<paginationTypes>({
     current_page: 1,
     last_page: 1,
@@ -51,8 +52,9 @@ const Customer = () => {
     'No Telepon Perusahaan ',
   ];
   const { clients } = useSelector((state: RootState) => state.administrator);
-
-  const handleEdit = () => {
+  const handleEdit = (id: string) => {
+    const foundClient = clients.find((client) => client.id === id) || null;
+    setClientProps(foundClient);
     setIsEditCustomer(true);
   };
 
@@ -87,6 +89,21 @@ const Customer = () => {
       );
     }
   };
+  const handleExportData = async () => {
+    try {
+      // Call redux and gettin data to variable
+      const fetchedData = await dispatch(getClientsForExport());
+
+      // Make sure the data is available
+      if (fetchedData && Array.isArray(fetchedData)) {
+        handleExport(fetchedData);
+      } else {
+        setIsExportFailed(true);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     if (isTriggerFetch) {
@@ -117,24 +134,7 @@ const Customer = () => {
       ) : (
         <DashboardCard>
           <div className="col-span-12 md:col-span-8 flex justify-end gap-2 mb-4 pt-2 md:pt-0">
-            <ExportButton
-              onClick={async () => {
-                try {
-                  // Panggil action Redux untuk mendapatkan data
-                  const fetchedData = await dispatch(getClientsForPrint());
-
-                  // Pastikan data tersedia sebelum ekspor
-                  if (fetchedData && Array.isArray(fetchedData)) {
-                    handleExport(fetchedData); // Langsung ekspor data
-                  } else {
-                    alert('Data tidak tersedia untuk diekspor.');
-                  }
-                } catch (error) {
-                  console.error('Terjadi kesalahan saat ekspor:', error);
-                  alert('Gagal mengekspor data.');
-                }
-              }}
-            />
+            <ExportButton onClick={handleExportData} />
 
             <FilterTableButton
               setSortBy={setSortBy}
@@ -153,7 +153,9 @@ const Customer = () => {
                     {clients.map((client: clientTypes, index: number) => (
                       <TableRow key={index} index={index}>
                         <TableDataAction>
-                          <EditTableButton onClick={() => handleEdit()} />
+                          <EditTableButton
+                            onClick={() => handleEdit(client.id)}
+                          />
                         </TableDataAction>
                         <TableDataShort>
                           {client.account_type || '-'}
@@ -172,7 +174,12 @@ const Customer = () => {
                     ))}
                   </TableHeader>
                 </div>
-                {isEditCustomer && <EditCustomer onClose={handleCloseEdit} />}
+                {isEditCustomer && (
+                  <EditCustomer
+                    onClose={handleCloseEdit}
+                    clientProps={clientProps!}
+                  />
+                )}
                 <PaginationButton
                   last_page={pagination.last_page}
                   current_page={pagination.current_page}
@@ -180,16 +187,17 @@ const Customer = () => {
                   next_page_url={pagination.next_page_url}
                   handlePrevPage={handlePrevPage}
                   handleNextPage={handleNextPage}
+                  perPage={pagination.per_page}
                 />
-                {/* {isSuccess && (
-                  <SuccessModal
-                    header="Berhasil"
-                    description="Tipe Berhasil dirubah"
-                    actionButton={true}
-                    actionButton_name="Kembali"
-                    actionButton_action={() => setIsSuccess(false)}
+                {isExportFailed && (
+                  <FailModal
+                    description="Tidak ada data untuk di ekspor"
+                    closeModal={true}
+                    actionButton={false}
+                    actionButton_href=""
+                    actionButton_name=""
                   />
-                )} */}
+                )}
               </>
             )}
           </>

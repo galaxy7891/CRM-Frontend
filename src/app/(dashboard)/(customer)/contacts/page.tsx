@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
   getContacts,
+  getContactsForExport,
   getContactById,
   deleteContact,
 } from '@/redux/actions/contactsActions';
@@ -19,7 +20,7 @@ import TableDataAction from '@/components/table/table-data-actions';
 import TableDataLink from '@/components/table/table-data-link';
 import TableDataLong from '@/components/table/table-data-long';
 import TableDataShort from '@/components/table/table-data-short';
-import ActionConfirmModal from '@/components/status/action-confirm-modal';
+import ActionConfirmModal from '@/components/status/action-confirm-yellow-modal';
 import StatusBadge from '@/components/table/status-badge';
 import EditContact from './partials/edit-contact';
 import DeleteButton from '@/components/button/delete-button';
@@ -34,10 +35,10 @@ import Loading from '@/components/status/loading';
 
 const ContactsPage = () => {
   const [sortBy, setSortBy] = useState<string>('terbaru');
-  const [statusBy, setStatusBy] = useState<string>('rendah');
+  const [statusBy, setStatusBy] = useState<string>('semua');
   const [perPage, setPerPage] = useState<string>('10');
   const [isTriggerFetch, setIsTriggerFetch] = useState<boolean>(false);
-  const [isLoadingPage, setIsLoadingPage] = useState<boolean>(false);
+  const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isEditContact, setIsEditContact] = useState<boolean>(false);
   const [isDeleteContact, setIsDeleteContact] = useState<boolean>(false);
@@ -128,6 +129,20 @@ const ContactsPage = () => {
     }
   };
 
+  const handleExportData = async () => {
+    try {
+      // Call redux and gettin data to variable
+      const fetchedData = await dispatch(getContactsForExport());
+
+      // Make sure the data is available
+      if (fetchedData && Array.isArray(fetchedData)) {
+        handleExport(fetchedData);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     if (isTriggerFetch) {
       setPagination((prev) => ({
@@ -167,7 +182,7 @@ const ContactsPage = () => {
                 onClick={() => handleDeleteConfirmation(selectedIds)}
               />
 
-              <ExportButton onClick={() => handleExport(contacts)} />
+              <ExportButton onClick={() => handleExportData()} />
 
               <FilterTableButton
                 setSortBy={setSortBy}
@@ -231,6 +246,7 @@ const ContactsPage = () => {
                   next_page_url={pagination.next_page_url}
                   handlePrevPage={handlePrevPage}
                   handleNextPage={handleNextPage}
+                  perPage={pagination.per_page}
                 />
                 {isEditContact && (
                   <EditContact

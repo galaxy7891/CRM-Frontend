@@ -19,7 +19,7 @@ export const getProfile =
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;
     if (!token) {
-      dispatch(logout());
+      dispatch(logout(() => {}));
 
       if (navigate && errorRedirect) {
         navigate(errorRedirect);
@@ -41,7 +41,7 @@ export const getProfile =
       }
     } catch (error) {
       console.error(error);
-      dispatch(logout());
+      dispatch(logout(() => {}));
 
       if (navigate && errorRedirect) {
         navigate(errorRedirect);
@@ -86,7 +86,7 @@ export const getClients =
     try {
       const config = {
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/accountstype?tipe=${typeBy}&sort=${sortBy}&per_page=${perPage}&page=${currentPage}`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/accountstypes?tipe=${typeBy}&sort=${sortBy}&per_page=${perPage}&page=${currentPage}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -110,7 +110,7 @@ export const getClients =
     }
   };
 
-export const getClientsForPrint =
+export const getClientsForExport =
   () =>
   async (
     dispatch: AppDispatch,
@@ -121,7 +121,7 @@ export const getClientsForPrint =
     try {
       const config = {
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/accountstype`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/accountstypes`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -131,5 +131,43 @@ export const getClientsForPrint =
       return response.data.data.data;
     } catch (error) {
       console.error(error);
+    }
+  };
+
+export const updateClient =
+  (
+    client: clientTypes,
+    setIsLoading: (loading: boolean) => void,
+    setIsSuccess: (success: boolean) => void,
+    setErrorMessage: (messages: { [key: string]: string }) => void
+  ) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
+    setIsLoading(true);
+    const { token } = getState().auth;
+    try {
+      const config = {
+        method: 'post',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/accountstypes/${client.id}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        data: client,
+      };
+
+      const response = await axios.request(config);
+
+      if (response.data.success) {
+        setIsSuccess(true);
+      } else {
+        if (response.data.message) {
+          setErrorMessage(response.data.message);
+          console.error(response.data.message);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };

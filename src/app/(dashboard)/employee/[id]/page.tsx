@@ -14,7 +14,7 @@ import {
 import DashboardCard from '@/components/layout/dashboard-card';
 import DeleteButton from '@/components/button/delete-button';
 import SuccessModal from '@/components/status/success-modal';
-import ActionConfirmModal from '@/components/status/action-confirm-modal';
+import ActionConfirmModal from '@/components/status/action-confirm-yellow-modal';
 import ProductLog from './partials/employee-log';
 import HeaderWithBackButton from '@/components/layout/header-with-back';
 import Loading from '@/components/status/loading';
@@ -24,6 +24,7 @@ const DetailProduct = () => {
   const [isEditEmployee, setIsEditEmployee] = useState<boolean>(false);
   const [isDeleteProduct, setIsDeleteProduct] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [role, setRole] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams<{ id: string }>();
   const { employee } = useSelector((state: RootState) => state.employees);
@@ -47,6 +48,9 @@ const DetailProduct = () => {
   };
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setRole(localStorage.getItem('role'));
+    }
     if (id) {
       dispatch(getEmployeeById(id)).then(() => setIsLoadingPage(false));
     }
@@ -73,8 +77,6 @@ const DetailProduct = () => {
                     email: employee?.email || '-',
                   }}
                   imageSrc="/images/customer.png"
-                  emailHref={`mailto:${employee?.email}`}
-                  waHref={`https://wa.me/62${employee?.phone}`}
                 />
               </div>
               <div className="col-span-12 lg:col-start-5 lg:col-span-8">
@@ -82,12 +84,16 @@ const DetailProduct = () => {
                   <p className="font-custom text-font-black dark:text-font-white text-sm md:text-2xl font-medium">
                     Data Karyawan
                   </p>
-                  <div className="flex items-center space-x-2">
-                    {employee && (
-                      <EditUserButton onClick={() => handleEdit(employee.id)} />
-                    )}
-                    <DeleteButton onClick={handleDeleteConfirmation} />
-                  </div>
+                  {role === 'superadmin' && (
+                    <div className="flex items-center space-x-2">
+                      {employee && (
+                        <EditUserButton
+                          onClick={() => handleEdit(employee.id)}
+                        />
+                      )}
+                      <DeleteButton onClick={handleDeleteConfirmation} />
+                    </div>
+                  )}
                 </div>
                 <div className="grid grid-cols-1 gap-4 p-4 mt-2 bg-light-white dark:bg-dark-darkGray rounded-[10px]">
                   <CustomerInfo

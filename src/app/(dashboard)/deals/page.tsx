@@ -20,7 +20,7 @@ const Deals = () => {
   };
 
   const handleAddDealsClick = () => {
-    setIsAddDeals(isAddDeals);
+    setIsAddDeals(!isAddDeals);
   };
 
   useEffect(() => {
@@ -31,14 +31,14 @@ const Deals = () => {
   return (
     <div className="flex flex-col h-full mb-6">
       {/* Header */}
-      <div className="flex flex-shrink-0 items-center mb-5">
+      <div className="flex flex-shrink-0 items-center mb-4 lg:mb-8">
         <div className="grid grid-cols-12 w-full">
-          <div className="col-span-12 md:col-span-4">
+          <div className="col-span-4 flex items-center">
             <p className="text-font-black dark:text-font-white text-base font-custom md:text-[32px]">
               Data Deals
             </p>
           </div>
-          <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0 ">
+          <div className="col-span-8 flex justify-end gap-2 pt-2 md:pt-0 ">
             <DealsTableSectionButton
               onClick={handleTableView}
               isTableView={isTableView}

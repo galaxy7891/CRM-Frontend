@@ -7,12 +7,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import {
   getProducts,
+  getProductsForExport,
   getProductById,
   deleteProduct,
 } from '@/redux/actions/productsActions';
 import handleExport from '@/utils/export_CSV';
 import DashboardCard from '@/components/layout/dashboard-card';
-import ActionConfirmModal from '@/components/status/action-confirm-modal';
+import ActionConfirmModal from '@/components/status/action-confirm-yellow-modal';
+import ErrorModal from '@/components/status/error-modal';
 import EditProduct from './partials/edit-product';
 import TableHeader from '@/components/table/table-header';
 import TableRow from '@/components/table/table-row';
@@ -37,6 +39,7 @@ const Product = () => {
   const [perPage, setPerPage] = useState<string>('10');
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isTriggerFetch, setIsTriggerFetch] = useState<boolean>(false);
+  const [isDeleteError, setIsDeleteError] = useState<boolean>(false);
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
   const [isEditProduct, setIsEditProduct] = useState<boolean>(false);
   const [isAddProduct, setIsAddProduct] = useState<boolean>(false);
@@ -133,6 +136,20 @@ const Product = () => {
     }
   };
 
+  const handleExportData = async () => {
+    try {
+      // Call redux and gettin data to variable
+      const fetchedData = await dispatch(getProductsForExport());
+
+      // Make sure the data is available
+      if (fetchedData && Array.isArray(fetchedData)) {
+        handleExport(fetchedData);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     if (isTriggerFetch) {
       setPagination((prev) => ({
@@ -155,12 +172,12 @@ const Product = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center mb-5">
+      <div className="flex justify-between items-center mb-4 lg:mb-8">
         <p className="text-font-black dark:text-font-white text-base font-custom md:text-[32px]">
           Data Produk
         </p>
 
-        <div className="flex items- center gap-2">
+        <div className="flex items-center gap-2">
           <a
             href="/product/import"
             className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
@@ -203,9 +220,15 @@ const Product = () => {
 
               <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
                 <DeleteButton
-                  onClick={() => handleDeleteConfirmation(selectedIds)}
+                  onClick={() => {
+                    if (selectedIds.length > 0) {
+                      handleDeleteConfirmation(selectedIds);
+                    } else {
+                      setIsDeleteError(true);
+                    }
+                  }}
                 />
-                <ExportButton onClick={() => handleExport(products)} />
+                <ExportButton onClick={() => handleExportData()} />
                 <FilterTableButton
                   setSortBy={setSortBy}
                   setPerPage={setPerPage}
@@ -259,6 +282,7 @@ const Product = () => {
                     next_page_url={pagination.next_page_url}
                     handlePrevPage={handlePrevPage}
                     handleNextPage={handleNextPage}
+                    perPage={pagination.per_page}
                   />
                   {isEditProduct && (
                     <EditProduct
@@ -296,6 +320,15 @@ const Product = () => {
                       actionButton={false}
                       actionButton_href=""
                       actionButton_name=""
+                    />
+                  )}
+                  {isDeleteError && (
+                    <ErrorModal
+                      header="Pilih data sebelum menghapus!"
+                      description="Silahkan pilih minimal satu data untuk bisa dihapus"
+                      actionButton={true}
+                      actionButton_name="Kembali"
+                      actionButton_action={() => setIsDeleteError(false)}
                     />
                   )}
                 </>

@@ -18,7 +18,7 @@ import StageBadge from '@/components/table/stage-badge';
 import StatusBadge from '@/components/table/status-badge';
 import EditDeals from '../partials/edit-deals';
 import Loading from '@/components/status/loading';
-import ActionConfirmModal from '@/components/status/action-confirm-modal';
+import ActionConfirmModal from '@/components/status/action-confirm-yellow-modal';
 import SuccessModal from '@/components/status/success-modal';
 import DealsLog from './deals-log';
 

@@ -8,6 +8,7 @@ import companies from './companiesReducers';
 import profile from './profileReducers';
 import deals from './dealsReducers';
 import products from './productsReducers';
+import CMS from './CMSReducers';
 
 export default combineReducers({
   administrator,
@@ -19,4 +20,5 @@ export default combineReducers({
   profile,
   deals,
   products,
+  CMS,
 });

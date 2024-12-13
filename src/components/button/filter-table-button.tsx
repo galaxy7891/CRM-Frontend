@@ -13,6 +13,7 @@ interface FilterTableButtonProps {
   setSortBy: Dispatch<SetStateAction<string>>;
   setTypeBy?: Dispatch<SetStateAction<string>>;
   setStatusBy?: Dispatch<SetStateAction<string>>;
+  setArticleStatusBy?: Dispatch<SetStateAction<string>>;
   setPerPage: Dispatch<SetStateAction<string>>;
 }
 
@@ -20,6 +21,7 @@ interface TempFilter {
   sortBy: string;
   setTypeBy?: string;
   statusBy?: string;
+  articleStatusBy?: string;
   perPage: string;
 }
 
@@ -27,13 +29,15 @@ const FilterTableButton: React.FC<FilterTableButtonProps> = ({
   setSortBy,
   setTypeBy,
   setStatusBy,
+  setArticleStatusBy,
   setPerPage,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [tempFilter, setTempFilter] = useState<TempFilter>({
     sortBy: 'terbaru',
     setTypeBy: setTypeBy ? 'semua' : undefined, // Set to undefined if no type
-    statusBy: setStatusBy ? 'rendah' : undefined, // Set to undefined if no status
+    statusBy: setStatusBy ? 'semua' : undefined,
+    articleStatusBy: setArticleStatusBy ? 'semua' : undefined,
     perPage: '10',
   });
 
@@ -56,6 +60,8 @@ const FilterTableButton: React.FC<FilterTableButtonProps> = ({
     setSortBy(tempFilter.sortBy);
     if (setTypeBy && tempFilter.setTypeBy) setTypeBy(tempFilter.setTypeBy);
     if (setStatusBy && tempFilter.statusBy) setStatusBy(tempFilter.statusBy);
+    if (setArticleStatusBy && tempFilter.articleStatusBy)
+      setArticleStatusBy(tempFilter.articleStatusBy);
     setPerPage(tempFilter.perPage);
     setIsOpen(false);
   };
@@ -191,6 +197,14 @@ const FilterTableButton: React.FC<FilterTableButtonProps> = ({
               </p>
               <div className="flex flex-row gap-2 mb-4">
                 <Filter
+                  isActive={tempFilter.statusBy == 'semua'}
+                  onClick={() =>
+                    setTempFilter({ ...tempFilter, statusBy: 'semua' })
+                  }
+                >
+                  Semua
+                </Filter>
+                <Filter
                   isActive={tempFilter.statusBy == 'rendah'}
                   onClick={() =>
                     setTempFilter({ ...tempFilter, statusBy: 'rendah' })
@@ -206,6 +220,8 @@ const FilterTableButton: React.FC<FilterTableButtonProps> = ({
                 >
                   Sedang
                 </Filter>
+              </div>
+              <div className="flex flex-row gap-2 mb-4">
                 <Filter
                   isActive={tempFilter.statusBy == 'tinggi'}
                   onClick={() =>
@@ -213,6 +229,41 @@ const FilterTableButton: React.FC<FilterTableButtonProps> = ({
                   }
                 >
                   Tinggi
+                </Filter>
+              </div>
+            </>
+          )}
+
+          {/* Article Status */}
+          {setArticleStatusBy && (
+            <>
+              <p className="font-medium text-xs mb-3 font-custom text-font-black dark:text-font-white">
+                Status
+              </p>
+              <div className="flex flex-row gap-2 mb-4">
+                <Filter
+                  isActive={tempFilter.articleStatusBy == 'semua'}
+                  onClick={() =>
+                    setTempFilter({ ...tempFilter, articleStatusBy: 'semua' })
+                  }
+                >
+                  Semua
+                </Filter>
+                <Filter
+                  isActive={tempFilter.articleStatusBy == 'terbit'}
+                  onClick={() =>
+                    setTempFilter({ ...tempFilter, articleStatusBy: 'terbit' })
+                  }
+                >
+                  Terbit
+                </Filter>
+                <Filter
+                  isActive={tempFilter.articleStatusBy == 'draf'}
+                  onClick={() =>
+                    setTempFilter({ ...tempFilter, articleStatusBy: 'draf' })
+                  }
+                >
+                  Draf
                 </Filter>
               </div>
             </>

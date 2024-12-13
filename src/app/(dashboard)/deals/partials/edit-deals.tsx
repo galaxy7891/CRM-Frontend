@@ -226,12 +226,12 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
                 { label: 'bulan', value: 'bulan' },
                 { label: 'tahun', value: 'tahun' },
               ]}
-              onTextChange={(e) =>
-                setDeal({ ...deal, payment_duration: e.target.value })
-              }
-              textValue={deal.payment_duration}
               onSelectChange={(e) =>
                 setDeal({ ...deal, payment_category: e.target.value })
+              }
+              textValue={deal.payment_duration}
+              onTextChange={(e) =>
+                setDeal({ ...deal, payment_duration: e.target.value })
               }
             />
           </div>
@@ -357,7 +357,7 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
       </form>
       <SidebarFooter>
         <DashboardSidebarRedButton onClick={onClose}>
-          Hapus Semua
+          Batal
         </DashboardSidebarRedButton>
         <DashboardSidebarYellowButton onClick={handleEditDeal}>
           {isLoading ? 'Menyimpan' : 'Simpan'}

@@ -40,7 +40,7 @@ const EditImageUser = ({ onClose, data }: FormEditProps) => {
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Edit Foto Profil">
       {/* Centered Image and Text */}
-      <div className="flex flex-col justify-center items-center text-center">
+      <div className="flex flex-col justify-center items-center text-center h-full">
         <Image
           src={
             preview

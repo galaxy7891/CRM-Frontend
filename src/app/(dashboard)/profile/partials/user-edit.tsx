@@ -165,21 +165,21 @@ const EditUser: React.FC<FormEditProps> = ({ onClose, data }) => {
         {/* Sticky Footer */}
         <SidebarFooter>
           <DashboardSidebarRedButton onClick={onClose}>
-            Hapus Semua
+            Batal
           </DashboardSidebarRedButton>
           <DashboardSidebarYellowButton onClick={handleUpdateUser}>
             Simpan
           </DashboardSidebarYellowButton>
         </SidebarFooter>
-        
+
         {isSuccess && (
-        <SuccessModal
-          header="Berhasil"
-          description="Data pengguna berhasil diperbarui"
-          actionButton_name="Kembali"
-          actionButton_action={onClose}
-        />
-      )}
+          <SuccessModal
+            header="Berhasil"
+            description="Data pengguna berhasil diperbarui"
+            actionButton_name="Kembali"
+            actionButton_action={onClose}
+          />
+        )}
       </SidebarModal>
     </>
   );

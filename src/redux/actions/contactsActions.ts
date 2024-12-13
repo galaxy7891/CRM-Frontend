@@ -51,6 +51,30 @@ export const getContacts =
     }
   };
 
+export const getContactsForExport =
+  () =>
+  async (
+    dispatch: AppDispatch,
+    getState: () => RootState
+  ): Promise<contactsTypes[] | undefined> => {
+    const { token } = getState().auth;
+
+    try {
+      const config = {
+        method: 'get',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/contact?sort=terbaru&status=semua&per_page=semua&page=1`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.request(config);
+
+      return response.data.data.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 export const getContactById =
   (id: string) => async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;

@@ -15,7 +15,7 @@ interface HeaderCmsProps {
 
 const headerTitles = [
   { title: 'Beranda', link: '/cms-homepage' },
-  { title: 'Pelanggan', link: '/cms-customer' },
+  { title: 'Pelanggan', link: '/cms-clients' },
   { title: 'Artikel', link: '/cms-article' },
 ];
 const HeaderCms: React.FC<HeaderCmsProps> = ({ onToggleSidebar }) => {
@@ -55,7 +55,7 @@ const HeaderCms: React.FC<HeaderCmsProps> = ({ onToggleSidebar }) => {
 
   return (
     <div className="relative">
-      <header className="sticky top-0 z-30 flex items-center justify-between py-3 px-5 md:py-4 bg-dark-navy  shadow-lg">
+      <header className="sticky top-0 z-30 flex items-center justify-between ps-3 pe-4 py-3 lg:pe-12 md:py-4  bg-dark-navy  shadow-lg">
         <div className="flex items-center gap-3 md:gap-5">
           <button
             className="md:hidden inline-flex items-center"
@@ -77,15 +77,17 @@ const HeaderCms: React.FC<HeaderCmsProps> = ({ onToggleSidebar }) => {
         </div>
         <div className="flex items-center gap-5">
           <div ref={dropdownRef} className="relative">
-            <Image
-              id="avatarButton"
-              onClick={toggleDropdown}
-              className="w-auto h-auto rounded-full cursor-pointer"
-              src="/images/customer.png"
-              alt="User dropdown"
-              width={40}
-              height={40}
-            />
+            <div className="w-10">
+              <Image
+                id="avatarButton"
+                onClick={toggleDropdown}
+                className="w-auto h-auto rounded-full cursor-pointer"
+                src="/images/customer.png"
+                alt="User dropdown"
+                width={35}
+                height={35}
+              />
+            </div>
 
             {isDropdownOpen && (
               <div

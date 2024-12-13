@@ -14,7 +14,7 @@ import {
   getZipCodes,
 } from '@/utils/getAddressLocation';
 import SuccesModal from '@/components/status/success-modal';
-import ActionConfirmModal from '@/components/status/action-confirm-modal';
+import ActionConfirmModal from '@/components/status/action-confirm-yellow-modal';
 import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
 import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
 import SelectInput from '@/components/form-input/dropdown-input';
@@ -344,7 +344,7 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
       <SidebarFooter>
         {/* if data empty button disabled */}
         <DashboardSidebarRedButton onClick={onClose}>
-          Hapus Semua
+          Batal
         </DashboardSidebarRedButton>
         {/* Tambah button is used  */}
         <DashboardSidebarYellowButton onClick={handleOpenConfirmation}>
@@ -363,10 +363,10 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
       {isSuccess && (
         <SuccesModal
           header="Berhasil!"
-          description="Data leads berhasil dikoversi menjadi kontak"
+          description="Data leads berhasil dikonversi menjadi kontak"
           actionButton={true}
           actionButton_href="/contacts"
-          actionButton_name="Menuju ke kontak"
+          actionButton_name="Menuju ke Halaman Kontak"
         />
       )}
     </SidebarModal>
