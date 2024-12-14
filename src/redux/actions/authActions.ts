@@ -11,9 +11,11 @@ export const login =
   (
     email: string,
     password: string,
-    setErrorMessage: (message: string) => void
+    setErrorMessage: (message: string) => void,
+    setIsLoading: (loading: boolean) => void
   ) =>
   async (dispatch: AppDispatch) => {
+    setIsLoading(true);
     try {
       const config = {
         method: 'post',
@@ -36,6 +38,8 @@ export const login =
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -178,7 +182,13 @@ export const submitRegisterData =
       setIsLoading('');
     }
   };
-export const logout = () => (dispatch: AppDispatch) => {
-  dispatch(setUser(null));
-  dispatch(setToken(''));
-};
+export const logout =
+  (setIsLoading: (loading: boolean) => void) => (dispatch: AppDispatch) => {
+    setIsLoading(true);
+    try {
+      dispatch(setUser(null));
+      dispatch(setToken(''));
+    } finally {
+      setIsLoading(false);
+    }
+  };

@@ -20,7 +20,7 @@ import NewDeals from './new-deals';
 import FilterTableButton from '@/components/button/filter-table-button';
 import PaginationButton from '@/components/button/pagination-button';
 import ExportButton from '@/components/button/export-button';
-import ActionConfirmModal from '@/components/status/action-confirm-modal';
+import ActionConfirmModal from '@/components/status/action-confirm-yellow-modal';
 import SuccessModal from '@/components/status/success-modal';
 import Loading from '@/components/status/loading';
 import EditDeals from './edit-deals';

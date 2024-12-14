@@ -27,7 +27,7 @@ export const getProfile =
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;
     if (!token) {
-      dispatch(logout());
+      dispatch(logout(() => {}));
 
       if (navigate && errorRedirect) {
         navigate(errorRedirect);
@@ -50,7 +50,7 @@ export const getProfile =
       }
     } catch (error) {
       console.error(error);
-      dispatch(logout());
+      dispatch(logout(() => {}));
 
       if (navigate && errorRedirect) {
         navigate(errorRedirect);
@@ -83,7 +83,7 @@ export const getDashboardData =
         );
       }
     } catch (error) {
-      console.error('Error fetching dashboard data:', error);
+      console.error(error);
     }
   };
 

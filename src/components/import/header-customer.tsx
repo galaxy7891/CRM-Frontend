@@ -55,16 +55,16 @@ const HeaderCustomer: React.FC = () => {
     setCurrentPage(matchedPage);
   }, [pathName]);
 
-  // Cek apakah path saat ini adalah halaman detail leads
+  // Check if the current page is a detail page
   const isDetailPage = /^\/(leads|contacts|companies)\/.+$/.test(pathName);
 
-  // Jika berada di halaman detail leads, jangan render HeaderCustomer
+  // If the current page is a detail page, return null
   if (isDetailPage) {
     return null;
   }
 
   return (
-    <div className="relative mb-5">
+    <div className="relative mb-4 lg:mb-8 ">
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <p className="text-base lg:text-3xl font-custom text-font-black dark:text-font-white">

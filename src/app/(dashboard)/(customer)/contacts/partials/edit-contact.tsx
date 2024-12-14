@@ -362,7 +362,7 @@ const EditContact: React.FC<formActionPropsTypes> = ({
       </form>
       <SidebarFooter>
         <DashboardSidebarRedButton onClick={onClose}>
-          Hapus Semua
+          Batal
         </DashboardSidebarRedButton>
         <DashboardSidebarYellowButton onClick={handleEditContact}>
           Tambah
@@ -371,7 +371,7 @@ const EditContact: React.FC<formActionPropsTypes> = ({
       {isSuccess && (
         <SuccessModal
           header="Berhasil"
-          description="Data contacts berhasil diubah"
+          description="Data kontak berhasil diubah"
           actionButton={true}
           actionButton_name="Kembali"
           actionButton_action={() => window.location.reload()}

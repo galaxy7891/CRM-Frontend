@@ -1,16 +1,18 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
-import { getProfile } from "@/redux/actions/profileActions";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "@/redux/store";
-import { HeaderTitle } from "@/constants/page";
-import { logout } from "@/redux/actions/authActions";
-import Image from "next/image";
-import useTheme from "@/components/useTheme";
-import Link from "next/link";
+import React, { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { getProfile } from '@/redux/actions/profileActions';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '@/redux/store';
+import { HeaderTitle } from '@/constants/page';
+import { logout } from '@/redux/actions/authActions';
+import useTheme from '@/components/useTheme';
+import ActionConfirmRedModal from '../status/action-confirm-red-modal';
+import Loading from '@/components/status/loading';
 
 interface HeaderProps {
   onToggleSidebar: () => void;
@@ -22,9 +24,11 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
   >(undefined);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+  const [isLogOut, setIsLogOut] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
   const toggleTooltip = () => setIsTooltipVisible(!isTooltipVisible);
-  const [photo, setPhoto] = useState<string>("");
+  const [photo, setPhoto] = useState<string>('');
   const { isDarkMode, toggleTheme } = useTheme();
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
@@ -38,14 +42,18 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
       dropdownRef.current &&
       !dropdownRef.current.contains(event.target as Node)
     ) {
-      setIsDropdownOpen(false); // Tutup dropdown jika klik di luar elemen
+      setIsDropdownOpen(false); // Close the dropdown when outrange of element
     }
   };
 
+  const handleIsLogout = () => {
+    setIsLogOut(!isLogOut);
+  };
+
   const handleLogout = () => {
-    dispatch(logout());
-    console.log("logout");
-    router.push("/login");
+    dispatch(logout(setIsLoading));
+    console.log('logout');
+    router.push('/login');
   };
 
   useEffect(() => {
@@ -55,7 +63,6 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
 
     dispatch(getProfile());
 
-    console.log("useffect loaded");
     let matchedPage: { title: string; description?: string } | undefined;
 
     for (const menuItem of HeaderTitle) {
@@ -83,10 +90,10 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
     }
 
     setCurrentPage(matchedPage);
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [pathName, dispatch, user?.image_url]);
 
@@ -112,7 +119,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
           </button>
 
           <p className="text-base lg:text-xl font-custom text-font-light">
-            {currentPage ? currentPage.title : "Page"}
+            {currentPage ? currentPage.title : 'Page'}
           </p>
 
           <div className="relative group">
@@ -152,15 +159,17 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
 
         <div className="flex items-center gap-5">
           <div ref={dropdownRef} className="relative">
-            <Image
-              id="avatarButton"
-              onClick={toggleDropdown}
-              className="w-10 h-10 rounded-full cursor-pointer"
-              src={photo ? photo : "/images/default.jpg"}
-              alt="User dropdown"
-              width={40}
-              height={40}
-            />
+            <div className="w-10">
+              <Image
+                id="avatarButton"
+                onClick={toggleDropdown}
+                className="w-10 h-10 rounded-full cursor-pointer"
+                src={photo ? photo : '/images/default.jpg'}
+                alt="User dropdown"
+                width={40}
+                height={40}
+              />
+            </div>
 
             {isDropdownOpen && (
               <div
@@ -216,7 +225,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
                 </ul>
                 <div className="py-1">
                   <button
-                    onClick={handleLogout}
+                    onClick={handleIsLogout}
                     className="block w-max px-2 py-2 text-sm text-dark-red dark:text-dark-redLight"
                   >
                     Keluar
@@ -226,6 +235,17 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
             )}
           </div>
         </div>
+        {isLoading && <Loading />}
+        {isLogOut && (
+          <ActionConfirmRedModal
+            header="Apakah Anda yakin ingin keluar?"
+            description="Anda akan diminta untuk masuk kembali melalui halaman login"
+            closeModal
+            actionButtonNegative_action={handleIsLogout}
+            actionButtonPositive_action={handleLogout}
+            actionButtonPositive_name="Keluar"
+          />
+        )}
       </header>
     </div>
   );

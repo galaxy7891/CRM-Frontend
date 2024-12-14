@@ -66,7 +66,7 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
           </div>
           <div className="order-4">
             <PhoneInput
-              value={employee.phone || ""}
+              value={employee.phone || ''}
               onChange={(e) =>
                 setEmployee({ ...employee, phone: e.target.value })
               }
@@ -79,10 +79,10 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
               label="Akses"
               value={employee.role}
               options={[
-                { value: "", label: "Pilih Akses", hidden: true },
-                { value: "super_admin", label: "Super Admin" },
-                { value: "admin", label: "Admin" },
-                { value: "karyawan", label: "Karyawan" },
+                { value: '', label: 'Pilih Akses', hidden: true },
+                { value: 'super_admin', label: 'Super Admin' },
+                { value: 'admin', label: 'Admin' },
+                { value: 'karyawan', label: 'Karyawan' },
               ]}
               onChange={(e) =>
                 setEmployee({ ...employee, role: e.target.value })
@@ -95,11 +95,11 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
               label="Jabatan"
               value={employee.job_position}
               options={[
-                { value: "", label: "Pilih Jabatan", hidden: true },
-                { value: "Presiden", label: "Presiden" },
-                { value: "C-Level", label: "C-Level" },
-                { value: "Manager", label: "Manager" },
-                { value: "Sales", label: "Sales" },
+                { value: '', label: 'Pilih Jabatan', hidden: true },
+                { value: 'Presiden', label: 'Presiden' },
+                { value: 'C-Level', label: 'C-Level' },
+                { value: 'Manager', label: 'Manager' },
+                { value: 'Sales', label: 'Sales' },
               ]}
               onChange={(e) =>
                 setEmployee({ ...employee, job_position: e.target.value })
@@ -115,10 +115,10 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
               label="Jenis Kelamin"
               value={employee.gender} // Use state for gender
               options={[
-                { label: "Pilih Jenis Kelamin", value: "", hidden: true },
-                { label: "laki-laki", value: "laki-laki" },
-                { label: "perempuan", value: "perempuan" },
-                { label: "lainnya", value: "lainnya" },
+                { label: 'Pilih Jenis Kelamin', value: '', hidden: true },
+                { label: 'laki-laki', value: 'laki-laki' },
+                { label: 'perempuan', value: 'perempuan' },
+                { label: 'lainnya', value: 'lainnya' },
               ]}
               onChange={(e) =>
                 setEmployee({ ...employee, gender: e.target.value })
@@ -129,7 +129,7 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
       </form>
       <SidebarFooter>
         <DashboardSidebarRedButton onClick={onClose}>
-          Hapus Semua
+          Batal
         </DashboardSidebarRedButton>
         <DashboardSidebarYellowButton onClick={handleEditEmployee}>
           Simpan

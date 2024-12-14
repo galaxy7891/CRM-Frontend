@@ -74,6 +74,7 @@ const EditProduct: React.FC<editProductsPropsTypes> = ({
           </div>
           <div className="order-4">
             <PriceInput
+              placeholder="Rp. 12.000"
               label="Harga Produk"
               value={product.price}
               onChange={(e) =>
@@ -130,7 +131,7 @@ const EditProduct: React.FC<editProductsPropsTypes> = ({
       </form>
       <SidebarFooter>
         <DashboardSidebarRedButton onClick={onClose}>
-          Hapus Semua
+          Batal
         </DashboardSidebarRedButton>
         <DashboardSidebarYellowButton onClick={handleEditProduct}>
           Simpan

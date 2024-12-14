@@ -15,7 +15,7 @@ import InviteEmployee from './partials/invite-employee';
 import EditEmployee from './partials/edit-employee';
 import handleExport from '@/utils/export_CSV';
 import DashboardCard from '@/components/layout/dashboard-card';
-import ActionConfirmModal from '@/components/status/action-confirm-modal';
+import ActionConfirmModal from '@/components/status/action-confirm-yellow-modal';
 import TableHeader from '@/components/table/table-header';
 import TableRow from '@/components/table/table-row';
 import TableDataAction from '@/components/table/table-data-actions';
@@ -30,6 +30,7 @@ import FilterTableButton from '@/components/button/filter-table-button';
 import EditTableButton from '@/components/button/edit-table-button';
 import Checkbox from '@/components/button/checkbox';
 import EmptyTable from '@/components/table/empty-table';
+import ErrorModal from '@/components/status/error-modal';
 import Loading from '@/components/status/loading';
 
 const Employee = () => {
@@ -37,6 +38,7 @@ const Employee = () => {
   const [perPage, setPerPage] = useState<string>('10');
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
   const [isTriggerFetch, setIsTriggerFetch] = useState<boolean>(false);
+  const [isDeleteError, setIsDeleteError] = useState<boolean>(false);
   const [isAddUser, setAddUser] = useState(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isEditEmployee, setIsEditEmployee] = useState<boolean>(false);
@@ -150,11 +152,11 @@ const Employee = () => {
     if (sortBy || perPage) {
       setIsTriggerFetch(true);
     }
-  }, [sortBy, perPage]);
+  }, [sortBy, perPage, isSuccess]);
   return (
     <>
       {/* Header */}
-      <div className="flex justify-between items-center mb-5">
+      <div className="flex justify-between items-center mb-4 lg:mb-8">
         <p className="text-font-black dark:text-font-white text-base font-custom md:text-[32px]">
           Data Karyawan
         </p>
@@ -183,6 +185,8 @@ const Employee = () => {
                   className="w-[12px] h-[12px] lg:w-[20px] lg:h-[20px]"
                 />
               </div>
+              //
+              
               <input
                 type="text"
                 placeholder="Cari Leads"
@@ -196,7 +200,11 @@ const Employee = () => {
                 {role === 'super_admin' && (
                   <DeleteButton
                     onClick={() => {
-                      handleDeleteConfirmation(selectedIds);
+                      if (selectedIds.length > 0) {
+                        handleDeleteConfirmation(selectedIds);
+                      } else {
+                        setIsDeleteError(true);
+                      }
                     }}
                   />
                 )}
@@ -286,6 +294,7 @@ const Employee = () => {
               next_page_url={pagination.next_page_url}
               handlePrevPage={handlePrevPage}
               handleNextPage={handleNextPage}
+              perPage={pagination.per_page}
             />
             {isEditEmployee && (
               <EditEmployee
@@ -309,6 +318,15 @@ const Employee = () => {
                 actionButton={true}
                 actionButton_name="Kembali"
                 actionButton_action={() => setIsSuccess(false)}
+              />
+            )}
+            {isDeleteError && (
+              <ErrorModal
+                header="Pilih data sebelum menghapus!"
+                description="Silahkan pilih minimal satu data untuk bisa dihapus"
+                actionButton={true}
+                actionButton_name="Kembali"
+                actionButton_action={() => setIsDeleteError(false)}
               />
             )}
           </DashboardCard>

@@ -11,7 +11,7 @@ import EditProduct from '../partials/edit-product';
 import DashboardCard from '@/components/layout/dashboard-card';
 import DeleteButton from '@/components/button/delete-button';
 import SuccessModal from '@/components/status/success-modal';
-import ActionConfirmModal from '@/components/status/action-confirm-modal';
+import ActionConfirmModal from '@/components/status/action-confirm-yellow-modal';
 import ProductLog from './partials/product-log';
 import FailModal from '@/components/status/fail-modal';
 import HeaderWithBackButton from '@/components/layout/header-with-back';

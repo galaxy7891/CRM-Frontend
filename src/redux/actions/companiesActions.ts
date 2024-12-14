@@ -51,6 +51,30 @@ export const getCompanies =
     }
   };
 
+export const getCompaniesForExport =
+  () =>
+  async (
+    dispatch: AppDispatch,
+    getState: () => RootState
+  ): Promise<companiesTypes[] | undefined> => {
+    const { token } = getState().auth;
+
+    try {
+      const config = {
+        method: 'get',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/customers/companies?sort=terbaru&status=semua&per_page=semua&page=1`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.request(config);
+
+      return response.data.data.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 export const getCompanyById =
   (id: string) => async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;

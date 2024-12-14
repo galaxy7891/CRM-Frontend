@@ -42,3 +42,8 @@ export interface editLeadsPropsTypes {
   onClose: () => void;
   leadProps: leadsTypes;
 }
+
+export interface newLeadsProps {
+  onClose: () => void;
+  emailLocal: string;
+}

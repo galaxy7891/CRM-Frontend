@@ -12,7 +12,7 @@ import EditCompany from '../partials/edit-company';
 import CompanyLog from './partials/companies-log';
 import DashboardCard from '@/components/layout/dashboard-card';
 import SuccessModal from '@/components/status/success-modal';
-import ActionConfirmModal from '@/components/status/action-confirm-modal';
+import ActionConfirmModal from '@/components/status/action-confirm-yellow-modal';
 import CustomerInfo from '@/components/import/card-info-customer';
 import CardCustomer from '@/components/layout/detail-customer-card';
 import EditUserButton from '@/components/button/edit-user-button';

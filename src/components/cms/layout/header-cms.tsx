@@ -1,30 +1,29 @@
-import React from "react";
-import { useEffect, useRef, useState } from "react";
-// import { useRouter } from "next/navigation";
-// import { getProfile } from "@/redux/actions/profileActions";
-// import { useSelector, useDispatch } from "react-redux";
-// import { RootState, AppDispatch } from "@/redux/store";
-// import { logout } from "@/redux/actions/authActions";
-import Image from "next/image";
-import useTheme from "@/components/useTheme";
-import HeaderText from "./header-text";
+import React from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { getProfile } from '@/redux/actions/administratorActions';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import { logout } from '@/redux/actions/authActions';
+import Image from 'next/image';
+import useTheme from '@/components/useTheme';
+import HeaderText from './header-text';
 
 interface HeaderCmsProps {
   onToggleSidebar: () => void;
 }
 
 const headerTitles = [
-  { title: "Beranda", link: "/cms-homepage" },
-  { title: "Pelanggan", link: "/cms-customer" },
-  { title: "Artikel", link: "/cms-article" },
+  { title: 'Beranda', link: '/cms-homepage' },
+  { title: 'Pelanggan', link: '/cms-clients' },
+  { title: 'Artikel', link: '/cms-article' },
 ];
 const HeaderCms: React.FC<HeaderCmsProps> = ({ onToggleSidebar }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
   const { isDarkMode, toggleTheme } = useTheme();
-  //   const dispatch = useDispatch<AppDispatch>();
-  //   const router = useRouter();
-  //   const { user } = useSelector((state: RootState) => state.profile);
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -36,18 +35,19 @@ const HeaderCms: React.FC<HeaderCmsProps> = ({ onToggleSidebar }) => {
     }
   };
 
-  //   const handleLogout = () => {
-  //     dispatch(logout());
-  //     console.log("logout");
-  //     router.push("/login");
-  //   };
+  const handleLogout = () => {
+    dispatch(logout());
+    console.log('logout');
+    router.push('/cms-login');
+  };
 
   useEffect(
     () => {
-      document.addEventListener("mousedown", handleClickOutside);
+      dispatch(getProfile());
+      document.addEventListener('mousedown', handleClickOutside);
 
       return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
+        document.removeEventListener('mousedown', handleClickOutside);
       };
     }
     // [dispatch]
@@ -55,7 +55,7 @@ const HeaderCms: React.FC<HeaderCmsProps> = ({ onToggleSidebar }) => {
 
   return (
     <div className="relative">
-      <header className="sticky top-0 z-30 flex items-center justify-between py-3 px-5 md:py-4 bg-dark-navy  shadow-lg">
+      <header className="sticky top-0 z-30 flex items-center justify-between ps-3 pe-4 py-3 lg:pe-12 md:py-4  bg-dark-navy  shadow-lg">
         <div className="flex items-center gap-3 md:gap-5">
           <button
             className="md:hidden inline-flex items-center"
@@ -77,15 +77,17 @@ const HeaderCms: React.FC<HeaderCmsProps> = ({ onToggleSidebar }) => {
         </div>
         <div className="flex items-center gap-5">
           <div ref={dropdownRef} className="relative">
-            <Image
-              id="avatarButton"
-              onClick={toggleDropdown}
-              className="w-auto h-auto rounded-full cursor-pointer"
-              src="/images/customer.png"
-              alt="User dropdown"
-              width={40}
-              height={40}
-            />
+            <div className="w-10">
+              <Image
+                id="avatarButton"
+                onClick={toggleDropdown}
+                className="w-auto h-auto rounded-full cursor-pointer"
+                src="/images/customer.png"
+                alt="User dropdown"
+                width={35}
+                height={35}
+              />
+            </div>
 
             {isDropdownOpen && (
               <div
@@ -111,7 +113,7 @@ const HeaderCms: React.FC<HeaderCmsProps> = ({ onToggleSidebar }) => {
                 </ul>
                 <div className="py-1">
                   <button
-                    // onClick={handleLogout}
+                    onClick={handleLogout}
                     className="block w-max px-2 py-2 text-sm text-dark-red dark:text-dark-redLight"
                   >
                     Keluar

@@ -6,8 +6,8 @@ import Link from 'next/link';
 
 interface CardCustomerProps {
   data: DataCustomer;
-  emailHref: string;
-  waHref: string;
+  emailHref?: string;
+  waHref?: string;
   imageSrc: string;
 }
 
@@ -53,22 +53,26 @@ const CardCustomer: React.FC<CardCustomerProps> = ({
       <StatusBadge status={data.status ?? ''} />
       {/* Icons */}
       <div className="flex flex-row gap-2 mt-4">
-        <Link href={emailHref}>
-          <Image
-            src="/icons/profile/email.svg"
-            alt="email"
-            width={24}
-            height={24}
-          />
-        </Link>
-        <Link href={waHref}>
-          <Image
-            src="/icons/profile/wa-gray.svg"
-            alt="wa"
-            width={24}
-            height={24}
-          />
-        </Link>
+        {emailHref && (
+          <Link href={emailHref}>
+            <Image
+              src="/icons/profile/email.svg"
+              alt="email"
+              width={24}
+              height={24}
+            />
+          </Link>
+        )}
+        {waHref && (
+          <Link href={waHref}>
+            <Image
+              src="/icons/profile/wa-gray.svg"
+              alt="wa"
+              width={24}
+              height={24}
+            />
+          </Link>
+        )}
       </div>
     </div>
   );

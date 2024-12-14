@@ -9,7 +9,7 @@ import EditContact from '../partials/edit-contact';
 import ContactLog from './partials/contact-log';
 import DashboardCard from '@/components/layout/dashboard-card';
 import SuccessModal from '@/components/status/success-modal';
-import ActionConfirmModal from '@/components/status/action-confirm-modal';
+import ActionConfirmModal from '@/components/status/action-confirm-yellow-modal';
 import CustomerInfo from '@/components/import/card-info-customer';
 import CardCustomer from '@/components/layout/detail-customer-card';
 import EditUserButton from '@/components/button/edit-user-button';
@@ -88,6 +88,11 @@ const DetailContact = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 mt-2 bg-light-white dark:bg-dark-darkGray rounded-[10px]">
                   <CustomerInfo label="Nomor Telepon" value={contact?.phone} />
                   <CustomerInfo label="Alamat" value={contact?.address} />
+                  <CustomerInfo label="Pekerjaan" value={contact?.job} />
+                  <CustomerInfo
+                    label="Perusahaan"
+                    value={contact?.customers_company_id}
+                  />
                   <CustomerInfo
                     label="Tanggal Lahir"
                     value={
@@ -96,7 +101,7 @@ const DetailContact = () => {
                         : '-'
                     }
                   />
-                  <CustomerInfo label="Pekerjaan" value={contact?.job} />
+
                   <CustomerInfo label="Provinsi" value={contact?.province} />
                   <CustomerInfo label="Kota/Kabupaten" value={contact?.city} />
                   <CustomerInfo

@@ -142,7 +142,7 @@ const NewProduct: React.FC<newProductsProps> = ({ onClose }) => {
       <SidebarFooter>
         {/* if data empty button disabled */}
         <DashboardSidebarRedButton onClick={onClose}>
-          Hapus Semua
+          Batal
         </DashboardSidebarRedButton>
         {/* Tambah button is used  */}
         <DashboardSidebarYellowButton onClick={handleAddProduct}>
@@ -153,8 +153,8 @@ const NewProduct: React.FC<newProductsProps> = ({ onClose }) => {
         <SuccessModal
           header="Berhasil"
           description="Data produk berhasil ditambahkan"
-          actionButton_name="Menuju ke halaman produk"
-          actionButton_href="/product"
+          actionButton_name="Kembali ke Halaman Produk"
+          actionButton_action={() => window.location.reload()}
           // actionButton_action={window.location.reload}
         />
       )}

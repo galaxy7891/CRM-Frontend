@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { ActionConfirmModalProps } from '@/types/otherTypes';
 
-const SuccessModal: React.FC<ActionConfirmModalProps> = ({
+const ActionConfirmRedModal: React.FC<ActionConfirmModalProps> = ({
   header,
   description,
   closeModal,
@@ -44,7 +44,7 @@ const SuccessModal: React.FC<ActionConfirmModalProps> = ({
         <div className="flex flex-col items-center text-center">
           <div className="pt-2">
             <Image
-              src="/icons/status/action-confirm.svg"
+              src="/icons/status/action-confirm-red.svg"
               alt="success"
               width={50}
               height={50}
@@ -80,4 +80,4 @@ const SuccessModal: React.FC<ActionConfirmModalProps> = ({
   );
 };
 
-export default SuccessModal;
+export default ActionConfirmRedModal;

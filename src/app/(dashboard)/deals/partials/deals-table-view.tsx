@@ -3,11 +3,13 @@ import { dealsDataTypes } from '@/types/dealsTypes';
 import { paginationTypes } from '@/types/otherTypes';
 import {
   getDeals,
+  getDealsForExport,
   getDealById,
   deleteDeal,
 } from '@/redux/actions/dealsActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
+import handleExport from '@/utils/export_CSV';
 import DashboardCard from '@/components/layout/dashboard-card';
 import ExportButton from '@/components/button/export-button';
 import FilterTableButton from '@/components/button/filter-table-button';
@@ -15,7 +17,7 @@ import EditTableButton from '@/components/button/edit-table-button';
 import EmptyTable from '@/components/table/empty-table';
 import TableHeader from '@/components/table/table-header';
 import Checkbox from '@/components/button/checkbox';
-import ActionConfirmModal from '@/components/status/action-confirm-modal';
+import ActionConfirmModal from '@/components/status/action-confirm-yellow-modal';
 import StageBadge from '@/components/table/stage-badge';
 import StatusBadge from '@/components/table/status-badge';
 import TableRow from '@/components/table/table-row';
@@ -26,6 +28,7 @@ import TableDataShort from '@/components/table/table-data-short';
 import DeleteButton from '@/components/button/delete-button';
 import DeleteTableButton from '@/components/button/delete-table-button';
 import SuccessModal from '@/components/status/success-modal';
+import ErrorModal from '@/components/status/error-modal';
 import EditDeals from './edit-deals';
 import PaginationButton from '@/components/button/pagination-button';
 import Loading from '@/components/status/loading';
@@ -37,6 +40,7 @@ const DealsTableView = () => {
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
   const [isTriggerFetch, setIsTriggerFetch] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<string>('');
+  const [isDeleteError, setIsDeleteError] = useState<boolean>(false);
   const [isDeleteDeal, setIsDeleteDeal] = useState<boolean>(false);
   const [isEditDeals, setIsEditDeals] = useState<boolean>(false);
   const [selectedId, setSelectedId] = useState<string>('');
@@ -130,6 +134,20 @@ const DealsTableView = () => {
     }
   };
 
+  const handleExportData = async () => {
+    try {
+      // Call redux and gettin data to variable
+      const fetchedData = await dispatch(getDealsForExport());
+
+      // Make sure the data is available
+      if (fetchedData && Array.isArray(fetchedData)) {
+        handleExport(fetchedData);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     if (isTriggerFetch) {
       setPagination((prev) => ({
@@ -150,7 +168,7 @@ const DealsTableView = () => {
     if (sortBy || statusBy || perPage) {
       setIsTriggerFetch(true);
     }
-  }, [sortBy, statusBy, perPage]);
+  }, [sortBy, statusBy, isSuccess, perPage]);
 
   return (
     <>
@@ -183,10 +201,15 @@ const DealsTableView = () => {
                 {/* Trash Icon, Export, and Filter Buttons */}
                 {/* Delete Button */}
                 <DeleteButton
-                  onClick={() => handleDeleteConfirmation(selectedIds)}
+                  onClick={() => {
+                    if (selectedIds.length > 0) {
+                      handleDeleteConfirmation(selectedIds);
+                    } else {
+                      setIsDeleteError(true);
+                    }
+                  }}
                 />
-
-                <ExportButton onClick={() => {}} />
+                <ExportButton onClick={() => handleExportData()} />
 
                 <FilterTableButton
                   setSortBy={setSortBy}
@@ -250,6 +273,7 @@ const DealsTableView = () => {
                     next_page_url={pagination.next_page_url}
                     handlePrevPage={handlePrevPage}
                     handleNextPage={handleNextPage}
+                    perPage={pagination.per_page}
                   />
                   {isEditDeals && (
                     <EditDeals onClose={handleCloseEdit} dealProp={deal!} />
@@ -273,6 +297,15 @@ const DealsTableView = () => {
                     />
                   )}
                 </>
+              )}
+              {isDeleteError && (
+                <ErrorModal
+                  header="Pilih data sebelum menghapus!"
+                  description="Silahkan pilih minimal satu data untuk bisa dihapus"
+                  actionButton={true}
+                  actionButton_name="Kembali"
+                  actionButton_action={() => setIsDeleteError(false)}
+                />
               )}
             </>
           </DashboardCard>

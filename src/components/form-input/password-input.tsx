@@ -18,11 +18,12 @@ const PasswordInput = ({
       </label>
       <input
         required
+        autoComplete="on"
         name="password"
         type={`${showPassword ? 'text' : 'password'}`}
         value={value}
         onChange={onChange}
-        placeholder="Masukkan kata sandi"
+        placeholder="**********"
         className={`w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black focus:outline-none border-font-gray rounded-lg bg-light-white focus:border-dark-navy  
           
         } `}

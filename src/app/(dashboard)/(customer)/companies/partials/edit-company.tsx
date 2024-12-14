@@ -91,16 +91,16 @@ const EditCompany: React.FC<formActionPropsTypes> = ({
             label="Jenis Industri"
             value={company?.industry}
             options={[
-              { label: "Pilih Jenis Industri", value: "", hidden: true },
-              { label: "Edukasi", value: "Edukasi" },
-              { label: "Kesehatan", value: "Kesehatan" },
-              { label: "Manufaktur", value: "Manufaktur" },
-              { label: "Pariwisata", value: "Pariwisata" },
-              { label: "Real Estate", value: "Real Estate" },
-              { label: "Retail", value: "Retail" },
-              { label: "Teknologi", value: "Teknologi" },
-              { label: "Transportasi", value: "Transportasi" },
-              { label: "Lainnya", value: "Lainnya" },
+              { label: 'Pilih Jenis Industri', value: '', hidden: true },
+              { label: 'Edukasi', value: 'Edukasi' },
+              { label: 'Kesehatan', value: 'Kesehatan' },
+              { label: 'Manufaktur', value: 'Manufaktur' },
+              { label: 'Pariwisata', value: 'Pariwisata' },
+              { label: 'Real Estate', value: 'Real Estate' },
+              { label: 'Retail', value: 'Retail' },
+              { label: 'Teknologi', value: 'Teknologi' },
+              { label: 'Transportasi', value: 'Transportasi' },
+              { label: 'Lainnya', value: 'Lainnya' },
             ]}
             onChange={(e) =>
               setCompany({ ...company, industry: e.target.value })
@@ -136,9 +136,9 @@ const EditCompany: React.FC<formActionPropsTypes> = ({
             label="Status Perusahaan"
             value={company.status}
             options={[
-              { label: "rendah", value: "rendah" },
-              { label: "sedang", value: "sedang" },
-              { label: "tinggi", value: "Tinggi" },
+              { label: 'rendah', value: 'rendah' },
+              { label: 'sedang', value: 'sedang' },
+              { label: 'tinggi', value: 'Tinggi' },
             ]}
             onChange={(e) => setCompany({ ...company, status: e.target.value })}
             required
@@ -160,7 +160,7 @@ const EditCompany: React.FC<formActionPropsTypes> = ({
             label="Penanggung Jawab"
             disabled={true}
             placeholder="Penanggung Jawab"
-            value={company.owner || ""}
+            value={company.owner || ''}
             onChange={(e) => setCompany({ ...company, owner: e.target.value })}
             required
           />
@@ -170,36 +170,36 @@ const EditCompany: React.FC<formActionPropsTypes> = ({
         <div className="order-9">
           <SelectInput
             label="Provinsi"
-            value={company.province || ""}
+            value={company.province || ''}
             options={[
               {
-                label: company.province ? company.province : "Pilih Provinsi",
-                value: company.province ? company.province : "",
+                label: company.province ? company.province : 'Pilih Provinsi',
+                value: company.province ? company.province : '',
                 hidden: company.province ? true : false,
               },
               ...provinces.map((p) => ({ label: p.text, value: p.id })),
             ]}
             onChange={(e) => {
               const selectedText =
-                provinces.find((p) => p.id === e.target.value)?.text || "";
+                provinces.find((p) => p.id === e.target.value)?.text || '';
 
               // Reset the company state for city, subdistrict, village, and zip_code
               setCompany({
                 ...company,
                 province: selectedText,
-                city: "",
-                subdistrict: "",
-                village: "",
-                zip_code: "",
+                city: '',
+                subdistrict: '',
+                village: '',
+                zip_code: '',
               });
 
               // Reset selected IDs for cityId, subdistrictId, villageId, and zipCodeId
               setSelectedIds({
                 provinceId: e.target.value,
-                cityId: "",
-                subdistrictId: "",
-                villageId: "",
-                zipCodeId: "",
+                cityId: '',
+                subdistrictId: '',
+                villageId: '',
+                zipCodeId: '',
               });
             }}
           />
@@ -207,26 +207,26 @@ const EditCompany: React.FC<formActionPropsTypes> = ({
         <div className="order-10 ">
           <SelectInput
             label="Kota"
-            value={company.city || ""}
+            value={company.city || ''}
             disabled={!selectedIds.provinceId}
             options={[
               {
-                label: company.city ? company.city : "Pilih Kota",
-                value: company.city ? company.city : "",
+                label: company.city ? company.city : 'Pilih Kota',
+                value: company.city ? company.city : '',
                 hidden: true,
               },
               ...cities.map((c) => ({ label: c.text, value: c.id })),
             ]}
             onChange={(e) => {
               const selectedText =
-                cities.find((c) => c.id === e.target.value)?.text || "";
+                cities.find((c) => c.id === e.target.value)?.text || '';
               setCompany({ ...company, city: selectedText });
               setSelectedIds({
                 ...selectedIds,
                 cityId: e.target.value,
-                subdistrictId: "",
-                villageId: "",
-                zipCodeId: "",
+                subdistrictId: '',
+                villageId: '',
+                zipCodeId: '',
               });
             }}
           />
@@ -234,14 +234,14 @@ const EditCompany: React.FC<formActionPropsTypes> = ({
         <div className="order-11">
           <SelectInput
             label="Kecamatan"
-            value={company.subdistrict || ""}
+            value={company.subdistrict || ''}
             disabled={!selectedIds.cityId}
             options={[
               {
                 label: company.subdistrict
                   ? company.subdistrict
-                  : "Pilih Kecamatan",
-                value: company.subdistrict ? company.subdistrict : "",
+                  : 'Pilih Kecamatan',
+                value: company.subdistrict ? company.subdistrict : '',
                 hidden: true,
               },
 
@@ -249,13 +249,13 @@ const EditCompany: React.FC<formActionPropsTypes> = ({
             ]}
             onChange={(e) => {
               const selectedText =
-                subDistricts.find((sd) => sd.id === e.target.value)?.text || "";
+                subDistricts.find((sd) => sd.id === e.target.value)?.text || '';
               setCompany({ ...company, subdistrict: selectedText });
               setSelectedIds({
                 ...selectedIds,
                 subdistrictId: e.target.value,
-                villageId: "",
-                zipCodeId: "",
+                villageId: '',
+                zipCodeId: '',
               });
             }}
           />
@@ -263,14 +263,14 @@ const EditCompany: React.FC<formActionPropsTypes> = ({
         <div className="order-12">
           <SelectInput
             label="Kelurahan/Desa"
-            value={company.village || ""}
+            value={company.village || ''}
             disabled={!selectedIds.subdistrictId}
             options={[
               {
                 label: company.village
                   ? company.village
-                  : "Pilih Kelurahan/Desa",
-                value: company.village ? company.village : "",
+                  : 'Pilih Kelurahan/Desa',
+                value: company.village ? company.village : '',
                 hidden: company.village ? true : false,
               },
 
@@ -278,12 +278,12 @@ const EditCompany: React.FC<formActionPropsTypes> = ({
             ]}
             onChange={(e) => {
               const selectedText =
-                villages.find((v) => v.id === e.target.value)?.text || "";
+                villages.find((v) => v.id === e.target.value)?.text || '';
               setCompany({ ...company, village: selectedText });
               setSelectedIds({
                 ...selectedIds,
                 villageId: e.target.value,
-                zipCodeId: "",
+                zipCodeId: '',
               });
             }}
           />
@@ -291,12 +291,12 @@ const EditCompany: React.FC<formActionPropsTypes> = ({
         <div className="order-[13]">
           <SelectInput
             label="Kode Pos"
-            value={company.zip_code || ""}
+            value={company.zip_code || ''}
             disabled={!selectedIds.villageId}
             options={[
               {
-                label: company.zip_code ? company.zip_code : "Pilih Kode Pos",
-                value: company.zip_code ? company.zip_code : "",
+                label: company.zip_code ? company.zip_code : 'Pilih Kode Pos',
+                value: company.zip_code ? company.zip_code : '',
                 hidden: true,
               },
               ...zipCodes.map((zipCode) => ({
@@ -306,7 +306,7 @@ const EditCompany: React.FC<formActionPropsTypes> = ({
             ]}
             onChange={(e) => {
               const selectedText =
-                zipCodes.find((z) => z.id === e.target.value)?.text || "";
+                zipCodes.find((z) => z.id === e.target.value)?.text || '';
               setCompany({ ...company, zip_code: selectedText });
               setSelectedIds({ ...selectedIds, zipCodeId: e.target.value });
             }}
@@ -326,7 +326,7 @@ const EditCompany: React.FC<formActionPropsTypes> = ({
       <SidebarFooter>
         {/* if data empty button disabled */}
         <DashboardSidebarRedButton onClick={onClose}>
-          Hapus Semua
+          Batal
         </DashboardSidebarRedButton>
         {/* Tambah button is used  */}
         <DashboardSidebarYellowButton onClick={handleEditCompany}>

@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const ImageArticle = () => {
   return (
-    <div className="relative w-full h-48 bg-light-white dark:bg-dark-darkGray rounded-lg flex flex-col items-center justify-center cursor-pointer">
+    <div className="relative w-full h-72 bg-light-white dark:bg-dark-darkGray rounded-lg flex flex-col items-center justify-center cursor-pointer">
       {/* Ikon gambar */}
       <div className="w-12 h-12 rounded flex items-center justify-center">
         <svg
@@ -18,7 +18,7 @@ const ImageArticle = () => {
             fill="#193442"
           />
         </svg>
-        <div className="absolute bottom-[-15px] right-[15px]">
+        <div className="absolute bottom-[-30px] right-[-30px]">
           <Image
             src="/icons/profile/camera.svg"
             alt="camera"
