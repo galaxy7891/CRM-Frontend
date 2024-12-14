@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import flowbite from "flowbite-react/tailwind"; // Menggunakan import untuk Flowbite
+import typography from '@tailwindcss/typography';
 
 const config: Config = {
   content: [
@@ -68,7 +69,8 @@ const config: Config = {
     },
   },
   plugins: [
-    flowbite.plugin(), // Menambahkan plugin Flowbite
+    flowbite.plugin(), 
+    typography,
   ],
   darkMode: "class",
 };

@@ -3,7 +3,7 @@ import Link from 'next/link';
 const ImportInstruction = ({ href }: { href: string }) => {
   return (
     <>
-      <p className="font-custom text-xs md:text-base text-center text-font-black">
+      <p className="font-custom text-xs md:text-base text-center text-font-black dark:text-font-white">
         Unggah dokumen dengan format <span className="font-bold">xlsx</span>{' '}
         atau
         <span className="block">
