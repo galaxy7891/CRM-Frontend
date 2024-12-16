@@ -33,7 +33,7 @@ const QuestionModal: React.FC<QuestionModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-10 px-4">
-      <div className="relative w-[240px] md:w-[450px] bg-font-white rounded-[30px] shadow-lg py-5 px-2">
+      <div className="relative w-[240px] md:w-[450px] bg-font-white dark:bg-dark-navy rounded-[30px] shadow-lg py-5 px-2">
         {closeModal && (
           <button
             type="button"

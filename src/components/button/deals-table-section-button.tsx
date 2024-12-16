@@ -10,7 +10,7 @@ const DealsTableSectionButton = ({
       onClick={onClick}
       className={`${
         isTableView ? 'bg-dark-navy' : 'bg-light-grayBright'
-      } dark:bg-font-gray rounded-[10px] inline-flex items-center justify-center p-[10px] hover:opacity-80 transition-shadow duration-200`}
+      }  rounded-[10px] inline-flex items-center justify-center p-[10px] hover:opacity-80 transition-shadow duration-200`}
     >
       <svg
         width="27"

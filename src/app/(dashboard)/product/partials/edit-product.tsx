@@ -62,8 +62,8 @@ const EditProduct: React.FC<editProductsPropsTypes> = ({
               value={product.category}
               options={[
                 { label: 'Kategori Produk', value: '', hidden: true },
-                { label: 'jasa', value: 'jasa' },
-                { label: 'barang', value: 'barang' },
+                { label: 'Jasa', value: 'Jasa' },
+                { label: 'Barang', value: 'Barang' },
               ]}
               onChange={(e) =>
                 setProduct({ ...product, category: e.target.value })

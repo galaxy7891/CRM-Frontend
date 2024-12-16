@@ -14,6 +14,7 @@ import ImportFailed from "@/components/import/import-failed";
 import DashboardCard from "@/components/layout/dashboard-card";
 import FailText from "@/components/status/fail-text";
 import HeaderWithBackButton from "@/components/layout/header-with-back";
+import ImportTitle from "@/components/import/import-title";
 
 const ImporFile = () => {
   const [fileName, setFileName] = useState<string>("");
@@ -65,9 +66,7 @@ const ImporFile = () => {
               width={150}
               height={150}
             />
-            <p className="font-custom font-bold md:text-2xl text-lg text-font-black mt-4">
-              Unggah Dokumen
-            </p>
+            <ImportTitle />
             <div className="flex flex-col w-full mt-2 sm:px-32 2xl:px-60">
               <ImportInstruction href="https://drive.google.com/uc?export=download&id=1GkYrWRMJZr9-tRnRqRxDHXdkZ4vhFfNs" />
 

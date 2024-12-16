@@ -20,10 +20,9 @@ const Price = () => {
               </>
             }
             price="300.000"
-            dataProduk="500"
-            dataPelanggan="500"
-            dataPengguna="500"
-            FontSize="text-lg"
+            dataProduk="50"
+            dataPelanggan="100"
+            dataPengguna="10"
           />
           <CardPriceDark
             title="Profesional"
@@ -40,19 +39,17 @@ const Price = () => {
               </>
             }
             price="500.000"
-            dataProduk="1000"
-            dataPelanggan="1000"
-            dataPengguna="1000"
-            FontSize="text-lg"
+            dataProduk="100"
+            dataPelanggan="500"
+            dataPengguna="25"
           />
           <CardPriceLight
             title="Bisnis"
             description="Cocok untuk perusahaan besar atau bisnis yang mengandalkan CRM sebagai inti dari operasional mereka."
             price="800.000"
-            dataProduk="∞"
-            dataPelanggan="∞"
-            dataPengguna="∞"
-            FontSize="text-3xl"
+            dataProduk="200"
+            dataPelanggan="1000"
+            dataPengguna="50"
           />
         </div>
       </BgLightWhite>

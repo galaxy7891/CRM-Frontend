@@ -1,20 +1,21 @@
 "use client";
 
-import Image from 'next/image';
-import React from 'react';
-import Link from 'next/link';
-import { useState, ChangeEvent } from 'react';
-import { ImportErrorMessageDetailTypes } from '@/types/otherTypes';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
-import { importContacts } from '@/redux/actions/contactsActions';
-import FileInput from '@/components/form-input/file-input';
-import FileImportSubmit from '@/components/form-input/file-import-submit';
-import ImportSuccess from '@/components/import/import-success';
-import ImportFailed from '@/components/import/import-failed';
-import FailText from '@/components/status/fail-text';
-import DashboardCard from '@/components/layout/dashboard-card';
-import HeaderWithBackButton from '@/components/layout/header-with-back';
+import Image from "next/image";
+import React from "react";
+import { useState, ChangeEvent } from "react";
+import { ImportErrorMessageDetailTypes } from "@/types/otherTypes";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { importContacts } from "@/redux/actions/contactsActions";
+import FileInput from "@/components/form-input/file-input";
+import FileImportSubmit from "@/components/form-input/file-import-submit";
+import ImportSuccess from "@/components/import/import-success";
+import ImportFailed from "@/components/import/import-failed";
+import FailText from "@/components/status/fail-text";
+import DashboardCard from "@/components/layout/dashboard-card";
+import HeaderWithBackButton from "@/components/layout/header-with-back";
+import ImportTitle from "@/components/import/import-title";
+import ImportInstruction from "@/components/import/import-instruction";
 
 const ImporFile = () => {
   const [fileName, setFileName] = useState<string>("");
@@ -65,26 +66,13 @@ const ImporFile = () => {
               width={150}
               height={150}
             />
-            <p className="font-custom font-bold md:text-2xl text-lg text-font-black mt-4">
-              Unggah Dokumen
-            </p>
+            <ImportTitle />
+
             <div className="flex flex-col w-full mt-2 sm:px-32 2xl:px-60">
-              <p className="font-custom text-xs md:text-base text-center text-font-black">
-                Unggah dokumen dengan format{' '}
-                <span className="font-bold">xlsx</span> atau
-                <span className="block">
-                  {" "}
-                  unduh template sesuai format yang telah ditentukan.
-                </span>
-                <Link
-                  href={`https://drive.google.com/uc?export=download&id=1VPqYpO-rq3Y1_B8Q2yV9KYGGcfdaM7Au`}
-                  download="template-import-kontak.xlsx"
-                  className="font-bold text-dark-gold hover:underline cursor-pointer"
-                >
-                  Unduh Template
-                </Link>
-              </p>
-              <FileInput value={fileName || 'Belum ada file dipilih'} />
+              <ImportInstruction
+                href={`https://drive.google.com/uc?export=download&id=1VPqYpO-rq3Y1_B8Q2yV9KYGGcfdaM7Au`}
+              />
+              <FileInput value={fileName || "Belum ada file dipilih"} />
 
               {errorMessage && <FailText>{errorMessage} </FailText>}
               <FileImportSubmit
@@ -92,7 +80,7 @@ const ImporFile = () => {
                 handleSubmitFile={handleSubmitFile}
                 handleFileChange={handleFileChange}
               >
-                {isLoading ? 'Memuat...' : 'Selanjutnya'}
+                {isLoading ? "Memuat..." : "Selanjutnya"}
               </FileImportSubmit>
             </div>
           </div>

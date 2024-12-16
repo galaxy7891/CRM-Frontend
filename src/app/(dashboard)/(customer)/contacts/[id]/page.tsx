@@ -1,24 +1,24 @@
-'use client';
+"use client";
 
-import { useParams } from 'next/navigation';
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
-import { getContactById, deleteContact } from '@/redux/actions/contactsActions';
-import EditContact from '../partials/edit-contact';
-import ContactLog from './partials/contact-log';
-import DashboardCard from '@/components/layout/dashboard-card';
-import SuccessModal from '@/components/status/success-modal';
-import ActionConfirmModal from '@/components/status/action-confirm-yellow-modal';
-import CustomerInfo from '@/components/import/card-info-customer';
-import CardCustomer from '@/components/layout/detail-customer-card';
-import EditUserButton from '@/components/button/edit-user-button';
-import DeleteButton from '@/components/button/delete-button';
-import HeaderWithBackButton from '@/components/layout/header-with-back';
-import Loading from '@/components/status/loading';
-import moment from 'moment';
-import 'moment/locale/id';
-moment.locale('id');
+import { useParams } from "next/navigation";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { getContactById, deleteContact } from "@/redux/actions/contactsActions";
+import EditContact from "../partials/edit-contact";
+import ContactLog from "./partials/contact-log";
+import DashboardCard from "@/components/layout/dashboard-card";
+import SuccessModal from "@/components/status/success-modal";
+import ActionConfirmModal from "@/components/status/action-confirm-yellow-modal";
+import CustomerInfo from "@/components/import/card-info-customer";
+import CardCustomer from "@/components/layout/detail-customer-card";
+import EditUserButton from "@/components/button/edit-user-button";
+import DeleteButton from "@/components/button/delete-button";
+import HeaderWithBackButton from "@/components/layout/header-with-back";
+import Loading from "@/components/status/loading";
+import moment from "moment";
+import "moment/locale/id";
+moment.locale("id");
 
 const DetailContact = () => {
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
@@ -55,7 +55,7 @@ const DetailContact = () => {
         <Loading />
       ) : (
         <>
-          {' '}
+          {" "}
           <DashboardCard>
             <div className="grid grid-cols-12 ">
               {/* Photo with Primary Detail */}
@@ -64,10 +64,10 @@ const DetailContact = () => {
                   data={{
                     name:
                       contact?.first_name +
-                        (contact?.last_name ? ' ' + contact?.last_name : '') ||
-                      '-',
-                    email: contact?.email || '-',
-                    status: contact?.status || '-',
+                        (contact?.last_name ? " " + contact?.last_name : "") ||
+                      "-",
+                    email: contact?.email || "-",
+                    status: contact?.status || "-",
                   }}
                   imageSrc="/images/customer.png"
                   emailHref={`mailto:${contact?.email}`}
@@ -91,14 +91,14 @@ const DetailContact = () => {
                   <CustomerInfo label="Pekerjaan" value={contact?.job} />
                   <CustomerInfo
                     label="Perusahaan"
-                    value={contact?.customers_company_id}
+                    value={contact?.customers_company_name}
                   />
                   <CustomerInfo
                     label="Tanggal Lahir"
                     value={
                       contact?.birthdate
-                        ? moment(contact?.birthdate).format('DD MMMM YYYY')
-                        : '-'
+                        ? moment(contact?.birthdate).format("DD MMMM YYYY")
+                        : "-"
                     }
                   />
 

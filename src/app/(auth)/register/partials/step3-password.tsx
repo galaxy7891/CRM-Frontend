@@ -46,8 +46,8 @@ const Password: React.FC<PasswordProps> = ({
     <div>
       <FormHeader
         title="Daftar Akun"
-        subtitle="Masukkan Password"
-        description="Masukkan kata sandi"
+        subtitle="Masukkan Kata Sandi"
+        description="Masukkan Kata Sandi"
         step={step}
         page_name="register"
       />
@@ -71,6 +71,7 @@ const Password: React.FC<PasswordProps> = ({
         />
         <InputPassword
           value={password?.password_confirmation}
+          label='Konfirmasi Kata Sandi'
           onChange={(e) =>
             setPassword({
               ...password,

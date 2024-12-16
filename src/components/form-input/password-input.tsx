@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const PasswordInput = ({
   value,
   onChange,
+  label,
 }: {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  label?: string;
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
@@ -14,13 +16,13 @@ const PasswordInput = ({
         htmlFor="password"
         className="block text-black text-xs font-custom font-medium my-3 md:text-base"
       >
-        Kata Sandi
+        {label || "Kata Sandi"}
       </label>
       <input
         required
         autoComplete="on"
         name="password"
-        type={`${showPassword ? 'text' : 'password'}`}
+        type={`${showPassword ? "text" : "password"}`}
         value={value}
         onChange={onChange}
         placeholder="**********"

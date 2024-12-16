@@ -80,9 +80,8 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
               value={employee.role}
               options={[
                 { value: '', label: 'Pilih Akses', hidden: true },
-                { value: 'super_admin', label: 'Super Admin' },
-                { value: 'admin', label: 'Admin' },
-                { value: 'karyawan', label: 'Karyawan' },
+                { value: 'Admin', label: 'Admin' },
+                { value: 'Karyawan', label: 'Karyawan' },
               ]}
               onChange={(e) =>
                 setEmployee({ ...employee, role: e.target.value })
@@ -116,9 +115,9 @@ const EditEmployee: React.FC<formActionPropsTypes> = ({
               value={employee.gender} // Use state for gender
               options={[
                 { label: 'Pilih Jenis Kelamin', value: '', hidden: true },
-                { label: 'laki-laki', value: 'laki-laki' },
-                { label: 'perempuan', value: 'perempuan' },
-                { label: 'lainnya', value: 'lainnya' },
+                { label: 'Laki-laki', value: 'Laki-laki' },
+                { label: 'Perempuan', value: 'Perempuan' },
+                { label: 'Lainnya', value: 'Lainnya' },
               ]}
               onChange={(e) =>
                 setEmployee({ ...employee, gender: e.target.value })

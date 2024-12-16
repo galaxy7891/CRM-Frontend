@@ -34,7 +34,7 @@ const LoginPageCms: React.FC = () => {
       {isLoading && <Loading />}
       <div className="sm:w-1/2 hidden md:block ">
         <AuthLeftSection
-          title="Jalin Hubungan, Raih Kesuksesan"
+          title="Solusi cerdas untuk bisnis yang berkualitas"
           imageSrc="/images/vector-login-cms.png"
         />
       </div>

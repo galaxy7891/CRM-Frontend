@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { clientTypes, EditCustomerProps } from '@/types/administratorTypes';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
-import { updateClient } from '@/redux/actions/administratorActions';
-import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
-import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
-import DurationInput from '@/components/form-input/duration-input';
-import TextInput from '@/components/form-input/text-input';
-import SelectInput from '@/components/form-input/dropdown-input';
-import SidebarFooter from '@/components/layout/sidebar-footer';
-import SidebarModal from '@/components/layout/sidebar-modal';
-import FailText from '@/components/status/fail-text';
-import SuccessModal from '@/components/status/success-modal';
+import React, { useState } from "react";
+import { clientTypes, EditCustomerProps } from "@/types/administratorTypes";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { updateClient } from "@/redux/actions/administratorActions";
+import DashboardSidebarRedButton from "@/components/button/dashboard-sidebar-red-button";
+import DashboardSidebarYellowButton from "@/components/button/dashboard-sidebar-yellow-button";
+import DurationInput from "@/components/form-input/duration-input";
+import TextInput from "@/components/form-input/text-input";
+import SelectInput from "@/components/form-input/dropdown-input";
+import SidebarFooter from "@/components/layout/sidebar-footer";
+import SidebarModal from "@/components/layout/sidebar-modal";
+import FailText from "@/components/status/fail-text";
+import SuccessModal from "@/components/status/success-modal";
 
 const EditCustomer: React.FC<EditCustomerProps> = ({
   onClose,
@@ -20,7 +20,7 @@ const EditCustomer: React.FC<EditCustomerProps> = ({
   const [client, setClient] = useState<clientTypes>({
     ...clientProps,
     quantity: clientProps.quantity || null,
-    category: clientProps.category || '',
+    category: clientProps.category || "",
   });
   console.log(client);
   const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
@@ -42,12 +42,12 @@ const EditCustomer: React.FC<EditCustomerProps> = ({
               label="Edit Tipe Pelanggan"
               value={client.account_type}
               options={[
-                { label: 'Pilih Tipe Akun Pelanggan', value: '', hidden: true },
-                { label: 'percobaan', value: 'percobaan' },
-                { label: 'reguler', value: 'reguler' },
-                { label: 'profesional', value: 'profesional' },
-                { label: 'bisnis', value: 'bisnis' },
-                { label: 'tidak kktif', value: 'tidak aktif' },
+                { label: "Pilih Tipe Akun Pelanggan", value: "", hidden: true },
+                { label: "Percobaan", value: "Percobaan" },
+                { label: "Reguler", value: "Reguler" },
+                { label: "Profesional", value: "Profesional" },
+                { label: "Bisnis", value: "Bisnis" },
+                { label: "Tidak Aktif", value: "Tidak Aktif" },
               ]}
               onChange={(e) =>
                 setClient({ ...client, account_type: e.target.value })
@@ -74,17 +74,17 @@ const EditCustomer: React.FC<EditCustomerProps> = ({
             <DurationInput
               label="Tambah Durasi"
               placeholder="5"
-              selectValue={client.category || ''}
+              selectValue={client.category || ""}
               options={[
-                { label: 'Pilih Penambahan Durasi', value: '', hidden: true },
-                { label: 'hari', value: 'hari' },
-                { label: 'bulan', value: 'bulan' },
-                { label: 'tahun', value: 'tahun' },
+                { label: "Pilih Penambahan Durasi", value: "", hidden: true },
+                { label: "hari", value: "hari" },
+                { label: "bulan", value: "bulan" },
+                { label: "tahun", value: "tahun" },
               ]}
               onSelectChange={(e) =>
                 setClient({ ...client, category: e.target.value })
               }
-              textValue={String(client.quantity) || ''}
+              textValue={String(client.quantity) || ""}
               onTextChange={(e) =>
                 setClient({ ...client, quantity: Number(e.target.value) })
               }
@@ -127,7 +127,7 @@ const EditCustomer: React.FC<EditCustomerProps> = ({
               disabled
               label="Nomor Perusahaan"
               placeholder="Nomor Perusahaan"
-              value={client.user_company.phone || '-'}
+              value={client.user_company.phone || "-"}
               onChange={() => {}}
               required
             />
@@ -139,7 +139,7 @@ const EditCustomer: React.FC<EditCustomerProps> = ({
           Batal
         </DashboardSidebarRedButton>
         <DashboardSidebarYellowButton onClick={handleEdiClient}>
-          {isLoading ? 'Menyimpan...' : 'Simpan'}
+          {isLoading ? "Menyimpan..." : "Simpan"}
         </DashboardSidebarYellowButton>
       </SidebarFooter>
       {isSuccess && (

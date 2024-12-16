@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
+import React, { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 interface StageActionProps {
   handleDeleteConfirmation: () => void;
   handleEdit: () => void;
@@ -17,9 +17,8 @@ const QualificationEdit: React.FC<StageActionProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMoved, setIsMoved] = useState(false);
-
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
   const toggleDropdown = () => setIsOpen(!isOpen);
-  const closeDropdown = () => setIsOpen(false);
 
   const handleMoveClick = () => {
     setIsMoved(true);
@@ -28,9 +27,29 @@ const QualificationEdit: React.FC<StageActionProps> = ({
   const handleBackClick = () => {
     setIsMoved(false);
   };
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   return (
-    <div className="relative">
+    <div className="relative" ref={dropdownRef}>
       <button onClick={toggleDropdown} className="focus:outline-none">
         <svg
           width="5"
@@ -45,10 +64,7 @@ const QualificationEdit: React.FC<StageActionProps> = ({
         </svg>
       </button>
       {isOpen && (
-        <div
-          onMouseLeave={closeDropdown}
-          className="  cursor-pointer absolute right-0 z-10 mt-1 rounded-[10px] border-collapse border border-font-light dark:border-light-grayBright shadow-lg"
-        >
+        <div className="  cursor-pointer absolute right-0 z-10 mt-1 rounded-[10px] border-collapse border border-font-light dark:border-light-grayBright shadow-lg">
           <ul aria-labelledby="dropdownButton">
             {isMoved ? (
               <>
@@ -72,31 +88,31 @@ const QualificationEdit: React.FC<StageActionProps> = ({
                   </div>
                 </li>
                 <li
-                  onClick={() => handleEditStageDeal(deal_id, 'kualifikasi')}
+                  onClick={() => handleEditStageDeal(deal_id, "kualifikasi")}
                   className="flex items-center justify-center text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray"
                 >
                   Kualifikasi
                 </li>
                 <li
-                  onClick={() => handleEditStageDeal(deal_id, 'proposal')}
+                  onClick={() => handleEditStageDeal(deal_id, "proposal")}
                   className="flex items-center justify-center text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray"
                 >
                   Proposal
                 </li>
                 <li
-                  onClick={() => handleEditStageDeal(deal_id, 'negosiasi')}
+                  onClick={() => handleEditStageDeal(deal_id, "negosiasi")}
                   className="flex items-center justify-center text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray"
                 >
                   Negosiasi
                 </li>
                 <li
-                  onClick={() => handleEditStageDeal(deal_id, 'tercapai')}
+                  onClick={() => handleEditStageDeal(deal_id, "tercapai")}
                   className="flex items-center justify-center text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray"
                 >
                   Tercapai
                 </li>
                 <li
-                  onClick={() => handleEditStageDeal(deal_id, 'gagal')}
+                  onClick={() => handleEditStageDeal(deal_id, "gagal")}
                   className="flex items-center justify-center rounded-b-[10px] text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray"
                 >
                   Gagal

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { useState } from 'react';
+import Image from "next/image";
+import { useState, useEffect, useRef } from "react";
 
 interface ButtonConvertProps {
   handleConvert: () => void;
@@ -13,11 +13,31 @@ const ButtonConvert: React.FC<ButtonConvertProps> = ({
   handleConvertConfirmation,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   const toggleDropdown = () => setIsOpen(!isOpen);
+
   const closeDropdown = () => setIsOpen(false);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        closeDropdown();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="relative inline-block text-left">
+    <div className="relative inline-block text-left" ref={dropdownRef}>
       {/* Dropdown Button */}
       <button
         onClick={toggleDropdown}
@@ -30,17 +50,14 @@ const ButtonConvert: React.FC<ButtonConvertProps> = ({
           width={14}
           height={14}
           className={`w-[10px] h-[10px] md:w-[14px] md:h-[14px] ml-2 transform transition-transform duration-300 ${
-            isOpen ? 'rotate-180' : 'rotate-0'
+            isOpen ? "rotate-180" : "rotate-0"
           }`}
         />
       </button>
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div
-          className="absolute right-0 mt-2 z-10  rounded-md shadow dark:shadow-md"
-          onMouseLeave={closeDropdown}
-        >
+        <div className="absolute right-0 mt-2 z-10  rounded-md shadow dark:shadow-md">
           <ul aria-labelledby="dropdownButton">
             <li>
               <a
