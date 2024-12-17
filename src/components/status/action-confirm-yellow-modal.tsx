@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { useState } from 'react';
-import { ActionConfirmModalProps } from '@/types/otherTypes';
+import Image from "next/image";
+import { useState } from "react";
+import { ActionConfirmModalProps } from "@/types/otherTypes";
 
 const ActionConfirmYellowModal: React.FC<ActionConfirmModalProps> = ({
   header,
@@ -24,7 +24,7 @@ const ActionConfirmYellowModal: React.FC<ActionConfirmModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-10 px-4">
-      <div className="relative w-[500px] bg-font-white rounded-[30px] shadow-lg pb-5  px-4 md:px-8">
+      <div className="relative w-[500px] bg-font-white dark:bg-dark-navy rounded-[30px] shadow-lg pb-5  px-4 md:px-8">
         {closeModal && (
           <button
             type="button"
@@ -52,10 +52,12 @@ const ActionConfirmYellowModal: React.FC<ActionConfirmModalProps> = ({
             />
           </div>
 
-          <h2 className="font-button-md font-semibold text-font-brown md:text-base">
+          <h2 className="font-button-md font-semibold text-font-brown md:text-base dark:text-dark-gold">
             {header}
           </h2>
-          <p className="text-xs md:text-base my-3">{description}</p>
+          <p className="text-xs md:text-base my-3 text-font-black dark:text-font-white">
+            {description}
+          </p>
 
           <div className="w-full flex gap-2 justify-center ">
             <button

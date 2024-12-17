@@ -10,7 +10,6 @@ import InputPassword from "@/components/form-input/password-input";
 import Image from "next/image";
 import AuthLeftSection from "@/components/layout/auth-left-section";
 import AuthRightSection from "@/components/layout/auth-right-section";
-import FormHeader from "@/components/layout/auth-form-header";
 import FailText from "@/components/status/fail-text";
 import SuccessModal from "@/components/status/success-modal";
 
@@ -77,13 +76,14 @@ const ResetPassword: React.FC = () => {
       </div>
       <div className="sm:w-1/2 flex flex-col w-full p-4 lg:px-10 lg:py-5">
         <AuthRightSection>
-          <FormHeader
-            title="Atur Ulang Kata Sandi"
-            subtitle="Atur Kata Sandi"
-            description="Silakan masukkan kata sandi yang baru"
-            step={4}
-            page_name="forget-password"
-          />
+          <div className="pb-2 pt-3">
+            <h1 className="text-2xl md:text-[28px] font-bold text-black ">
+              Atur Ulang Kata Sandi
+            </h1>
+            <p className="text-font-black text-xs font-custom mt-2 md:text-base lg:mt-4">
+              Silakan masukkan kata sandi yang baru
+            </p>
+          </div>
           <form onSubmit={handleResetPassword}>
             <InputPassword
               value={newPassword.new_password}
@@ -149,10 +149,10 @@ const ResetPassword: React.FC = () => {
   );
 };
 
-const ResetPasswordPage = () => (
+const ChangePasswordEmail = () => (
   <Suspense>
     <ResetPassword />
   </Suspense>
 );
 
-export default ResetPasswordPage;
+export default ChangePasswordEmail;

@@ -8,7 +8,6 @@ interface CardPriceLightProps {
   dataPelanggan: React.ReactNode;
   dataProduk: React.ReactNode;
   dataPengguna: React.ReactNode;
-  FontSize: string;
 }
 
 const CardPriceLight: React.FC<CardPriceLightProps> = ({
@@ -18,7 +17,6 @@ const CardPriceLight: React.FC<CardPriceLightProps> = ({
   dataPelanggan,
   dataProduk,
   dataPengguna,
-  FontSize,
 }) => {
   return (
     <div className="rounded-lg ">
@@ -52,7 +50,7 @@ const CardPriceLight: React.FC<CardPriceLightProps> = ({
           ].map((item, index) => (
             <div key={index} className="flex justify-between items-center">
               <p className="text-base">{item.title}</p>
-              <p className={`${FontSize} font-medium`}>{item.value}</p>
+              <p className="font-medium text-lg">{item.value}</p>
             </div>
           ))}
         </div>

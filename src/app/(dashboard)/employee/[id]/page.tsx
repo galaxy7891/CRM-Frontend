@@ -84,7 +84,7 @@ const DetailProduct = () => {
                   <p className="font-custom text-font-black dark:text-font-white text-sm md:text-2xl font-medium">
                     Data Karyawan
                   </p>
-                  {role === 'superadmin' && (
+                  {role === 'super_admin' && (
                     <div className="flex items-center space-x-2">
                       {employee && (
                         <EditUserButton

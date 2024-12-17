@@ -1,6 +1,7 @@
 export interface contactsTypes {
   id: string;
   customers_company_id: string;
+  customers_company_name: string;
   first_name: string;
   last_name: string;
   customerCategory: string;

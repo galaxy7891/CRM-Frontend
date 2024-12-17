@@ -114,10 +114,10 @@ const EditLeads: React.FC<editLeadsPropsTypes> = ({ onClose, leadProps }) => {
             label="Status Kontak"
             value={lead.status || ''}
             options={[
-              { label: 'Pilih', value: '', hidden: true },
-              { label: 'rendah', value: 'rendah' },
-              { label: 'sedang', value: 'sedang' },
-              { label: 'tinggi', value: 'tinggi' },
+              { label: 'Pilih Status', value: '', hidden: true },
+              { label: 'Rendah', value: 'Rendah' },
+              { label: 'Sedang', value: 'Sedang' },
+              { label: 'Tinggi', value: 'Tinggi' },
             ]}
             onChange={(e) => setLead({ ...lead, status: e.target.value })}
             required

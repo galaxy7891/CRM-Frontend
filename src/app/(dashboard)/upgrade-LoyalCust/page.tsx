@@ -20,11 +20,10 @@ const UpgradeLoyalCust = () => {
                   <p>Kelola data pelanggan dan tindak lanjut dengan mudah.</p>
                 </>
               }
-              price="700.000"
-              dataProduk="500"
-              dataPelanggan="500"
-              dataPengguna="500"
-              FontSize="text-lg"
+              price="300.000"
+              dataProduk="50"
+              dataPelanggan="100"
+              dataPengguna="10"
             />
             <DarkCard
               title="Profesional"
@@ -40,20 +39,18 @@ const UpgradeLoyalCust = () => {
                   </p>
                 </>
               }
-              price="700.000"
-              dataProduk="1000"
-              dataPelanggan="1000"
-              dataPengguna="1000"
-              FontSize="text-lg"
+              price="500.000"
+              dataProduk="100"
+              dataPelanggan="500"
+              dataPengguna="25"
             />
             <LightCard
               title="Bisnis"
               description="Cocok untuk perusahaan besar atau bisnis yang mengandalkan CRM sebagai inti dari operasional mereka."
-              price="700.000"
-              dataProduk="∞"
-              dataPelanggan="∞"
-              dataPengguna="∞"
-              FontSize="text-3xl"
+              price="800.000"
+              dataProduk="200"
+              dataPelanggan="1000"
+              dataPengguna="50"
             />
           </div>
         </DashboardCard>

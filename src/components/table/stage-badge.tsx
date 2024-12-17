@@ -2,11 +2,11 @@ import React from 'react';
 
 interface StageBadgeProps {
   status:
-    | 'proposal'
-    | 'kualifikasi'
-    | 'negosiasi'
-    | 'tercapai'
-    | 'gagal'
+    | 'Proposal'
+    | 'Kualifikasi'
+    | 'Negosiasi'
+    | 'Tercapai'
+    | 'Gagal'
     | string;
 }
 
@@ -15,9 +15,9 @@ const StageBadge: React.FC<StageBadgeProps> = ({ status }) => {
     'border border-dark-navy bg-light-white font-custom text-dark-navy text-xs';
 
   const statusStyles: Record<string, string> = {
-    tercapai:
+    Tercapai:
       'border border-dark-navy bg-dark-green font-custom text-dropdown-lightGreen text-xs',
-    gagal:
+    Gagal:
       'border border-dark-navy bg-light-redLight font-custom text-dark-redLight text-xs',
   };
 

@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { dataUser } from '@/types/profileTypes';
-import { updateUserProfile } from '@/redux/actions/profileActions';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
-import SidebarModal from '@/components/layout/sidebar-modal';
-import SidebarFooter from '@/components/layout/sidebar-footer';
-import FailText from '@/components/status/fail-text';
-import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
-import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
-import Asterisk from '@/components/status/required-asterisk';
-import TextInput from '@/components/form-input/text-input';
-import SelectInput from '@/components/form-input/dropdown-input';
-import SuccessModal from '@/components/status/success-modal';
+import React, { useState } from "react";
+import { dataUser } from "@/types/profileTypes";
+import { updateUserProfile } from "@/redux/actions/profileActions";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import SidebarModal from "@/components/layout/sidebar-modal";
+import SidebarFooter from "@/components/layout/sidebar-footer";
+import FailText from "@/components/status/fail-text";
+import DashboardSidebarRedButton from "@/components/button/dashboard-sidebar-red-button";
+import DashboardSidebarYellowButton from "@/components/button/dashboard-sidebar-yellow-button";
+import Asterisk from "@/components/status/required-asterisk";
+import TextInput from "@/components/form-input/text-input";
+import SelectInput from "@/components/form-input/dropdown-input";
+import SuccessModal from "@/components/status/success-modal";
 interface FormEditProps {
   onClose: () => void;
   data: dataUser;
@@ -38,7 +38,7 @@ const EditUser: React.FC<FormEditProps> = ({ onClose, data }) => {
               <TextInput
                 label="Nama Depan"
                 placeholder="Nama Depan"
-                value={userProfile.first_name || ''}
+                value={userProfile.first_name || ""}
                 onChange={(e) =>
                   setUserProfile({ ...userProfile, first_name: e.target.value })
                 }
@@ -52,7 +52,7 @@ const EditUser: React.FC<FormEditProps> = ({ onClose, data }) => {
               <TextInput
                 label="Nama Belakang"
                 placeholder="Nama Belakang"
-                value={userProfile.last_name || ''}
+                value={userProfile.last_name || ""}
                 onChange={(e) =>
                   setUserProfile({ ...userProfile, last_name: e.target.value })
                 }
@@ -66,14 +66,14 @@ const EditUser: React.FC<FormEditProps> = ({ onClose, data }) => {
             <div className="flex-1">
               <SelectInput
                 label="Jabatan"
-                value={userProfile.job_position || ''}
+                value={userProfile.job_position || ""}
                 options={[
-                  { label: 'Pilih Jabatan', value: '', hidden: true },
-                  { label: 'Presiden', value: 'Presiden' },
-                  { label: 'C-Level', value: 'C-Level' },
-                  { label: 'Manager', value: 'Manager' },
-                  { label: 'Sales', value: 'Sales' },
-                  { label: 'Lainnya', value: 'Lainnya' },
+                  { label: "Pilih Jabatan", value: "", hidden: true },
+                  { label: "Presiden", value: "Presiden" },
+                  { label: "C-Level", value: "C-Level" },
+                  { label: "Manager", value: "Manager" },
+                  { label: "Sales", value: "Sales" },
+                  { label: "Lainnya", value: "Lainnya" },
                 ]}
                 onChange={(e) =>
                   setUserProfile({
@@ -91,7 +91,7 @@ const EditUser: React.FC<FormEditProps> = ({ onClose, data }) => {
               <TextInput
                 label="Akses"
                 placeholder="Akses"
-                value={userProfile.role || ''}
+                value={userProfile.role || ""}
                 onChange={(e) =>
                   setUserProfile({ ...userProfile, role: e.target.value })
                 }
@@ -107,7 +107,7 @@ const EditUser: React.FC<FormEditProps> = ({ onClose, data }) => {
               <TextInput
                 label="Email"
                 placeholder="Email"
-                value={userProfile.email || ''}
+                value={userProfile.email || ""}
                 onChange={(e) =>
                   setUserProfile({ ...userProfile, email: e.target.value })
                 }
@@ -145,13 +145,12 @@ const EditUser: React.FC<FormEditProps> = ({ onClose, data }) => {
             <div className="flex-1">
               <SelectInput
                 label="Jenis Kelamin"
-                value={userProfile.gender || ''}
+                value={userProfile.gender || ""}
                 options={[
-                  // Tinggi, Tinggi
-                  { label: 'Pilih Jenis Kelamin', value: '', hidden: true },
-                  { label: 'laki-laki', value: 'laki-laki' },
-                  { label: 'perempuan', value: 'perempuan' },
-                  { label: 'lainnya', value: 'lainnya' },
+                  { label: "Pilih Jenis Kelamin", value: "", hidden: true },
+                  { label: "Laki-laki", value: "Laki-laki" },
+                  { label: "Perempuan", value: "Perempuan" },
+                  { label: "Lainnya", value: "Lainnya" },
                 ]}
                 onChange={(e) =>
                   setUserProfile({ ...userProfile, gender: e.target.value })

@@ -1,22 +1,22 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAppDispatch } from '@/hook/redux';
-import { login } from '@/redux/actions/authActions';
-import Link from 'next/link';
-import InputAuth from '@/components/form-input/auth-input';
-import InputPassword from '@/components/form-input/password-input';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/hook/redux";
+import { login } from "@/redux/actions/authActions";
+import Link from "next/link";
+import InputAuth from "@/components/form-input/auth-input";
+import InputPassword from "@/components/form-input/password-input";
 // import GoogleLoginButton from '@/components/button/google-login-button';
-import AuthLeftSection from '@/components/layout/auth-left-section';
-import AuthRightSection from '@/components/layout/auth-right-section';
-import FailPopUp from '@/components/status/fail-card';
-import AuthPositiveButton from '@/components/button/auth-positive-button';
-import Loading from '@/components/status/loading';
+import AuthLeftSection from "@/components/layout/auth-left-section";
+import AuthRightSection from "@/components/layout/auth-right-section";
+import FailPopUp from "@/components/status/fail-card";
+import AuthPositiveButton from "@/components/button/auth-positive-button";
+import Loading from "@/components/status/loading";
 
 const LoginPage: React.FC = () => {
-  const [formData, setFormData] = useState({ email: '', password: '' });
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -27,7 +27,7 @@ const LoginPage: React.FC = () => {
       login(formData.email, formData.password, setErrorMessage, setIsLoading)
     );
     if (response?.success) {
-      router.push('/homepage');
+      router.push("/homepage");
     }
   };
 
@@ -37,7 +37,7 @@ const LoginPage: React.FC = () => {
       <div className="flex flex-row min-h-screen justify-center">
         <div className="sm:w-1/2 hidden md:block ">
           <AuthLeftSection
-            title="Jalin Hubungan, Raih Kesuksesan."
+            title="Solusi cerdas untuk bisnis yang berkualitas"
             imageSrc="/images/vector-login.png"
           />
         </div>
@@ -77,7 +77,7 @@ const LoginPage: React.FC = () => {
                 </div>
                 <div className="mt-3 flex justify-end">
                   <Link
-                    href={'/forget-password'}
+                    href={"/forget-password"}
                     className="text-xs text-light-gold font-custom font-bold ml-1 md:text-base  hover:underline "
                   >
                     Lupa Kata Sandi?
@@ -94,7 +94,7 @@ const LoginPage: React.FC = () => {
             {/* <GoogleLoginButton /> */}
             <div className="mt-5 text-center">
               <p className="text-xs md:text-base font-custom font-medium">
-                Belum punya akun?{' '}
+                Belum punya akun?{" "}
                 <Link
                   href="/register"
                   className="text-xs md:text-base font-custom text-light-gold font-bold ml-1 hover:underline"

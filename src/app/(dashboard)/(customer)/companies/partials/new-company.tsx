@@ -118,16 +118,16 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
             label="Jenis Industri"
             value={company.industry}
             options={[
-              { label: 'Pilih Jenis Industri', value: '', hidden: true },
-              { label: 'Edukasi', value: 'Edukasi' },
-              { label: 'Kesehatan', value: 'Kesehatan' },
-              { label: 'Manufaktur', value: 'Manufaktur' },
-              { label: 'Pariwisata', value: 'Pariwisata' },
-              { label: 'Real Estate', value: 'Real Estate' },
-              { label: 'Retail', value: 'Retail' },
-              { label: 'Teknologi', value: 'Teknologi' },
-              { label: 'Transportasi', value: 'Transportasi' },
-              { label: 'Lainnya', value: 'Lainnya' },
+              { label: "Pilih Jenis Industri", value: "", hidden: true },
+              { label: "Edukasi", value: "Edukasi" },
+              { label: "Kesehatan", value: "Kesehatan" },
+              { label: "Manufaktur", value: "Manufaktur" },
+              { label: "Pariwisata", value: "Pariwisata" },
+              { label: "Real Estate", value: "Real Estate" },
+              { label: "Retail", value: "Retail" },
+              { label: "Teknologi", value: "Teknologi" },
+              { label: "Transportasi", value: "Transportasi" },
+              { label: "Lainnya", value: "Lainnya" },
             ]}
             onChange={(e) =>
               setCompany({ ...company, industry: e.target.value })
@@ -165,10 +165,10 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
             label="Status Perusahaan"
             value={company.status}
             options={[
-              { label: 'Pilih Status', value: '', hidden: true },
-              { label: 'rendah', value: 'rendah' },
-              { label: 'sedang', value: 'sedang' },
-              { label: 'tinggi', value: 'tinggi' },
+              { label: "Pilih Status", value: "", hidden: true },
+              { label: "Rendah", value: "Rendah" },
+              { label: "Sedang", value: "Sedang" },
+              { label: "Tinggi", value: "Tinggi" },
             ]}
             onChange={(e) => setCompany({ ...company, status: e.target.value })}
             required
@@ -201,7 +201,7 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
             label="Provinsi"
             value={company.province}
             options={[
-              { label: 'Pilih Provinsi', value: '', hidden: true },
+              { label: "Pilih Provinsi", value: "", hidden: true },
               ...provinces.map((province) => ({
                 label: province.text,
                 value: province.id,
@@ -218,7 +218,7 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
             value={company.city}
             disabled={!company.province}
             options={[
-              { label: 'Pilih Kota', value: '', hidden: true },
+              { label: "Pilih Kota", value: "", hidden: true },
               ...cities.map((city) => ({ label: city.text, value: city.id })),
             ]}
             onChange={(e) => setCompany({ ...company, city: e.target.value })}
@@ -230,7 +230,7 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
             value={company.subdistrict}
             disabled={!company.city}
             options={[
-              { label: 'Pilih Kecamatan', value: '', hidden: true },
+              { label: "Pilih Kecamatan", value: "", hidden: true },
               ...subDistricts.map((subDistrict) => ({
                 label: subDistrict.text,
                 value: subDistrict.id,
@@ -247,7 +247,7 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
             value={company.village}
             disabled={!company.subdistrict}
             options={[
-              { label: 'Pilih Kelurahan/Desa', value: '', hidden: true },
+              { label: "Pilih Kelurahan/Desa", value: "", hidden: true },
               ...villages.map((village) => ({
                 label: village.text,
                 value: village.id,
@@ -264,7 +264,7 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
             value={company.zip_code}
             disabled={!company.village}
             options={[
-              { label: 'Pilih Kode Pos', value: '', hidden: true },
+              { label: "Pilih Kode Pos", value: "", hidden: true },
               ...zipCodes.map((zipCode) => ({
                 label: zipCode.text,
                 value: zipCode.id,
