@@ -4,15 +4,15 @@ const CarouselItem = () => {
   const carouselItems = [
     {
       description: "“Fiturnya sangat membantu mengelola bisnis”",
-      name: "Hanni Pham",
+      name: "Faris Fanani",
     },
     {
       description: "“LoyalCust terbaik sangat meningkatkan bisnis kita”",
-      name: "Kang Haerin",
+      name: "Randy Rahman",
     },
     {
       description: "“Harganya sangat terjangkau dengan fitur yang ditawarkan”",
-      name: "Kim Minji",
+      name: "Satria Aji",
     },
   ];
 
