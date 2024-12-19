@@ -37,7 +37,7 @@ const DarkCard: React.FC<DarkCardProps> = ({
             href="https://wa.me/"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-light-gold text-font-brown text-base font-bold py-3 rounded-[5px] block text-center"
+            className="hover:bg-dark-gold bg-light-gold text-font-brown text-base font-bold py-3 rounded-[5px] block text-center"
           >
             Hubungi
           </Link>

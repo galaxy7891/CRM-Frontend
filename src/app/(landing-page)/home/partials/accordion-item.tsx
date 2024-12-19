@@ -2,6 +2,7 @@
 
 import React from "react";
 import Accordion from "./accordion";
+import { motion } from "framer-motion";
 
 const Home: React.FC = () => {
   const accordionItems = [
@@ -36,10 +37,28 @@ const Home: React.FC = () => {
     },
   ];
 
+  const accordionVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: i * 0.2, duration: 0.6 },
+    }),
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-      {accordionItems.map((item) => (
-        <Accordion key={item.id} items={[item]} />
+      {accordionItems.map((item, index) => (
+        <motion.div
+          key={item.id}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.3 }}
+          custom={index}
+          variants={accordionVariants}
+        >
+          <Accordion key={item.id} items={[item]} />
+        </motion.div>
       ))}
     </div>
   );

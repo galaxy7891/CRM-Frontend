@@ -9,7 +9,7 @@ const Footer = () => {
     <div className="bg-dark-navy p-6">
       <div className="grid grid-cols-1 md:grid-cols-5 gap-y-8 md:gap-y-6 md:gap-x-8 ">
         {/* Logo & Slogan */}
-        <div className="flex flex-col gap-y-5">
+        <div className="flex flex-col justify-center items-center gap-y-5">
           <Image
             src="/icons/logo.svg"
             alt="logo"

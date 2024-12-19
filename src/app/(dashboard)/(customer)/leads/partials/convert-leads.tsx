@@ -86,7 +86,7 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
   }, [selectedIds, provinces]);
 
   return (
-    <SidebarModal onClose={onClose} SidebarModalTitle="Konversi Contact">
+    <SidebarModal onClose={onClose} SidebarModalTitle="Konversi Kontak">
       <form className=" overflow-y-auto px-4 grid grid-cols-1 gap-4 md:grid-cols-2 p-2">
         <div className="order-1">
           <TextInput

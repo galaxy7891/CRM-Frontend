@@ -34,10 +34,10 @@ const CardPriceDark: React.FC<CardPriceDarkProps> = ({
         </p>
         <button className="w-full mt-4">
           <Link
-            href="https://wa.me/"
+            href="https://wa.me/62816282136"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-light-gold text-font-brown text-base font-bold py-3 rounded-[5px] block text-center"
+            className="hover:bg-dark-gold bg-light-gold text-font-brown text-base font-bold py-3 rounded-[5px] block text-center"
           >
             Hubungi
           </Link>

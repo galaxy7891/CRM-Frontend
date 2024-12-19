@@ -1,19 +1,20 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { useState } from 'react';
-import { changePasswordTypes } from '@/types/profileTypes';
+import Image from "next/image";
+import { useState } from "react";
+import { changePasswordTypes } from "@/types/profileTypes";
 import {
   sendForgotPasswordEmail,
   changePassword,
-} from '@/redux/actions/profileActions';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
-import EmailSend from './partials/email-send';
-import FailText from '@/components/status/fail-text';
-import DashboardCard from '@/components/layout/dashboard-card';
-import SuccessModal from '@/components/status/success-modal';
-import HeaderWithBackButton from '@/components/layout/header-with-back';
+} from "@/redux/actions/profileActions";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import EmailSend from "./partials/email-send";
+import FailText from "@/components/status/fail-text";
+import DashboardCard from "@/components/layout/dashboard-card";
+import SuccessModal from "@/components/status/success-modal";
+import HeaderWithBackButton from "@/components/layout/header-with-back";
+import InputPassword from "@/components/form-input/password-input";
 
 const ChangePasswordForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -23,17 +24,17 @@ const ChangePasswordForm = () => {
     {}
   );
   const [password, setPassword] = useState<changePasswordTypes>({
-    password: '',
-    new_password: '',
-    confirm_new_password: '',
+    password: "",
+    new_password: "",
+    confirm_new_password: "",
   });
   const dispatch = useDispatch<AppDispatch>();
 
   const rules = [
-    { regex: /.{8,}/, label: 'Minimal 8 karakter' },
-    { regex: /[a-z]/, label: 'Satu karakter huruf kecil' },
-    { regex: /[A-Z]/, label: 'Satu karakter huruf besar' },
-    { regex: /[\d\W]/, label: 'Satu angka, simbol, atau karakter spasi' },
+    { regex: /.{8,}/, label: "Minimal 8 karakter" },
+    { regex: /[a-z]/, label: "Satu karakter huruf kecil" },
+    { regex: /[A-Z]/, label: "Satu karakter huruf besar" },
+    { regex: /[\d\W]/, label: "Satu angka, simbol, atau karakter spasi" },
   ];
 
   const isPasswordValid = rules.every((rule) =>
@@ -70,57 +71,32 @@ const ChangePasswordForm = () => {
         />
       ) : (
         <>
-          {' '}
+          {" "}
           <HeaderWithBackButton title="Perbarui Kata Sandi" />
           <DashboardCard>
             <div className="sm:px-32 2xl:px-80">
-              <label
-                htmlFor="oldPassword"
-                className="block text-black dark:text-white text-xs font-custom font-medium my-3 md:text-base"
-              >
-                Kata Sandi Lama
-              </label>
-              <input
-                name="oldPassword"
-                type="password"
+              {/* New Password */}
+              <InputPassword
+                label="Kata Sandi Lama"
                 value={password.password}
                 onChange={(e) =>
                   setPassword({ ...password, password: e.target.value })
                 }
-                placeholder="Masukkan Kata Sandi Lama"
-                className="w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black focus:outline-none border-font-gray rounded-lg bg-light-white focus:border-dark-navy"
               />
               {errorMessage && <FailText>{errorMessage?.password}</FailText>}
-              {/* New Password */}
-              <label
-                htmlFor="newPassword"
-                className="block text-black dark:text-white text-xs font-custom font-medium my-3 md:text-base"
-              >
-                Kata Sandi Baru
-              </label>
-              <input
-                name="newPassword"
-                type="password"
+              <InputPassword
+                label="Kata Sandi Baru"
                 value={password.new_password}
                 onChange={(e) =>
                   setPassword({ ...password, new_password: e.target.value })
                 }
-                placeholder="Masukkan Kata Sandi Baru"
-                className="w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-blackfocus:outline-none border-font-gray rounded-lg bg-light-white focus:border-dark-navy"
               />
               {errorMessage && (
                 <FailText>{errorMessage?.new_password}</FailText>
               )}
               {/* Confirm New Password */}
-              <label
-                htmlFor="confirmNewPassword"
-                className="block text-black dark:text-white text-xs font-custom font-medium my-3 md:text-base"
-              >
-                Konfirmasi Kata Sandi Baru
-              </label>
-              <input
-                name="confirmNewPassword"
-                type="password"
+              <InputPassword
+                label="Konfirmasi Kata Sandi Baru"
                 value={password.confirm_new_password}
                 onChange={(e) =>
                   setPassword({
@@ -128,8 +104,6 @@ const ChangePasswordForm = () => {
                     confirm_new_password: e.target.value,
                   })
                 }
-                placeholder="Masukkan Kembali Kata Sandi Baru"
-                className="w-full ps-4 h-12 lg:h-15 text-xs md:text-base font-custom border-2 text-black focus:outline-none border-font-gray rounded-lg bg-light-white focus:border-dark-navy"
               />
               {errorMessage && (
                 <FailText>{errorMessage?.confirm_new_password}</FailText>
@@ -141,8 +115,8 @@ const ChangePasswordForm = () => {
                   onClick={handleSendEmail}
                 >
                   {isLoading
-                    ? 'Mengirim Link Reset Password'
-                    : 'Lupa Kata Sandi ?'}
+                    ? "Mengirim Link Reset Password"
+                    : "Lupa Kata Sandi ?"}
                 </button>
               </div>
 
@@ -154,10 +128,10 @@ const ChangePasswordForm = () => {
                       <Image
                         src={
                           isValid
-                            ? '/icons/checked.svg'
-                            : '/icons/red-cross.svg'
+                            ? "/icons/checked.svg"
+                            : "/icons/red-cross.svg"
                         }
-                        alt={isValid ? 'Valid' : 'Invalid'}
+                        alt={isValid ? "Valid" : "Invalid"}
                         width={16}
                         height={16}
                         className="mr-2"
@@ -165,8 +139,8 @@ const ChangePasswordForm = () => {
                       <span
                         className={`text-xs lg:text-base font-custom ${
                           isValid
-                            ? 'text-font-green '
-                            : 'text-light-redLight dark:text-dark-redGlow '
+                            ? "text-font-green "
+                            : "text-light-redLight dark:text-dark-redGlow "
                         }
                 `}
                       >
