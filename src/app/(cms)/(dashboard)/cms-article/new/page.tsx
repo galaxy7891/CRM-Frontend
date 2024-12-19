@@ -29,6 +29,7 @@ export const defaultValue = {
 
 const NewArticle = () => {
   const [photo, setPhoto] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
   const [content, setContent] = useState<string>('');
   console.log(content);
   const [article, setArticle] = useState<articleTypes>({
@@ -36,6 +37,12 @@ const NewArticle = () => {
     status: '',
   });
   const dispatch = useDispatch<AppDispatch>();
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null;
+    setPhoto(file);
+    setPreview(file ? URL.createObjectURL(file) : null);
+  };
 
   const handleAdddArticle = () => {
     dispatch(addArticle(article, content, photo));
@@ -47,7 +54,7 @@ const NewArticle = () => {
         <div className="grid grid-cols-12 gap-6">
           {/* Bagian Upload Foto */}
           <div className="col-span-12 lg:col-span-5">
-            <ImageArticle />
+            <ImageArticle onChange={handleFileChange} preview={preview} />
           </div>
 
           {/* Bagian Input Judul Artikel */}
@@ -66,8 +73,8 @@ const NewArticle = () => {
               value={article.status}
               options={[
                 { label: 'Pilih Status Artikel', value: '', hidden: true },
-                { label: 'Terbit', value: 'terbit' },
-                { label: 'Draf', value: 'draf' },
+                { label: 'Terbit', value: 'Terbit' },
+                { label: 'Draf', value: 'Draf' },
               ]}
               onChange={(e) =>
                 setArticle({ ...article, status: e.target.value })

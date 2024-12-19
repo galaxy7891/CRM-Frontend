@@ -27,7 +27,7 @@ import EditDeals from './edit-deals';
 
 const DealsCardView = () => {
   const [sortBy, setSortBy] = useState<string>('terbaru');
-  const [statusBy, setStatusBy] = useState<string>('rendah');
+  const [statusBy, setStatusBy] = useState<string>('semua');
   const [perPage, setPerPage] = useState<string>('10');
   const [isLoadingPage, setIsloadingPage] = useState<boolean>(true);
   const [isAddDeals, setIsAddDeals] = useState<boolean>(false);
@@ -215,6 +215,7 @@ const DealsCardView = () => {
                   next_page_url={pagination.next_page_url}
                   handlePrevPage={handlePrevPage}
                   handleNextPage={handleNextPage}
+                  perPage={pagination.per_page}
                 />
                 {isEditDeals && (
                   <EditDeals onClose={handleCloseEdit} dealProp={deal!} />

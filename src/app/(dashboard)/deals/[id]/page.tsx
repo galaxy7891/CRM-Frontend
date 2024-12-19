@@ -145,11 +145,14 @@ const DetailDeals = () => {
                       />
                     )}
 
-                    <CustomerInfo label="Nama Produk" value={deal?.name} />
+                    <CustomerInfo
+                      label="Nama Produk"
+                      value={deal?.product?.name}
+                    />
 
                     <CustomerInfo
                       label="Jumlah Produk"
-                      value={String(deal?.quantity) || '-'}
+                      value={String(deal?.product?.quantity) || '-'}
                     />
                   </div>
                   <div className="space-y-4">

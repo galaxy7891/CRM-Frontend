@@ -250,17 +250,17 @@ const FilterTableButton: React.FC<FilterTableButtonProps> = ({
                   Semua
                 </Filter>
                 <Filter
-                  isActive={tempFilter.articleStatusBy == 'terbit'}
+                  isActive={tempFilter.articleStatusBy == 'Terbit'}
                   onClick={() =>
-                    setTempFilter({ ...tempFilter, articleStatusBy: 'terbit' })
+                    setTempFilter({ ...tempFilter, articleStatusBy: 'Terbit' })
                   }
                 >
                   Terbit
                 </Filter>
                 <Filter
-                  isActive={tempFilter.articleStatusBy == 'draf'}
+                  isActive={tempFilter.articleStatusBy == 'Draf'}
                   onClick={() =>
-                    setTempFilter({ ...tempFilter, articleStatusBy: 'draf' })
+                    setTempFilter({ ...tempFilter, articleStatusBy: 'Draf' })
                   }
                 >
                   Draf

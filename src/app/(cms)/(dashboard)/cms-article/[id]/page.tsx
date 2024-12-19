@@ -96,8 +96,8 @@ const EditArticle = () => {
               value={articleState.status}
               options={[
                 { label: 'Pilih Status Artikel', value: '', hidden: true },
-                { label: 'terbit', value: 'terbit' },
-                { label: 'draf', value: 'draf' },
+                { label: 'Terbit', value: 'Terbit' },
+                { label: 'Draf', value: 'Draf' },
               ]}
               onChange={(e) =>
                 setArticleState({ ...articleState, status: e.target.value })

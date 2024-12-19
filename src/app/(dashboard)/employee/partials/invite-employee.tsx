@@ -65,7 +65,7 @@ const InviteUser: React.FC<InviteEmployeeProps> = ({ onClose }) => {
                 value={employeeData.role}
                 options={[
                   { value: "-", label: "Pilih Akses", hidden: true },
-                  { value: "admin", label: "admin" },
+                  { value: "Admin", label: "admin" },
                   { value: "employee", label: "employee" },
                 ]}
                 onChange={(e) =>

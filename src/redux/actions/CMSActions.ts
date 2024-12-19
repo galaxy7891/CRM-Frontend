@@ -2,8 +2,56 @@ import axios from 'axios';
 import { articleTypes } from '@/types/CMSTypes';
 import { paginationTypes } from '@/types/otherTypes';
 import { AppDispatch, RootState } from '@/redux/store';
-import { setArticles, setArticle } from '../reducers/CMSReducers';
+import {
+  setPublicArticles,
+  setPublicArticle,
+  setArticles,
+  setArticle,
+} from '../reducers/CMSReducers';
 
+// Public API
+export const getPublicArticles =
+  () => async (dispatch: AppDispatch, getState: () => RootState) => {
+    const { token } = getState().auth;
+    try {
+      const config = {
+        method: 'get',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/landingpage/article?sort=terbaru&per_page=25&page=1`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.request(config);
+      if (response.data.success) {
+        dispatch(setPublicArticles(response.data.data.data));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+export const getPublicArticle =
+  (id: string) => async (dispatch: AppDispatch, getState: () => RootState) => {
+    const { token } = getState().auth;
+    try {
+      const config = {
+        method: 'get',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/landingpage/article/${id}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      };
+      const response = await axios.request(config);
+      if (response.data.success) {
+        dispatch(setPublicArticle(response.data.data));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+// Admin API
 export const getArticles =
   (
     sortBy: string,
@@ -54,18 +102,34 @@ export const getArticleById =
         },
       };
       const response = await axios.request(config);
-      if (response.data.success) {
-        dispatch(setArticle(response.data.data));
-      }
+
+      return response.data.data;
     } catch (error) {
       console.error(error);
     }
   };
 
+export const getPublicArticleSSR = async (id: string) => {
+  const response = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/article/${id}`
+  );
+  return response.data.data;
+};
+
 export const addArticle =
   (article: articleTypes, content: string, photo: File | null) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;
+
+    const formData = new FormData();
+
+    if (photo) {
+      formData.append('photo_article', photo);
+    }
+
+    formData.append('title', article.title);
+    formData.append('status', article.status);
+    formData.append('description', content);
 
     try {
       const config = {
@@ -73,52 +137,19 @@ export const addArticle =
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/article`,
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
         },
-        data: {
-          title: article.title,
-          status: article.status,
-          description: content,
-        },
+        data: formData,
       };
+
       const response = await axios.request(config);
+
       if (response.data.success) {
         alert(response.data.message);
       } else {
-        console.error(response.data.message);
+        console.error('Error:', response.data.message);
       }
     } catch (error) {
-      console.error(error);
-    }
-  };
-
-export const updateArticle =
-  (article: articleTypes, content: string, photo: File | null) =>
-  async (dispatch: AppDispatch, getState: () => RootState) => {
-    const { token } = getState().auth;
-
-    try {
-      const config = {
-        method: 'post',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/article/${article.id}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        data: {
-          title: article.title,
-          status: article.status,
-          description: content,
-        },
-      };
-      const response = await axios.request(config);
-      if (response.data.success) {
-        alert(response.data.message);
-      } else {
-        console.error(response.data.message);
-      }
-    } catch (error) {
-      console.error(error);
+      console.error('Request failed:', error);
     }
   };
 

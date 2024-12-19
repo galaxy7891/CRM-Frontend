@@ -6,6 +6,12 @@ const initialState = {
     email: typeof window !== 'undefined' ? localStorage.getItem('email') : null,
     role: typeof window !== 'undefined' ? localStorage.getItem('role') : null,
     id: typeof window !== 'undefined' ? localStorage.getItem('id_user') : null,
+    account_type:
+      typeof window !== 'undefined'
+        ? localStorage.getItem('account_type')
+        : null,
+    duration:
+      typeof window !== 'undefined' ? localStorage.getItem('duration') : null,
   },
   userTest: null,
 };
@@ -19,10 +25,14 @@ const authSlice = createSlice({
         localStorage.setItem('email', action.payload.email);
         localStorage.setItem('role', action.payload.role);
         localStorage.setItem('id_user', action.payload.id);
+        localStorage.setItem('account_type', action.payload.account_type);
+        localStorage.setItem('duration', action.payload.duration);
       } else {
         localStorage.removeItem('email');
         localStorage.removeItem('role');
         localStorage.removeItem('id_user');
+        localStorage.removeItem('account_type');
+        localStorage.removeItem('duration');
       }
       state.user = action.payload;
     },

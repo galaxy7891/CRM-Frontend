@@ -35,7 +35,9 @@ const SelectArticleStatus: React.FC<SelectArticleStatusProps> = ({
       />
     ) : (
       <select
-        className={`w-full mt-2 p-2 border text-xs md:text-base font-custom focus:border-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white text-black  dark:border-none dark:text-font-white `}
+        className={`w-full mt-2 p-2 border text-xs md:text-base font-custom focus:border-dark-navy focus:outline-none border-font-black rounded-[4px] bg-font-white text-black  dark:border-none dark:text-font-white ${
+          value ? 'text-black' : 'text-gray-500'
+        } `}
         value={value}
         onChange={onChange}
       >

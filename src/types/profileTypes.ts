@@ -46,6 +46,8 @@ export interface dataUser {
   phone: string;
   gender: string;
   role: string;
+  account_type: string;
+  duration: string;
 }
 
 export interface dataCompany {
