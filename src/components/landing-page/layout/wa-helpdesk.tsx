@@ -15,7 +15,7 @@ const WaHelpdesk = () => {
         href="https://wa.me/62816282136"
         target="_blank"
         rel="noopener noreferrer"
-        className="block" // Memastikan Link tersebut menjadi block agar area kliknya lebih besar
+        className="block" 
       >
         {/* SVG bagian pertama */}
         {!isHovered ? (

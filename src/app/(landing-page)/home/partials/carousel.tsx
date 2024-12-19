@@ -50,10 +50,10 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
           </svg>
         </button>
         <div className="py-2 px-8 ">
-          <p className="text-sm md:text-base lg:text-[28px] text-font-black">
+          <p className="text-sm md:text-xl  text-font-black">
             {items[currentIndex].description}
           </p>
-          <p className="text-font-black text-base lg:text-2xl mt-4 font-bold">
+          <p className="text-font-black text-base lg:text-base mt-4 font-bold">
             {items[currentIndex].name}
           </p>
         </div>

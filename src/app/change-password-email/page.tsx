@@ -139,7 +139,7 @@ const ResetPassword: React.FC = () => {
               description="Silahkan masuk kembali untuk melanjutkan"
               closeModal={false}
               actionButton={true}
-              actionButton_href="/login"
+              actionButton_href="/homepage"
               actionButton_name="Login"
             />
           )}

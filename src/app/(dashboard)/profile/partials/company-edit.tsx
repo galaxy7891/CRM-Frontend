@@ -44,7 +44,7 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
             <TextInput
               label="Nama Perusahaan"
               placeholder="Nama Perusahaan"
-              value={companyUserProfile.name || ''}
+              value={companyUserProfile.name || ""}
               onChange={(e) =>
                 setCompanyUserProfile({
                   ...companyUserProfile,
@@ -59,7 +59,7 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
             <TextInput
               label="Email"
               placeholder="Email"
-              value={companyUserProfile.email || ''}
+              value={companyUserProfile.email || ""}
               onChange={(e) =>
                 setCompanyUserProfile({
                   ...companyUserProfile,
@@ -75,18 +75,18 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
           <div className="flex-1">
             <SelectInput
               label="Jenis Industri"
-              value={companyUserProfile.industry || ''}
+              value={companyUserProfile.industry || ""}
               options={[
-                { label: 'Pilih Jenis Industri', value: '', hidden: true },
-                { label: 'Edukasi', value: 'Edukasi' },
-                { label: 'Kesehatan', value: 'Kesehatan' },
-                { label: 'Manufaktur', value: 'Manufaktur' },
-                { label: 'Pariwisata', value: 'Pariwisata' },
-                { label: 'Real Estate', value: 'Real Estate' },
-                { label: 'Retail', value: 'Retail' },
-                { label: 'Teknologi', value: 'Teknologi' },
-                { label: 'Transportasi', value: 'Transportasi' },
-                { label: 'Lainnya', value: 'Lainnya' },
+                { label: "Pilih Jenis Industri", value: "", hidden: true },
+                { label: "Edukasi", value: "Edukasi" },
+                { label: "Kesehatan", value: "Kesehatan" },
+                { label: "Manufaktur", value: "Manufaktur" },
+                { label: "Pariwisata", value: "Pariwisata" },
+                { label: "Real Estate", value: "Real Estate" },
+                { label: "Retail", value: "Retail" },
+                { label: "Teknologi", value: "Teknologi" },
+                { label: "Transportasi", value: "Transportasi" },
+                { label: "Lainnya", value: "Lainnya" },
               ]}
               onChange={(e) =>
                 setCompanyUserProfile({
@@ -117,7 +117,7 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
             <TextInput
               label="Website"
               placeholder="Website"
-              value={companyUserProfile.website || ''}
+              value={companyUserProfile.website || ""}
               onChange={(e) =>
                 setCompanyUserProfile({
                   ...companyUserProfile,
@@ -144,7 +144,7 @@ const EditCompany = ({ onClose, data }: FormEditProps) => {
           header="Berhasil"
           description="Data perusahaan berhasil diperbarui"
           actionButton_name="Kembali"
-          actionButton_action={onClose}
+          actionButton_action={() => window.location.reload()}
         />
       )}
     </SidebarModal>

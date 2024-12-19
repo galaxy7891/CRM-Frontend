@@ -1,3 +1,5 @@
+import { motion, AnimatePresence } from "framer-motion";
+
 interface SidebarModalProps {
   children: React.ReactNode;
   onClose: () => void;
@@ -10,15 +12,31 @@ const SidebarModal: React.FC<SidebarModalProps> = ({
   SidebarModalTitle,
 }) => {
   return (
-    <>
-      <div
+    <AnimatePresence>
+      {/* Background Overlay with smooth blur effect */}
+      <motion.div
         onClick={onClose}
-        className="fixed inset-0 bg-black bg-opacity-50 z-50 "
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.4, ease: "easeInOut" }}
+        className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-lg z-50"
       />
 
-      <div className="fixed rounded-lg md:rounded-none top-0 right-0 md:w-1/2 w-full h-full bg-light-white dark:bg-dark-darkGray shadow-lg z-[99] flex flex-col overflow-hidden">
+      {/* Sidebar Modal with smoother slide-in animation */}
+      <motion.div
+        initial={{ x: "100%" }}
+        animate={{ x: 0 }}
+        exit={{ x: "100%" }}
+        transition={{
+          type: "spring",
+          stiffness: 200,
+          damping: 25,
+        }}
+        className="fixed rounded-lg md:rounded-none top-0 right-0 md:w-1/2 w-full h-full bg-light-white dark:bg-dark-darkGray shadow-lg z-[99] flex flex-col overflow-hidden"
+      >
         {/* Sidebar Header */}
-        <div className=" py-4 px-4">
+        <div className="py-4 px-4">
           <div className="flex">
             <button onClick={onClose}>
               <svg
@@ -40,8 +58,8 @@ const SidebarModal: React.FC<SidebarModalProps> = ({
         </div>
         {/* Sidebar Content */}
         {children}
-      </div>
-    </>
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

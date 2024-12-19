@@ -1,14 +1,14 @@
-import Image from 'next/image';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
-import { updateCompanyUserLogo } from '@/redux/actions/profileActions';
-import SidebarModal from '@/components/layout/sidebar-modal';
-import SidebarFooter from '@/components/layout/sidebar-footer';
-import FailText from '@/components/status/fail-text';
-import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
-import DashboardChangePhotoButton from '@/components/button/dashboard-change-photo-button';
-import SuccessModal from '@/components/status/success-modal';
+import Image from "next/image";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { updateCompanyUserLogo } from "@/redux/actions/profileActions";
+import SidebarModal from "@/components/layout/sidebar-modal";
+import SidebarFooter from "@/components/layout/sidebar-footer";
+import FailText from "@/components/status/fail-text";
+import DashboardSidebarYellowButton from "@/components/button/dashboard-sidebar-yellow-button";
+import DashboardChangePhotoButton from "@/components/button/dashboard-change-photo-button";
+import SuccessModal from "@/components/status/success-modal";
 interface FormEditProps {
   onClose: () => void;
   data: data;
@@ -31,7 +31,7 @@ const EditImageCompany = ({ onClose, data }: FormEditProps) => {
   };
 
   const handleUpdateLogoo = () => {
-    console.log('hitted');
+    console.log("hitted");
     dispatch(
       updateCompanyUserLogo(logo, setIsLoading, setIsSuccess, setErrorMessage)
     );
@@ -46,7 +46,7 @@ const EditImageCompany = ({ onClose, data }: FormEditProps) => {
               ? preview
               : data?.image_url
               ? data?.image_url
-              : '/images/default.jpg'
+              : "/images/default.jpg"
           }
           alt="image"
           width={160}
@@ -64,7 +64,7 @@ const EditImageCompany = ({ onClose, data }: FormEditProps) => {
           Ganti Foto
         </DashboardChangePhotoButton>
         <DashboardSidebarYellowButton onClick={handleUpdateLogoo}>
-          {isLoading ? 'Menyimpan...' : 'Simpan'}
+          {isLoading ? "Menyimpan..." : "Simpan"}
         </DashboardSidebarYellowButton>
       </SidebarFooter>
       {isSuccess && (
@@ -72,7 +72,7 @@ const EditImageCompany = ({ onClose, data }: FormEditProps) => {
           header="Berhasil"
           description="Logo perusahaan berhasil diubah"
           actionButton_name="Kembali"
-          actionButton_action={onClose}
+          actionButton_action={() => window.location.reload()}
         />
       )}
     </SidebarModal>

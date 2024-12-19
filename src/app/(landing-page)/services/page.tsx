@@ -7,7 +7,7 @@ const Services = () => {
   return (
     <>
       <BgLightWhite>
-        <div className="items-center justify-center">
+        <div className="flex flex-col items-center justify-center gap-6">
           <ServiceCard
             title="Manajemen Pelanggan"
             description="Fitur Leads kami memberikan kemudahan untuk membantu Anda mengelola setiap prospek dari awal hingga akhir. Dari pengumpulan hingga konversi, fitur ini memastikan Anda tidak melewatkan satu pun kesempatan untuk menjadikan prospek sebagai pelanggan setia."

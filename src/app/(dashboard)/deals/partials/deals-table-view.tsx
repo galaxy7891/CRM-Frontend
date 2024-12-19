@@ -35,7 +35,7 @@ import Loading from '@/components/status/loading';
 
 const DealsTableView = () => {
   const [sortBy, setSortBy] = useState<string>('terbaru');
-  const [statusBy, setStatusBy] = useState<string>('rendah');
+  const [statusBy, setStatusBy] = useState<string>('semua');
   const [perPage, setPerPage] = useState<string>('10');
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
   const [isTriggerFetch, setIsTriggerFetch] = useState<boolean>(false);
