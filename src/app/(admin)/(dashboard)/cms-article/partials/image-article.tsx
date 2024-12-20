@@ -4,9 +4,11 @@ import Image from 'next/image';
 const ImageArticle = ({
   onChange,
   preview,
+  disabled,
 }: {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   preview: string | null;
+  disabled?: boolean;
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -19,16 +21,20 @@ const ImageArticle = ({
   return (
     <div
       onClick={handleButtonClick}
-      className="relative w-full h-72 bg-light-white dark:bg-dark-darkGray rounded-lg flex flex-col items-center justify-center cursor-pointer"
+      className={`relative w-full h-72 bg-light-white dark:bg-dark-darkGray rounded-lg flex flex-col items-center justify-center ${
+        disabled ? '' : 'cursor-pointer'
+      }`}
     >
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={onChange}
-        accept="image/png, image/jpg, image/jpeg" // Optional: restrict to image files
-        style={{ display: 'none' }} // Hide the file input
-      />
-      {/* Ikon gambar */}
+      {!disabled && (
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={onChange}
+          accept="image/png, image/jpg, image/jpeg" // Optional: restrict to image files
+          style={{ display: 'none' }} // Hide the file input
+        />
+      )}
+
       {preview ? (
         <Image
           src={preview}
@@ -58,15 +64,17 @@ const ImageArticle = ({
           </p>
         </>
       )}
-      <div className="absolute bottom-[-30px] right-[-30px]">
-        <Image
-          src="/icons/profile/camera.svg"
-          alt="camera"
-          width={24}
-          height={24}
-          className="w-[50px] h-[50px] md:w-[70px] md:h-[70px]"
-        />
-      </div>
+      {!disabled && (
+        <div className="absolute bottom-[-30px] right-[-30px]">
+          <Image
+            src="/icons/profile/camera.svg"
+            alt="camera"
+            width={24}
+            height={24}
+            className="w-[50px] h-[50px] md:w-[70px] md:h-[70px]"
+          />
+        </div>
+      )}
     </div>
   );
 };

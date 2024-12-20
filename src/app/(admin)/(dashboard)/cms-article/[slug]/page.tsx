@@ -78,14 +78,12 @@ const UpdateArticle = () => {
   useEffect(() => {
     const trixElement = trixRef.current;
 
-    // Handler untuk menangani perubahan di trix-editor
     const handleTrixChange = (event: TrixEditorEvent) => {
       const htmlContent = event.target.innerHTML;
       setContent(htmlContent);
       console.log('Updated Content:', htmlContent);
     };
 
-    // Pastikan untuk menangani event dengan benar menggunakan casting
     if (trixElement) {
       trixElement.addEventListener(
         'trix-change',
@@ -113,6 +111,7 @@ const UpdateArticle = () => {
           <div className="grid grid-cols-12 gap-6">
             <div className="col-span-12 lg:col-span-5">
               <ImageArticle
+                disabled={!isEdit}
                 onChange={handleFileChange}
                 preview={preview ? preview : article?.image_url || ''}
               />
@@ -149,7 +148,7 @@ const UpdateArticle = () => {
               />
 
               <div className="pt-4">
-                <p className="block text-xs md:text-base font-custom text-font-black dark:text-font-white font-bold">
+                <p className="block text-xs md:text-base font-custom text-font-black dark:text-font-white font-bold pb-2">
                   Artikel
                   <span>
                     <Asterisk />

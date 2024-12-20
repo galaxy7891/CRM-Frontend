@@ -30,7 +30,7 @@ const ArticleDetail = () => {
 
       <p className="font-custom text-font-black text-xs md:text-xl font-normal pt-2 md:pt-4">
         Diposting pada :{' '}
-        {moment(publicArticle?.updated_at).format('DD MMMM YYYY')}
+        {moment(publicArticle?.post_date).format('DD MMMM YYYY')}
       </p>
 
       <article>

@@ -33,12 +33,29 @@ const NewArticle = () => {
   };
 
   useEffect(() => {
-    if (trixRef.current) {
-      trixRef.current.addEventListener('trix-change', (event: any) => {
-        const htmlContent = event.target.innerHTML;
-        setContent(htmlContent);
-      });
+    const trixElement = trixRef.current;
+
+    const handleTrixChange = (event: TrixEditorEvent) => {
+      const htmlContent = event.target.innerHTML;
+      setContent(htmlContent);
+      console.log('Updated Content:', htmlContent);
+    };
+
+    if (trixElement) {
+      trixElement.addEventListener(
+        'trix-change',
+        handleTrixChange as EventListener
+      );
     }
+
+    return () => {
+      if (trixElement) {
+        trixElement.removeEventListener(
+          'trix-change',
+          handleTrixChange as EventListener
+        );
+      }
+    };
   }, []);
 
   return (
@@ -73,7 +90,8 @@ const NewArticle = () => {
               }
               required
             />
-            <p className="block text-xs md:text-base font-custom text-font-black dark:text-font-white">
+            
+            <p className="block text-xs md:text-base font-custom text-font-black dark:text-font-white pb-2">
               Artikel
             </p>
             <form>

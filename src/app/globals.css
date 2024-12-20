@@ -104,3 +104,11 @@ article blockquote {
   padding: 0.5em 1em;
   background-color: #f9f9f9;
 }
+
+trix-toolbar .trix-button--icon-attach {
+  display: none;
+}
+
+trix-toolbar .trix-button-group--file-tools {
+  display: none !important;
+}
