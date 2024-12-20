@@ -59,3 +59,56 @@ body {
   font-style: normal;
   font-weight: 500;
 }
+
+trix-editor ul,
+article ul {
+  @apply list-disc ml-6; /* Apply bullet points and indentation */
+}
+
+trix-editor ol,
+article ol {
+  @apply list-decimal ml-6; /* Apply numbering and indentation */
+}
+
+trix-editor li,
+article li {
+  @apply mb-2; /* Apply margin between items */
+}
+
+trix-editor a,
+article a {
+  @apply text-blue-500 underline hover:text-blue-800;
+}
+
+trix-editor h1,
+article h1 {
+  @apply font-bold text-xl;
+}
+
+trix-editor strong,
+article strong {
+  @apply font-bold; /* Strong text */
+}
+
+trix-editor em,
+article em {
+  @apply italic; /* Text italic */
+}
+
+trix-editor blockquote,
+article blockquote {
+  font-style: italic;
+  color: #555;
+  border-left: 4px solid #ccc;
+  margin: 1em 0;
+  padding: 0.5em 1em;
+  background-color: #f9f9f9;
+}
+
+trix-toolbar .trix-button--icon-attach {
+  display: none;
+}
+
+trix-toolbar .trix-button-group--file-tools {
+  display: none !important;
+}

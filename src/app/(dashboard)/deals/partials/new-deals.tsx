@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { addDeals } from "@/redux/actions/dealsActions";
-import { getProducts } from "@/redux/actions/productsActions";
-import { getLeads } from "@/redux/actions/leadsActions";
-import { getContacts } from "@/redux/actions/contactsActions";
-import { getCompanies } from "@/redux/actions/companiesActions";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/redux/store";
-import { dealsDataTypes } from "@/types/dealsTypes";
-import DashboardSidebarRedButton from "@/components/button/dashboard-sidebar-red-button";
-import DashboardSidebarYellowButton from "@/components/button/dashboard-sidebar-yellow-button";
-import DateInput from "@/components/form-input/date-input";
-import SelectInput from "@/components/form-input/dropdown-input";
-import DurationInput from "@/components/form-input/duration-input";
-import PriceInput from "@/components/form-input/price-input";
-import TextArea from "@/components/form-input/text-area-input";
-import TextInput from "@/components/form-input/text-input";
-import NumberInput from "@/components/form-input/number-input";
-import SidebarFooter from "@/components/layout/sidebar-footer";
-import SidebarModal from "@/components/layout/sidebar-modal";
-import SuccessModal from "@/components/status/success-modal";
-import FailText from "@/components/status/fail-text";
+import React, { useState, useEffect } from 'react';
+import { addDeals } from '@/redux/actions/dealsActions';
+import { getProducts } from '@/redux/actions/productsActions';
+import { getLeads } from '@/redux/actions/leadsActions';
+import { getContacts } from '@/redux/actions/contactsActions';
+import { getCompanies } from '@/redux/actions/companiesActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import { dealsDataTypes } from '@/types/dealsTypes';
+import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
+import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
+import DateInput from '@/components/form-input/date-input';
+import SelectInput from '@/components/form-input/dropdown-input';
+import DurationInput from '@/components/form-input/duration-input';
+import PriceInput from '@/components/form-input/price-input';
+import TextArea from '@/components/form-input/text-area-input';
+import TextInput from '@/components/form-input/text-input';
+import NumberInput from '@/components/form-input/number-input';
+import SidebarFooter from '@/components/layout/sidebar-footer';
+import SidebarModal from '@/components/layout/sidebar-modal';
+import SuccessModal from '@/components/status/success-modal';
+import FailText from '@/components/status/fail-text';
 
 interface NewDealsProps {
   onClose: () => void;
@@ -31,27 +31,27 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
   const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
     {}
   );
-  const [tempPayment_Category, setTempPayment_Category] = useState<string>("");
+  const [tempPayment_Category, setTempPayment_Category] = useState<string>('');
   const [deal, setDeal] = useState<dealsDataTypes>({
-    id: "",
-    category: "",
-    customer_id: "",
-    customers_company_id: "",
-    name: "",
-    product_id: "",
+    id: '',
+    category: '',
+    customer_id: '',
+    customers_company_id: '',
+    name: '',
+    product_id: '',
     quantity: null,
-    unit: "",
-    description: "",
-    tag: "",
-    status: "",
-    stage: "",
-    open_date: "",
-    close_date: "",
-    expected_close_date: "",
-    value_estimated: "",
-    value_actual: "",
-    payment_category: "",
-    payment_duration: "",
+    unit: '',
+    description: '',
+    tag: '',
+    status: '',
+    stage: '',
+    open_date: '',
+    close_date: '',
+    expected_close_date: '',
+    value_estimated: '',
+    value_actual: '',
+    payment_category: '',
+    payment_duration: '',
     owner: owner!,
   });
   console.log(deal);
@@ -62,17 +62,17 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
   const { companies } = useSelector((state: RootState) => state.companies);
 
   const productUnit =
-    products.find((product) => product.id === deal.product_id)?.unit || "";
+    products.find((product) => product.id === deal.product_id)?.unit || '';
 
   const handleAddDeals = () => {
     dispatch(addDeals(deal, setIsSuccess, setErrorMessage));
   };
   useEffect(() => {
     setDeal((prevDeal) => ({ ...prevDeal, unit: productUnit }));
-    dispatch(getProducts("", "", 0, () => {}));
-    dispatch(getLeads("", "", "", 0, () => {}));
-    dispatch(getContacts("", "", "", 0, () => {}));
-    dispatch(getCompanies("", "", "", 0, () => {}));
+    dispatch(getProducts('', '', 0, () => {}));
+    dispatch(getLeads('', '', '', 0, () => {}));
+    dispatch(getContacts('', '', '', 0, () => {}));
+    dispatch(getCompanies('', '', '', 0, () => {}));
   }, [dispatch, isSuccess, productUnit]);
 
   return (
@@ -93,26 +93,26 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
             label="Kategori Pembeli"
             value={deal.category}
             options={[
-              { label: "Pilih Kategori Pelanggan", value: "", hidden: true },
-              { label: "Pelanggan", value: "Pelanggan" },
-              { label: "Perusahaan", value: "Perusahaan" },
+              { label: 'Pilih Kategori Pelanggan', value: '', hidden: true },
+              { label: 'Pelanggan', value: 'pelanggan' },
+              { label: 'Perusahaan', value: 'perusahaan' },
             ]}
             onChange={(e) => setDeal({ ...deal, category: e.target.value })}
             required
           />
-        </div>{" "}
-        {deal.category === "pelanggan" && (
+        </div>{' '}
+        {deal.category === 'pelanggan' && (
           <div>
             <SelectInput
               label="Nama Pelanggan"
               options={[
-                { label: "Pilih Pelanggan", value: "", hidden: true },
+                { label: 'Pilih Pelanggan', value: '', hidden: true },
                 ...contacts.map((contact) => ({
-                  label: contact.first_name + " " + contact.last_name,
+                  label: contact.first_name + ' ' + contact.last_name,
                   value: contact.id,
                 })),
                 ...leads.map((lead) => ({
-                  label: lead.first_name + " " + lead.last_name,
+                  label: lead.first_name + ' ' + lead.last_name,
                   value: lead.id,
                 })),
               ]}
@@ -124,13 +124,13 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
             />
           </div>
         )}
-        {deal.category === "perusahaan" && (
+        {deal.category === 'perusahaan' && (
           <div>
             <SelectInput
               label="Nama Perusahaan"
               value={deal.customers_company_id!}
               options={[
-                { label: "Pilih Perusahaan", value: "", hidden: true },
+                { label: 'Pilih Perusahaan', value: '', hidden: true },
                 ...companies.map((company) => ({
                   label: company.name,
                   value: company.id,
@@ -148,7 +148,7 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
             label="Nama Produk "
             value={deal.product_id!}
             options={[
-              { label: "Pilih Nama Produk", value: "", hidden: true },
+              { label: 'Pilih Nama Produk', value: '', hidden: true },
               ...products.map((product) => ({
                 label: product.name,
                 value: product.id,
@@ -199,19 +199,19 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
             label="Kategori Pembayaran"
             value={tempPayment_Category || deal.payment_category}
             options={[
-              { label: "Kategori Pembayaran", value: "", hidden: true },
-              { label: "Sekali", value: "Sekali" },
-              { label: "Berulang", value: "Berulang" },
+              { label: 'Kategori Pembayaran', value: '', hidden: true },
+              { label: 'Sekali', value: 'Sekali' },
+              { label: 'Berulang', value: 'Berulang' },
             ]}
             onChange={(e) => {
-              if (e.target.value === "berulang") {
+              if (e.target.value === 'berulang') {
                 setTempPayment_Category(e.target.value);
-                setDeal({ ...deal, payment_category: "" });
+                setDeal({ ...deal, payment_category: '' });
               } else {
                 setDeal({ ...deal, payment_category: e.target.value });
-                setTempPayment_Category("");
+                setTempPayment_Category('');
                 if (deal.payment_duration) {
-                  setDeal({ ...deal, payment_duration: "" });
+                  setDeal({ ...deal, payment_duration: '' });
                 }
               }
             }}
@@ -221,17 +221,17 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
           )}
         </div>
         {/* If the payment category is not cash, show the duration input */}
-        {tempPayment_Category === "berulang" && (
+        {tempPayment_Category === 'berulang' && (
           <div>
             <DurationInput
               label="Durasi Pembayaran"
               placeholder="5"
               selectValue={deal.payment_category}
               options={[
-                { label: "Durasi Pembayaran", value: "", hidden: true },
-                { label: "Hari", value: "Hari" },
-                { label: "Bulan", value: "Bulan" },
-                { label: "Tahun", value: "Tahun" },
+                { label: 'Durasi Pembayaran', value: '', hidden: true },
+                { label: 'Hari', value: 'Hari' },
+                { label: 'Bulan', value: 'Bulan' },
+                { label: 'Tahun', value: 'Tahun' },
               ]}
               onTextChange={(e) =>
                 setDeal({ ...deal, payment_duration: e.target.value })
@@ -261,12 +261,12 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
             label="Tahapan"
             value={deal.stage}
             options={[
-              { label: "Pilih Tahapan Deals", value: "", hidden: true },
-              { label: "Kualifikasi", value: "Kualifikasi" },
-              { label: "Proposal", value: "Proposal" },
-              { label: "Negosiasi", value: "Negosiasi" },
-              { label: "Tercapai", value: "Tercapai" },
-              { label: "Gagal", value: "Gagal" },
+              { label: 'Pilih Tahapan Deals', value: '', hidden: true },
+              { label: 'Kualifikasi', value: 'Kualifikasi' },
+              { label: 'Proposal', value: 'Proposal' },
+              { label: 'Negosiasi', value: 'Negosiasi' },
+              { label: 'Tercapai', value: 'Tercapai' },
+              { label: 'Gagal', value: 'Gagal' },
             ]}
             onChange={(e) => setDeal({ ...deal, stage: e.target.value })}
             required
@@ -291,10 +291,10 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
             label="Status"
             value={deal.status}
             options={[
-              { label: "Pilih Status", value: "", hidden: true },
-              { label: "Rendah", value: "Rendah" },
-              { label: "Sedang", value: "Sedang" },
-              { label: "Tinggi", value: "Tinggi" },
+              { label: 'Pilih Status', value: '', hidden: true },
+              { label: 'Rendah', value: 'Rendah' },
+              { label: 'Sedang', value: 'Sedang' },
+              { label: 'Tinggi', value: 'Tinggi' },
             ]}
             onChange={(e) => setDeal({ ...deal, status: e.target.value })}
             required

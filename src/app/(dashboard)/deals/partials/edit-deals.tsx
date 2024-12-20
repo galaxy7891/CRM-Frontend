@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { dealsDataTypes } from "@/types/dealsTypes";
-import { updateDeal } from "@/redux/actions/dealsActions";
-import { getProducts } from "@/redux/actions/productsActions";
-import { getLeads } from "@/redux/actions/leadsActions";
-import { getContacts } from "@/redux/actions/contactsActions";
-import { getCompanies } from "@/redux/actions/companiesActions";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/redux/store";
-import DashboardSidebarRedButton from "@/components/button/dashboard-sidebar-red-button";
-import DashboardSidebarYellowButton from "@/components/button/dashboard-sidebar-yellow-button";
-import DateInput from "@/components/form-input/date-input";
-import SelectInput from "@/components/form-input/dropdown-input";
-import DurationInput from "@/components/form-input/duration-input";
-import PriceInput from "@/components/form-input/price-input";
-import TextArea from "@/components/form-input/text-area-input";
-import TextInput from "@/components/form-input/text-input";
-import NumberInput from "@/components/form-input/number-input";
-import SidebarFooter from "@/components/layout/sidebar-footer";
-import SidebarModal from "@/components/layout/sidebar-modal";
-import FailText from "@/components/status/fail-text";
-import SuccessModal from "@/components/status/success-modal";
+import React, { useState, useEffect } from 'react';
+import { dealsDataTypes } from '@/types/dealsTypes';
+import { updateDeal } from '@/redux/actions/dealsActions';
+import { getProducts } from '@/redux/actions/productsActions';
+import { getLeads } from '@/redux/actions/leadsActions';
+import { getContacts } from '@/redux/actions/contactsActions';
+import { getCompanies } from '@/redux/actions/companiesActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
+import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
+import DateInput from '@/components/form-input/date-input';
+import SelectInput from '@/components/form-input/dropdown-input';
+import DurationInput from '@/components/form-input/duration-input';
+import PriceInput from '@/components/form-input/price-input';
+import TextArea from '@/components/form-input/text-area-input';
+import TextInput from '@/components/form-input/text-input';
+import NumberInput from '@/components/form-input/number-input';
+import SidebarFooter from '@/components/layout/sidebar-footer';
+import SidebarModal from '@/components/layout/sidebar-modal';
+import FailText from '@/components/status/fail-text';
+import SuccessModal from '@/components/status/success-modal';
 
 interface editDealsProps {
   onClose: () => void;
@@ -49,11 +49,12 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
     quantity: dealProp.product?.quantity || null,
     unit: dealProp.product?.unit || null,
   });
+  console.log(dealProp);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
     {}
   );
-  const [tempPayment_Category, setTempPayment_Category] = useState<string>("");
+  const [tempPayment_Category, setTempPayment_Category] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const { products } = useSelector((state: RootState) => state.products);
@@ -66,10 +67,10 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
   };
 
   useEffect(() => {
-    dispatch(getProducts("terbaru", "semua", 0, () => {}));
-    dispatch(getLeads("terbaru", "", "semua", 1, () => {}));
-    dispatch(getContacts("terbaru", "", "semua", 1, () => {}));
-    dispatch(getCompanies("terbaru", "", "semua", 1, () => {}));
+    dispatch(getProducts('terbaru', 'semua', 0, () => {}));
+    dispatch(getLeads('terbaru', '', 'semua', 1, () => {}));
+    dispatch(getContacts('terbaru', '', 'semua', 1, () => {}));
+    dispatch(getCompanies('terbaru', '', 'semua', 1, () => {}));
   }, [dispatch]);
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Edit Deals">
@@ -93,23 +94,23 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
             required
             disabled
           />
-        </div>{" "}
-        {deal.category === "pelanggan" && (
+        </div>{' '}
+        {deal.category === 'pelanggan' && (
           <div>
             <SelectInput
               label="Nama Pelanggan"
               options={[
-                { label: "Pilih Pelanggan", value: "", hidden: true },
+                { label: 'Pilih Pelanggan', value: '', hidden: true },
                 ...contacts.map((contact) => ({
-                  label: contact.first_name + " " + contact.last_name,
+                  label: contact.first_name + ' ' + contact.last_name,
                   value: contact.id,
                 })),
                 ...leads.map((lead) => ({
-                  label: lead.first_name + " " + lead.last_name,
+                  label: lead.first_name + ' ' + lead.last_name,
                   value: lead.id,
                 })),
               ]}
-              value={deal.customer_id || ""}
+              value={deal.customer_id || ''}
               onChange={(e) => {
                 const value = e.target.value; // Ambil nilai dari event
                 setDeal({ ...deal, customer_id: value });
@@ -118,13 +119,13 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
             />
           </div>
         )}
-        {deal.category === "perusahaan" && (
+        {deal.category === 'perusahaan' && (
           <div>
             <SelectInput
               label="Nama Perusahaan"
-              value={deal.customers_company_id || ""}
+              value={deal.customers_company_id || ''}
               options={[
-                { label: "Pilih Perusahaan", value: "-", hidden: true },
+                { label: 'Pilih Perusahaan', value: '-', hidden: true },
                 ...companies.map((company) => ({
                   label: company.name,
                   value: company.id,
@@ -146,7 +147,7 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
             label="Nama Produk"
             value={
               products.find((product) => product.id === deal?.product_id)
-                ?.name || "" // Cari nama produk berdasarkan ID
+                ?.name || '' // Cari nama produk berdasarkan ID
             }
             placeholder="Pilih Produk"
             onChange={(e) => setDeal({ ...deal, product_id: e.target.value })}
@@ -180,7 +181,7 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
               <TextInput
                 label="Satuan Produk"
                 placeholder="Jenis Satuan Produk"
-                value={deal.unit || ""}
+                value={deal.unit || ''}
                 onChange={(e) => setDeal({ ...deal, unit: e.target.value })}
                 required
                 disabled
@@ -195,36 +196,36 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
             label="Kategori Pembayaran"
             value={tempPayment_Category || deal.payment_category}
             options={[
-              { label: "Kategori Pembayaran", value: "", hidden: true },
-              { label: "Sekali", value: "Sekali" },
-              { label: "Berulang", value: "Berulang" },
+              { label: 'Kategori Pembayaran', value: '', hidden: true },
+              { label: 'Sekali', value: 'Sekali' },
+              { label: 'Berulang', value: 'Berulang' },
             ]}
             onChange={(e) => {
-              if (e.target.value === "berulang") {
+              if (e.target.value === 'Berulang') {
                 setTempPayment_Category(e.target.value);
-                setDeal({ ...deal, payment_category: "" });
+                setDeal({ ...deal, payment_category: '' });
               } else {
                 setDeal({ ...deal, payment_category: e.target.value });
-                setTempPayment_Category("");
+                setTempPayment_Category('');
                 if (deal.payment_duration) {
-                  setDeal({ ...deal, payment_duration: "" });
+                  setDeal({ ...deal, payment_duration: '' });
                 }
               }
             }}
           />
         </div>
         {/* If the payment category is not cash, show the duration input */}
-        {tempPayment_Category === "berulang" && (
+        {tempPayment_Category === 'berulang' && (
           <div>
             <DurationInput
               label="Durasi Pembayaran"
               placeholder="5"
               selectValue={deal.payment_category}
               options={[
-                { label: "Durasi Pembayaran", value: "", hidden: true },
-                { label: "hari", value: "hari" },
-                { label: "bulan", value: "bulan" },
-                { label: "tahun", value: "tahun" },
+                { label: 'Durasi Pembayaran', value: '', hidden: true },
+                { label: 'hari', value: 'Hari' },
+                { label: 'bulan', value: 'Bulan' },
+                { label: 'tahun', value: 'Tahun' },
               ]}
               onSelectChange={(e) =>
                 setDeal({ ...deal, payment_category: e.target.value })
@@ -249,12 +250,12 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
             <FailText>{errorMessage.value_estimated}</FailText>
           )}
         </div>
-        {deal.stage === "tercapai" && (
+        {deal.stage === 'tercapai' && (
           <div>
             <PriceInput
               label="Nilai Sebenarnya"
               placeholder="Pendapatan yang didapat"
-              value={deal.value_actual || ""}
+              value={deal.value_actual || ''}
               onChange={(e) =>
                 setDeal({ ...deal, value_actual: e.target.value })
               }
@@ -269,12 +270,12 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
             label="Tahapan"
             value={deal.stage}
             options={[
-              { label: "Pilih Tahapan Deals", value: "", hidden: true },
-              { label: "Kualifikasi", value: "Kualifikasi" },
-              { label: "Proposal", value: "Proposal" },
-              { label: "Negosiasi", value: "Negosiasi" },
-              { label: "Tercapai", value: "Tercapai" },
-              { label: "Gagal", value: "Gagal" },
+              { label: 'Pilih Tahapan Deals', value: '', hidden: true },
+              { label: 'Kualifikasi', value: 'Kualifikasi' },
+              { label: 'Proposal', value: 'Proposal' },
+              { label: 'Negosiasi', value: 'Negosiasi' },
+              { label: 'Tercapai', value: 'Tercapai' },
+              { label: 'Gagal', value: 'Gagal' },
             ]}
             onChange={(e) => setDeal({ ...deal, stage: e.target.value })}
             required
@@ -295,11 +296,11 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
           )}
         </div>
         {/* If the stage is closed, show the close date input */}
-        {deal.stage === "tercapai" && (
+        {deal.stage === 'tercapai' && (
           <div>
             <DateInput
               label="Tanggal  Penutupan"
-              value={deal.close_date || ""}
+              value={deal.close_date || ''}
               onChange={(e) => setDeal({ ...deal, close_date: e.target.value })}
               required
             />
@@ -313,10 +314,10 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
             label="Status"
             value={deal.status}
             options={[
-              { label: "Pilih Status", value: "", hidden: true },
-              { label: "Rendah", value: "Rendah" },
-              { label: "Sedang", value: "Sedang" },
-              { label: "Tinggi", value: "Tinggi" },
+              { label: 'Pilih Status', value: '', hidden: true },
+              { label: 'Rendah', value: 'Rendah' },
+              { label: 'Sedang', value: 'Sedang' },
+              { label: 'Tinggi', value: 'Tinggi' },
             ]}
             onChange={(e) => setDeal({ ...deal, status: e.target.value })}
             required
@@ -360,7 +361,7 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
           Batal
         </DashboardSidebarRedButton>
         <DashboardSidebarYellowButton onClick={handleEditDeal}>
-          {isLoading ? "Menyimpan" : "Simpan"}
+          {isLoading ? 'Menyimpan' : 'Simpan'}
         </DashboardSidebarYellowButton>
       </SidebarFooter>
       {isSuccess && (

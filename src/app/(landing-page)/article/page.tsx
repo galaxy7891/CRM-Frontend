@@ -1,32 +1,30 @@
-import React from "react";
-import CardArticle from "./partials/card-article";
-// import ArticleDetail from './[id]/page'
+'use client';
+import React, { useEffect } from 'react';
+import { getPublicArticles } from '@/redux/actions/CMSActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import CardArticle from './partials/card-article';
 
 const Article = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { publicArticles } = useSelector((state: RootState) => state.CMS);
+  console.log(publicArticles);
+  useEffect(() => {
+    dispatch(getPublicArticles());
+  }, [dispatch]);
   return (
-    <div className="bg-light-white p-8">
-      <h1 className="font-custom text-font-black text-2xl lg:text-5xl font-bold text-center mb-4">Blog Artikel</h1>
+    <div className="bg-light-white px-6 lg:px-10">
+      <h1 className="font-custom text-font-black text-2xl lg:text-5xl font-bold text-center py-4 lg:py-10">
+        Blog Artikel
+      </h1>
+
       <CardArticle
-        articles={[
-          {
-            title: "Article 1",
-            description:
-              " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pretium risus eget justo bibendum, a suscipit risus vehicula. Ut mollis suscipit porttitor. Fusce tempor iaculis ipsum, sed mollis ipsum ornare ut. In vestibulum suscipit ipsum, vel ornare nibh auctor at",
-            image: "/images/article.png",
-          },
-          {
-            title: "Article 2",
-            description:
-              " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pretium risus eget justo bibendum, a suscipit risus vehicula. Ut mollis suscipit porttitor. Fusce tempor iaculis ipsum, sed mollis ipsum ornare ut. In vestibulum suscipit ipsum, vel ornare nibh auctor at",
-            image: "/images/article.png",
-          },
-          {
-            title: "Article 3",
-            description:
-              " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pretium risus eget justo bibendum, a suscipit risus vehicula. Ut mollis suscipit porttitor. Fusce tempor iaculis ipsum, sed mollis ipsum ornare ut. In vestibulum suscipit ipsum, vel ornare nibh auctor at",
-            image: "/images/article.png",
-          },
-        ]}
+        articles={publicArticles.map((article) => ({
+          title: article.title,
+          description: article?.description || '',
+          image_url: article.image_url || '',
+          slug: article.slug || '',
+        }))}
       />
     </div>
   );

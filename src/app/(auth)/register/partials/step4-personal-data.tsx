@@ -48,7 +48,7 @@ const PersonalDataStep: React.FC<PersonalDataStepProps> = ({
         <AuthPhoneInput
           value={personalData?.phone}
           onChange={(e) => {
-            let value = e.target.value.replace(/[^0-9]/g, ''); // Hanya angka
+            const value = e.target.value.replace(/[^0-9]/g, ''); // Hanya angka
             setPersonalData({ ...personalData, phone: value });
           }}
         />

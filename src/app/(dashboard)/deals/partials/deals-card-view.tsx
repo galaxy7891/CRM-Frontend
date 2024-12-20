@@ -215,6 +215,7 @@ const DealsCardView = () => {
                   next_page_url={pagination.next_page_url}
                   handlePrevPage={handlePrevPage}
                   handleNextPage={handleNextPage}
+                  perPage={pagination.per_page}
                 />
                 {isEditDeals && (
                   <EditDeals onClose={handleCloseEdit} dealProp={deal!} />

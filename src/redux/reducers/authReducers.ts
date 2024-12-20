@@ -6,6 +6,12 @@ const initialState = {
     email: typeof window !== 'undefined' ? localStorage.getItem('email') : null,
     role: typeof window !== 'undefined' ? localStorage.getItem('role') : null,
     id: typeof window !== 'undefined' ? localStorage.getItem('id_user') : null,
+    account_type:
+      typeof window !== 'undefined'
+        ? localStorage.getItem('account_type')
+        : null,
+    duration:
+      typeof window !== 'undefined' ? localStorage.getItem('duration') : null,
   },
   userTest: null,
 };

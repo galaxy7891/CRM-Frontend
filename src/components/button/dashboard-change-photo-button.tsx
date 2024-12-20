@@ -11,7 +11,6 @@ const DashboardChangePhotoButton: React.FC<DashboardChangePhotoButtonProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleButtonClick = () => {
-    // Trigger click on the hidden file input
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }

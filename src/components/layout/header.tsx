@@ -28,12 +28,13 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
   const toggleTooltip = () => setIsTooltipVisible(!isTooltipVisible);
+  const [accountType, setAccountType] = useState<string>('');
+  const [duration, setDuration] = useState<string>('');
   const [photo, setPhoto] = useState<string>('');
   const { isDarkMode, toggleTheme } = useTheme();
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const pathName = usePathname();
-  // const { user } = useSelector((state: RootState) => state.auth);
   const { user } = useSelector((state: RootState) => state.profile);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -57,11 +58,13 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
   };
 
   useEffect(() => {
+    dispatch(getProfile());
+    setAccountType(user?.account_type || '');
+    setDuration(user?.duration || '');
     if (user?.image_url) {
       setPhoto(user.image_url!);
+      console.log(user.image_url);
     }
-
-    dispatch(getProfile());
 
     let matchedPage: { title: string; description?: string } | undefined;
 
@@ -95,7 +98,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [pathName, dispatch, user?.image_url]);
+  }, [pathName, dispatch, user?.image_url, user?.account_type, user?.duration]);
 
   return (
     <div className="relative">
@@ -185,7 +188,9 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
                       href="/upgrade-LoyalCust"
                       className="flex items-center justify-between px-2 py-2 bg-light-gold rounded-t-md"
                     >
-                      <span>Percobaan 7 hari</span>
+                      <p>
+                        {accountType} {duration}
+                      </p>
                       <Image
                         src="/icons/header/trial.svg"
                         alt="Trial Icon"

@@ -85,11 +85,7 @@ const Product = () => {
   };
 
   const handleAddDataClick = () => {
-    setIsAddProduct(true);
-  };
-
-  const handleCloseAddProduct = () => {
-    setIsAddProduct(false);
+    setIsAddProduct(!isAddProduct);
   };
 
   const handleDeleteProduct = () => {
@@ -290,9 +286,6 @@ const Product = () => {
                       productProps={product!}
                     />
                   )}
-                  {isAddProduct && (
-                    <NewProduct onClose={handleCloseAddProduct} />
-                  )}
                   {isDeleteProduct && (
                     <ActionConfirmModal
                       header="Apakah ingin menghapus Produk?"
@@ -333,6 +326,7 @@ const Product = () => {
                   )}
                 </>
               )}
+              {isAddProduct && <NewProduct onClose={handleAddDataClick} />}
             </>
           </DashboardCard>
         )}
