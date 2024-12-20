@@ -59,7 +59,8 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
 
   useEffect(() => {
     dispatch(getProfile());
-
+    setAccountType(user?.account_type || '');
+    setDuration(user?.duration || '');
     if (user?.image_url) {
       setPhoto(user.image_url!);
       console.log(user.image_url);
@@ -187,7 +188,9 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
                       href="/upgrade-LoyalCust"
                       className="flex items-center justify-between px-2 py-2 bg-light-gold rounded-t-md"
                     >
-                      <p>{accountType}</p>
+                      <p>
+                        {accountType} {duration}
+                      </p>
                       <Image
                         src="/icons/header/trial.svg"
                         alt="Trial Icon"

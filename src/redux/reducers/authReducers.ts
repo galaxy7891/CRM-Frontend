@@ -25,14 +25,10 @@ const authSlice = createSlice({
         localStorage.setItem('email', action.payload.email);
         localStorage.setItem('role', action.payload.role);
         localStorage.setItem('id_user', action.payload.id);
-        localStorage.setItem('account_type', action.payload.account_type);
-        localStorage.setItem('duration', action.payload.duration);
       } else {
         localStorage.removeItem('email');
         localStorage.removeItem('role');
         localStorage.removeItem('id_user');
-        localStorage.removeItem('account_type');
-        localStorage.removeItem('duration');
       }
       state.user = action.payload;
     },
