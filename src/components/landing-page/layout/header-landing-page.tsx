@@ -12,7 +12,7 @@ const HeaderLandingPage: React.FC<HeaderLandingPageProps> = ({
   onToggleSidebar,
 }) => {
   return (
-    <header className="sticky top-0 right-0 z-[99] flex items-center justify-between py-3 px-4 md:py-4  bg-dark-navy  shadow-lg">
+    <header className="sticky top-0 right-0 z-[88] flex items-center justify-between py-3 px-4 md:py-4  bg-dark-navy  shadow-lg">
       <div className="flex items-center justify-between w-full px-4">
         <Image
           src="/icons/logo.svg"
