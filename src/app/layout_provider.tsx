@@ -3,6 +3,8 @@
 import { Provider } from 'react-redux';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import store from '@/redux/store';
+import 'trix';
+import 'trix/dist/trix.css';
 
 const AppProvider = ({ children }: { children: React.ReactNode }) => (
   <Provider store={store}>

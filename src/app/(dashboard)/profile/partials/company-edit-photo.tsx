@@ -31,7 +31,6 @@ const EditImageCompany = ({ onClose, data }: FormEditProps) => {
   };
 
   const handleUpdateLogoo = () => {
-    console.log("hitted");
     dispatch(
       updateCompanyUserLogo(logo, setIsLoading, setIsSuccess, setErrorMessage)
     );

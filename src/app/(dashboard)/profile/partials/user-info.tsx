@@ -41,7 +41,7 @@ const CardProfile: React.FC<userInfoProps> = ({ user }) => {
                 alt="image"
                 width={160}
                 height={160}
-                className="rounded-full mb-2 w-[100px] h-[100px] md:w-[160px] md:h-[160px] "
+                className="rounded-full mb-2 w-[100px] h-[100px] md:w-[160px] md:h-[160px]"
               />
               <div className="absolute bottom-[-15px] right-[-1px]">
                 <Image

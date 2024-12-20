@@ -1,40 +1,40 @@
-import React, { useState, useEffect } from "react";
-import { useAppDispatch } from "@/hook/redux";
-import { convertManualLead } from "@/redux/actions/leadsActions";
+import React, { useState, useEffect } from 'react';
+import { useAppDispatch } from '@/hook/redux';
+import { convertManualLead } from '@/redux/actions/leadsActions';
 import {
   leadsTypes,
   editLeadsPropsTypes,
   selectedIds,
-} from "@/types/leadsTypes";
+} from '@/types/leadsTypes';
 import {
   getProvinces,
   getCities,
   getSubDistricts,
   getVillage,
   getZipCodes,
-} from "@/utils/getAddressLocation";
-import SuccesModal from "@/components/status/success-modal";
-import ActionConfirmModal from "@/components/status/action-confirm-yellow-modal";
-import DashboardSidebarRedButton from "@/components/button/dashboard-sidebar-red-button";
-import DashboardSidebarYellowButton from "@/components/button/dashboard-sidebar-yellow-button";
-import SelectInput from "@/components/form-input/dropdown-input";
-import PhoneInput from "@/components/form-input/phone-input";
-import TextArea from "@/components/form-input/text-area-input";
-import TextInput from "@/components/form-input/text-input";
-import SidebarFooter from "@/components/layout/sidebar-footer";
-import SidebarModal from "@/components/layout/sidebar-modal";
-import FailText from "@/components/status/fail-text";
+} from '@/utils/getAddressLocation';
+import SuccesModal from '@/components/status/success-modal';
+import ActionConfirmModal from '@/components/status/action-confirm-yellow-modal';
+import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
+import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
+import SelectInput from '@/components/form-input/dropdown-input';
+import PhoneInput from '@/components/form-input/phone-input';
+import TextArea from '@/components/form-input/text-area-input';
+import TextInput from '@/components/form-input/text-input';
+import SidebarFooter from '@/components/layout/sidebar-footer';
+import SidebarModal from '@/components/layout/sidebar-modal';
+import FailText from '@/components/status/fail-text';
 
 const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
   onClose,
   leadProps,
 }) => {
   const [selectedIds, setSelectedIds] = useState<selectedIds>({
-    provinceId: "",
-    cityId: "",
-    subdistrictId: "",
-    villageId: "",
-    zipCodeId: "",
+    provinceId: '',
+    cityId: '',
+    subdistrictId: '',
+    villageId: '',
+    zipCodeId: '',
   });
   const [provinces, setProvinces] = useState<{ id: string; text: string }[]>(
     []
@@ -92,7 +92,7 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
           <TextInput
             label="Nama Depan"
             placeholder="Nama Depan"
-            value={lead.first_name || ""}
+            value={lead.first_name || ''}
             onChange={(e) => setLead({ ...lead, first_name: e.target.value })}
             required
           />
@@ -102,7 +102,7 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
           <TextInput
             label="Nama Belakang"
             placeholder="Nama Belakang"
-            value={lead.last_name || ""}
+            value={lead.last_name || ''}
             onChange={(e) => setLead({ ...lead, last_name: e.target.value })}
           />
         </div>
@@ -120,7 +120,7 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
           <TextInput
             label="Email"
             placeholder="user@gmail.com"
-            value={lead.email || ""}
+            value={lead.email || ''}
             onChange={(e) => setLead({ ...lead, email: e.target.value })}
           />
           {errorMessage && <FailText>{errorMessage.email}</FailText>}
@@ -130,10 +130,10 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
             label="Status Kontak"
             value={lead.status}
             options={[
-              { label: "Pilih Status", value: "", hidden: true },
-              { label: "Rendah", value: "Rendah" },
-              { label: "Sedang", value: "Sedang" },
-              { label: "Tinggi", value: "Tinggi" },
+              { label: 'Pilih Status', value: '', hidden: true },
+              { label: 'Rendah', value: 'Rendah' },
+              { label: 'Sedang', value: 'Sedang' },
+              { label: 'Tinggi', value: 'Tinggi' },
             ]}
             onChange={(e) => setLead({ ...lead, status: e.target.value })}
             required
@@ -145,7 +145,7 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
             label="Penanggung Jawab"
             disabled={true}
             placeholder="Penanggung Jawab"
-            value={lead.owner || ""}
+            value={lead.owner || ''}
             onChange={(e) => setLead({ ...lead, owner: e.target.value })}
             required
           />
@@ -162,8 +162,8 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
         <div className="order-8 md:order-8">
           <SelectInput
             label="Perusahaan"
-            value={lead.customers_company || ""}
-            options={[{ label: "Pilih Perusahaan", value: "", hidden: true }]}
+            value={lead.customers_company || ''}
+            options={[{ label: 'Pilih Perusahaan', value: '', hidden: true }]}
             onChange={(e) =>
               setLead({ ...lead, customers_company: e.target.value })
             }
@@ -189,36 +189,36 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
         <div className="order-[10]">
           <SelectInput
             label="Provinsi"
-            value={lead.province || ""}
+            value={lead.province || ''}
             options={[
               {
-                label: lead.province ? lead.province : "Pilih Provinsi",
-                value: lead.province ? lead.province : "",
+                label: lead.province ? lead.province : 'Pilih Provinsi',
+                value: lead.province ? lead.province : '',
                 hidden: lead.province ? true : false,
               },
               ...provinces.map((p) => ({ label: p.text, value: p.id })),
             ]}
             onChange={(e) => {
               const selectedText =
-                provinces.find((p) => p.id === e.target.value)?.text || "";
+                provinces.find((p) => p.id === e.target.value)?.text || '';
 
               // Reset the lead state for city, subdistrict, village, and zip_code
               setLead({
                 ...lead,
                 province: selectedText,
-                city: "",
-                subdistrict: "",
-                village: "",
-                zip_code: "",
+                city: '',
+                subdistrict: '',
+                village: '',
+                zip_code: '',
               });
 
               // Reset selected IDs for cityId, subdistrictId, villageId, and zipCodeId
               setSelectedIds({
                 provinceId: e.target.value,
-                cityId: "",
-                subdistrictId: "",
-                villageId: "",
-                zipCodeId: "",
+                cityId: '',
+                subdistrictId: '',
+                villageId: '',
+                zipCodeId: '',
               });
             }}
           />
@@ -228,26 +228,26 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
         <div className="order-[11]">
           <SelectInput
             label="Kota"
-            value={lead.city || ""}
+            value={lead.city || ''}
             disabled={!selectedIds.provinceId}
             options={[
               {
-                label: lead.city ? lead.city : "Pilih Kota",
-                value: lead.city ? lead.city : "",
+                label: lead.city ? lead.city : 'Pilih Kota',
+                value: lead.city ? lead.city : '',
                 hidden: true,
               },
               ...cities.map((c) => ({ label: c.text, value: c.id })),
             ]}
             onChange={(e) => {
               const selectedText =
-                cities.find((c) => c.id === e.target.value)?.text || "";
+                cities.find((c) => c.id === e.target.value)?.text || '';
               setLead({ ...lead, city: selectedText });
               setSelectedIds({
                 ...selectedIds,
                 cityId: e.target.value,
-                subdistrictId: "",
-                villageId: "",
-                zipCodeId: "",
+                subdistrictId: '',
+                villageId: '',
+                zipCodeId: '',
               });
             }}
           />
@@ -256,12 +256,12 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
         <div className="order-[12]">
           <SelectInput
             label="Kecamatan"
-            value={lead.subdistrict || ""}
+            value={lead.subdistrict || ''}
             disabled={!selectedIds.cityId}
             options={[
               {
-                label: lead.subdistrict ? lead.subdistrict : "Pilih Kecamatan",
-                value: lead.subdistrict ? lead.subdistrict : "",
+                label: lead.subdistrict ? lead.subdistrict : 'Pilih Kecamatan',
+                value: lead.subdistrict ? lead.subdistrict : '',
                 hidden: true,
               },
 
@@ -269,13 +269,13 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
             ]}
             onChange={(e) => {
               const selectedText =
-                subDistricts.find((sd) => sd.id === e.target.value)?.text || "";
+                subDistricts.find((sd) => sd.id === e.target.value)?.text || '';
               setLead({ ...lead, subdistrict: selectedText });
               setSelectedIds({
                 ...selectedIds,
                 subdistrictId: e.target.value,
-                villageId: "",
-                zipCodeId: "",
+                villageId: '',
+                zipCodeId: '',
               });
             }}
           />
@@ -284,12 +284,12 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
         <div className="order-[13]">
           <SelectInput
             label="Kelurahan/Desa"
-            value={lead.village || ""}
+            value={lead.village || ''}
             disabled={!selectedIds.subdistrictId}
             options={[
               {
-                label: lead.village ? lead.village : "Pilih Kelurahan/Desa",
-                value: lead.village ? lead.village : "",
+                label: lead.village ? lead.village : 'Pilih Kelurahan/Desa',
+                value: lead.village ? lead.village : '',
                 hidden: lead.village ? true : false,
               },
 
@@ -297,12 +297,12 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
             ]}
             onChange={(e) => {
               const selectedText =
-                villages.find((v) => v.id === e.target.value)?.text || "";
+                villages.find((v) => v.id === e.target.value)?.text || '';
               setLead({ ...lead, village: selectedText });
               setSelectedIds({
                 ...selectedIds,
                 villageId: e.target.value,
-                zipCodeId: "",
+                zipCodeId: '',
               });
             }}
           />
@@ -311,12 +311,12 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
         <div className="order-[14]">
           <SelectInput
             label="Kode Pos"
-            value={lead.zip_code || ""}
+            value={lead.zip_code || ''}
             disabled={!selectedIds.villageId}
             options={[
               {
-                label: lead.zip_code ? lead.zip_code : "Pilih Kode Pos",
-                value: lead.zip_code ? lead.zip_code : "",
+                label: lead.zip_code ? lead.zip_code : 'Pilih Kode Pos',
+                value: lead.zip_code ? lead.zip_code : '',
                 hidden: true,
               },
               ...zipCodes.map((zipCode) => ({
@@ -326,7 +326,7 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
             ]}
             onChange={(e) => {
               const selectedText =
-                zipCodes.find((z) => z.id === e.target.value)?.text || "";
+                zipCodes.find((z) => z.id === e.target.value)?.text || '';
               setLead({ ...lead, zip_code: selectedText });
               setSelectedIds({ ...selectedIds, zipCodeId: e.target.value });
             }}
@@ -336,7 +336,7 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
           <TextArea
             label="Deskripsi"
             placeholder="Deskripsi"
-            value={lead.description || ""}
+            value={lead.description || ''}
             onChange={(e) => setLead({ ...lead, description: e.target.value })}
           />
         </div>
