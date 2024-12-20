@@ -36,7 +36,7 @@ const HeaderCms: React.FC<HeaderCmsProps> = ({ onToggleSidebar }) => {
   };
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(logout(() => {}));
     console.log('logout');
     router.push('/cms-login');
   };
