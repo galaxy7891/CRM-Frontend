@@ -1,7 +1,6 @@
 import type { Config } from 'tailwindcss';
 import flowbite from 'flowbite-react/tailwind';
-import typography from '@tailwindcss/typography';
-import lineClamp from '@tailwindcss/line-clamp';
+
 const config: Config = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -68,7 +67,8 @@ const config: Config = {
       },
     },
   },
-  plugins: [flowbite.plugin(), typography, lineClamp],
+
+  // plugins: [flowbite.plugin(), typography, lineClamp],
   darkMode: 'class',
 };
 

@@ -181,11 +181,22 @@ const Article = () => {
                             }
                           />
                         </TableDataAction>
-                        <TableDataLink href={`/cms-article/${article.id}`}>
+                        <TableDataLink href={`/cms-article/${article.slug}`}>
                           {article.title}
                         </TableDataLink>
                         <TableDataShort>{article.status}</TableDataShort>
-                        <TableDataLong>{article.description}</TableDataLong>
+                        <TableDataLong>
+                          <p
+                            className="leading-relaxed text-base md:text-lg ine-clamp-1"
+                            dangerouslySetInnerHTML={{
+                              __html:
+                                article
+                                  .description!.split(' ') // Memisahkan teks menjadi array berdasarkan spasi
+                                  .slice(0, 5) // Mengambil 5 kata pertama
+                                  .join(' ') + '...', // Menggabungkan kembali menjadi string dengan tambahan "..."
+                            }}
+                          ></p>
+                        </TableDataLong>
                         <TableDataLong>
                           {moment(article.updated_at).format('DD MMMM YYYY')}
                         </TableDataLong>

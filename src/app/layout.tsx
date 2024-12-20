@@ -21,14 +21,11 @@ export default function RootLayout({
         <link
           rel="stylesheet"
           type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/trix/2.0.0/trix.min.css"
+          href="https://unpkg.com/trix@2.0.8/dist/trix.css"
         />
       </head>
       <body className="font-custom antialiased">
-        <Script
-          src="https://cdnjs.cloudflare.com/ajax/libs/trix/2.0.0/trix.min.js"
-          strategy="lazyOnload"
-        />
+        <Script src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js" />
         <AppProvider>{children}</AppProvider>
       </body>
     </html>

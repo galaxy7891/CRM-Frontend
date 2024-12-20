@@ -22,8 +22,8 @@ const Article = () => {
         articles={publicArticles.map((article) => ({
           title: article.title,
           description: article?.description || '',
-          photo: article.image_public_id || '',
-          id: article.id || '',
+          image_url: article.image_url || '',
+          slug: article.slug || '',
         }))}
       />
     </div>

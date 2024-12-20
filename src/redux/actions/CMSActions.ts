@@ -88,20 +88,25 @@ export const getArticles =
     }
   };
 
-export const getArticleById =
-  (id: string) => async (dispatch: AppDispatch, getState: () => RootState) => {
+export const getArticleBySlug =
+  (slug: string) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;
-    console.log(id);
+    console.log(slug);
     try {
       const config = {
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/article/${id}`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/article/${slug}`,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       };
       const response = await axios.request(config);
+
+      if (response.data.success) {
+        dispatch(setArticle(response.data.data));
+      }
 
       return response.data.data;
     } catch (error) {
@@ -135,6 +140,42 @@ export const addArticle =
       const config = {
         method: 'post',
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/article`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: formData,
+      };
+
+      const response = await axios.request(config);
+      if (response.data.success) {
+        alert(response.data.message);
+      } else {
+        console.error('Error:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Request failed:', error);
+    }
+  };
+
+export const updateArticle =
+  (id: string, article: articleTypes, content: string, photo: File | null) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
+    const { token } = getState().auth;
+
+    const formData = new FormData();
+
+    if (photo) {
+      formData.append('photo_article', photo);
+    }
+
+    formData.append('title', article.title);
+    formData.append('status', article.status);
+    formData.append('description', content);
+
+    try {
+      const config = {
+        method: 'post',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/article/${id}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },

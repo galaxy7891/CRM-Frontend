@@ -11,15 +11,15 @@ import 'moment/locale/id';
 moment.locale('id');
 
 const ArticleDetail = () => {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
 
   const { publicArticle } = useSelector((state: RootState) => state.CMS);
-  console.log(publicArticle + id);
+  console.log(publicArticle);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(getPublicArticle(id));
-  }, [dispatch, id]);
+    dispatch(getPublicArticle(slug));
+  }, [dispatch, slug]);
 
   return (
     <div className="bg-light-white p-8 px-6 md:px-16">
@@ -30,13 +30,13 @@ const ArticleDetail = () => {
 
       <p className="font-custom text-font-black text-xs md:text-xl font-normal pt-2 md:pt-4">
         Diposting pada :{' '}
-        {moment(publicArticle?.created_at).format('DD MMMM YYYY')}
+        {moment(publicArticle?.updated_at).format('DD MMMM YYYY')}
       </p>
 
       <article>
         <div className="flex items-center justify-center">
           <Image
-            src="/images/test-max-photo.png"
+            src={publicArticle?.image_url || ''}
             alt="articlephoto"
             width={866}
             height={433}
@@ -46,7 +46,7 @@ const ArticleDetail = () => {
 
         <p
           className="leading-relaxed text-base md:text-lg"
-          dangerouslySetInnerHTML={{ __html: publicArticle?.description }}
+          dangerouslySetInnerHTML={{ __html: publicArticle?.description ?? '' }}
         ></p>
       </article>
     </div>

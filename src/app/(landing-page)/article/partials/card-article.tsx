@@ -8,8 +8,8 @@ const CardArticle = ({
   articles: {
     title: string;
     description: string;
-    photo: string;
-    id: string;
+    image_url: string;
+    slug: string;
   }[];
 }) => {
   return (
@@ -27,7 +27,7 @@ const CardArticle = ({
             } `}
           >
             <Image
-              src={article.photo || `/images/test-max-photo.png`}
+              src={article.image_url}
               alt={`image-article-${index}` || '/public/images/default'}
               height={200}
               width={300}
@@ -41,7 +41,7 @@ const CardArticle = ({
             }`}
           >
             <div>
-              <Link href={'/article/' + article.id || '#'}>
+              <Link href={'/article/' + article.slug || '#'}>
                 <p className="font-custom text-font-black text-sm lg:text-xl font-bold hover:underline">
                   {article.title}
                 </p>
@@ -55,7 +55,7 @@ const CardArticle = ({
 
             <div className="flex mt-auto pt-2">
               <Link
-                href={'/article/' + article.id || '#'}
+                href={'/article/' + article.slug || '#'}
                 className="font-custom text-font-black font-medium text-xs lg:text-lg flex items-center gap-2 hover:underline"
               >
                 Selengkapnya {'>'}

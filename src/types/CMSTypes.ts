@@ -1,5 +1,6 @@
 export interface articleTypes {
   id?: string;
+  slug?: string;
   title: string;
   status: string;
   description?: string;
