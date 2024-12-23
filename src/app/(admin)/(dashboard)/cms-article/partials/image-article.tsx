@@ -75,6 +75,7 @@ const ImageArticle = ({
           />
         </div>
       )}
+      
     </div>
   );
 };

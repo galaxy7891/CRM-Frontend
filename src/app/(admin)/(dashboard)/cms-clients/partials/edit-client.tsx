@@ -77,9 +77,9 @@ const EditCustomer: React.FC<EditCustomerProps> = ({
               selectValue={client.category || ""}
               options={[
                 { label: "Pilih Penambahan Durasi", value: "", hidden: true },
-                { label: "hari", value: "hari" },
-                { label: "bulan", value: "bulan" },
-                { label: "tahun", value: "tahun" },
+                { label: "Hari", value: "Hari" },
+                { label: "Bulan", value: "Bulan" },
+                { label: "Tahun", value: "Tahun" },
               ]}
               onSelectChange={(e) =>
                 setClient({ ...client, category: e.target.value })

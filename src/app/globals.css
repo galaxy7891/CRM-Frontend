@@ -95,6 +95,14 @@ article em {
   @apply italic; /* Text italic */
 }
 
+article {
+  @apply dark:text-font-white text-font-black
+}
+
+trix-editor{
+  @apply text-font-white
+}
+
 trix-editor blockquote,
 article blockquote {
   font-style: italic;

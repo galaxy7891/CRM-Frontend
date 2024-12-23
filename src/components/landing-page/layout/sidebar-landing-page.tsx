@@ -45,7 +45,7 @@ const SidebarLandingPage: React.FC<SidebarLandingPageProps> = ({
         width={188}
         height={40}
         priority
-        className="p-4"
+        className="p-4 h-auto w-auto"
       />
       <div className="flex items-center justify-center">
         <Menu />

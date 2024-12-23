@@ -151,7 +151,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
               <div
                 id="tooltip-bottom"
                 role="tooltip"
-                className="mx-auto absolute left-1/2 transform -translate-x-1/2 mt-2 w-[200px] max-w-xs md:w-[180px] p-2 border bg-light-white border-font-grayLight text-dark-navy text-xs text-start rounded-md shadow-lg transition-opacity duration-300 z-10"
+                className="mx-auto absolute left-1/2 transform -translate-x-1/2 mt-2 w-[200px] max-w-xs md:w-[180px] p-2 border bg-light-white border-font-grayLight text-dark-navy text-xs text-start rounded-md shadow-lg transition-opacity duration-300 z-[99]"
               >
                 {currentPage.description}
                 <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 -mb-1 w-0 h-0 border-l-8 border-r-8 border-b-8 border-transparent border-b-light-white"></div>
