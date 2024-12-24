@@ -51,29 +51,6 @@ export const getDeals =
       console.error(error);
     }
   };
-export const getDealsForExport =
-  () =>
-  async (
-    dispatch: AppDispatch,
-    getState: () => RootState
-  ): Promise<dealsDataTypes[] | undefined> => {
-    const { token } = getState().auth;
-
-    try {
-      const config = {
-        method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?sort=terbaru&status=semua&per_page=semua&page=1`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      const response = await axios.request(config);
-
-      return response.data.data.data;
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
 export const getDealsQualification =
   (
@@ -305,6 +282,30 @@ export const getDealsValue =
       if (response.data.success) {
         dispatch(setDealsValue(response.data.data));
       }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+export const getDealsForExport =
+  () =>
+  async (
+    dispatch: AppDispatch,
+    getState: () => RootState
+  ): Promise<dealsDataTypes[] | undefined> => {
+    const { token } = getState().auth;
+
+    try {
+      const config = {
+        method: 'get',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?sort=terbaru&status=semua&per_page=semua&page=1`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.request(config);
+
+      return response.data.data.data;
     } catch (error) {
       console.error(error);
     }
