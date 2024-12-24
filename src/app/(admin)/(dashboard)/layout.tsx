@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { AppDispatch } from '@/redux/store';
 import { useDispatch } from 'react-redux';
-// import { getProfile } from '@/redux/actions/profileActions';
+import { getProfile } from '@/redux/actions/profileActions';
 import { useRouter } from 'next/navigation';
 import SidebarCms from '@/components/cms/layout/sidebar-cms';
 import HeaderCms from '@/components/cms/layout/header-cms';
@@ -17,16 +17,16 @@ const LayoutDashboardCms = ({ children }: { children: React.ReactNode }) => {
 
   const pathname = usePathname();
   const isHomepage =
-    pathname === '/cms-homepage' ||
-    pathname.startsWith('/cms-article/') ||
-    pathname === '/cms-clients';
+    pathname === '/admin-homepage' ||
+    pathname.startsWith('/cms/') ||
+    pathname === '/clients';
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
   useEffect(() => {
-    // dispatch(getProfile((path) => router.push(path), '', '/login'));
+    dispatch(getProfile((path) => router.push(path), '', '/admin'));
 
     const handleResize = () => {
       if (window.innerWidth < 768) {

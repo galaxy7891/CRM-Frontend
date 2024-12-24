@@ -54,7 +54,6 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
     payment_duration: '',
     owner: owner!,
   });
-  console.log(deal);
   const dispatch = useDispatch<AppDispatch>();
   const { products } = useSelector((state: RootState) => state.products);
   const { leads } = useSelector((state: RootState) => state.leads);
@@ -70,9 +69,9 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
   useEffect(() => {
     setDeal((prevDeal) => ({ ...prevDeal, unit: productUnit }));
     dispatch(getProducts('', '', 0, () => {}));
-    dispatch(getLeads('', '', '', 0, () => {}));
-    dispatch(getContacts('', '', '', 0, () => {}));
-    dispatch(getCompanies('', '', '', 0, () => {}));
+    dispatch(getLeads('terbaru', 'semua', 'semua', 0, () => {}));
+    dispatch(getContacts('terbaru', 'semua', 'semua', 0, () => {}));
+    dispatch(getCompanies('terbaru', 'semua', 'semua', 0, () => {}));
   }, [dispatch, isSuccess, productUnit]);
 
   return (

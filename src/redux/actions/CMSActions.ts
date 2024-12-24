@@ -1,13 +1,13 @@
-import axios from "axios";
-import { articleTypes } from "@/types/CMSTypes";
-import { paginationTypes } from "@/types/otherTypes";
-import { AppDispatch, RootState } from "@/redux/store";
+import axios from 'axios';
+import { articleTypes } from '@/types/CMSTypes';
+import { paginationTypes } from '@/types/otherTypes';
+import { AppDispatch, RootState } from '@/redux/store';
 import {
   setPublicArticles,
   setPublicArticle,
   setArticles,
   setArticle,
-} from "../reducers/CMSReducers";
+} from '../reducers/CMSReducers';
 
 // Public API
 export const getPublicArticles =
@@ -20,7 +20,7 @@ export const getPublicArticles =
     const { token } = getState().auth;
     try {
       const config = {
-        method: "get",
+        method: 'get',
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/landingpage/article?sort=terbaru&per_page=10&page=${currentPage}&status=terbit`,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -49,11 +49,11 @@ export const getPublicArticle =
     const { token } = getState().auth;
     try {
       const config = {
-        method: "get",
+        method: 'get',
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/landingpage/article/${id}`,
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       };
       const response = await axios.request(config);
@@ -78,7 +78,7 @@ export const getArticles =
     const { token } = getState().auth;
     try {
       const config = {
-        method: "get",
+        method: 'get',
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/article?sort=${sortBy}&per_page=${perPage}&page=${currentPage}&status=${articleStatusBy}`,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -98,7 +98,7 @@ export const getArticles =
         });
       }
     } catch (error) {
-      console.error(error);
+      return error;
     }
   };
 
@@ -106,14 +106,13 @@ export const getArticleBySlug =
   (slug: string) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const { token } = getState().auth;
-    console.log(slug);
     try {
       const config = {
-        method: "get",
+        method: 'get',
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/article/${slug}`,
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       };
       const response = await axios.request(config);
@@ -149,16 +148,16 @@ export const addArticle =
     const formData = new FormData();
 
     if (photo) {
-      formData.append("photo_article", photo);
+      formData.append('photo_article', photo);
     }
 
-    formData.append("title", article.title);
-    formData.append("status", article.status);
-    formData.append("description", content);
+    formData.append('title', article.title);
+    formData.append('status', article.status);
+    formData.append('description', content);
 
     try {
       const config = {
-        method: "post",
+        method: 'post',
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/article`,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -174,7 +173,7 @@ export const addArticle =
         setErrorMessage(response.data.message);
       }
     } catch (error) {
-      console.error("Request failed:", error);
+      console.error('Request failed:', error);
     }
   };
 
@@ -193,16 +192,16 @@ export const updateArticle =
     const formData = new FormData();
 
     if (photo) {
-      formData.append("photo_article", photo);
+      formData.append('photo_article', photo);
     }
 
-    formData.append("title", article.title);
-    formData.append("status", article.status);
-    formData.append("description", content);
+    formData.append('title', article.title);
+    formData.append('status', article.status);
+    formData.append('description', content);
 
     try {
       const config = {
-        method: "post",
+        method: 'post',
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/article/${id}`,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -219,7 +218,7 @@ export const updateArticle =
         setErrorMessage(response.data.message);
       }
     } catch (error) {
-      console.error("Request failed:", error);
+      console.error('Request failed:', error);
     }
   };
 
@@ -231,7 +230,7 @@ export const deleteArticle =
     try {
       const config = {
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/article/`,
-        method: "delete",
+        method: 'delete',
         headers: {
           Authorization: `Bearer ${token}`,
         },

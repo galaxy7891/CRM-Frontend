@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 const PasswordInput = ({
   value,
@@ -14,15 +14,15 @@ const PasswordInput = ({
     <div className="relative">
       <label
         htmlFor="password"
-        className="block text-black text-xs font-custom font-medium my-3 md:text-base"
+        className="block text-black dark:text-white text-xs font-custom font-medium my-3 md:text-base"
       >
-        {label || "Kata Sandi"}
+        {label || 'Kata Sandi'}
       </label>
       <input
         required
         autoComplete="on"
         name="password"
-        type={`${showPassword ? "text" : "password"}`}
+        type={`${showPassword ? 'text' : 'password'}`}
         value={value}
         onChange={onChange}
         placeholder="**********"

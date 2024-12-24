@@ -98,8 +98,7 @@ interface CompanyData {
 export interface CompanyDataStepProps {
   companyData: CompanyData;
   step: number;
-  isLoading: string;
   setCompanyData: (data: CompanyData) => void;
-  handleRegister: (e: React.FormEvent) => void;
+  onNext: () => void;
   handleBackButton: () => void;
 }

@@ -1,45 +1,45 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch, RootState } from "@/redux/store";
-import { paginationTypes } from "@/types/otherTypes";
-import { getArticles, deleteArticle } from "@/redux/actions/CMSActions";
-import { useRouter } from "next/navigation";
-import ActionConfirmModal from "@/components/status/action-confirm-yellow-modal";
-import SuccessModal from "@/components/status/success-modal";
-import ErrorModal from "@/components/status/error-modal";
-import FilterTableButton from "@/components/button/filter-table-button";
-import DashboardCard from "@/components/layout/dashboard-card";
-import Loading from "@/components/status/loading";
-import EmptyTable from "@/components/table/empty-table";
-import TableDataLong from "@/components/table/table-data-long";
-import TableHeader from "@/components/table/table-head";
-import TableRow from "@/components/table/table-row";
-import TableDataAction from "@/components/table/table-data-actions";
-import TableDataShort from "@/components/table/table-data-short";
-import Checkbox from "@/components/button/checkbox";
-import EditTableButton from "@/components/button/edit-table-button";
-import DeleteTableButton from "@/components/button/delete-table-button";
-import DeleteButton from "@/components/button/delete-button";
-import PaginationButton from "@/components/button/pagination-button";
-import moment from "moment";
-import "moment/locale/id";
-import { articleTypes } from "@/types/CMSTypes";
-import TableDataLink from "@/components/table/table-data-link";
-import ArticleBadge from "@/components/table/article-badge";
-moment.locale("id");
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import { paginationTypes } from '@/types/otherTypes';
+import { getArticles, deleteArticle } from '@/redux/actions/CMSActions';
+import { useRouter } from 'next/navigation';
+import ActionConfirmModal from '@/components/status/action-confirm-yellow-modal';
+import SuccessModal from '@/components/status/success-modal';
+import ErrorModal from '@/components/status/error-modal';
+import FilterTableButton from '@/components/button/filter-table-button';
+import DashboardCard from '@/components/layout/dashboard-card';
+import Loading from '@/components/status/loading';
+import EmptyTable from '@/components/table/empty-table';
+import TableDataLong from '@/components/table/table-data-long';
+import TableHeader from '@/components/table/table-head';
+import TableRow from '@/components/table/table-row';
+import TableDataAction from '@/components/table/table-data-actions';
+import TableDataShort from '@/components/table/table-data-short';
+import Checkbox from '@/components/button/checkbox';
+import EditTableButton from '@/components/button/edit-table-button';
+import DeleteTableButton from '@/components/button/delete-table-button';
+import DeleteButton from '@/components/button/delete-button';
+import PaginationButton from '@/components/button/pagination-button';
+import moment from 'moment';
+import 'moment/locale/id';
+import { articleTypes } from '@/types/CMSTypes';
+import TableDataLink from '@/components/table/table-data-link';
+import ArticleBadge from '@/components/table/article-badge';
+moment.locale('id');
 
 const Article = () => {
-  const [sortBy, setSortBy] = useState<string>("terbaru");
-  const [articleStatusBy, setArticleStatusBy] = useState<string>("semua");
-  const [perPage, setPerPage] = useState<string>("10");
+  const [sortBy, setSortBy] = useState<string>('terbaru');
+  const [articleStatusBy, setArticleStatusBy] = useState<string>('semua');
+  const [perPage, setPerPage] = useState<string>('10');
   const [isLoadingPage, setIsLoadingPage] = useState(true);
   const [isDeleteArticle, setIsDeleteArticle] = useState<boolean>(false);
   const [isTriggerFetch, setIsTriggerFetch] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isDeleteError, setIsDeleteError] = useState<boolean>(false);
-  const [selectedId, setSelectedId] = useState<string>("");
+  const [selectedId, setSelectedId] = useState<string>('');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [pagination, setPagination] = useState<paginationTypes>({
     current_page: 1,
@@ -49,10 +49,9 @@ const Article = () => {
     next_page_url: null,
     prev_page_url: null,
   });
-  const headers = ["", "Judul", "Status", "Deskripsi", "Tanggal Terbit"];
+  const headers = ['', 'Judul', 'Status', 'Deskripsi', 'Tanggal Terbit'];
   const router = useRouter();
   const { articles } = useSelector((state: RootState) => state.CMS);
-  console.log(articles);
   const dispatch = useDispatch<AppDispatch>();
 
   const handleDeleteArticle = () => {
@@ -172,9 +171,7 @@ const Article = () => {
                             onChange={() => handleCheckboxChange(article.id!)}
                           />
                           <EditTableButton
-                            onClick={() =>
-                              router.push(`/cms-article/${article.id}`)
-                            }
+                            onClick={() => router.push(`/cms/${article.id}`)}
                           />
                           <DeleteTableButton
                             onClick={() =>
@@ -182,11 +179,11 @@ const Article = () => {
                             }
                           />
                         </TableDataAction>
-                        <TableDataLink href={`/cms-article/${article.slug}`}>
+                        <TableDataLink href={`/cms/${article.slug}`}>
                           {article.title}
                         </TableDataLink>
                         <TableDataShort>
-                          <ArticleBadge Article={article.status}/>
+                          <ArticleBadge Article={article.status} />
                         </TableDataShort>
                         <TableDataLong>
                           <p
@@ -194,14 +191,14 @@ const Article = () => {
                             dangerouslySetInnerHTML={{
                               __html:
                                 article
-                                  .description!.split(" ") // Memisahkan teks menjadi array berdasarkan spasi
-                                  .slice(0, 5) // Mengambil 5 kata pertama
-                                  .join(" ") + "...", // Menggabungkan kembali menjadi string dengan tambahan "..."
+                                  .description!.split(' ')
+                                  .slice(0, 5)
+                                  .join(' ') + '...',
                             }}
                           ></p>
                         </TableDataLong>
                         <TableDataLong>
-                          {moment(article.updated_at).format("DD MMMM YYYY")}
+                          {moment(article.updated_at).format('DD MMMM YYYY')}
                         </TableDataLong>
                       </TableRow>
                     ))}

@@ -24,6 +24,9 @@ import TableRow from '@/components/table/table-row';
 import TableDataAction from '@/components/table/table-data-actions';
 import EditTableButton from '@/components/button/edit-table-button';
 import FailModal from '@/components/status/fail-modal';
+import moment from 'moment';
+import 'moment/locale/id';
+moment.locale('id');
 
 const Customer = () => {
   const [sortBy, setSortBy] = useState<string>('terbaru');
@@ -160,7 +163,9 @@ const Customer = () => {
                         <TableDataShort>
                           {client.account_type || '-'}
                         </TableDataShort>
-                        <TableDataLong>{client.end_date || '-'}</TableDataLong>
+                        <TableDataLong>
+                          {moment(client.end_date).format('DD MMMM YYYY')}
+                        </TableDataLong>
                         <TableDataLong>
                           {client.user_company.name || '-'}
                         </TableDataLong>

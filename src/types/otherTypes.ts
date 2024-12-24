@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 export interface SuccessModalProps {
   header: string;
   description: string;
@@ -75,7 +77,25 @@ export interface ImportErrorMessageDetailTypes {
   failedData: ImportFailedDataTypes;
 }
 
-export interface AuthLeftSectionProps{
+export interface AuthLeftSectionProps {
   imageSrc: string;
   title: string;
+}
+
+export interface FilterTableButtonProps {
+  setSortBy: Dispatch<SetStateAction<string>>;
+  setBuyerTypeBy?: Dispatch<SetStateAction<string>>;
+  setTypeBy?: Dispatch<SetStateAction<string>>;
+  setStatusBy?: Dispatch<SetStateAction<string>>;
+  setArticleStatusBy?: Dispatch<SetStateAction<string>>;
+  setPerPage: Dispatch<SetStateAction<string>>;
+}
+
+export interface TempFilter {
+  sortBy: string;
+  setBuyerTypeBy?: string;
+  setTypeBy?: string;
+  statusBy?: string;
+  articleStatusBy?: string;
+  perPage: string;
 }

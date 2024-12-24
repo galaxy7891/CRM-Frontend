@@ -25,7 +25,7 @@ const LoginPageCms: React.FC = () => {
       login(formData.email, formData.password, setErrorMessage, setIsLoading)
     );
     if (response?.success) {
-      router.push('/cms-homepage');
+      router.push('/admin-homepage');
     }
   };
 

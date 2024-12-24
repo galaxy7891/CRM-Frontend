@@ -8,6 +8,7 @@ import {
   getDealsWon,
   getDealsLose,
   getDealById,
+  getDealsValue,
   updateDealStage,
   deleteDeal,
 } from '@/redux/actions/dealsActions';
@@ -51,6 +52,7 @@ const DealsCardView = () => {
   const { dealsWon } = useSelector((state: RootState) => state.deals);
   const { dealsLose } = useSelector((state: RootState) => state.deals);
   const { deal } = useSelector((state: RootState) => state.deals);
+  const { dealsValue } = useSelector((state: RootState) => state.deals);
 
   const handleEdit = async (id: string) => {
     await dispatch(getDealById(id));
@@ -107,17 +109,38 @@ const DealsCardView = () => {
   };
 
   const stages = [
-    { title: 'Kualifikasi', dealsProps: dealsQualification },
-    { title: 'Proposal', dealsProps: dealsProposal },
-    { title: 'Negosiasi', dealsProps: dealsNegotiation },
-    { title: 'Tercapai', dealsProps: dealsWon },
-    { title: 'Gagal', dealsProps: dealsLose },
+    {
+      title: 'Kualifikasi',
+      dealsProps: dealsQualification,
+      dealsValue: dealsValue?.qualification,
+    },
+    {
+      title: 'Proposal',
+      dealsProps: dealsProposal,
+      dealsValue: dealsValue?.proposal,
+    },
+    {
+      title: 'Negosiasi',
+      dealsProps: dealsNegotiation,
+      dealsValue: dealsValue?.negotiation,
+    },
+    {
+      title: 'Tercapai',
+      dealsProps: dealsWon,
+      dealsValue: dealsValue?.won,
+    },
+    {
+      title: 'Gagal',
+      dealsProps: dealsLose,
+      dealsValue: dealsValue?.lose,
+    },
   ];
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setOwner(localStorage.getItem('email'));
     }
+    dispatch(getDealsValue());
     dispatch(
       getDealsQualification(
         sortBy,
@@ -200,6 +223,8 @@ const DealsCardView = () => {
                         key={index}
                         title={stage.title}
                         dealsProps={stage.dealsProps}
+                        dealsValue={stage.dealsValue || '0'}
+                        total={pagination.total}
                         handleDeleteConfirmation={handleDeleteConfirmation}
                         handleEdit={handleEdit}
                         handleEditStageDeal={handleEditStageDeal}

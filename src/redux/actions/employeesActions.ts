@@ -154,7 +154,6 @@ export const inviteUser =
       if (response.data.success) {
         setIsSuccess(true);
       } else {
-        console.log(response.data.message);
         setErrorMessage(response.data.message);
       }
     } catch (error) {
@@ -193,7 +192,6 @@ export const acceptInvitation =
       const response = await axios.request(config);
 
       if (response.data.success) {
-        console.log('berhasil');
         setIsSuccess(true);
       } else {
         console.error(response.data.message);
@@ -228,7 +226,6 @@ export const logActivityEmployee =
       if (response.data.success) {
         const logLead = response.data.data[0];
         if (!response.data.data.data) {
-          console.log('kosong');
           return;
         }
         dispatch(setEmployeeLog(logLead.data[0].activities));

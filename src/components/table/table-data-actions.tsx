@@ -2,7 +2,7 @@ import { usePathname } from 'next/navigation';
 
 const TableDataAction = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
-  const isCmsCustomer = pathname === '/cms-clients';
+  const isCmsCustomer = pathname === '/clients';
 
   return (
     <td

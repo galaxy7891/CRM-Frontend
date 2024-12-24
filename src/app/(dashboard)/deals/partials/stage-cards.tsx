@@ -1,55 +1,26 @@
 import Image from 'next/image';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { QualificationCardProps } from '@/types/dealsTypes';
 import { dealsDataTypes } from '@/types/dealsTypes';
-import { getLeads } from '@/redux/actions/leadsActions';
-import { getContacts } from '@/redux/actions/contactsActions';
-import { getCompanies } from '@/redux/actions/companiesActions';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
 import StageAction from './stage-action';
 import QualificationInsideCard from '@/components/layout/stage-item';
 import StageOutsideLayout from '@/components/layout/stage-outside-layout';
 import StatusBadge from '@/components/table/status-badge';
 import DataDealsNotFound from '@/components/status/data-deals-not-found';
+import moment from 'moment';
+import 'moment/locale/id';
+moment.locale('id');
 
 const QualificationCard: React.FC<QualificationCardProps> = ({
   title,
   dealsProps,
+  dealsValue,
+  total,
   handleDeleteConfirmation,
   handleEdit,
   handleEditStageDeal,
   setSelectedId,
 }) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { leads } = useSelector((state: RootState) => state.leads);
-  const { contacts } = useSelector((state: RootState) => state.contacts);
-  const { companies } = useSelector((state: RootState) => state.companies);
-
-  useEffect(() => {
-    dispatch(getLeads('terbaru', '', 'semua', 1, () => {}));
-    dispatch(getContacts('terbaru', '', 'semua', 1, () => {}));
-    dispatch(getCompanies('terbaru', '', 'semua', 1, () => {}));
-  }, [dispatch]);
-
-  const getCustomerName = (deal: dealsDataTypes): string => {
-    const lead = leads.find((lead) => lead.id === deal?.customer_id);
-    if (lead) return `${lead.first_name} ${lead.last_name || ''}`.trim();
-
-    const contact = contacts.find(
-      (contact) => contact.id === deal?.customer_id
-    );
-    if (contact)
-      return `${contact.first_name} ${contact.last_name || ''}`.trim();
-
-    const company = companies.find(
-      (company) => company.id === deal?.customers_company_id
-    );
-    if (company) return company.name;
-
-    return 'Memuat...';
-  };
-
   return (
     <div>
       <StageOutsideLayout>
@@ -59,8 +30,8 @@ const QualificationCard: React.FC<QualificationCardProps> = ({
         </p>
         <div className="mt-1 flex justify-between items-center font-bold font-custom text-font-black dark:text-font-white">
           {/* (total value_estimated) */}
-          <p className="text-xs">Rp 1.000.000</p>
-          <p className="text-xs">Total Data</p>
+          <p className="text-xs">Rp {dealsValue}</p>
+          <p className="text-xs">{total} Data</p>
         </div>
         {dealsProps.length === 0 ? (
           <DataDealsNotFound />
@@ -82,9 +53,9 @@ const QualificationCard: React.FC<QualificationCardProps> = ({
                     />
                   </div>
                   <p className="text-xs font-medium">
-                    Deadline :{/* (expected_close_date) */}
+                    Deadline :{' '}
                     <span className="text-xs font-bold">
-                      {deal?.expected_close_date}
+                      {moment(deal?.expected_close_date).format('DD MMMM YYYY')}
                     </span>
                   </p>
                   {/* (value_estimated) */}
@@ -94,7 +65,16 @@ const QualificationCard: React.FC<QualificationCardProps> = ({
                   <p className="text-xs font-medium">Kategori Pelanggan</p>
                   <p className="text-base font-bold">{deal?.category}</p>
                   <p className="text-xs font-medium">Nama Pelanggan</p>
-                  <p className="text-base font-bold">{getCustomerName(deal)}</p>
+
+                  {deal.customer_name && (
+                    <p className="text-base font-bold">{deal.customer_name}</p>
+                  )}
+                  {deal.customers_company_name && (
+                    <p className="text-base font-bold">
+                      {deal.customers_company_name}
+                    </p>
+                  )}
+
                   <p className="text-xs font-medium">Nama Produk</p>
                   <p className="text-base font-bold">{deal?.product?.name}</p>
                   {deal?.product?.quantity !== null && (

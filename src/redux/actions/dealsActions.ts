@@ -8,16 +8,16 @@ import {
   setDeals,
   setDeal,
   setLogDeal,
+  setDealsValue,
 } from '../reducers/dealsReducers';
-// import { dealDataTypes } from '@/types/dealDataTypes';
 import { paginationTypes } from '@/types/otherTypes';
 import { AppDispatch, RootState } from '../store';
 import { dealsDataTypes } from '@/types/dealsTypes';
-// import { ImportErrorMessageDetailTypes } from '@/types/otherTypes';
 
 export const getDeals =
   (
     sortBy: string,
+    buyerTypeBy: string,
     statusBy: string,
     perPage: string,
     currentPage: number,
@@ -28,7 +28,7 @@ export const getDeals =
     try {
       const config = {
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=${currentPage}`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=${currentPage}&kategori=${buyerTypeBy}`,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -289,6 +289,27 @@ export const getDealById =
     }
   };
 
+export const getDealsValue =
+  () => async (dispatch: AppDispatch, getState: () => RootState) => {
+    const { token } = getState().auth;
+    try {
+      const config = {
+        method: 'get',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals/value`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      };
+      const response = await axios.request(config);
+      if (response.data.success) {
+        dispatch(setDealsValue(response.data.data));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 export const addDeals =
   (
     deal: dealsDataTypes,
@@ -362,7 +383,6 @@ export const updateDealStage =
   (id: string, stage: string, setIsSuccess: (success: string) => void) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const token = getState().auth.token;
-    console.log(id, stage, 'tes');
     try {
       const config = {
         method: 'post',

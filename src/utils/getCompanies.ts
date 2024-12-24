@@ -4,7 +4,6 @@ import { setCompaniesDropdown } from '@/redux/reducers/companiesReducers';
 
 export const getCompaniesDropdown =
   () => async (dispatch: AppDispatch, getState: () => RootState) => {
-    console.log('getCompaniesDropdown');
     const { token } = getState().auth;
     try {
       const config = {
@@ -18,8 +17,6 @@ export const getCompaniesDropdown =
 
       const response = await axios.request(config);
       if (response.data.success) {
-
-        console.log(response.data.data.data, 'companies');
         dispatch(setCompaniesDropdown(response.data.data.data));
       } else {
         console.error(response.data.message);

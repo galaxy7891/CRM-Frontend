@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import React, { useState, useRef, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "next/navigation";
+import React, { useState, useRef, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'next/navigation';
 import {
   getArticleBySlug,
   updateArticle,
   deleteArticle,
-} from "@/redux/actions/CMSActions";
-import { articleTypes } from "@/types/CMSTypes";
-import { AppDispatch, RootState } from "@/redux/store";
-import EditUserButton from "@/components/button/edit-user-button";
-import DeleteButton from "@/components/button/delete-button";
-import DashboardCard from "@/components/layout/dashboard-card";
-import HeaderWithBackButton from "@/components/layout/header-with-back";
-import ImageArticle from "../partials/image-article";
-import TitleArticle from "../partials/title-article";
-import SelectArticleStatus from "../partials/select-article-status";
-import Loading from "@/components/status/loading";
-import Asterisk from "@/components/status/required-asterisk";
-import FailText from "@/components/status/fail-text";
-import SuccessModal from "@/components/status/success-modal";
+} from '@/redux/actions/CMSActions';
+import { articleTypes } from '@/types/CMSTypes';
+import { AppDispatch, RootState } from '@/redux/store';
+import EditUserButton from '@/components/button/edit-user-button';
+import DeleteButton from '@/components/button/delete-button';
+import DashboardCard from '@/components/layout/dashboard-card';
+import HeaderWithBackButton from '@/components/layout/header-with-back';
+import ImageArticle from '../partials/image-article';
+import TitleArticle from '../partials/title-article';
+import SelectArticleStatus from '../partials/select-article-status';
+import Loading from '@/components/status/loading';
+import Asterisk from '@/components/status/required-asterisk';
+import FailText from '@/components/status/fail-text';
+import SuccessModal from '@/components/status/success-modal';
 
 const UpdateArticle = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -31,11 +31,11 @@ const UpdateArticle = () => {
     article?.image_public_id ? null : null
   );
   const [preview, setPreview] = useState<string | null>(null);
-  const [content, setContent] = useState<string>(article?.description || "");
+  const [content, setContent] = useState<string>(article?.description || '');
   const [articleState, setArticleState] = useState<articleTypes>({
-    title: article?.title || "",
-    status: article?.status || "",
-    description: article?.description || "",
+    title: article?.title || '',
+    status: article?.status || '',
+    description: article?.description || '',
   });
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
@@ -59,7 +59,7 @@ const UpdateArticle = () => {
   const handleUpdateArticle = () => {
     dispatch(
       updateArticle(
-        article?.id || "",
+        article?.id || '',
         articleState,
         content,
         photo,
@@ -75,11 +75,11 @@ const UpdateArticle = () => {
 
   useEffect(() => {
     if (article) {
-      setContent(article.description || "");
+      setContent(article.description || '');
       setArticleState({
-        title: article.title || "",
-        status: article.status || "",
-        description: article.description || "",
+        title: article.title || '',
+        status: article.status || '',
+        description: article.description || '',
       });
     }
   }, [article]);
@@ -96,12 +96,11 @@ const UpdateArticle = () => {
     const handleTrixChange = (event: TrixEditorEvent) => {
       const htmlContent = event.target.innerHTML;
       setContent(htmlContent);
-      console.log("Updated Content:", htmlContent);
     };
 
     if (trixElement) {
       trixElement.addEventListener(
-        "trix-change",
+        'trix-change',
         handleTrixChange as EventListener
       );
     }
@@ -109,7 +108,7 @@ const UpdateArticle = () => {
     return () => {
       if (trixElement) {
         trixElement.removeEventListener(
-          "trix-change",
+          'trix-change',
           handleTrixChange as EventListener
         );
       }
@@ -128,7 +127,7 @@ const UpdateArticle = () => {
               <ImageArticle
                 disabled={!isEdit}
                 onChange={handleFileChange}
-                preview={preview ? preview : article?.image_url || ""}
+                preview={preview ? preview : article?.image_url || ''}
               />
               {errorMessage && (
                 <FailText>{errorMessage.photo_article}</FailText>
@@ -156,9 +155,9 @@ const UpdateArticle = () => {
                 value={articleState.status}
                 disabled={!isEdit}
                 options={[
-                  { label: "Pilih Status Artikel", value: "", hidden: true },
-                  { label: "Terbit", value: "Terbit" },
-                  { label: "Draf", value: "Draf" },
+                  { label: 'Pilih Status Artikel', value: '', hidden: true },
+                  { label: 'Terbit', value: 'Terbit' },
+                  { label: 'Draf', value: 'Draf' },
                 ]}
                 onChange={(e) =>
                   setArticleState({ ...articleState, status: e.target.value })
@@ -186,16 +185,18 @@ const UpdateArticle = () => {
                     <trix-editor ref={trixRef} input="body"></trix-editor>
                   </form>
                 ) : (
-                  <article className="border border-gray-300 p-2 rounded-[4px] bg-gray-200 dark:bg-dark-navy">
+                  <article
+                    className={`border p-2 rounded-[4px]
+                        dark:bg-gray-800 bg-gray-200 dark:border-none border-gray-300`}
+                  >
                     <p
                       className="leading-relaxed text-base md:text-lg"
                       dangerouslySetInnerHTML={{
-                        __html: article?.description ?? "",
+                        __html: article?.description ?? '',
                       }}
                     ></p>
                   </article>
                 )}
-                
               </div>
               {isEdit && (
                 <div className="flex justify-end mt-4">
@@ -212,7 +213,7 @@ const UpdateArticle = () => {
               <SuccessModal
                 header="Berhasil"
                 description="Artikel berhasil diubah"
-                actionButton_href="/cms-article"
+                actionButton_href="/cms"
                 actionButton_name="Kembali ke Halaman Artikel"
               />
             )}

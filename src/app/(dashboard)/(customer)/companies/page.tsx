@@ -65,7 +65,6 @@ const CompanyPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { companies } = useSelector((state: RootState) => state.companies);
   const { company } = useSelector((state: RootState) => state.companies);
-  console.log(companies, 'companies');
   const handleEdit = async (id: string) => {
     await dispatch(getCompanyById(id));
     setIsEditCompany(true);

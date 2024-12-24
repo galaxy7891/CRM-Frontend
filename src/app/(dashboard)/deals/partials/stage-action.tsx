@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef, useState } from "react";
-import Link from "next/link";
+import React, { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 interface StageActionProps {
   handleDeleteConfirmation: () => void;
   handleEdit: () => void;
@@ -38,13 +38,13 @@ const QualificationEdit: React.FC<StageActionProps> = ({
 
   useEffect(() => {
     if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     } else {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen]);
 
@@ -88,31 +88,31 @@ const QualificationEdit: React.FC<StageActionProps> = ({
                   </div>
                 </li>
                 <li
-                  onClick={() => handleEditStageDeal(deal_id, "kualifikasi")}
+                  onClick={() => handleEditStageDeal(deal_id, 'Kualifikasi')}
                   className="flex items-center justify-center text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray"
                 >
                   Kualifikasi
                 </li>
                 <li
-                  onClick={() => handleEditStageDeal(deal_id, "proposal")}
+                  onClick={() => handleEditStageDeal(deal_id, 'Proposal')}
                   className="flex items-center justify-center text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray"
                 >
                   Proposal
                 </li>
                 <li
-                  onClick={() => handleEditStageDeal(deal_id, "negosiasi")}
+                  onClick={() => handleEditStageDeal(deal_id, 'Negosiasi')}
                   className="flex items-center justify-center text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray"
                 >
                   Negosiasi
                 </li>
                 <li
-                  onClick={() => handleEditStageDeal(deal_id, "tercapai")}
+                  onClick={() => handleEditStageDeal(deal_id, 'Tercapai')}
                   className="flex items-center justify-center text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray"
                 >
                   Tercapai
                 </li>
                 <li
-                  onClick={() => handleEditStageDeal(deal_id, "gagal")}
+                  onClick={() => handleEditStageDeal(deal_id, 'Gagal')}
                   className="flex items-center justify-center rounded-b-[10px] text-xs md:text-base bg-font-white dark:bg-dark-navy dark:text-font-white text-dark-navy font-custom font-medium px-10 py-2 hover:bg-light-grayBright dark:hover:bg-dropdown-darkGray"
                 >
                   Gagal

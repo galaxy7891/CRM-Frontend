@@ -96,11 +96,15 @@ article em {
 }
 
 article {
-  @apply dark:text-font-white text-font-black
+  @apply dark:text-font-white text-font-black;
 }
 
-trix-editor{
-  @apply text-font-white
+trix-editor {
+  @apply text-font-black;
+}
+
+.dark trix-editor {
+  @apply text-font-white;
 }
 
 trix-editor blockquote,
@@ -113,10 +117,24 @@ article blockquote {
   background-color: #f9f9f9;
 }
 
+.dark trix-editor blockquote,
+article blockquote {
+  font-style: italic;
+  color: #f9f9f9;
+  border-left: 4px solid #535050;
+  margin: 1em 0;
+  padding: 0.5em 1em;
+  background-color: #374952;
+}
+
 trix-toolbar .trix-button--icon-attach {
   display: none;
 }
 
 trix-toolbar .trix-button-group--file-tools {
   display: none !important;
+}
+
+trix-toolbar .trix-button-group {
+  background-color: #fff;
 }

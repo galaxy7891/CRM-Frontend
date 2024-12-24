@@ -135,11 +135,13 @@ export const addContact =
 export const updateContact =
   (
     contact: contactsTypes,
+    setIsLoading: (loading: boolean) => void,
     setIsSuccess: (success: boolean) => void,
     setErrorMessage: (messages: { [key: string]: string }) => void
   ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const token = getState().auth.token;
+    setIsLoading(true);
     try {
       const config = {
         method: 'post',
@@ -157,9 +159,12 @@ export const updateContact =
         setIsSuccess(true);
       } else {
         setErrorMessage(response.data.message);
+        console.error(response.data.message);
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 

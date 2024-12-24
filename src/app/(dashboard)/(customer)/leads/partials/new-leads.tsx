@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { leadsTypes, newLeadsProps } from "@/types/leadsTypes";
-import { useDispatch } from "react-redux";
-import { addLead } from "@/redux/actions/leadsActions";
-import { AppDispatch } from "@/redux/store";
+import React, { useState, useEffect } from 'react';
+import { leadsTypes, newLeadsProps } from '@/types/leadsTypes';
+import { useDispatch } from 'react-redux';
+import { addLead } from '@/redux/actions/leadsActions';
+import { AppDispatch } from '@/redux/store';
 import {
   getProvinces,
   getCities,
   getSubDistricts,
   getVillage,
   getZipCodes,
-} from "@/utils/getAddressLocation";
-import DashboardSidebarRedButton from "@/components/button/dashboard-sidebar-red-button";
-import SuccessModal from "@/components/status/success-modal";
-import DashboardSidebarYellowButton from "@/components/button/dashboard-sidebar-yellow-button";
-import SelectInput from "@/components/form-input/dropdown-input";
-import PhoneInput from "@/components/form-input/phone-input";
-import TextArea from "@/components/form-input/text-area-input";
-import TextInput from "@/components/form-input/text-input";
-import SidebarFooter from "@/components/layout/sidebar-footer";
-import SidebarModal from "@/components/layout/sidebar-modal";
-import FailText from "@/components/status/fail-text";
+} from '@/utils/getAddressLocation';
+import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
+import SuccessModal from '@/components/status/success-modal';
+import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
+import SelectInput from '@/components/form-input/dropdown-input';
+import PhoneInput from '@/components/form-input/phone-input';
+import TextArea from '@/components/form-input/text-area-input';
+import TextInput from '@/components/form-input/text-input';
+import SidebarFooter from '@/components/layout/sidebar-footer';
+import SidebarModal from '@/components/layout/sidebar-modal';
+import FailText from '@/components/status/fail-text';
 
 const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
   const [provinces, setProvinces] = useState<{ id: string; text: string }[]>(
@@ -36,40 +36,40 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
     {}
   );
   const [lead, setLead] = useState<leadsTypes>({
-    id: "",
-    first_name: "",
-    last_name: "",
-    customerCategory: "",
-    job: "",
-    description: "",
-    status: "",
-    birthdate: "",
-    email: "",
-    phone: "",
+    id: '',
+    first_name: '',
+    last_name: '',
+    customerCategory: '',
+    job: '',
+    description: '',
+    status: '',
+    birthdate: '',
+    email: '',
+    phone: '',
     owner: emailLocal,
-    address: "",
-    province: "",
-    city: "",
-    subdistrict: "",
-    village: "",
-    zip_code: "",
+    address: '',
+    province: '',
+    city: '',
+    subdistrict: '',
+    village: '',
+    zip_code: '',
   });
 
   const dispatch = useDispatch<AppDispatch>();
   const handleAddLead = () => {
     const leadWithLocation = {
       ...lead,
-      phone: `62${lead.phone}`,
+      phone: lead.phone ? `62${lead.phone}` : '',
       province:
-        provinces.find((province) => province.id === lead.province)?.text || "",
-      city: cities.find((city) => city.id === lead.city)?.text || "",
+        provinces.find((province) => province.id === lead.province)?.text || '',
+      city: cities.find((city) => city.id === lead.city)?.text || '',
       subdistrict:
         subDistricts.find((subdistrict) => subdistrict.id === lead.subdistrict)
-          ?.text || "",
+          ?.text || '',
       village:
-        villages.find((village) => village.id === lead.village)?.text || "",
+        villages.find((village) => village.id === lead.village)?.text || '',
       zip_code:
-        zipCodes.find((zipCode) => zipCode.id === lead.zip_code)?.text || "",
+        zipCodes.find((zipCode) => zipCode.id === lead.zip_code)?.text || '',
     };
     dispatch(addLead(leadWithLocation, setIsSuccess, setErrorMessage));
   };
@@ -153,10 +153,10 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
             label="Status Kontak"
             value={lead.status}
             options={[
-              { label: "Pilih Status", value: "", hidden: true },
-              { label: "Rendah", value: "Rendah" },
-              { label: "Sedang", value: "Sedang" },
-              { label: "Tinggi", value: "Tinggi" },
+              { label: 'Pilih Status', value: '', hidden: true },
+              { label: 'Rendah', value: 'Rendah' },
+              { label: 'Sedang', value: 'Sedang' },
+              { label: 'Tinggi', value: 'Tinggi' },
             ]}
             onChange={(e) => setLead({ ...lead, status: e.target.value })}
             required
@@ -188,7 +188,7 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
             onChange={(e) => setLead({ ...lead, phone: e.target.value })}
             required
           />
-          {errorMessage && <FailText>{errorMessage.phone}</FailText>}
+          {errorMessage.phone && <FailText>{errorMessage.phone}</FailText>}
         </div>
         <div className="order-9">
           <TextArea
@@ -204,14 +204,21 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
             label="Provinsi"
             value={lead.province}
             options={[
-              { label: "Pilih Provinsi", value: "", hidden: true },
+              { label: 'Pilih Provinsi', value: '', hidden: true },
               ...provinces.map((province) => ({
                 label: province.text,
                 value: province.id,
               })),
             ]}
             onChange={(e) => {
-              setLead({ ...lead, province: e.target.value });
+              setLead({
+                ...lead,
+                province: e.target.value,
+                city: '',
+                subdistrict: '',
+                village: '',
+                zip_code: '',
+              });
             }}
           />
         </div>
@@ -221,10 +228,18 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
             value={lead.city}
             disabled={!lead.province}
             options={[
-              { label: "Pilih Kota", value: "", hidden: true },
+              { label: 'Pilih Kota', value: '', hidden: true },
               ...cities.map((city) => ({ label: city.text, value: city.id })),
             ]}
-            onChange={(e) => setLead({ ...lead, city: e.target.value })}
+            onChange={(e) => {
+              setLead({
+                ...lead,
+                city: e.target.value,
+                subdistrict: '',
+                village: '',
+                zip_code: '',
+              });
+            }}
           />
         </div>
 
@@ -234,13 +249,20 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
             value={lead.subdistrict}
             disabled={!lead.city}
             options={[
-              { label: "Pilih Kecamatan", value: "", hidden: true },
+              { label: 'Pilih Kecamatan', value: '', hidden: true },
               ...subDistricts.map((subDistrict) => ({
                 label: subDistrict.text,
                 value: subDistrict.id,
               })),
             ]}
-            onChange={(e) => setLead({ ...lead, subdistrict: e.target.value })}
+            onChange={(e) => {
+              setLead({
+                ...lead,
+                subdistrict: e.target.value,
+                village: '',
+                zip_code: '',
+              });
+            }}
           />
         </div>
         <div className="order-[13]">
@@ -249,13 +271,19 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
             value={lead.village}
             disabled={!lead.subdistrict}
             options={[
-              { label: "Pilih Kelurahan/Desa", value: "", hidden: true },
+              { label: 'Pilih Kelurahan/Desa', value: '', hidden: true },
               ...villages.map((village) => ({
                 label: village.text,
                 value: village.id,
               })),
             ]}
-            onChange={(e) => setLead({ ...lead, village: e.target.value })}
+            onChange={(e) => {
+              setLead({
+                ...lead,
+                village: e.target.value,
+                zip_code: '',
+              });
+            }}
           />
         </div>
         <div className="order-[14]">
@@ -264,7 +292,7 @@ const NewLeads: React.FC<newLeadsProps> = ({ onClose, emailLocal }) => {
             value={lead.zip_code}
             disabled={!lead.village}
             options={[
-              { label: "Pilih Kode Pos", value: "", hidden: true },
+              { label: 'Pilih Kode Pos', value: '', hidden: true },
               ...zipCodes.map((zipCode) => ({
                 label: zipCode.text,
                 value: zipCode.id,

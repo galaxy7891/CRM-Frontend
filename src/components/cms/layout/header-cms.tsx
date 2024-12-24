@@ -14,9 +14,9 @@ interface HeaderCmsProps {
 }
 
 const headerTitles = [
-  { title: 'Beranda', link: '/cms-homepage' },
-  { title: 'Pelanggan', link: '/cms-clients' },
-  { title: 'Artikel', link: '/cms-article' },
+  { title: 'Beranda', link: '/admin-homepage' },
+  { title: 'Pelanggan', link: '/clients' },
+  { title: 'Artikel', link: '/cms' },
 ];
 const HeaderCms: React.FC<HeaderCmsProps> = ({ onToggleSidebar }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -37,8 +37,7 @@ const HeaderCms: React.FC<HeaderCmsProps> = ({ onToggleSidebar }) => {
 
   const handleLogout = () => {
     dispatch(logout(() => {}));
-    console.log('logout');
-    router.push('/cms-login');
+    router.push('/admin');
   };
 
   useEffect(

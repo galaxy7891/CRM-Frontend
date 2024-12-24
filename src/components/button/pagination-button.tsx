@@ -58,7 +58,7 @@ const PaginationButton: React.FC<paginationButtonPropsTypes> = ({
           />
         </svg>
       </button>
-      <p className="ps-3 font-custom text-font-black dark:text-font-white">
+      <p className="ps-3 font-custom text-xs md:text-base text-font-black dark:text-font-white">
         {' '}
         {perPage} per halaman
       </p>
