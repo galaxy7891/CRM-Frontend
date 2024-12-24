@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+// import Link from 'next/link';
 import { activityLogTypes } from '@/types/profileTypes';
 import { paginationTypes } from '@/types/otherTypes';
 import { logActivityProfile } from '@/redux/actions/profileActions';
@@ -10,7 +10,7 @@ import { RootState, AppDispatch } from '@/redux/store';
 import CardActivityLog from '@/components/layout/log-card';
 import DashboardCard from '@/components/layout/dashboard-card';
 import PaginationButton from '@/components/button/pagination-button';
-import DashboardPositiveButton from '@/components/button/dashboard-positive-button';
+// import DashboardPositiveButton from '@/components/button/dashboard-positive-button';
 
 const UserLog = () => {
   const [pagination, setPagination] = useState<paginationTypes>({
@@ -49,9 +49,9 @@ const UserLog = () => {
           <p className="font-custom dark:text-font-white text-font-black md:text-2xl font-medium text-sm">
             Aktivitas
           </p>
-          <Link href="#">
+          {/* <Link href="#">
             <DashboardPositiveButton>Detail</DashboardPositiveButton>
-          </Link>
+          </Link> */}
         </div>
         {/* Body */}
         <div className="col-span-12 space-y-4 mt-4">
