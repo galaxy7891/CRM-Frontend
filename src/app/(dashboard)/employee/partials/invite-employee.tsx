@@ -1,22 +1,22 @@
-import React, { useState } from "react";
-import { inviteEmployeeDataTypes } from "@/types/employeeTypes";
-import { InviteEmployeeProps } from "@/types/employeeTypes";
-import { inviteUser } from "@/redux/actions/employeesActions";
-import { useAppDispatch } from "@/hook/redux";
-import InviteComponents from "./invite-image";
-import InviteSuccess from "./invite-success";
-import EmailInput from "@/components/form-input/email-input";
-import SelectInput from "@/components/form-input/dropdown-input";
-import SidebarModal from "@/components/layout/sidebar-modal";
-import FailText from "@/components/status/fail-text";
-import SidebarFooter from "@/components/layout/sidebar-footer";
-import EmployeeButton from "@/components/button/dashboard-sidebar-employee-button";
+import React, { useState } from 'react';
+import { inviteEmployeeDataTypes } from '@/types/employeeTypes';
+import { InviteEmployeeProps } from '@/types/employeeTypes';
+import { inviteUser } from '@/redux/actions/employeesActions';
+import { useAppDispatch } from '@/hook/redux';
+import InviteComponents from './invite-image';
+import InviteSuccess from './invite-success';
+import EmailInput from '@/components/form-input/email-input';
+import SelectInput from '@/components/form-input/dropdown-input';
+import SidebarModal from '@/components/layout/sidebar-modal';
+import FailText from '@/components/status/fail-text';
+import SidebarFooter from '@/components/layout/sidebar-footer';
+import EmployeeButton from '@/components/button/dashboard-sidebar-employee-button';
 
 const InviteUser: React.FC<InviteEmployeeProps> = ({ onClose }) => {
   const [employeeData, setEmployeeData] = useState<inviteEmployeeDataTypes>({
-    email: "",
-    role: "",
-    job_position: "",
+    email: '',
+    role: '',
+    job_position: '',
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -64,9 +64,9 @@ const InviteUser: React.FC<InviteEmployeeProps> = ({ onClose }) => {
                 label="Akses"
                 value={employeeData.role}
                 options={[
-                  { value: "-", label: "Pilih Akses", hidden: true },
-                  { value: "Admin", label: "admin" },
-                  { value: "employee", label: "employee" },
+                  { value: '-', label: 'Pilih Akses', hidden: true },
+                  { value: 'Admin', label: 'Admin' },
+                  { value: 'Karyawan', label: 'Karyawan' },
                 ]}
                 onChange={(e) =>
                   setEmployeeData({ ...employeeData, role: e.target.value })
@@ -80,12 +80,12 @@ const InviteUser: React.FC<InviteEmployeeProps> = ({ onClose }) => {
                 label="Jabatan"
                 value={employeeData.job_position}
                 options={[
-                  { value: "-", label: "Pilih Jabatan", hidden: true },
-                  { value: "Presiden", label: "Presiden" },
-                  { value: "C-Level", label: "C-Level" },
-                  { value: "Manager", label: "Manager" },
-                  { value: "Sales", label: "Sales" },
-                  { value: "Lainnya", label: "Lainnya" },
+                  { value: '-', label: 'Pilih Jabatan', hidden: true },
+                  { value: 'Presiden', label: 'Presiden' },
+                  { value: 'C-Level', label: 'C-Level' },
+                  { value: 'Manager', label: 'Manager' },
+                  { value: 'Sales', label: 'Sales' },
+                  { value: 'Lainnya', label: 'Lainnya' },
                 ]}
                 onChange={(e) =>
                   setEmployeeData({
@@ -95,12 +95,14 @@ const InviteUser: React.FC<InviteEmployeeProps> = ({ onClose }) => {
                 }
                 required
               />
-              {errorMessage.role && <FailText>{errorMessage.role}</FailText>}
+              {errorMessage.job_position && (
+                <FailText>{errorMessage.job_position}</FailText>
+              )}
             </div>
           </div>
           <SidebarFooter>
             <EmployeeButton onClick={handleInvite}>
-              {isLoading ? "Mengirim..." : "Kirim"}
+              {isLoading ? 'Mengirim...' : 'Kirim'}
             </EmployeeButton>
           </SidebarFooter>
         </>
