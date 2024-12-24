@@ -33,6 +33,7 @@ import Checkbox from '@/components/button/checkbox';
 import EmptyTable from '@/components/table/empty-table';
 import ErrorModal from '@/components/status/error-modal';
 import Loading from '@/components/status/loading';
+import SearchBar from '@/components/table/search-bar';
 
 const ContactsPage = () => {
   const [search, setSearch] = useState<string>('');
@@ -180,21 +181,7 @@ const ContactsPage = () => {
             {/* Search Bar */}
             <div className="col-span-12 md:col-span-4 relative">
               {' '}
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                <Image
-                  src="/icons/table/search.svg"
-                  alt="search icon"
-                  width={20}
-                  height={20}
-                  className="w-[12px] h-[12px] lg:w-[20px] lg:h-[20px]"
-                />
-              </div>
-              <input
-                type="text"
-                placeholder="Cari Leads"
-                className="pl-10 p-2 border-2 font-custom text-xs lg:text-base border-font-gray bg-light-white rounded-[10px] focus:outline-none  dark:bg-dark-darkGray w-full"
-                onChange={(e) => setSearch(e.target.value)}
-              />
+              <SearchBar onChange={(e) => setSearch(e.target.value)} />
             </div>
 
             <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">

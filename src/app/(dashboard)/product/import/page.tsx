@@ -1,24 +1,24 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import React, { useState, ChangeEvent } from "react";
-import { AppDispatch } from "@/redux/store";
-import { useDispatch } from "react-redux";
-import { importProducts } from "@/redux/actions/productsActions";
-import { ImportErrorMessageDetailTypes } from "@/types/otherTypes";
-import ImportSuccess from "@/components/import/import-success";
-import ImportFailed from "@/components/import/import-failed";
-import ImportInstruction from "@/components/import/import-instruction";
-import FileInput from "@/components/form-input/file-input";
-import FileImportSubmit from "@/components/form-input/file-import-submit";
-import FailText from "@/components/status/fail-text";
-import DashboardCard from "@/components/layout/dashboard-card";
-import HeaderWithBackButton from "@/components/layout/header-with-back";
-import ImportTitle from "@/components/import/import-title";
+import Image from 'next/image';
+import React, { useState, ChangeEvent } from 'react';
+import { AppDispatch } from '@/redux/store';
+import { useDispatch } from 'react-redux';
+import { importProducts } from '@/redux/actions/productsActions';
+import { ImportErrorMessageDetailTypes } from '@/types/otherTypes';
+import ImportSuccess from '@/components/import/import-success';
+import ImportFailed from '@/components/import/import-failed';
+import ImportInstruction from '@/components/import/import-instruction';
+import FileInput from '@/components/form-input/file-input';
+import FileImportSubmit from '@/components/form-input/file-import-submit';
+import FailText from '@/components/status/fail-text';
+import DashboardCard from '@/components/layout/dashboard-card';
+import HeaderWithBackButton from '@/components/layout/header-with-back';
+import ImportTitle from '@/components/import/import-title';
 
 const ImporFile = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const [fileName, setFileName] = useState<string>("");
+  const [fileName, setFileName] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>();
   const [errorMessageDetail, setErrorMessageDetail] =
     useState<ImportErrorMessageDetailTypes | null>(null);
@@ -68,8 +68,8 @@ const ImporFile = () => {
               />
               <ImportTitle />
               <div className="flex flex-col w-full mt-2 sm:px-32 2xl:px-60">
-                <ImportInstruction href="https://drive.google.com/uc?export=download&id=1-JdR7UrkWEgNq3rwOD_g3tUuM3e75DJI" />
-                <FileInput value={fileName || "Belum ada file dipilih"} />
+                <ImportInstruction href="https://drive.google.com/uc?export=download&id=1BLXS1KXNNWTdCTm1oKdSr8H0JlHwzext" />
+                <FileInput value={fileName || 'Belum ada file dipilih'} />
 
                 {errorMessage && <FailText>{errorMessage} </FailText>}
                 <FileImportSubmit
@@ -77,7 +77,7 @@ const ImporFile = () => {
                   handleSubmitFile={handleSubmitFile}
                   handleFileChange={handleFileChange}
                 >
-                  {isLoading ? "Memuat..." : "Selanjutnya"}
+                  {isLoading ? 'Memuat...' : 'Selanjutnya'}
                 </FileImportSubmit>
               </div>
             </div>

@@ -12,6 +12,7 @@ export const getLeads =
     sortBy: string,
     statusBy: string,
     perPage: string,
+    search: string,
     currentPage: number,
     setPagination: (pagination: paginationTypes) => void
   ) =>
@@ -20,7 +21,7 @@ export const getLeads =
     try {
       const config = {
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/leads?sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=${currentPage}`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/leads?sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=${currentPage}&search=${search}`,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',

@@ -56,6 +56,7 @@ const DealsCardView = () => {
   const { dealsLose } = useSelector((state: RootState) => state.deals);
   const { deal } = useSelector((state: RootState) => state.deals);
   const { dealsValue } = useSelector((state: RootState) => state.deals);
+  console.log(dealsValue);
 
   const handleEdit = async (id: string) => {
     await dispatch(getDealById(id));
@@ -131,27 +132,32 @@ const DealsCardView = () => {
     {
       title: 'Kualifikasi',
       dealsProps: dealsQualification,
-      dealsValue: dealsValue?.qualification,
+      dealsValue: dealsValue?.value?.qualification,
+      dealsTotal: dealsValue?.count?.qualification,
     },
     {
       title: 'Proposal',
       dealsProps: dealsProposal,
-      dealsValue: dealsValue?.proposal,
+      dealsValue: dealsValue?.value?.proposal,
+      dealsTotal: dealsValue?.count?.proposal,
     },
     {
       title: 'Negosiasi',
       dealsProps: dealsNegotiation,
-      dealsValue: dealsValue?.negotiation,
+      dealsValue: dealsValue?.value?.negotiation,
+      dealsTotal: dealsValue?.count?.negotiation,
     },
     {
       title: 'Tercapai',
       dealsProps: dealsWon,
-      dealsValue: dealsValue?.won,
+      dealsValue: dealsValue?.value?.won,
+      dealsTotal: dealsValue?.count?.won,
     },
     {
       title: 'Gagal',
       dealsProps: dealsLose,
-      dealsValue: dealsValue?.lose,
+      dealsValue: dealsValue?.value?.lose,
+      dealsTotal: dealsValue?.count?.lose,
     },
   ];
 
@@ -257,7 +263,7 @@ const DealsCardView = () => {
                         title={stage.title}
                         dealsProps={stage.dealsProps}
                         dealsValue={stage.dealsValue || '0'}
-                        total={pagination.total}
+                        dealsTotal={stage.dealsTotal || 0}
                         handleDeleteConfirmation={handleDeleteConfirmation}
                         handleEdit={handleEdit}
                         handleEditStageDeal={handleEditStageDeal}

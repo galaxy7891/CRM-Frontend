@@ -7,7 +7,7 @@ const TC = ({
 }: {
   title: string;
   items?: string[];
-  description?: string;
+  description?: React.ReactNode;
 }) => {
   return (
     <section className="mb-2">

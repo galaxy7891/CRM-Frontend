@@ -29,7 +29,7 @@ const LightCard: React.FC<LightCardProps> = ({
         </p>
         <button className="w-full mt-4">
           <Link
-            href="https://wa.me/"
+            href="https://wa.me/+62816282136"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:bg-dark-gold bg-light-gold text-font-brown text-base font-bold py-3 rounded-[5px] block text-center"
@@ -44,9 +44,9 @@ const LightCard: React.FC<LightCardProps> = ({
         <p className="text-base font-medium mb-2">Batasan Data</p>
         <div className="space-y-2">
           {[
-            { title: "Jumlah Pelanggan", value: dataPelanggan },
-            { title: "Jumlah Produk", value: dataProduk },
-            { title: "Jumlah Pengguna", value: dataPengguna },
+            { title: 'Jumlah Pelanggan', value: dataPelanggan },
+            { title: 'Jumlah Produk', value: dataProduk },
+            { title: 'Jumlah Pengguna', value: dataPengguna },
           ].map((item, index) => (
             <div key={index} className="flex justify-between items-center">
               <p className="text-base">{item.title}</p>
