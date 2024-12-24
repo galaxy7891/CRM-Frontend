@@ -38,13 +38,26 @@ export interface activityLogTypes {
   description: string;
 }
 
-export interface dealsValue {
+interface dealsValueCount {
+  qualification: number;
+  proposal: number;
+  negotiation: number;
+  won: number;
+  lose: number;
+}
+
+interface dealsValueValue {
   qualification: string;
   proposal: string;
   negotiation: string;
   won: string;
   lose: string;
 }
+export interface dealsValue {
+  count: dealsValueCount;
+  value: dealsValueValue;
+}
+
 export interface dealsState {
   dealsQualification: dealsDataTypes[];
   dealsProposal: dealsDataTypes[];
@@ -61,7 +74,7 @@ export interface QualificationCardProps {
   title: string;
   dealsProps: dealsDataTypes[];
   dealsValue: string;
-  total: number;
+  dealsTotal: number;
   handleDeleteConfirmation: () => void;
   handleEdit: (id: string) => void;
   handleEditStageDeal: (id: string, stageChangeValue: string) => void;

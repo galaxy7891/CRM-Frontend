@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { leadsTypes } from '@/types/leadsTypes';
 import { paginationTypes } from '@/types/otherTypes';
 import { useSelector, useDispatch } from 'react-redux';
@@ -34,8 +33,10 @@ import Checkbox from '@/components/button/checkbox';
 import EmptyTable from '@/components/table/empty-table';
 import ErrorModal from '@/components/status/error-modal';
 import Loading from '@/components/status/loading';
+import SearchBar from '@/components/table/search-bar';
 
 const LeadsPage = () => {
+  const [search, setSearch] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('terbaru');
   const [statusBy, setStatusBy] = useState<string>('semua');
   const [perPage, setPerPage] = useState<string>('10');
@@ -103,6 +104,7 @@ const LeadsPage = () => {
           sortBy,
           statusBy,
           perPage,
+          search,
           pagination.current_page - 1,
           setPagination
         )
@@ -117,6 +119,7 @@ const LeadsPage = () => {
           sortBy,
           statusBy,
           perPage,
+          search,
           pagination.current_page + 1,
           setPagination
         )
@@ -145,20 +148,20 @@ const LeadsPage = () => {
         current_page: 1,
       }));
 
-      dispatch(getLeads(sortBy, statusBy, perPage, 1, setPagination)).then(
-        () => {
-          setIsLoadingPage(false);
-          setIsTriggerFetch(false);
-        }
-      );
+      dispatch(
+        getLeads(sortBy, statusBy, perPage, search, 1, setPagination)
+      ).then(() => {
+        setIsLoadingPage(false);
+        setIsTriggerFetch(false);
+      });
     }
-  }, [dispatch, sortBy, statusBy, perPage, isTriggerFetch]);
+  }, [dispatch, sortBy, statusBy, search, perPage, isTriggerFetch]);
 
   useEffect(() => {
     if (sortBy || statusBy || perPage) {
       setIsTriggerFetch(true);
     }
-  }, [sortBy, statusBy, isSuccess, perPage]);
+  }, [sortBy, statusBy, search, isSuccess, perPage]);
 
   return (
     <>
@@ -170,20 +173,7 @@ const LeadsPage = () => {
           <div className="lg:items-center mb-4 grid grid-cols-12">
             {/* Search Bar */}
             <div className="col-span-12 md:col-span-4 relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                <Image
-                  src="/icons/table/search.svg"
-                  alt="search icon"
-                  width={20}
-                  height={20}
-                  className="w-[12px] h-[12px] lg:w-[20px] lg:h-[20px]"
-                />
-              </div>
-              <input
-                type="text"
-                placeholder="Cari Leads"
-                className="pl-10 p-2 border-2 font-custom text-xs lg:text-base border-font-gray bg-light-white rounded-[10px] focus:outline-none  dark:bg-dark-darkGray w-full"
-              />
+              <SearchBar onChange={(e) => setSearch(e.target.value)} />
             </div>
 
             <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
