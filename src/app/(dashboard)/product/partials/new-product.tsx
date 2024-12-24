@@ -93,7 +93,7 @@ const NewProduct: React.FC<newProductsProps> = ({ onClose }) => {
               required={true}
             />
           </div>
-          {product.category !== "jasa" && (
+          {product.category !== "Jasa" && (
             <>
               <div className="order-5">
                 <TextInput
@@ -127,7 +127,7 @@ const NewProduct: React.FC<newProductsProps> = ({ onClose }) => {
             </>
           )}
 
-          <div className="order-5">
+          <div className="order-7">
             <TextArea
               label="Deskripsi"
               placeholder="Deskripsi"

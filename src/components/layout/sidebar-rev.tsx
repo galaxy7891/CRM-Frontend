@@ -250,7 +250,7 @@ const SidebarRev = ({ isOpen, setIsOpen }: SidebarProps) => {
             />
             <hr className="h-px my-2 w-5/6 bg-font-light border-0 mx-auto"></hr>
             <Link
-              href="https://wa.me/"
+              href="https://wa.me/62816282136"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex justify-center items-center space-x-2 py-2 md:py-4"

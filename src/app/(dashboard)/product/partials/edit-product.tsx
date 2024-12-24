@@ -84,7 +84,7 @@ const EditProduct: React.FC<editProductsPropsTypes> = ({
             />
             {errorMessage && <FailText>{errorMessage.price}</FailText>}
           </div>
-          {product.category !== 'jasa' && (
+          {product.category !== 'Jasa' && (
             <>
               <div className="order-5">
                 <TextInput

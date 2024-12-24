@@ -177,7 +177,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
             {isDropdownOpen && (
               <div
                 id="userDropdown"
-                className="absolute right-0 mt-2 z-10 bg-font-white dark:bg-dark-navy divide-y divide-font-gray rounded-md shadow dark:shadow-md dark:shadow-gray-700 w-44 dark:divide-font-white"
+                className="absolute right-0 mt-2 z-20 bg-font-white dark:bg-dark-navy divide-y divide-font-gray rounded-md shadow dark:shadow-md dark:shadow-gray-700 w-44 dark:divide-font-white"
               >
                 <ul
                   className="text-sm text-font-black font-custom"

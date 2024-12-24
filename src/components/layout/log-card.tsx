@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import Link from 'next/link';
+// import Image from 'next/image';
+// import Link from 'next/link';
 import React from 'react';
 
 interface CardProps {
@@ -24,7 +24,7 @@ const CardActivityLog = ({ title, description, date }: CardProps) => {
         <p className="text-font-black dark:text-font-white font-custom text-xs md:text-base">
           {description}
         </p>
-        <Link href="#" className="ml-2 md:ml-0">
+        {/* <Link href="#" className="ml-2 md:ml-0">
           <Image
             src="/icons/profile/more-yellow.svg"
             alt="morebtn"
@@ -32,7 +32,7 @@ const CardActivityLog = ({ title, description, date }: CardProps) => {
             height={15}
             className="w-[12px] h-[12px] md:w-[15px] md:h-[15px]"
           />
-        </Link>
+        </Link> */}
       </div>
     </div>
   );
