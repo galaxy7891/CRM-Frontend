@@ -283,19 +283,20 @@ const Employee = () => {
                     )}
                   </TableHeader>
                 </div>
+                <PaginationButton
+                  last_page={pagination.last_page}
+                  current_page={pagination.current_page}
+                  prev_page_url={pagination.prev_page_url}
+                  next_page_url={pagination.next_page_url}
+                  handlePrevPage={handlePrevPage}
+                  handleNextPage={handleNextPage}
+                  perPage={pagination.per_page}
+                />
               </>
             )}
 
             {isAddUser && <InviteEmployee onClose={handleAddUser} />}
-            <PaginationButton
-              last_page={pagination.last_page}
-              current_page={pagination.current_page}
-              prev_page_url={pagination.prev_page_url}
-              next_page_url={pagination.next_page_url}
-              handlePrevPage={handlePrevPage}
-              handleNextPage={handleNextPage}
-              perPage={pagination.per_page}
-            />
+
             {isEditEmployee && (
               <EditEmployee
                 onClose={handleCloseEdit}

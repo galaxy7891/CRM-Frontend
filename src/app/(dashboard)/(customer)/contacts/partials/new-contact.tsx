@@ -86,7 +86,7 @@ const NewContact: React.FC<FormEditProps> = ({ onClose, emailLocal }) => {
   };
 
   useEffect(() => {
-    dispatch(getCompanies('terbaru', 'semua', 'semua', 1, () => {}));
+    dispatch(getCompanies('terbaru', 'semua', 'semua', '', 1, () => {}));
     const getLocation = async () => {
       try {
         const provinces = await getProvinces();

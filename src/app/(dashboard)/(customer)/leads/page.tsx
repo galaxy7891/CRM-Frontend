@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { leadsTypes } from '@/types/leadsTypes';
 import { paginationTypes } from '@/types/otherTypes';
 import { useSelector, useDispatch } from 'react-redux';
@@ -169,7 +170,7 @@ const LeadsPage = () => {
           <div className="lg:items-center mb-4 grid grid-cols-12">
             {/* Search Bar */}
             <div className="col-span-12 md:col-span-4 relative">
-              {/* <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3">
                 <Image
                   src="/icons/table/search.svg"
                   alt="search icon"
@@ -182,7 +183,7 @@ const LeadsPage = () => {
                 type="text"
                 placeholder="Cari Leads"
                 className="pl-10 p-2 border-2 font-custom text-xs lg:text-base border-font-gray bg-light-white rounded-[10px] focus:outline-none  dark:bg-dark-darkGray w-full"
-              /> */}
+              />
             </div>
 
             <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">

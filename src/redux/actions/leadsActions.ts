@@ -40,7 +40,7 @@ export const getLeads =
           prev_page_url: leads.prev_page_url,
         });
       } else {
-        console.error(response.data.message);
+        dispatch(setLeads([]));
       }
     } catch (error) {
       console.error(error);

@@ -66,10 +66,10 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
   };
 
   useEffect(() => {
-    dispatch(getProducts('terbaru', 'semua', 0, () => {}));
+    dispatch(getProducts('terbaru', 'semua', '', 0, () => {}));
     dispatch(getLeads('terbaru', '', 'semua', 1, () => {}));
-    dispatch(getContacts('terbaru', '', 'semua', 1, () => {}));
-    dispatch(getCompanies('terbaru', '', 'semua', 1, () => {}));
+    dispatch(getContacts('terbaru', '', 'semua', '', 1, () => {}));
+    dispatch(getCompanies('terbaru', '', 'semua', '', 1, () => {}));
   }, [dispatch]);
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Edit Deals">

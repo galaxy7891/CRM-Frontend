@@ -59,7 +59,7 @@ const EditContact: React.FC<formActionPropsTypes> = ({
   };
 
   useEffect(() => {
-    dispatch(getCompanies('terbaru', 'semua', 'semua', 1, () => {}));
+    dispatch(getCompanies('terbaru', 'semua', 'semua', '', 1, () => {}));
     if (!provinces.length) {
       getProvinces().then(setProvinces);
     }

@@ -30,6 +30,7 @@ import EditDeals from './edit-deals';
 
 const DealsCardView = () => {
   const [sortBy, setSortBy] = useState<string>('terbaru');
+  const [buyerTypeBy, setBuyerTypeBy] = useState<string>('semua');
   const [statusBy, setStatusBy] = useState<string>('semua');
   const [perPage, setPerPage] = useState<string>('10');
   const [isLoadingPage, setIsloadingPage] = useState<boolean>(true);
@@ -87,6 +88,7 @@ const DealsCardView = () => {
       dispatch(
         getDealsQualification(
           sortBy,
+          buyerTypeBy,
           statusBy,
           perPage,
           pagination.current_page - 1,
@@ -101,6 +103,7 @@ const DealsCardView = () => {
       dispatch(
         getDealsQualification(
           sortBy,
+          buyerTypeBy,
           statusBy,
           perPage,
           pagination.current_page + 1,
@@ -160,6 +163,7 @@ const DealsCardView = () => {
     dispatch(
       getDealsQualification(
         sortBy,
+        buyerTypeBy,
         statusBy,
         perPage,
         pagination.current_page + 1,
@@ -171,6 +175,7 @@ const DealsCardView = () => {
     dispatch(
       getDealsProposal(
         sortBy,
+        buyerTypeBy,
         statusBy,
         perPage,
         pagination.current_page + 1,
@@ -180,6 +185,7 @@ const DealsCardView = () => {
     dispatch(
       getDealsNegotiation(
         sortBy,
+        buyerTypeBy,
         statusBy,
         perPage,
         pagination.current_page + 1,
@@ -189,6 +195,7 @@ const DealsCardView = () => {
     dispatch(
       getDealsWon(
         sortBy,
+        buyerTypeBy,
         statusBy,
         perPage,
         pagination.current_page + 1,
@@ -198,13 +205,22 @@ const DealsCardView = () => {
     dispatch(
       getDealsLose(
         sortBy,
+        buyerTypeBy,
         statusBy,
         perPage,
         pagination.current_page + 1,
         setPagination
       )
     );
-  }, [dispatch, isSuccess, sortBy, pagination.current_page, statusBy, perPage]);
+  }, [
+    dispatch,
+    isSuccess,
+    sortBy,
+    buyerTypeBy,
+    pagination.current_page,
+    statusBy,
+    perPage,
+  ]);
   return (
     <>
       <div className="flex-grow overflow-y-auto ">
@@ -227,6 +243,7 @@ const DealsCardView = () => {
                     <ExportButton onClick={() => handleExportData()} />
                     <FilterTableButton
                       setSortBy={setSortBy}
+                      setBuyerTypeBy={setBuyerTypeBy}
                       setStatusBy={setStatusBy}
                       setPerPage={setPerPage}
                     />

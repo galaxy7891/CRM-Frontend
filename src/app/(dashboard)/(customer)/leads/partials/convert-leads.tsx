@@ -71,7 +71,7 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
     setIsConfirm(false);
   };
   useEffect(() => {
-    dispatch(getCompanies('terbaru', 'semua', 'semua', 1, () => {}));
+    dispatch(getCompanies('terbaru', 'semua', 'semua', '', 1, () => {}));
     if (!provinces.length) {
       getProvinces().then(setProvinces);
     }
