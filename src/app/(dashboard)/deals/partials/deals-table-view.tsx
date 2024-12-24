@@ -32,9 +32,13 @@ import ErrorModal from '@/components/status/error-modal';
 import EditDeals from './edit-deals';
 import PaginationButton from '@/components/button/pagination-button';
 import Loading from '@/components/status/loading';
+import moment from 'moment';
+import 'moment/locale/id';
+moment.locale('id');
 
 const DealsTableView = () => {
   const [sortBy, setSortBy] = useState<string>('terbaru');
+  const [buyerTypeBy, setBuyerTypeBy] = useState<string>('semua');
   const [statusBy, setStatusBy] = useState<string>('semua');
   const [perPage, setPerPage] = useState<string>('10');
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
@@ -111,6 +115,7 @@ const DealsTableView = () => {
       dispatch(
         getDeals(
           sortBy,
+          buyerTypeBy,
           statusBy,
           perPage,
           pagination.current_page - 1,
@@ -125,6 +130,7 @@ const DealsTableView = () => {
       dispatch(
         getDeals(
           sortBy,
+          buyerTypeBy,
           statusBy,
           perPage,
           pagination.current_page + 1,
@@ -155,20 +161,20 @@ const DealsTableView = () => {
         current_page: 1,
       }));
 
-      dispatch(getDeals(sortBy, statusBy, perPage, 1, setPagination)).then(
-        () => {
-          setIsLoadingPage(false);
-          setIsTriggerFetch(false);
-        }
-      );
+      dispatch(
+        getDeals(sortBy, buyerTypeBy, statusBy, perPage, 1, setPagination)
+      ).then(() => {
+        setIsLoadingPage(false);
+        setIsTriggerFetch(false);
+      });
     }
-  }, [dispatch, sortBy, statusBy, perPage, isTriggerFetch]);
+  }, [dispatch, sortBy, buyerTypeBy, statusBy, perPage, isTriggerFetch]);
 
   useEffect(() => {
     if (sortBy || statusBy || perPage) {
       setIsTriggerFetch(true);
     }
-  }, [sortBy, statusBy, isSuccess, perPage]);
+  }, [sortBy, buyerTypeBy, statusBy, isSuccess, perPage]);
 
   return (
     <>
@@ -213,6 +219,7 @@ const DealsTableView = () => {
 
                 <FilterTableButton
                   setSortBy={setSortBy}
+                  setBuyerTypeBy={setBuyerTypeBy}
                   setStatusBy={setStatusBy}
                   setPerPage={setPerPage}
                 />
@@ -245,9 +252,16 @@ const DealsTableView = () => {
                             {deal.name}
                           </TableDataLink>
                           <TableDataShort>{deal.category}</TableDataShort>
-                          <TableDataLong>{deal.customer_id}</TableDataLong>
+                          <TableDataLong>
+                            {deal.customer_name
+                              ? deal.customer_name
+                              : deal.customers_company_name}
+                          </TableDataLong>
                           <TableDataShort>
-                            {deal.expected_close_date}
+                            {' '}
+                            {moment(deal.expected_close_date).format(
+                              'DD MMMM YYYY'
+                            )}
                           </TableDataShort>
                           <TableDataShort>{deal.product?.name}</TableDataShort>
                           <TableDataShort>

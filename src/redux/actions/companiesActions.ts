@@ -135,11 +135,13 @@ export const addCompany =
 export const updateCompany =
   (
     company: companiesTypes,
+    setIsLoading: (loading: boolean) => void,
     setIsSuccess: (success: boolean) => void,
     setErrorMessage: (messages: { [key: string]: string }) => void
   ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const token = getState().auth.token;
+    setIsLoading(true);
     try {
       const config = {
         method: 'post',
@@ -161,6 +163,8 @@ export const updateCompany =
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -210,7 +214,6 @@ export const logActivityCompany =
 
       if (response.data.success) {
         const logLead = response.data.data[0];
-        console.log('loglcompanies', logLead.data[0].activities);
         dispatch(setCompanyLog(logLead.data[0].activities));
         setPagination({
           current_page: logLead.current_page,

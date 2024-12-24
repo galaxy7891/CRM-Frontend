@@ -22,7 +22,6 @@ const EditCustomer: React.FC<EditCustomerProps> = ({
     quantity: clientProps.quantity || null,
     category: clientProps.category || "",
   });
-  console.log(client);
   const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
     {}
   );

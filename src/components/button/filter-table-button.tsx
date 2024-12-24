@@ -1,32 +1,12 @@
 'use client';
 
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  Dispatch,
-  SetStateAction,
-} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { TempFilter, FilterTableButtonProps } from '@/types/otherTypes';
 import Filter from './filter-button';
-
-interface FilterTableButtonProps {
-  setSortBy: Dispatch<SetStateAction<string>>;
-  setTypeBy?: Dispatch<SetStateAction<string>>;
-  setStatusBy?: Dispatch<SetStateAction<string>>;
-  setArticleStatusBy?: Dispatch<SetStateAction<string>>;
-  setPerPage: Dispatch<SetStateAction<string>>;
-}
-
-interface TempFilter {
-  sortBy: string;
-  setTypeBy?: string;
-  statusBy?: string;
-  articleStatusBy?: string;
-  perPage: string;
-}
 
 const FilterTableButton: React.FC<FilterTableButtonProps> = ({
   setSortBy,
+  setBuyerTypeBy,
   setTypeBy,
   setStatusBy,
   setArticleStatusBy,
@@ -35,6 +15,7 @@ const FilterTableButton: React.FC<FilterTableButtonProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [tempFilter, setTempFilter] = useState<TempFilter>({
     sortBy: 'terbaru',
+    setBuyerTypeBy: setBuyerTypeBy ? 'semua' : undefined,
     setTypeBy: setTypeBy ? 'semua' : undefined, // Set to undefined if no type
     statusBy: setStatusBy ? 'semua' : undefined,
     articleStatusBy: setArticleStatusBy ? 'semua' : undefined,
@@ -59,6 +40,8 @@ const FilterTableButton: React.FC<FilterTableButtonProps> = ({
   const handleConfirmFilter = () => {
     setSortBy(tempFilter.sortBy);
     if (setTypeBy && tempFilter.setTypeBy) setTypeBy(tempFilter.setTypeBy);
+    if (setBuyerTypeBy && tempFilter.setBuyerTypeBy)
+      setBuyerTypeBy(tempFilter.setBuyerTypeBy);
     if (setStatusBy && tempFilter.statusBy) setStatusBy(tempFilter.statusBy);
     if (setArticleStatusBy && tempFilter.articleStatusBy)
       setArticleStatusBy(tempFilter.articleStatusBy);
@@ -105,7 +88,7 @@ const FilterTableButton: React.FC<FilterTableButtonProps> = ({
       {/* Dropdown Menu */}
       {isOpen && (
         <div className="z-50 absolute right-0 mt-2 px-5 py-6  bg-font-white dark:bg-dark-navy border border-font-gray rounded-lg shadow-lg">
-          {/* Tanggal Dibuat */}
+          {/* Date */}
           <p className="font-medium text-xs mb-3 font-custom text-font-black dark:text-font-white">
             Tanggal Dibuat
           </p>
@@ -127,6 +110,47 @@ const FilterTableButton: React.FC<FilterTableButtonProps> = ({
               Terlama
             </Filter>
           </div>
+
+          {/* Buyer Type */}
+          {setBuyerTypeBy && (
+            <>
+              <p className="font-medium text-xs mb-3 font-custom text-font-black dark:text-font-white">
+                Kategori Pembeli
+              </p>
+              <div className="flex flex-row gap-2 mb-2">
+                <Filter
+                  isActive={tempFilter.setBuyerTypeBy == 'semua'}
+                  onClick={() =>
+                    setTempFilter({ ...tempFilter, setBuyerTypeBy: 'semua' })
+                  }
+                >
+                  Semua
+                </Filter>
+                <Filter
+                  isActive={tempFilter.setBuyerTypeBy == 'pelanggan'}
+                  onClick={() =>
+                    setTempFilter({
+                      ...tempFilter,
+                      setBuyerTypeBy: 'pelanggan',
+                    })
+                  }
+                >
+                  Pelanggan
+                </Filter>
+                <Filter
+                  isActive={tempFilter.setBuyerTypeBy == 'perusahaan'}
+                  onClick={() =>
+                    setTempFilter({
+                      ...tempFilter,
+                      setBuyerTypeBy: 'perusahaan',
+                    })
+                  }
+                >
+                  Perusahaan
+                </Filter>
+              </div>
+            </>
+          )}
 
           {/* Tipe */}
           {setTypeBy && (

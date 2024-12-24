@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useAppDispatch } from '@/hook/redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
 import { convertManualLead } from '@/redux/actions/leadsActions';
 import {
   leadsTypes,
@@ -13,6 +14,7 @@ import {
   getVillage,
   getZipCodes,
 } from '@/utils/getAddressLocation';
+import { getCompanies } from '@/redux/actions/companiesActions';
 import SuccesModal from '@/components/status/success-modal';
 import ActionConfirmModal from '@/components/status/action-confirm-yellow-modal';
 import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
@@ -51,8 +53,9 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
     {}
   );
   const [lead, setLead] = useState<leadsTypes>(leadProps);
+  const { companies } = useSelector((state: RootState) => state.companies);
 
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleConvert = async () => {
     setIsConfirm(false);
@@ -68,6 +71,7 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
     setIsConfirm(false);
   };
   useEffect(() => {
+    dispatch(getCompanies('terbaru', 'semua', 'semua', 1, () => {}));
     if (!provinces.length) {
       getProvinces().then(setProvinces);
     }
@@ -83,7 +87,7 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
     if (selectedIds.villageId) {
       getZipCodes(selectedIds.villageId, selectedIds.cityId).then(setZipCodes);
     }
-  }, [selectedIds, provinces]);
+  }, [selectedIds, provinces, dispatch]);
 
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Konversi Kontak">
@@ -163,7 +167,13 @@ const ConvertLeadsPage: React.FC<editLeadsPropsTypes> = ({
           <SelectInput
             label="Perusahaan"
             value={lead.customers_company || ''}
-            options={[{ label: 'Pilih Perusahaan', value: '', hidden: true }]}
+            options={[
+              { label: 'Pilih Perusahaan', value: '', hidden: true },
+              ...companies.map((p) => ({
+                label: p.name,
+                value: p.id,
+              })),
+            ]}
             onChange={(e) =>
               setLead({ ...lead, customers_company: e.target.value })
             }

@@ -40,27 +40,27 @@ const DashboardCms = () => {
                 <CardActivity
                   title="Reguler"
                   count={dashboardActivities?.regular || 0}
-                  link="/cms-clients"
+                  link="/clients"
                 />
                 <CardActivity
                   title="Profesional"
                   count={dashboardActivities?.professional || 0}
-                  link="/cms-clients"
+                  link="/clients"
                 />
                 <CardActivity
                   title="Bisnis"
                   count={dashboardActivities?.business || 0}
-                  link="/cms-clients"
+                  link="/clients"
                 />
                 <CardActivity
                   title="Percobaan"
                   count={dashboardActivities?.trial || 0}
-                  link="/cms-clients"
+                  link="/clients"
                 />
                 <CardActivity
                   title="Tidak Aktif"
                   count={dashboardActivities?.unactive || 0}
-                  link="/cms-clients"
+                  link="/clients"
                 />
               </div>
             </section>

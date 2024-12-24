@@ -1,50 +1,51 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   PasswordTypes,
   PersonalDataTypes,
   CompanyDataTypes,
-} from "@/types/authTypes";
+} from '@/types/authTypes';
 import {
   sendOTP,
   verifyOTP,
   submitRegisterData,
-} from "@/redux/actions/authActions";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
-import Step1_email from "@/app/(auth)/register/partials/step1-email";
-import Step2_otp from "@/app/(auth)/register/partials/step2-otp";
-import Step3_password from "@/app/(auth)/register/partials/step3-password";
-import Step4_personal_data from "@/app/(auth)/register/partials/step4-personal-data";
-import Step5_company_data from "@/app/(auth)/register/partials/step5-company-data";
-import AuthLeftSection from "@/components/layout/auth-left-section";
-import RightAuthSection from "@/components/layout/auth-right-section";
-import SuccessModal from "@/components/status/success-modal";
-import { useOtpCountdown } from "@/hook/useOtpCountdown";
+} from '@/redux/actions/authActions';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import Step1_email from '@/app/(auth)/register/partials/step1-email';
+import Step2_otp from '@/app/(auth)/register/partials/step2-otp';
+import Step3_password from '@/app/(auth)/register/partials/step3-password';
+import Step4_personal_data from '@/app/(auth)/register/partials/step4-personal-data';
+import Step5_company_data from '@/app/(auth)/register/partials/step5-company-data';
+import Step6_Terms from '@/components/TOS/TOS_Content';
+import AuthLeftSection from '@/components/layout/auth-left-section';
+import RightAuthSection from '@/components/layout/auth-right-section';
+import SuccessModal from '@/components/status/success-modal';
+import { useOtpCountdown } from '@/hook/useOtpCountdown';
 
 const Register = () => {
-  const [isLoading, setIsLoading] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<string>('');
   const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
-  const [OTP, setOTP] = useState<string>("");
+  const [OTP, setOTP] = useState<string>('');
   const [step, setStep] = useState<number>(1);
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const { countdown, startCountdown } = useOtpCountdown(60);
-  const [email, setEmail] = useState<string>("");
+  const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<PasswordTypes>({
-    password: "",
-    password_confirmation: "",
+    password: '',
+    password_confirmation: '',
   });
   const [personalData, setPersonalData] = useState<PersonalDataTypes>({
-    first_name: "",
-    last_name: "",
-    phone: "",
+    first_name: '',
+    last_name: '',
+    phone: '',
   });
   const [companyData, setCompanyData] = useState<CompanyDataTypes>({
-    name: "",
-    industry: "",
-    job_position: "",
+    name: '',
+    industry: '',
+    job_position: '',
   });
 
   const router = useRouter();
@@ -61,8 +62,7 @@ const Register = () => {
     dispatch(verifyOTP(email, OTP, setIsLoading, setErrorMessage, setStep));
   };
 
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleRegister = async () => {
     const formattedPersonalData = {
       ...personalData,
       phone: `62${personalData.phone}`,
@@ -81,12 +81,12 @@ const Register = () => {
     );
 
     if (response?.success) {
-      router.push("/homepage");
+      router.push('/homepage');
     }
   };
 
   const handleBackButton = () => {
-    setErrorMessage("");
+    setErrorMessage('');
     setStep(step - 1);
   };
 
@@ -156,8 +156,14 @@ const Register = () => {
                   <Step5_company_data
                     companyData={companyData}
                     step={step}
-                    isLoading={isLoading}
                     setCompanyData={setCompanyData}
+                    onNext={() => setStep(6)}
+                    handleBackButton={handleBackButton}
+                  />
+                );
+              case 6:
+                return (
+                  <Step6_Terms
                     handleRegister={handleRegister}
                     handleBackButton={handleBackButton}
                   />
@@ -167,7 +173,7 @@ const Register = () => {
 
           <div className="mt-5 text-center">
             <p className="text-xs md:text-base  font-custom font-medium">
-              Sudah punya akun?{" "}
+              Sudah punya akun?{' '}
               <a
                 href="/login"
                 className="text-xs md:text-base font-custom text-light-gold font-bold ml-1 hover:underline"

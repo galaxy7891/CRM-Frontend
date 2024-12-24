@@ -28,6 +28,8 @@ export interface dealsDataTypes {
   payment_category: string;
   payment_duration: string;
   owner: string;
+  customer_name?: string;
+  customers_company_name?: string;
 }
 
 export interface activityLogTypes {
@@ -36,6 +38,13 @@ export interface activityLogTypes {
   description: string;
 }
 
+export interface dealsValue {
+  qualification: string;
+  proposal: string;
+  negotiation: string;
+  won: string;
+  lose: string;
+}
 export interface dealsState {
   dealsQualification: dealsDataTypes[];
   dealsProposal: dealsDataTypes[];
@@ -43,6 +52,7 @@ export interface dealsState {
   dealsWon: dealsDataTypes[];
   dealsLose: dealsDataTypes[];
   deals: dealsDataTypes[];
+  dealsValue: dealsValue | null;
   deal: dealsDataTypes | null;
   dealLog: activityLogTypes[];
 }
@@ -50,6 +60,8 @@ export interface dealsState {
 export interface QualificationCardProps {
   title: string;
   dealsProps: dealsDataTypes[];
+  dealsValue: string;
+  total: number;
   handleDeleteConfirmation: () => void;
   handleEdit: (id: string) => void;
   handleEditStageDeal: (id: string, stageChangeValue: string) => void;

@@ -11,7 +11,6 @@ import DashboardCard from '@/components/layout/dashboard-card';
 const CardProfile: React.FC<userInfoProps> = ({ user }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingImage, setIsEditingImage] = useState(false);
-  // console.log(user);
   const handleEditClick = () => {
     setIsEditing(true);
   };

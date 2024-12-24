@@ -2,13 +2,9 @@
 
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { dealsDataTypes } from '@/types/dealsTypes';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { getDealById, deleteDeal } from '@/redux/actions/dealsActions';
-import { getLeads } from '@/redux/actions/leadsActions';
-import { getContacts } from '@/redux/actions/contactsActions';
-import { getCompanies } from '@/redux/actions/companiesActions';
 import DeleteButton from '@/components/button/delete-button';
 import EditUserButton from '@/components/button/edit-user-button';
 import CustomerInfo from '@/components/import/card-info-customer';
@@ -21,6 +17,9 @@ import Loading from '@/components/status/loading';
 import ActionConfirmModal from '@/components/status/action-confirm-yellow-modal';
 import SuccessModal from '@/components/status/success-modal';
 import DealsLog from './deals-log';
+import moment from 'moment';
+import 'moment/locale/id';
+moment.locale('id');
 
 const DetailDeals = () => {
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
@@ -30,9 +29,7 @@ const DetailDeals = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams<{ id: string }>();
   const { deal } = useSelector((state: RootState) => state.deals);
-  const { leads } = useSelector((state: RootState) => state.leads);
-  const { contacts } = useSelector((state: RootState) => state.contacts);
-  const { companies } = useSelector((state: RootState) => state.companies);
+
   const handleEditDealsClick = () => {
     setIsEditDeal(true);
   };
@@ -55,30 +52,6 @@ const DetailDeals = () => {
       dispatch(getDealById(id)).then(() => setIsLoadingPage(false));
     }
   });
-
-  useEffect(() => {
-    dispatch(getLeads('terbaru', '', 'semua', 1, () => {}));
-    dispatch(getContacts('terbaru', '', 'semua', 1, () => {}));
-    dispatch(getCompanies('terbaru', '', 'semua', 1, () => {}));
-  }, [dispatch]);
-
-  const getCustomerName = (deal: dealsDataTypes): string => {
-    const lead = leads.find((lead) => lead.id === deal?.customer_id);
-    if (lead) return `${lead.first_name} ${lead.last_name || ''}`.trim();
-
-    const contact = contacts.find(
-      (contact) => contact.id === deal?.customer_id
-    );
-    if (contact)
-      return `${contact.first_name} ${contact.last_name || ''}`.trim();
-
-    const company = companies.find(
-      (company) => company.id === deal?.customers_company_id
-    );
-    if (company) return company.name;
-
-    return 'Memuat...';
-  };
 
   return (
     <>
@@ -112,11 +85,17 @@ const DetailDeals = () => {
                   />
                   <CustomerInfo
                     label="Tanggal Penutupan"
-                    value={deal?.close_date || '-'}
+                    value={
+                      deal?.close_date
+                        ? moment(deal.close_date).format('DD MMMM YYYY')
+                        : ''
+                    }
                   />
                   <CustomerInfo
                     label="Tanggal Perkiraan Penutupan"
-                    value={deal?.expected_close_date || '-'}
+                    value={moment(deal?.expected_close_date).format(
+                      'DD MMMM YYYY'
+                    )}
                   />
                 </div>
               </div>
@@ -131,17 +110,17 @@ const DetailDeals = () => {
                       label="Kategori Pembeli"
                       value={deal?.category}
                     />
-                    {deal?.category === 'perusahaan' && (
+                    {deal?.customer_name && (
                       <CustomerInfo
-                        label="Nama Perusahaan"
-                        value={getCustomerName(deal!) || '-'}
+                        label="Nama Pelanggan"
+                        value={deal?.customer_name || '-'}
                       />
                     )}
 
-                    {deal?.category === 'pelanggan' && (
+                    {deal?.customers_company_name && (
                       <CustomerInfo
-                        label="Nama Pelanggan"
-                        value={getCustomerName(deal!) || '-'}
+                        label="Nama Perusahaan"
+                        value={deal?.customers_company_name || '-'}
                       />
                     )}
 

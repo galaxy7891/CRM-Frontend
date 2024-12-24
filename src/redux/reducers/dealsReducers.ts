@@ -8,6 +8,7 @@ const initialState: dealsState = {
   dealsWon: [],
   dealsLose: [],
   deals: [],
+  dealsValue: null,
   deal: null,
   dealLog: [],
 };
@@ -35,6 +36,9 @@ const dealsSlice = createSlice({
     setDeals: (state, action) => {
       state.deals = action.payload;
     },
+    setDealsValue: (state, action) => {
+      state.dealsValue = action.payload;
+    },
     setDeal: (state, action) => {
       state.deal = action.payload;
     },
@@ -52,6 +56,7 @@ export const {
   setDealsWon,
   setDealsLose,
   setDeals,
+  setDealsValue,
   setDeal,
   setLogDeal,
 } = dealsSlice.actions;

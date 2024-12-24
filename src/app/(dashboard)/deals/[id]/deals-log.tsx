@@ -66,7 +66,9 @@ const DealsLog = () => {
         </div>
         {/* Body */}
         {isLoadingPage ? (
-          <div className="flex justify-center">Memuat...</div>
+          <div className="flex justify-center text-black dark:text-white">
+            Memuat...
+          </div>
         ) : (
           <div className="col-span-12 space-y-4 mt-4">
             {dealLog.map((log: activityLogTypes, index: number) => (

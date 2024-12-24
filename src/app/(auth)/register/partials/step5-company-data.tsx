@@ -9,9 +9,8 @@ import AuthPositiveButton from '@/components/button/auth-positive-button';
 const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
   companyData,
   step,
-  isLoading,
   setCompanyData,
-  handleRegister,
+  onNext,
   handleBackButton,
 }) => {
   return (
@@ -23,7 +22,7 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
         step={step}
         page_name="register"
       />
-      <form onSubmit={handleRegister}>
+      <form onSubmit={onNext}>
         {/* Company Name */}
         <AuthInput
           label="Nama Perusahaan"
@@ -112,9 +111,7 @@ const CompanyDataStep: React.FC<CompanyDataStepProps> = ({
             setCompanyData({ ...companyData, industry: e.target.value })
           }
         />
-        <AuthPositiveButton disabled={isLoading == 'Register'}>
-          {isLoading == 'Register' ? 'Mengirim...' : 'Kirim'}
-        </AuthPositiveButton>
+        <AuthPositiveButton>Selanjutnya</AuthPositiveButton>
       </form>
       <BackButton onClick={handleBackButton}>Kembali</BackButton>
     </div>

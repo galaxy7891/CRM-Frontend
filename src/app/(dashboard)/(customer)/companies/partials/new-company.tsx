@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { companiesTypes } from "@/types/companiesTypes";
-import { useDispatch } from "react-redux";
-import { addCompany } from "@/redux/actions/companiesActions";
-import { AppDispatch } from "@/redux/store";
+import React, { useState, useEffect } from 'react';
+import { companiesTypes } from '@/types/companiesTypes';
+import { useDispatch } from 'react-redux';
+import { addCompany } from '@/redux/actions/companiesActions';
+import { AppDispatch } from '@/redux/store';
 import {
   getProvinces,
   getCities,
   getSubDistricts,
   getVillage,
   getZipCodes,
-} from "@/utils/getAddressLocation";
-import FailText from "@/components/status/fail-text";
-import DashboardSidebarRedButton from "@/components/button/dashboard-sidebar-red-button";
-import DashboardSidebarYellowButton from "@/components/button/dashboard-sidebar-yellow-button";
-import SelectInput from "@/components/form-input/dropdown-input";
-import PhoneInput from "@/components/form-input/phone-input";
-import SuccessModal from "@/components/status/success-modal";
-import TextArea from "@/components/form-input/text-area-input";
-import TextInput from "@/components/form-input/text-input";
-import SidebarFooter from "@/components/layout/sidebar-footer";
-import SidebarModal from "@/components/layout/sidebar-modal";
+} from '@/utils/getAddressLocation';
+import FailText from '@/components/status/fail-text';
+import DashboardSidebarRedButton from '@/components/button/dashboard-sidebar-red-button';
+import DashboardSidebarYellowButton from '@/components/button/dashboard-sidebar-yellow-button';
+import SelectInput from '@/components/form-input/dropdown-input';
+import PhoneInput from '@/components/form-input/phone-input';
+import SuccessModal from '@/components/status/success-modal';
+import TextArea from '@/components/form-input/text-area-input';
+import TextInput from '@/components/form-input/text-input';
+import SidebarFooter from '@/components/layout/sidebar-footer';
+import SidebarModal from '@/components/layout/sidebar-modal';
 
 interface addCompanyPropsTypes {
   onClose: () => void;
@@ -43,27 +43,43 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
     {}
   );
   const [company, setCompany] = useState<companiesTypes>({
-    id: "",
-    name: "",
-    industry: "",
-    email: "",
-    status: "",
-    phone: "",
+    id: '',
+    name: '',
+    industry: '',
+    email: '',
+    status: '',
+    phone: '',
     owner: emailLocal,
-    website: "",
-    address: "",
-    province: "",
-    city: "",
-    subdistrict: "",
-    village: "",
-    zip_code: "",
-    description: "",
+    website: '',
+    address: '',
+    province: '',
+    city: '',
+    subdistrict: '',
+    village: '',
+    zip_code: '',
+    description: '',
   });
 
   const dispatch = useDispatch<AppDispatch>();
 
   const handleAddCompany = () => {
-    dispatch(addCompany(company, setIsSuccess, setErrorMessage));
+    const companyWithLocation = {
+      ...company,
+      phone: company.phone ? `62${company.phone}` : '',
+      province:
+        provinces.find((province) => province.id === company.province)?.text ||
+        '',
+      city: cities.find((city) => city.id === company.city)?.text || '',
+      subdistrict:
+        subDistricts.find(
+          (subdistrict) => subdistrict.id === company.subdistrict
+        )?.text || '',
+      village:
+        villages.find((village) => village.id === company.village)?.text || '',
+      zip_code:
+        zipCodes.find((zipCode) => zipCode.id === company.zip_code)?.text || '',
+    };
+    dispatch(addCompany(companyWithLocation, setIsSuccess, setErrorMessage));
   };
 
   useEffect(() => {
@@ -118,16 +134,16 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
             label="Jenis Industri"
             value={company.industry}
             options={[
-              { label: "Pilih Jenis Industri", value: "", hidden: true },
-              { label: "Edukasi", value: "Edukasi" },
-              { label: "Kesehatan", value: "Kesehatan" },
-              { label: "Manufaktur", value: "Manufaktur" },
-              { label: "Pariwisata", value: "Pariwisata" },
-              { label: "Real Estate", value: "Real Estate" },
-              { label: "Retail", value: "Retail" },
-              { label: "Teknologi", value: "Teknologi" },
-              { label: "Transportasi", value: "Transportasi" },
-              { label: "Lainnya", value: "Lainnya" },
+              { label: 'Pilih Jenis Industri', value: '', hidden: true },
+              { label: 'Edukasi', value: 'Edukasi' },
+              { label: 'Kesehatan', value: 'Kesehatan' },
+              { label: 'Manufaktur', value: 'Manufaktur' },
+              { label: 'Pariwisata', value: 'Pariwisata' },
+              { label: 'Real Estate', value: 'Real Estate' },
+              { label: 'Retail', value: 'Retail' },
+              { label: 'Teknologi', value: 'Teknologi' },
+              { label: 'Transportasi', value: 'Transportasi' },
+              { label: 'Lainnya', value: 'Lainnya' },
             ]}
             onChange={(e) =>
               setCompany({ ...company, industry: e.target.value })
@@ -165,10 +181,10 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
             label="Status Perusahaan"
             value={company.status}
             options={[
-              { label: "Pilih Status", value: "", hidden: true },
-              { label: "Rendah", value: "Rendah" },
-              { label: "Sedang", value: "Sedang" },
-              { label: "Tinggi", value: "Tinggi" },
+              { label: 'Pilih Status', value: '', hidden: true },
+              { label: 'Rendah', value: 'Rendah' },
+              { label: 'Sedang', value: 'Sedang' },
+              { label: 'Tinggi', value: 'Tinggi' },
             ]}
             onChange={(e) => setCompany({ ...company, status: e.target.value })}
             required
@@ -201,14 +217,21 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
             label="Provinsi"
             value={company.province}
             options={[
-              { label: "Pilih Provinsi", value: "", hidden: true },
+              { label: 'Pilih Provinsi', value: '', hidden: true },
               ...provinces.map((province) => ({
                 label: province.text,
                 value: province.id,
               })),
             ]}
             onChange={(e) => {
-              setCompany({ ...company, province: e.target.value });
+              setCompany({
+                ...company,
+                province: e.target.value,
+                city: '',
+                subdistrict: '',
+                village: '',
+                zip_code: '',
+              });
             }}
           />
         </div>
@@ -218,10 +241,18 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
             value={company.city}
             disabled={!company.province}
             options={[
-              { label: "Pilih Kota", value: "", hidden: true },
+              { label: 'Pilih Kota', value: '', hidden: true },
               ...cities.map((city) => ({ label: city.text, value: city.id })),
             ]}
-            onChange={(e) => setCompany({ ...company, city: e.target.value })}
+            onChange={(e) => {
+              setCompany({
+                ...company,
+                city: e.target.value,
+                subdistrict: '',
+                village: '',
+                zip_code: '',
+              });
+            }}
           />
         </div>
         <div className="order-11">
@@ -230,15 +261,20 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
             value={company.subdistrict}
             disabled={!company.city}
             options={[
-              { label: "Pilih Kecamatan", value: "", hidden: true },
+              { label: 'Pilih Kecamatan', value: '', hidden: true },
               ...subDistricts.map((subDistrict) => ({
                 label: subDistrict.text,
                 value: subDistrict.id,
               })),
             ]}
-            onChange={(e) =>
-              setCompany({ ...company, subdistrict: e.target.value })
-            }
+            onChange={(e) => {
+              setCompany({
+                ...company,
+                subdistrict: e.target.value,
+                village: '',
+                zip_code: '',
+              });
+            }}
           />
         </div>
         <div className="order-12">
@@ -247,15 +283,19 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
             value={company.village}
             disabled={!company.subdistrict}
             options={[
-              { label: "Pilih Kelurahan/Desa", value: "", hidden: true },
+              { label: 'Pilih Kelurahan/Desa', value: '', hidden: true },
               ...villages.map((village) => ({
                 label: village.text,
                 value: village.id,
               })),
             ]}
-            onChange={(e) =>
-              setCompany({ ...company, village: e.target.value })
-            }
+            onChange={(e) => {
+              setCompany({
+                ...company,
+                village: e.target.value,
+                zip_code: '',
+              });
+            }}
           />
         </div>
         <div className="order-[13]">
@@ -264,7 +304,7 @@ const NewCompany: React.FC<addCompanyPropsTypes> = ({
             value={company.zip_code}
             disabled={!company.village}
             options={[
-              { label: "Pilih Kode Pos", value: "", hidden: true },
+              { label: 'Pilih Kode Pos', value: '', hidden: true },
               ...zipCodes.map((zipCode) => ({
                 label: zipCode.text,
                 value: zipCode.id,

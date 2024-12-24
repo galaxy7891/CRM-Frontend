@@ -4,7 +4,7 @@ interface AuthRightSectionProps {
 
 const AuthRightSection: React.FC<AuthRightSectionProps> = ({ children }) => {
   return (
-    <div className="bg-font-white w-full h-full rounded-lg px-4 py-7 sm:p-10 lg:px-20 lg:py-7">
+    <div className="bg-font-white w-full h-full rounded-lg px-4 py-7 sm:p-10 lg:px-20 lg:py-7 flex flex-col">
       <div className="flex">
         <svg
           width="133"

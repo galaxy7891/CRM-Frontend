@@ -53,7 +53,6 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
 
   const handleLogout = () => {
     dispatch(logout(setIsLoading));
-    console.log('logout');
     router.push('/login');
   };
 
@@ -63,7 +62,6 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
     setDuration(user?.duration || '');
     if (user?.image_url) {
       setPhoto(user.image_url!);
-      console.log(user.image_url);
     }
 
     let matchedPage: { title: string; description?: string } | undefined;

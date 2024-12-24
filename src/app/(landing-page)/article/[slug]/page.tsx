@@ -14,7 +14,6 @@ const ArticleDetail = () => {
   const { slug } = useParams<{ slug: string }>();
 
   const { publicArticle } = useSelector((state: RootState) => state.CMS);
-  console.log(publicArticle);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {

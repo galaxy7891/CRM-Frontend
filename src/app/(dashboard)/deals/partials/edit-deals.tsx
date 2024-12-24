@@ -49,7 +49,6 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
     quantity: dealProp.product?.quantity || null,
     unit: dealProp.product?.unit || null,
   });
-  console.log(dealProp);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
     {}
@@ -361,7 +360,7 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
           Batal
         </DashboardSidebarRedButton>
         <DashboardSidebarYellowButton onClick={handleEditDeal}>
-          {isLoading ? 'Menyimpan' : 'Simpan'}
+          {isLoading ? 'Menyimpan...' : 'Simpan'}
         </DashboardSidebarYellowButton>
       </SidebarFooter>
       {isSuccess && (

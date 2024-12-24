@@ -115,7 +115,6 @@ export const addProduct =
         data: product,
       };
       const response = await axios.request(config);
-      console.log('Response API:', response.data);
       if (response.data.success) {
         setIsSuccess(true);
         setTimeout(() => {
@@ -133,11 +132,13 @@ export const addProduct =
 export const updateProduct =
   (
     product: productsTypes,
+    setIsLoading: (loading: boolean) => void,
     setIsSuccess: (success: boolean) => void,
     setErrorMessage: (messages: { [key: string]: string }) => void
   ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
     const token = getState().auth.token;
+    setIsLoading(true);
     try {
       const config = {
         method: 'post',
@@ -150,17 +151,15 @@ export const updateProduct =
       };
 
       const response = await axios.request(config);
-      console.log('Response API:', response.data);
       if (response.data.success) {
         setIsSuccess(true);
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 2000);
       } else {
         setErrorMessage(response.data.message);
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -294,7 +293,7 @@ export const updatePhotoProduct =
 
       const config = {
         method: 'post',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/products/${id}`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/product/photo/${id}`,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -304,11 +303,10 @@ export const updatePhotoProduct =
 
       const response = await axios.request(config);
 
-      if (!response.data.success) {
-        setErrorMessage(response.data.message.photo[0]);
-      } else {
-        console.log('Photo updated successfully');
+      if (response.data.success) {
         window.location.reload();
+      } else {
+        setErrorMessage(response.data.message.photo[0]);
       }
     } catch (error) {
       console.error('Error uploading photo:', error);

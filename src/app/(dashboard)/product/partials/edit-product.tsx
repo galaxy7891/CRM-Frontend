@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-// import axios from "axios";
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { productsTypes, editProductsPropsTypes } from '@/types/productTypes';
@@ -25,13 +24,15 @@ const EditProduct: React.FC<editProductsPropsTypes> = ({
     {}
   );
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [product, setProduct] = useState<productsTypes>(productProps);
 
   const dispatch = useDispatch<AppDispatch>();
 
   const handleEditProduct = () => {
-    console.log('Data produk yang akan disimpan:', product);
-    dispatch(updateProduct(product, setIsSuccess, setErrorMessage));
+    dispatch(
+      updateProduct(product, setIsLoading, setIsSuccess, setErrorMessage)
+    );
   };
 
   return (
@@ -134,7 +135,7 @@ const EditProduct: React.FC<editProductsPropsTypes> = ({
           Batal
         </DashboardSidebarRedButton>
         <DashboardSidebarYellowButton onClick={handleEditProduct}>
-          Simpan
+          {isLoading ? 'Menyimpan...' : 'Simpan'}
         </DashboardSidebarYellowButton>
       </SidebarFooter>
       {isSuccess && (

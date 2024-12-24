@@ -4,8 +4,8 @@ import { usePathname } from 'next/navigation';
 
 const HeadTitle = () => {
   const pathname = usePathname();
-  const isArticlePage = pathname === '/cms-article';
-  const isCustomerPage = pathname === '/cms-clients';
+  const isArticlePage = pathname === '/cms';
+  const isCustomerPage = pathname === '/clients';
 
   return (
     <div className="relative mb-4 lg:mb-8">
@@ -15,7 +15,7 @@ const HeadTitle = () => {
           {isArticlePage && 'Data Artikel'}
         </h1>
         {isArticlePage && (
-          <Link href="/cms-article/new">
+          <Link href="/cms/new">
             <button className="lg:p-[10px] p-[8px] bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold">
               Tambah Artikel
             </button>
