@@ -15,6 +15,7 @@ const SidebarModal: React.FC<SidebarModalProps> = ({
     <AnimatePresence>
       {/* Background Overlay with smooth blur effect */}
       <motion.div
+        key="overlay"
         onClick={onClose}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -25,6 +26,7 @@ const SidebarModal: React.FC<SidebarModalProps> = ({
 
       {/* Sidebar Modal with smoother slide-in animation */}
       <motion.div
+        key="sidebar"
         initial={{ x: "100%" }}
         animate={{ x: 0 }}
         exit={{ x: "100%" }}

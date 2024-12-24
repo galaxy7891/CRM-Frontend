@@ -31,7 +31,7 @@ const PasswordInput = ({
         } `}
       />
       <span
-        className="absolute right-4 top-10 md:top-12 z-40 bg-light-white"
+        className="absolute right-4 top-10 md:top-12 z-10 bg-light-white"
         onClick={() => setShowPassword(!showPassword)}
       >
         {showPassword ? (
