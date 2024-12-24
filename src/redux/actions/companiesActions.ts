@@ -16,6 +16,7 @@ export const getCompanies =
     sortBy: string,
     statusBy: string,
     perPage: string,
+    search: string,
     currentPage: number,
     setPagination: (pagination: paginationTypes) => void
   ) =>
@@ -24,7 +25,7 @@ export const getCompanies =
     try {
       const config = {
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/customers/companies?sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=${currentPage}`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/customers/companies?sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=${currentPage}&search=${search}`,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -44,7 +45,7 @@ export const getCompanies =
           prev_page_url: companies.prev_page_url,
         });
       } else {
-        console.error(response.data.message);
+        dispatch(setCompanies([]));
       }
     } catch (error) {
       console.error(error);

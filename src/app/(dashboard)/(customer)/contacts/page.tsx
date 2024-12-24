@@ -35,6 +35,7 @@ import ErrorModal from '@/components/status/error-modal';
 import Loading from '@/components/status/loading';
 
 const ContactsPage = () => {
+  const [search, setSearch] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('terbaru');
   const [statusBy, setStatusBy] = useState<string>('semua');
   const [perPage, setPerPage] = useState<string>('10');
@@ -110,6 +111,7 @@ const ContactsPage = () => {
           sortBy,
           statusBy,
           perPage,
+          search,
           pagination.current_page - 1,
           setPagination
         )
@@ -124,6 +126,7 @@ const ContactsPage = () => {
           sortBy,
           statusBy,
           perPage,
+          search,
           pagination.current_page + 1,
           setPagination
         )
@@ -152,20 +155,20 @@ const ContactsPage = () => {
         current_page: 1,
       }));
 
-      dispatch(getContacts(sortBy, statusBy, perPage, 1, setPagination)).then(
-        () => {
-          setIsLoadingPage(false);
-          setIsTriggerFetch(false);
-        }
-      );
+      dispatch(
+        getContacts(sortBy, statusBy, perPage, search, 1, setPagination)
+      ).then(() => {
+        setIsLoadingPage(false);
+        setIsTriggerFetch(false);
+      });
     }
-  }, [dispatch, sortBy, statusBy, perPage, isTriggerFetch]);
+  }, [dispatch, sortBy, statusBy, perPage, search, isTriggerFetch]);
 
   useEffect(() => {
     if (sortBy || statusBy || perPage) {
       setIsTriggerFetch(true);
     }
-  }, [sortBy, statusBy, isSuccess, perPage]);
+  }, [sortBy, statusBy, search, isSuccess, perPage]);
 
   return (
     <>
@@ -175,7 +178,24 @@ const ContactsPage = () => {
         <DashboardCard>
           <div className="lg:items-center mb-4 grid grid-cols-12">
             {/* Search Bar */}
-            <div className="col-span-12 md:col-span-4 relative"></div>
+            <div className="col-span-12 md:col-span-4 relative">
+              {' '}
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+                <Image
+                  src="/icons/table/search.svg"
+                  alt="search icon"
+                  width={20}
+                  height={20}
+                  className="w-[12px] h-[12px] lg:w-[20px] lg:h-[20px]"
+                />
+              </div>
+              <input
+                type="text"
+                placeholder="Cari Leads"
+                className="pl-10 p-2 border-2 font-custom text-xs lg:text-base border-font-gray bg-light-white rounded-[10px] focus:outline-none  dark:bg-dark-darkGray w-full"
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
 
             <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
               {/* Trash Icon, Export, and Filter Buttons */}

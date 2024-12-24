@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { dealsDataTypes } from '@/types/dealsTypes';
 import { paginationTypes } from '@/types/otherTypes';
 import {
@@ -37,6 +38,7 @@ import 'moment/locale/id';
 moment.locale('id');
 
 const DealsTableView = () => {
+  const [search, setSearch] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('terbaru');
   const [buyerTypeBy, setBuyerTypeBy] = useState<string>('semua');
   const [statusBy, setStatusBy] = useState<string>('semua');
@@ -117,6 +119,7 @@ const DealsTableView = () => {
           sortBy,
           buyerTypeBy,
           statusBy,
+          search,
           perPage,
           pagination.current_page - 1,
           setPagination
@@ -132,6 +135,7 @@ const DealsTableView = () => {
           sortBy,
           buyerTypeBy,
           statusBy,
+          search,
           perPage,
           pagination.current_page + 1,
           setPagination
@@ -162,19 +166,35 @@ const DealsTableView = () => {
       }));
 
       dispatch(
-        getDeals(sortBy, buyerTypeBy, statusBy, perPage, 1, setPagination)
+        getDeals(
+          sortBy,
+          buyerTypeBy,
+          statusBy,
+          search,
+          perPage,
+          1,
+          setPagination
+        )
       ).then(() => {
         setIsLoadingPage(false);
         setIsTriggerFetch(false);
       });
     }
-  }, [dispatch, sortBy, buyerTypeBy, statusBy, perPage, isTriggerFetch]);
+  }, [
+    dispatch,
+    sortBy,
+    buyerTypeBy,
+    statusBy,
+    search,
+    perPage,
+    isTriggerFetch,
+  ]);
 
   useEffect(() => {
     if (sortBy || statusBy || perPage) {
       setIsTriggerFetch(true);
     }
-  }, [sortBy, buyerTypeBy, statusBy, isSuccess, perPage]);
+  }, [sortBy, buyerTypeBy, statusBy, search, isSuccess, perPage]);
 
   return (
     <>
@@ -187,20 +207,21 @@ const DealsTableView = () => {
             <div className="lg:items-center mb-4 grid grid-cols-12">
               {/* Search Bar */}
               <div className="col-span-12 md:col-span-4 relative">
-                {/* <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                <Image
-                  src="/icons/table/search.svg"
-                  alt="search icon"
-                  width={20}
-                  height={20}
-                  className="w-[12px] h-[12px] lg:w-[20px] lg:h-[20px]"
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+                  <Image
+                    src="/icons/table/search.svg"
+                    alt="search icon"
+                    width={20}
+                    height={20}
+                    className="w-[12px] h-[12px] lg:w-[20px] lg:h-[20px]"
+                  />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Cari Leads"
+                  className="pl-10 p-2 border-2 font-custom text-xs lg:text-base border-font-gray bg-light-white rounded-[10px] focus:outline-none  dark:bg-dark-darkGray w-full"
+                  onChange={(e) => setSearch(e.target.value)}
                 />
-              </div>
-              <input
-                type="text"
-                placeholder="Cari Leads"
-                className="pl-10 p-2 border-2 font-custom text-xs lg:text-base border-font-gray bg-light-white rounded-[10px] focus:outline-none  dark:bg-dark-darkGray w-full"
-              /> */}
               </div>
 
               <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">

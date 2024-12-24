@@ -238,7 +238,7 @@ export const logActivityEmployee =
           prev_page_url: logLead.prev_page_url,
         });
       } else {
-        console.error(response.data.message);
+        dispatch(setEmployeeLog([]));
       }
     } catch (error) {
       console.error(error);

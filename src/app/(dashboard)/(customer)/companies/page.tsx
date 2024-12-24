@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { companiesTypes } from '@/types/companiesTypes';
 import { paginationTypes } from '@/types/otherTypes';
 import { useSelector, useDispatch } from 'react-redux';
@@ -35,6 +36,7 @@ import ErrorModal from '@/components/status/error-modal';
 import Loading from '@/components/status/loading';
 
 const CompanyPage = () => {
+  const [search, setSearch] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('terbaru');
   const [statusBy, setStatusBy] = useState<string>('semua');
   const [perPage, setPerPage] = useState<string>('10');
@@ -108,6 +110,7 @@ const CompanyPage = () => {
           sortBy,
           statusBy,
           perPage,
+          search,
           pagination.current_page - 1,
           setPagination
         )
@@ -122,6 +125,7 @@ const CompanyPage = () => {
           sortBy,
           statusBy,
           perPage,
+          search,
           pagination.current_page + 1,
           setPagination
         )
@@ -152,24 +156,23 @@ const CompanyPage = () => {
         current_page: 1,
       }));
 
-      dispatch(getCompanies(sortBy, statusBy, perPage, 1, setPagination)).then(
-        () => {
-          setIsLoadingPage(false);
-          setIsTriggerFetch(false);
-        }
-      );
+      dispatch(
+        getCompanies(sortBy, statusBy, perPage, search, 1, setPagination)
+      ).then(() => {
+        setIsLoadingPage(false);
+        setIsTriggerFetch(false);
+      });
     }
-  }, [dispatch, sortBy, statusBy, perPage, isTriggerFetch]);
+  }, [dispatch, sortBy, statusBy, search, perPage, isTriggerFetch]);
 
   useEffect(() => {
     if (sortBy || statusBy || perPage) {
       setIsTriggerFetch(true);
     }
-  }, [sortBy, statusBy, perPage, isSuccess]);
+  }, [sortBy, statusBy, perPage, search, isSuccess]);
 
   return (
     <>
-      {' '}
       {isLoadingPage ? (
         <Loading />
       ) : (
@@ -177,7 +180,7 @@ const CompanyPage = () => {
           <div className="lg:items-center mb-4 grid grid-cols-12">
             {/* Search Bar */}
             <div className="col-span-12 md:col-span-4 relative">
-              {/* <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3">
                 <Image
                   src="/icons/table/search.svg"
                   alt="search icon"
@@ -190,7 +193,8 @@ const CompanyPage = () => {
                 type="text"
                 placeholder="Cari Leads"
                 className="pl-10 p-2 border-2 font-custom text-xs lg:text-base border-font-gray bg-light-white rounded-[10px] focus:outline-none  dark:bg-dark-darkGray w-full"
-              /> */}
+                onChange={(e) => setSearch(e.target.value)}
+              />
             </div>
 
             <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
@@ -214,86 +218,90 @@ const CompanyPage = () => {
               />
             </div>
           </div>
-          {companies.length === 0 ? (
-            <EmptyTable />
-          ) : (
-            <>
-              {' '}
-              {/* Table */}
-              <div className="relative  overflow-auto lg:w-full ">
-                <TableHeader headers={headers}>
-                  {companies.map((company: companiesTypes, index: number) => (
-                    <TableRow key={index} index={index}>
-                      <TableDataAction>
-                        <Checkbox
-                          id={`checkbox-${company.id}`}
-                          checked={selectedIds.includes(company.id)}
-                          onChange={() => handleCheckboxChange(company.id)}
-                        />
-                        <EditTableButton
-                          onClick={() => handleEdit(company.id)}
-                        />
-                        <DeleteTableButton
-                          onClick={() => handleDeleteConfirmation(company.id)}
-                        />
-                      </TableDataAction>
-                      <TableDataLink href={`/companies/${company.id}`}>
-                        {company.name}
-                      </TableDataLink>
-                      <TableDataLong>{company.email || '-'}</TableDataLong>
-                      <TableDataLong>{company.industry || '-'}</TableDataLong>
-                      <TableDataShort>
-                        <StatusBadge status={company.status || '-'} />
-                      </TableDataShort>
-                      <TableDataLong> {company.owner || '-'}</TableDataLong>
-                    </TableRow>
-                  ))}
-                </TableHeader>
-              </div>
-              <PaginationButton
-                last_page={pagination.last_page}
-                current_page={pagination.current_page}
-                prev_page_url={pagination.prev_page_url}
-                next_page_url={pagination.next_page_url}
-                handlePrevPage={handlePrevPage}
-                handleNextPage={handleNextPage}
-                perPage={pagination.per_page}
-              />
-              {isEditCompany && (
-                <EditCompany
-                  onClose={handleCloseEdit}
-                  companyProps={company!}
+          <>
+            {companies.length === 0 ? (
+              <EmptyTable />
+            ) : (
+              <>
+                {' '}
+                {/* Table */}
+                <div className="relative  overflow-auto lg:w-full ">
+                  <TableHeader headers={headers}>
+                    {companies.map((company: companiesTypes, index: number) => (
+                      <TableRow key={index} index={index}>
+                        <TableDataAction>
+                          <Checkbox
+                            id={`checkbox-${company.id}`}
+                            checked={selectedIds.includes(company.id)}
+                            onChange={() => handleCheckboxChange(company.id)}
+                          />
+                          <EditTableButton
+                            onClick={() => handleEdit(company.id)}
+                          />
+                          <DeleteTableButton
+                            onClick={() => handleDeleteConfirmation(company.id)}
+                          />
+                        </TableDataAction>
+                        <TableDataLink href={`/companies/${company.id}`}>
+                          {company.name}
+                        </TableDataLink>
+                        <TableDataLong>{company.email || '-'}</TableDataLong>
+                        <TableDataLong>{company.industry || '-'}</TableDataLong>
+                        <TableDataShort>
+                          <StatusBadge status={company.status || '-'} />
+                        </TableDataShort>
+                        <TableDataLong> {company.owner || '-'}</TableDataLong>
+                      </TableRow>
+                    ))}
+                  </TableHeader>
+                </div>
+                <PaginationButton
+                  last_page={pagination.last_page}
+                  current_page={pagination.current_page}
+                  prev_page_url={pagination.prev_page_url}
+                  next_page_url={pagination.next_page_url}
+                  handlePrevPage={handlePrevPage}
+                  handleNextPage={handleNextPage}
+                  perPage={pagination.per_page}
                 />
-              )}
-              {isDeleteCompany && (
-                <ActionConfirmModal
-                  header="Apakah ingin menghapus perusahaan?"
-                  description="Data yang sudah terhapus tidak akan dapat dikembalikan"
-                  actionButtonNegative_action={() => setIsDeleteCompany(false)}
-                  actionButtonPositive_name="Hapus"
-                  actionButtonPositive_action={handleDeleteCompany}
-                />
-              )}
-              {isSuccess && (
-                <SuccessModal
-                  header="Berhasil"
-                  description="Data perusahaan berhasil dihapus"
-                  actionButton={true}
-                  actionButton_name="Kembali"
-                  actionButton_action={() => setIsSuccess(false)}
-                />
-              )}
-              {isDeleteError && (
-                <ErrorModal
-                  header="Pilih data sebelum menghapus!"
-                  description="Silahkan pilih minimal satu data untuk bisa dihapus"
-                  actionButton={true}
-                  actionButton_name="Kembali"
-                  actionButton_action={() => setIsDeleteError(false)}
-                />
-              )}
-            </>
-          )}
+                {isEditCompany && (
+                  <EditCompany
+                    onClose={handleCloseEdit}
+                    companyProps={company!}
+                  />
+                )}
+                {isDeleteCompany && (
+                  <ActionConfirmModal
+                    header="Apakah ingin menghapus perusahaan?"
+                    description="Data yang sudah terhapus tidak akan dapat dikembalikan"
+                    actionButtonNegative_action={() =>
+                      setIsDeleteCompany(false)
+                    }
+                    actionButtonPositive_name="Hapus"
+                    actionButtonPositive_action={handleDeleteCompany}
+                  />
+                )}
+                {isSuccess && (
+                  <SuccessModal
+                    header="Berhasil"
+                    description="Data perusahaan berhasil dihapus"
+                    actionButton={true}
+                    actionButton_name="Kembali"
+                    actionButton_action={() => setIsSuccess(false)}
+                  />
+                )}
+                {isDeleteError && (
+                  <ErrorModal
+                    header="Pilih data sebelum menghapus!"
+                    description="Silahkan pilih minimal satu data untuk bisa dihapus"
+                    actionButton={true}
+                    actionButton_name="Kembali"
+                    actionButton_action={() => setIsDeleteError(false)}
+                  />
+                )}
+              </>
+            )}
+          </>
         </DashboardCard>
       )}
     </>
