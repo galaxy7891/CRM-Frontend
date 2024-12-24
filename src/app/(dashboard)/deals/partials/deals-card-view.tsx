@@ -9,6 +9,7 @@ import {
   getDealsLose,
   getDealById,
   getDealsValue,
+  getDealsForExport,
   updateDealStage,
   deleteDeal,
 } from '@/redux/actions/dealsActions';
@@ -16,6 +17,7 @@ import { paginationTypes } from '@/types/otherTypes';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import StageCards from './stage-cards';
+import handleExport from '@/utils/export_CSV';
 import DashboardCard from '@/components/layout/dashboard-card';
 import NewDeals from './new-deals';
 import FilterTableButton from '@/components/button/filter-table-button';
@@ -105,6 +107,20 @@ const DealsCardView = () => {
           setPagination
         )
       );
+    }
+  };
+
+  const handleExportData = async () => {
+    try {
+      // Call redux and gettin data to variable
+      const fetchedData = await dispatch(getDealsForExport());
+
+      // Make sure the data is available
+      if (fetchedData && Array.isArray(fetchedData)) {
+        handleExport(fetchedData);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -208,7 +224,7 @@ const DealsCardView = () => {
                   <div className="col-span-12 md:col-span-4 relative"></div>
 
                   <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
-                    <ExportButton onClick={() => {}} />
+                    <ExportButton onClick={() => handleExportData()} />
                     <FilterTableButton
                       setSortBy={setSortBy}
                       setStatusBy={setStatusBy}
