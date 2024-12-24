@@ -69,7 +69,7 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
   useEffect(() => {
     setDeal((prevDeal) => ({ ...prevDeal, unit: productUnit }));
     dispatch(getProducts('terbaru', 'semua', '', 0, () => {}));
-    dispatch(getLeads('terbaru', 'semua', 'semua', 0, () => {}));
+    dispatch(getLeads('terbaru', 'semua', 'semua', '', 0, () => {}));
     dispatch(getContacts('terbaru', 'semua', 'semua', '', 0, () => {}));
     dispatch(getCompanies('terbaru', 'semua', 'semua', '', 0, () => {}));
   }, [dispatch, isSuccess, productUnit]);
