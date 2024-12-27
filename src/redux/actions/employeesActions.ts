@@ -155,9 +155,11 @@ export const inviteUser =
       if (response.data.success) {
         setIsSuccess(true);
       } else {
+        console.error(response.data.message);
         setErrorMessage(response.data.message);
       }
     } catch (error) {
+      console.log(error);
       console.error(error);
     } finally {
       setIsLoading(false);
