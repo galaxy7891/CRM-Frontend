@@ -249,7 +249,7 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
             <FailText>{errorMessage.value_estimated}</FailText>
           )}
         </div>
-        {deal.stage === 'tercapai' && (
+        {deal.stage === 'Tercapai' && (
           <div>
             <PriceInput
               label="Nilai Sebenarnya"
@@ -295,7 +295,7 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
           )}
         </div>
         {/* If the stage is closed, show the close date input */}
-        {deal.stage === 'tercapai' && (
+        {deal.stage === 'Tercapai' && (
           <div>
             <DateInput
               label="Tanggal  Penutupan"
