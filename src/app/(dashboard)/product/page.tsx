@@ -33,8 +33,10 @@ import NewProduct from './partials/new-product';
 import FailModal from '@/components/status/fail-modal';
 import EmptyTable from '@/components/table/empty-table';
 import Loading from '@/components/status/loading';
+import SearchBar from '@/components/table/search-bar';
 
 const Product = () => {
+  const [search, setSearch] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('terbaru');
   const [perPage, setPerPage] = useState<string>('10');
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -119,7 +121,13 @@ const Product = () => {
   const handlePrevPage = () => {
     if (pagination.prev_page_url) {
       dispatch(
-        getProducts(sortBy, perPage, pagination.current_page - 1, setPagination)
+        getProducts(
+          sortBy,
+          perPage,
+          search,
+          pagination.current_page - 1,
+          setPagination
+        )
       );
     }
   };
@@ -127,7 +135,13 @@ const Product = () => {
   const handleNextPage = () => {
     if (pagination.next_page_url) {
       dispatch(
-        getProducts(sortBy, perPage, pagination.current_page + 1, setPagination)
+        getProducts(
+          sortBy,
+          perPage,
+          search,
+          pagination.current_page + 1,
+          setPagination
+        )
       );
     }
   };
@@ -153,18 +167,21 @@ const Product = () => {
         current_page: 1,
       }));
 
-      dispatch(getProducts(sortBy, perPage, 1, setPagination)).then(() => {
-        setIsLoadingPage(false);
-        setIsTriggerFetch(false);
-      });
+      dispatch(getProducts(sortBy, perPage, search, 1, setPagination)).then(
+        () => {
+          setIsLoadingPage(false);
+          setIsTriggerFetch(false);
+        }
+      );
     }
-  }, [dispatch, sortBy, perPage, isTriggerFetch]);
+    console.log(search);
+  }, [dispatch, sortBy, perPage, search, isTriggerFetch]);
 
   useEffect(() => {
     if (sortBy || perPage) {
       setIsTriggerFetch(true);
     }
-  }, [sortBy, perPage, isSuccess]);
+  }, [sortBy, perPage, search, isSuccess]);
 
   return (
     <>
@@ -198,20 +215,7 @@ const Product = () => {
             <div className="lg:items-center mb-4 grid grid-cols-12">
               {/* Search Bar */}
               <div className="col-span-12 md:col-span-4 relative">
-                {/* <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                <Image
-                  src="/icons/table/search.svg"
-                  alt="search icon"
-                  width={20}
-                  height={20}
-                  className="w-[12px] h-[12px] lg:w-[20px] lg:h-[20px]"
-                />
-              </div>
-              <input
-                type="text"
-                placeholder="Cari Product"
-                className="pl-10 p-2 border-2 font-custom text-xs lg:text-base border-font-gray bg-light-white rounded-[10px] focus:outline-none  dark:bg-dark-darkGray w-full"
-              /> */}
+                <SearchBar onChange={(e) => setSearch(e.target.value)} />
               </div>
 
               <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">

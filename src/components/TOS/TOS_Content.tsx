@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AuthPositiveButton from '../button/auth-positive-button';
 import BackButton from '../button/back-button';
 import Section from '@/components/TOS/TOS_Items';
+import Link from 'next/link';
 
 const TermCondition = ({
   handleRegister,
@@ -124,7 +125,20 @@ const TermCondition = ({
         />
         <Section
           title="13. Kontak"
-          description="Jika Anda memiliki pertanyaan atau keluhan mengenai syarat dan ketentuan ini, silakan hubungi kami melalui email [alamat email] atau nomor telepon [nomor telepon]."
+          description={
+            <>
+              Jika Anda memiliki pertanyaan atau keluhan mengenai syarat dan
+              ketentuan ini silahkan hubungi{' '}
+              <Link
+                href="https://wa.me/+62816282136"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text underline"
+              >
+                Customer Service Kami
+              </Link>
+            </>
+          }
         />
       </div>
       <div className="flex items-center  pt-2">

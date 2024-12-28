@@ -24,7 +24,6 @@ const PersonalDataStep: React.FC<PersonalDataStepProps> = ({
   setPersonalData,
   onNext,
   step,
-  isLoading,
   handleBackButton,
 }) => {
   const [isOnClick, setIsOnClick] = useState<boolean>(false);
@@ -141,7 +140,7 @@ const PersonalDataStep: React.FC<PersonalDataStepProps> = ({
         onClick={handleCheckField}
         className="mt-4 w-full px-1 h-12 lg:h-15 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
       >
-        {isLoading ? 'Loading...' : 'Daftar'}
+        Selanjutnya
       </button>
       <BackButton onClick={handleBackButton}>Kembali</BackButton>
     </div>

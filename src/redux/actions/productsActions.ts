@@ -13,6 +13,7 @@ export const getProducts =
   (
     sortBy: string,
     perPage: string,
+    search: string,
     currentPage: number,
     setPagination: (pagination: paginationTypes) => void
   ) =>
@@ -21,7 +22,7 @@ export const getProducts =
     try {
       const config = {
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/products?sort=${sortBy}&per_page=${perPage}&page=${currentPage}`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/products?sort=${sortBy}&per_page=${perPage}&page=${currentPage}&search=${search}`,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -41,7 +42,7 @@ export const getProducts =
           prev_page_url: products.prev_page_url,
         });
       } else {
-        console.error(response.data.message);
+        dispatch(setProducts([]));
       }
     } catch (error) {
       console.error(error);

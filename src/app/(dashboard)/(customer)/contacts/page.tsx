@@ -33,8 +33,10 @@ import Checkbox from '@/components/button/checkbox';
 import EmptyTable from '@/components/table/empty-table';
 import ErrorModal from '@/components/status/error-modal';
 import Loading from '@/components/status/loading';
+import SearchBar from '@/components/table/search-bar';
 
 const ContactsPage = () => {
+  const [search, setSearch] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('terbaru');
   const [statusBy, setStatusBy] = useState<string>('semua');
   const [perPage, setPerPage] = useState<string>('10');
@@ -110,6 +112,7 @@ const ContactsPage = () => {
           sortBy,
           statusBy,
           perPage,
+          search,
           pagination.current_page - 1,
           setPagination
         )
@@ -124,6 +127,7 @@ const ContactsPage = () => {
           sortBy,
           statusBy,
           perPage,
+          search,
           pagination.current_page + 1,
           setPagination
         )
@@ -152,20 +156,20 @@ const ContactsPage = () => {
         current_page: 1,
       }));
 
-      dispatch(getContacts(sortBy, statusBy, perPage, 1, setPagination)).then(
-        () => {
-          setIsLoadingPage(false);
-          setIsTriggerFetch(false);
-        }
-      );
+      dispatch(
+        getContacts(sortBy, statusBy, perPage, search, 1, setPagination)
+      ).then(() => {
+        setIsLoadingPage(false);
+        setIsTriggerFetch(false);
+      });
     }
-  }, [dispatch, sortBy, statusBy, perPage, isTriggerFetch]);
+  }, [dispatch, sortBy, statusBy, perPage, search, isTriggerFetch]);
 
   useEffect(() => {
     if (sortBy || statusBy || perPage) {
       setIsTriggerFetch(true);
     }
-  }, [sortBy, statusBy, isSuccess, perPage]);
+  }, [sortBy, statusBy, search, isSuccess, perPage]);
 
   return (
     <>
@@ -175,7 +179,10 @@ const ContactsPage = () => {
         <DashboardCard>
           <div className="lg:items-center mb-4 grid grid-cols-12">
             {/* Search Bar */}
-            <div className="col-span-12 md:col-span-4 relative"></div>
+            <div className="col-span-12 md:col-span-4 relative">
+              {' '}
+              <SearchBar onChange={(e) => setSearch(e.target.value)} />
+            </div>
 
             <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
               {/* Trash Icon, Export, and Filter Buttons */}

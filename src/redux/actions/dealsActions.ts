@@ -19,6 +19,7 @@ export const getDeals =
     sortBy: string,
     buyerTypeBy: string,
     statusBy: string,
+    search: string,
     perPage: string,
     currentPage: number,
     setPagination: (pagination: paginationTypes) => void
@@ -28,7 +29,7 @@ export const getDeals =
     try {
       const config = {
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=${currentPage}&kategori=${buyerTypeBy}`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=${currentPage}&kategori=${buyerTypeBy}&search=${search}`,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -46,30 +47,9 @@ export const getDeals =
           next_page_url: deals.next_page_url,
           prev_page_url: deals.prev_page_url,
         });
+      } else {
+        dispatch(setDeals([]));
       }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-export const getDealsForExport =
-  () =>
-  async (
-    dispatch: AppDispatch,
-    getState: () => RootState
-  ): Promise<dealsDataTypes[] | undefined> => {
-    const { token } = getState().auth;
-
-    try {
-      const config = {
-        method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?sort=terbaru&status=semua&per_page=semua&page=1`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      const response = await axios.request(config);
-
-      return response.data.data.data;
     } catch (error) {
       console.error(error);
     }
@@ -78,6 +58,7 @@ export const getDealsForExport =
 export const getDealsQualification =
   (
     sortBy: string,
+    buyerTypeBy: string,
     statusBy: string,
     perPage: string,
     currentPage: number,
@@ -88,7 +69,7 @@ export const getDealsQualification =
     try {
       const config = {
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?tahapan=kualifikasi&sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=1=${currentPage}`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?tahapan=kualifikasi&sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=1=${currentPage}&kategori=${buyerTypeBy}`,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -116,6 +97,7 @@ export const getDealsQualification =
 export const getDealsProposal =
   (
     sortBy: string,
+    buyerTypeBy: string,
     statusBy: string,
     perPage: string,
     currentPage: number,
@@ -126,7 +108,7 @@ export const getDealsProposal =
     try {
       const config = {
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?tahapan=proposal&sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=1=${currentPage}`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?tahapan=proposal&sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=1=${currentPage}&kategori=${buyerTypeBy}`,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -154,6 +136,7 @@ export const getDealsProposal =
 export const getDealsNegotiation =
   (
     sortBy: string,
+    buyerTypeBy: string,
     statusBy: string,
     perPage: string,
     currentPage: number,
@@ -164,7 +147,7 @@ export const getDealsNegotiation =
     try {
       const config = {
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?tahapan=negosiasi&sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=1=${currentPage}`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?tahapan=negosiasi&sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=1=${currentPage}&kategori=${buyerTypeBy}`,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -192,6 +175,7 @@ export const getDealsNegotiation =
 export const getDealsWon =
   (
     sortBy: string,
+    buyerTypeBy: string,
     statusBy: string,
     perPage: string,
     currentPage: number,
@@ -202,7 +186,7 @@ export const getDealsWon =
     try {
       const config = {
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?tahapan=tercapai&sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=1=${currentPage}`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?tahapan=tercapai&sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=1=${currentPage}&kategori=${buyerTypeBy}`,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -230,6 +214,7 @@ export const getDealsWon =
 export const getDealsLose =
   (
     sortBy: string,
+    buyerTypeBy: string,
     statusBy: string,
     perPage: string,
     currentPage: number,
@@ -240,7 +225,7 @@ export const getDealsLose =
     try {
       const config = {
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?tahapan=gagal&sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=1=${currentPage}`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?tahapan=gagal&sort=${sortBy}&status=${statusBy}&per_page=${perPage}&page=1=${currentPage}&kategori=${buyerTypeBy}`,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -305,6 +290,30 @@ export const getDealsValue =
       if (response.data.success) {
         dispatch(setDealsValue(response.data.data));
       }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+export const getDealsForExport =
+  () =>
+  async (
+    dispatch: AppDispatch,
+    getState: () => RootState
+  ): Promise<dealsDataTypes[] | undefined> => {
+    const { token } = getState().auth;
+
+    try {
+      const config = {
+        method: 'get',
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/deals?sort=terbaru&status=semua&per_page=semua&page=1`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.request(config);
+
+      return response.data.data.data;
     } catch (error) {
       console.error(error);
     }

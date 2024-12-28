@@ -68,10 +68,10 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
   };
   useEffect(() => {
     setDeal((prevDeal) => ({ ...prevDeal, unit: productUnit }));
-    dispatch(getProducts('', '', 0, () => {}));
-    dispatch(getLeads('terbaru', 'semua', 'semua', 0, () => {}));
-    dispatch(getContacts('terbaru', 'semua', 'semua', 0, () => {}));
-    dispatch(getCompanies('terbaru', 'semua', 'semua', 0, () => {}));
+    dispatch(getProducts('terbaru', 'semua', '', 0, () => {}));
+    dispatch(getLeads('terbaru', 'semua', 'semua', '', 0, () => {}));
+    dispatch(getContacts('terbaru', 'semua', 'semua', '', 0, () => {}));
+    dispatch(getCompanies('terbaru', 'semua', 'semua', '', 0, () => {}));
   }, [dispatch, isSuccess, productUnit]);
 
   return (
@@ -93,14 +93,14 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
             value={deal.category}
             options={[
               { label: 'Pilih Kategori Pelanggan', value: '', hidden: true },
-              { label: 'Pelanggan', value: 'pelanggan' },
-              { label: 'Perusahaan', value: 'perusahaan' },
+              { label: 'Pelanggan', value: 'Pelanggan' },
+              { label: 'Perusahaan', value: 'Perusahaan' },
             ]}
             onChange={(e) => setDeal({ ...deal, category: e.target.value })}
             required
           />
         </div>{' '}
-        {deal.category === 'pelanggan' && (
+        {deal.category === 'Pelanggan' && (
           <div>
             <SelectInput
               label="Nama Pelanggan"
@@ -123,7 +123,7 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
             />
           </div>
         )}
-        {deal.category === 'perusahaan' && (
+        {deal.category === 'Perusahaan' && (
           <div>
             <SelectInput
               label="Nama Perusahaan"
@@ -203,10 +203,11 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
               { label: 'Berulang', value: 'Berulang' },
             ]}
             onChange={(e) => {
-              if (e.target.value === 'berulang') {
+              if (e.target.value === 'Berulang') {
                 setTempPayment_Category(e.target.value);
                 setDeal({ ...deal, payment_category: '' });
               } else {
+                console.log(e.target.value);
                 setDeal({ ...deal, payment_category: e.target.value });
                 setTempPayment_Category('');
                 if (deal.payment_duration) {
@@ -220,7 +221,7 @@ const NewDeals: React.FC<NewDealsProps> = ({ onClose, owner }) => {
           )}
         </div>
         {/* If the payment category is not cash, show the duration input */}
-        {tempPayment_Category === 'berulang' && (
+        {tempPayment_Category === 'Berulang' && (
           <div>
             <DurationInput
               label="Durasi Pembayaran"

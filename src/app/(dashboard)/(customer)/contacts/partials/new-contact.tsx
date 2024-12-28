@@ -86,7 +86,7 @@ const NewContact: React.FC<FormEditProps> = ({ onClose, emailLocal }) => {
   };
 
   useEffect(() => {
-    dispatch(getCompanies('terbaru', 'semua', 'semua', 1, () => {}));
+    dispatch(getCompanies('terbaru', 'semua', 'semua', '', 1, () => {}));
     const getLocation = async () => {
       try {
         const provinces = await getProvinces();
@@ -225,6 +225,7 @@ const NewContact: React.FC<FormEditProps> = ({ onClose, emailLocal }) => {
             }
             required
           />
+          {errorMessage && <FailText>{errorMessage.customers_company_id}</FailText>}
         </div>
         <div className="order-9 md:order-3">
           <PhoneInput

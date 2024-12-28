@@ -66,10 +66,10 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
   };
 
   useEffect(() => {
-    dispatch(getProducts('terbaru', 'semua', 0, () => {}));
-    dispatch(getLeads('terbaru', '', 'semua', 1, () => {}));
-    dispatch(getContacts('terbaru', '', 'semua', 1, () => {}));
-    dispatch(getCompanies('terbaru', '', 'semua', 1, () => {}));
+    dispatch(getProducts('terbaru', 'semua', '', 0, () => {}));
+    dispatch(getLeads('terbaru', '', 'semua', '', 1, () => {}));
+    dispatch(getContacts('terbaru', '', 'semua', '', 1, () => {}));
+    dispatch(getCompanies('terbaru', '', 'semua', '', 1, () => {}));
   }, [dispatch]);
   return (
     <SidebarModal onClose={onClose} SidebarModalTitle="Edit Deals">
@@ -249,7 +249,7 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
             <FailText>{errorMessage.value_estimated}</FailText>
           )}
         </div>
-        {deal.stage === 'tercapai' && (
+        {deal.stage === 'Tercapai' && (
           <div>
             <PriceInput
               label="Nilai Sebenarnya"
@@ -295,7 +295,7 @@ const EditDeals: React.FC<editDealsProps> = ({ onClose, dealProp }) => {
           )}
         </div>
         {/* If the stage is closed, show the close date input */}
-        {deal.stage === 'tercapai' && (
+        {deal.stage === 'Tercapai' && (
           <div>
             <DateInput
               label="Tanggal  Penutupan"

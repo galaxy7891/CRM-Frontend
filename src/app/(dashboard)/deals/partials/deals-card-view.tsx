@@ -9,6 +9,7 @@ import {
   getDealsLose,
   getDealById,
   getDealsValue,
+  getDealsForExport,
   updateDealStage,
   deleteDeal,
 } from '@/redux/actions/dealsActions';
@@ -16,6 +17,7 @@ import { paginationTypes } from '@/types/otherTypes';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import StageCards from './stage-cards';
+import handleExport from '@/utils/export_CSV';
 import DashboardCard from '@/components/layout/dashboard-card';
 import NewDeals from './new-deals';
 import FilterTableButton from '@/components/button/filter-table-button';
@@ -28,6 +30,7 @@ import EditDeals from './edit-deals';
 
 const DealsCardView = () => {
   const [sortBy, setSortBy] = useState<string>('terbaru');
+  const [buyerTypeBy, setBuyerTypeBy] = useState<string>('semua');
   const [statusBy, setStatusBy] = useState<string>('semua');
   const [perPage, setPerPage] = useState<string>('10');
   const [isLoadingPage, setIsloadingPage] = useState<boolean>(true);
@@ -53,6 +56,7 @@ const DealsCardView = () => {
   const { dealsLose } = useSelector((state: RootState) => state.deals);
   const { deal } = useSelector((state: RootState) => state.deals);
   const { dealsValue } = useSelector((state: RootState) => state.deals);
+  console.log(dealsValue);
 
   const handleEdit = async (id: string) => {
     await dispatch(getDealById(id));
@@ -85,6 +89,7 @@ const DealsCardView = () => {
       dispatch(
         getDealsQualification(
           sortBy,
+          buyerTypeBy,
           statusBy,
           perPage,
           pagination.current_page - 1,
@@ -99,6 +104,7 @@ const DealsCardView = () => {
       dispatch(
         getDealsQualification(
           sortBy,
+          buyerTypeBy,
           statusBy,
           perPage,
           pagination.current_page + 1,
@@ -108,31 +114,50 @@ const DealsCardView = () => {
     }
   };
 
+  const handleExportData = async () => {
+    try {
+      // Call redux and gettin data to variable
+      const fetchedData = await dispatch(getDealsForExport());
+
+      // Make sure the data is available
+      if (fetchedData && Array.isArray(fetchedData)) {
+        handleExport(fetchedData);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const stages = [
     {
       title: 'Kualifikasi',
       dealsProps: dealsQualification,
-      dealsValue: dealsValue?.qualification,
+      dealsValue: dealsValue?.value?.qualification,
+      dealsTotal: dealsValue?.count?.qualification,
     },
     {
       title: 'Proposal',
       dealsProps: dealsProposal,
-      dealsValue: dealsValue?.proposal,
+      dealsValue: dealsValue?.value?.proposal,
+      dealsTotal: dealsValue?.count?.proposal,
     },
     {
       title: 'Negosiasi',
       dealsProps: dealsNegotiation,
-      dealsValue: dealsValue?.negotiation,
+      dealsValue: dealsValue?.value?.negotiation,
+      dealsTotal: dealsValue?.count?.negotiation,
     },
     {
       title: 'Tercapai',
       dealsProps: dealsWon,
-      dealsValue: dealsValue?.won,
+      dealsValue: dealsValue?.value?.won,
+      dealsTotal: dealsValue?.count?.won,
     },
     {
       title: 'Gagal',
       dealsProps: dealsLose,
-      dealsValue: dealsValue?.lose,
+      dealsValue: dealsValue?.value?.lose,
+      dealsTotal: dealsValue?.count?.lose,
     },
   ];
 
@@ -144,6 +169,7 @@ const DealsCardView = () => {
     dispatch(
       getDealsQualification(
         sortBy,
+        buyerTypeBy,
         statusBy,
         perPage,
         pagination.current_page + 1,
@@ -155,6 +181,7 @@ const DealsCardView = () => {
     dispatch(
       getDealsProposal(
         sortBy,
+        buyerTypeBy,
         statusBy,
         perPage,
         pagination.current_page + 1,
@@ -164,6 +191,7 @@ const DealsCardView = () => {
     dispatch(
       getDealsNegotiation(
         sortBy,
+        buyerTypeBy,
         statusBy,
         perPage,
         pagination.current_page + 1,
@@ -173,6 +201,7 @@ const DealsCardView = () => {
     dispatch(
       getDealsWon(
         sortBy,
+        buyerTypeBy,
         statusBy,
         perPage,
         pagination.current_page + 1,
@@ -182,13 +211,22 @@ const DealsCardView = () => {
     dispatch(
       getDealsLose(
         sortBy,
+        buyerTypeBy,
         statusBy,
         perPage,
         pagination.current_page + 1,
         setPagination
       )
     );
-  }, [dispatch, isSuccess, sortBy, pagination.current_page, statusBy, perPage]);
+  }, [
+    dispatch,
+    isSuccess,
+    sortBy,
+    buyerTypeBy,
+    pagination.current_page,
+    statusBy,
+    perPage,
+  ]);
   return (
     <>
       <div className="flex-grow overflow-y-auto ">
@@ -208,9 +246,10 @@ const DealsCardView = () => {
                   <div className="col-span-12 md:col-span-4 relative"></div>
 
                   <div className="col-span-12 md:col-span-8 flex justify-end gap-2 pt-2 md:pt-0">
-                    <ExportButton onClick={() => {}} />
+                    <ExportButton onClick={() => handleExportData()} />
                     <FilterTableButton
                       setSortBy={setSortBy}
+                      setBuyerTypeBy={setBuyerTypeBy}
                       setStatusBy={setStatusBy}
                       setPerPage={setPerPage}
                     />
@@ -224,7 +263,7 @@ const DealsCardView = () => {
                         title={stage.title}
                         dealsProps={stage.dealsProps}
                         dealsValue={stage.dealsValue || '0'}
-                        total={pagination.total}
+                        dealsTotal={stage.dealsTotal || 0}
                         handleDeleteConfirmation={handleDeleteConfirmation}
                         handleEdit={handleEdit}
                         handleEditStageDeal={handleEditStageDeal}

@@ -15,7 +15,7 @@ const QualificationCard: React.FC<QualificationCardProps> = ({
   title,
   dealsProps,
   dealsValue,
-  total,
+  dealsTotal,
   handleDeleteConfirmation,
   handleEdit,
   handleEditStageDeal,
@@ -31,7 +31,8 @@ const QualificationCard: React.FC<QualificationCardProps> = ({
         <div className="mt-1 flex justify-between items-center font-bold font-custom text-font-black dark:text-font-white">
           {/* (total value_estimated) */}
           <p className="text-xs">Rp {dealsValue}</p>
-          <p className="text-xs">{total} Data</p>
+
+          <p className="text-xs">{dealsTotal} Data</p>
         </div>
         {dealsProps.length === 0 ? (
           <DataDealsNotFound />

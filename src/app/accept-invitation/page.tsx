@@ -1,33 +1,34 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect, Suspense } from "react";
-import { acceptInvitation } from "@/redux/actions/employeesActions";
-import { useAppDispatch } from "@/hook/redux";
-import { useSearchParams } from "next/navigation";
-import { ParamsData, PersonalData, Password } from "@/types/authTypes";
-import Step1_email from "./partials/step1-password";
-import Step2_personal_data from "./partials/step2-personal-data";
-import RightAuthSection from "@/components/layout/auth-right-section";
-import SuccessModal from "@/components/status/success-modal";
-import AuthLeftSection from "@/components/layout/auth-left-section";
+import React, { useState, useEffect, Suspense } from 'react';
+import { acceptInvitation } from '@/redux/actions/employeesActions';
+import { useAppDispatch } from '@/hook/redux';
+import { useSearchParams } from 'next/navigation';
+import { ParamsData, PersonalData, Password } from '@/types/authTypes';
+import Step1_email from './partials/step1-password';
+import Step2_personal_data from './partials/step2-personal-data';
+import Step3_Term from '@/components/TOS/TOS_Content';
+import RightAuthSection from '@/components/layout/auth-right-section';
+import SuccessModal from '@/components/status/success-modal';
+import AuthLeftSection from '@/components/layout/auth-left-section';
 
 const Register = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false); // Loading state
   const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
   const [step, setStep] = useState<number>(1);
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const [paramsData, setParamsData] = useState<ParamsData>({
-    email: "",
-    token: "",
+    email: '',
+    token: '',
   });
   const [password, setPassword] = useState<Password>({
-    password: "",
-    password_confirmation: "",
+    password: '',
+    password_confirmation: '',
   });
   const [personalData, setPersonalData] = useState<PersonalData>({
-    first_name: "",
-    last_name: "",
-    phone: "",
+    first_name: '',
+    last_name: '',
+    phone: '',
   });
 
   const searchParams = useSearchParams();
@@ -46,14 +47,14 @@ const Register = () => {
   };
 
   const handleBackButton = () => {
-    setErrorMessage("");
+    setErrorMessage('');
     setStep(step - 1);
   };
 
   useEffect(() => {
     setParamsData({
-      email: searchParams.get("email") || "",
-      token: searchParams.get("token") || "",
+      email: searchParams.get('email') || '',
+      token: searchParams.get('token') || '',
     });
   }, [searchParams]);
 
@@ -87,8 +88,15 @@ const Register = () => {
                     personalData={personalData}
                     isLoading={isLoading}
                     setPersonalData={setPersonalData}
-                    onNext={handleRegister}
+                    onNext={() => setStep(3)}
                     step={step}
+                    handleBackButton={handleBackButton}
+                  />
+                );
+              case 3:
+                return (
+                  <Step3_Term
+                    handleRegister={handleRegister}
                     handleBackButton={handleBackButton}
                   />
                 );

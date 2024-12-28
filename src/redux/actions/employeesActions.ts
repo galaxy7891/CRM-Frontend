@@ -13,6 +13,7 @@ export const getEmployees =
   (
     sortBy: string,
     perPage: string,
+    search: string,
     currentPage: number,
     setPagination: (pagination: paginationTypes) => void
   ) =>
@@ -21,7 +22,7 @@ export const getEmployees =
     try {
       const config = {
         method: 'get',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/employee?sort=${sortBy}&per_page=${perPage}&page=${currentPage}`,
+        url: `${process.env.NEXT_PUBLIC_API_URL}/api/employee?sort=${sortBy}&per_page=${perPage}&page=${currentPage}&search=${search}`,
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -154,9 +155,11 @@ export const inviteUser =
       if (response.data.success) {
         setIsSuccess(true);
       } else {
+        console.error(response.data.message);
         setErrorMessage(response.data.message);
       }
     } catch (error) {
+      console.log(error);
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -171,15 +174,13 @@ export const acceptInvitation =
     setIsLoading: (loading: boolean) => void,
     setIsSuccess: (sent: boolean) => void
   ) =>
-  async (dispatch: AppDispatch, getState: () => RootState) => {
+  async () => {
     setIsLoading(true);
-    const { token } = getState().auth;
     try {
       const config = {
         method: 'post',
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/invitation/accept`,
         headers: {
-          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         data: {
@@ -238,7 +239,7 @@ export const logActivityEmployee =
           prev_page_url: logLead.prev_page_url,
         });
       } else {
-        console.error(response.data.message);
+        dispatch(setEmployeeLog([]));
       }
     } catch (error) {
       console.error(error);
