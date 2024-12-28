@@ -139,6 +139,7 @@ export const addArticle =
     article: articleTypes,
     content: string,
     photo: File | null,
+    setIsLoading: (loading: boolean) => void,
     setIsSuccess: (success: boolean) => void,
     setErrorMessage: (messages: { [key: string]: string }) => void
   ) =>
@@ -156,6 +157,8 @@ export const addArticle =
     formData.append('description', content);
 
     try {
+      setIsLoading(true);
+      
       const config = {
         method: 'post',
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/article`,
@@ -174,6 +177,8 @@ export const addArticle =
       }
     } catch (error) {
       console.error('Request failed:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
