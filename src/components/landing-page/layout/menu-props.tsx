@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 interface MenuPropsProps {
   href: string;
@@ -12,10 +12,10 @@ const MenuProps = ({ href, title }: MenuPropsProps) => {
   return (
     <Link href={href}>
       <p
-        className={`font-custom text-xs md:text-base transition-all duration-200 ${
+        className={`font-custom text-base transition-all duration-200 ${
           isActive
-            ? "text-dark-gold font-medium underline decoration-dark-gold"
-            : "text-font-light hover:text-font-white font-normal"
+            ? 'text-dark-gold font-medium underline decoration-dark-gold'
+            : 'text-font-light hover:text-font-white font-normal'
         }`}
       >
         {title}

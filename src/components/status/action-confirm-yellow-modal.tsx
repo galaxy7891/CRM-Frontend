@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { useState } from "react";
-import { ActionConfirmModalProps } from "@/types/otherTypes";
+import Image from 'next/image';
+import { useState } from 'react';
+import { ActionConfirmModalProps } from '@/types/otherTypes';
 
 const ActionConfirmYellowModal: React.FC<ActionConfirmModalProps> = ({
   header,
@@ -32,7 +32,7 @@ const ActionConfirmYellowModal: React.FC<ActionConfirmModalProps> = ({
             onClick={handleClose}
           >
             <Image
-              src="/icons/closed.svg"
+              src="/images/icons/closed.svg"
               alt="close"
               width={10}
               height={10}
@@ -44,7 +44,7 @@ const ActionConfirmYellowModal: React.FC<ActionConfirmModalProps> = ({
         <div className="flex flex-col items-center text-center">
           <div className="pt-2">
             <Image
-              src="/icons/status/action-confirm.svg"
+              src="/images/icons/status/action-confirm.svg"
               alt="success"
               width={50}
               height={50}

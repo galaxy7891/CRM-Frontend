@@ -8,7 +8,7 @@ const InviteFailed = () => {
     <>
       <div className="flex flex-col justify-center items-center flex-grow">
         <InviteComponents
-          imageSrc="/icons/table/impor-failed.png"
+          imageSrc="/images/icons/table/impor-failed.png"
           title="Email Gagal Terkirim"
         />
         <div>

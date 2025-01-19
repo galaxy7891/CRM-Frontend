@@ -40,7 +40,7 @@ const InviteUser: React.FC<InviteEmployeeProps> = ({ onClose }) => {
         <>
           <div className="flex flex-col justify-center items-center flex-grow  overflow-y-auto mb-6">
             <InviteComponents
-              imageSrc="/icons/employee/invite.svg"
+              imageSrc="/images/icons/employee/invite.svg"
               title="Masukkan Data"
             />
 

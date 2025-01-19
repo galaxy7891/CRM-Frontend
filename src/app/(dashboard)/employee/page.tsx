@@ -243,7 +243,7 @@ const Employee = () => {
                                 }
                               >
                                 <Image
-                                  src="/icons/table/dustbin.svg"
+                                  src="/images/icons/table/dustbin.svg"
                                   alt="deletebtn"
                                   width={16}
                                   height={16}

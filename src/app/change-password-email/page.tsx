@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { newPassword } from "@/types/profileTypes";
-import { resetPassword } from "@/redux/actions/profileActions";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
-import { useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
-import InputPassword from "@/components/form-input/password-input";
-import Image from "next/image";
-import AuthLeftSection from "@/components/layout/auth-left-section";
-import AuthRightSection from "@/components/layout/auth-right-section";
-import FailText from "@/components/status/fail-text";
-import SuccessModal from "@/components/status/success-modal";
+import { newPassword } from '@/types/profileTypes';
+import { resetPassword } from '@/redux/actions/profileActions';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import { useState, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
+import InputPassword from '@/components/form-input/password-input';
+import Image from 'next/image';
+import AuthLeftSection from '@/components/layout/auth-left-section';
+import AuthRightSection from '@/components/layout/auth-right-section';
+import FailText from '@/components/status/fail-text';
+import SuccessModal from '@/components/status/success-modal';
 
 const ResetPassword: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
@@ -20,20 +20,20 @@ const ResetPassword: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [newPassword, setNewPassword] = useState<newPassword>({
-    new_password: "",
-    confirm_new_password: "",
+    new_password: '',
+    confirm_new_password: '',
   });
   const dispatch = useDispatch<AppDispatch>();
   const searchParams = useSearchParams();
 
-  const token = searchParams.get("token");
-  const email = searchParams.get("email");
+  const token = searchParams.get('token');
+  const email = searchParams.get('email');
 
   const rules = [
-    { regex: /.{8,}/, label: "Minimal 8 karakter" },
-    { regex: /[a-z]/, label: "Satu karakter huruf kecil" },
-    { regex: /[A-Z]/, label: "Satu karakter huruf besar" },
-    { regex: /[\d\W]/, label: "Satu angka, simbol, atau karakter spasi" },
+    { regex: /.{8,}/, label: 'Minimal 8 karakter' },
+    { regex: /[a-z]/, label: 'Satu karakter huruf kecil' },
+    { regex: /[A-Z]/, label: 'Satu karakter huruf besar' },
+    { regex: /[\d\W]/, label: 'Satu angka, simbol, atau karakter spasi' },
   ];
 
   const isPasswordValid = rules.every((rule) =>
@@ -49,7 +49,7 @@ const ResetPassword: React.FC = () => {
     e.preventDefault();
 
     if (newPassword.new_password !== newPassword.confirm_new_password) {
-      setErrorMessage({ confirm_new_password: "Kata sandi tidak sama" });
+      setErrorMessage({ confirm_new_password: 'Kata sandi tidak sama' });
       return;
     }
 
@@ -87,12 +87,12 @@ const ResetPassword: React.FC = () => {
           <form onSubmit={handleResetPassword}>
             <InputPassword
               value={newPassword.new_password}
-              onChange={handlePasswordChange("new_password")}
+              onChange={handlePasswordChange('new_password')}
             />
             <InputPassword
               label="Konfirmasi Kata Sandi"
               value={newPassword.confirm_new_password}
-              onChange={handlePasswordChange("confirm_new_password")}
+              onChange={handlePasswordChange('confirm_new_password')}
             />
 
             {errorMessage.confirm_new_password && (
@@ -103,7 +103,7 @@ const ResetPassword: React.FC = () => {
               disabled={isLoading || !isPasswordValid}
               className="mt-4 w-full px-1 h-12 lg:h-15 font-custom bg-light-gold text-font-brown font-bold text-xs md:text-base rounded-lg hover:opacity-80 transition-opacity duration-200 hover:shadow-md disabled:opacity-60 disabled:hover:shadow-none"
             >
-              {isLoading ? "Mengubah Kata Sandi..." : "Ubah Kata Sandi"}
+              {isLoading ? 'Mengubah Kata Sandi...' : 'Ubah Kata Sandi'}
             </button>
           </form>
 
@@ -114,16 +114,18 @@ const ResetPassword: React.FC = () => {
                 <li key={index} className="flex items-center">
                   <Image
                     src={
-                      isValid ? "/icons/checked.svg" : "/icons/red-cross.svg"
+                      isValid
+                        ? '/images/icons/checked.svg'
+                        : '/images/icons/red-cross.svg'
                     }
-                    alt={isValid ? "Valid" : "Invalid"}
+                    alt={isValid ? 'Valid' : 'Invalid'}
                     width={16}
                     height={16}
                     className="mr-2"
                   />
                   <span
                     className={`text-xs lg:text-base font-custom ${
-                      isValid ? "text-font-green" : "text-light-redLight"
+                      isValid ? 'text-font-green' : 'text-light-redLight'
                     }`}
                   >
                     {rule.label}

@@ -11,7 +11,7 @@ const SearchBar = ({
         {' '}
         <div className="absolute inset-y-0 left-0 flex items-center pl-3">
           <Image
-            src="/icons/table/search.svg"
+            src="/images/icons/table/search.svg"
             alt="search icon"
             width={20}
             height={20}

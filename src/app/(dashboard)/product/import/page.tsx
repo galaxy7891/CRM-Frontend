@@ -61,7 +61,7 @@ const ImporFile = () => {
           <DashboardCard>
             <div className="flex flex-col justify-center items-center">
               <Image
-                src="/icons/table/impor.svg"
+                src="/images/icons/table/impor.svg"
                 alt="impor"
                 width={150}
                 height={150}

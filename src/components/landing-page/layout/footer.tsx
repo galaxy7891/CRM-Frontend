@@ -1,8 +1,8 @@
-import React from "react";
-import Image from "next/image";
-import TitleFooter from "./title-footer";
-import ListFooter from "./list-footer";
-import Link from "next/link";
+import React from 'react';
+import Image from 'next/image';
+import TitleFooter from './title-footer';
+import ListFooter from './list-footer';
+import Link from 'next/link';
 
 const Footer = () => {
   return (
@@ -11,16 +11,14 @@ const Footer = () => {
         {/* Logo & Slogan */}
         <div className="flex flex-col justify-center items-center gap-y-5">
           <Image
-            src="/icons/logo.svg"
+            src="/images/icons/logo.svg"
             alt="logo"
             width={188}
             height={40}
             priority
             className="height:auto width:auto"
           />
-          <TitleFooter>
-            Solusi cerdas Untuk bisnis yang berkualitas
-          </TitleFooter>
+          <TitleFooter>Solusi cerdas Untuk bisnis yang berkualitas</TitleFooter>
         </div>
 
         {/* Jelajah */}
@@ -103,7 +101,7 @@ const Footer = () => {
       </div>
       <hr className="h-px mt-11 w-full bg-font-white border-0 mx-auto"></hr>
       <p className="font-custom text-xs mt-5 text-font-white md:text-base font-normal ">
-        Copyright ©2024 loyalcust. All right reserved{" "}
+        Copyright ©2024 loyalcust. All right reserved{' '}
       </p>
     </div>
   );

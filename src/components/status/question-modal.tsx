@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { useRouter } from "next/router";
-import { useState } from "react";
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 interface QuestionModalProps {
   header: string;
@@ -41,7 +41,7 @@ const QuestionModal: React.FC<QuestionModalProps> = ({
             onClick={handleClose}
           >
             <Image
-              src="/icons/closed.svg"
+              src="/images/icons/closed.svg"
               alt="close"
               width={10}
               height={10}
@@ -53,7 +53,7 @@ const QuestionModal: React.FC<QuestionModalProps> = ({
         <div className="flex flex-col items-center py-3 space-y-3 text-center">
           <div className="icon">
             <Image
-              src="/icons/modal/question.svg"
+              src="/images/icons/modal/question.svg"
               alt="success"
               width={50}
               height={50}

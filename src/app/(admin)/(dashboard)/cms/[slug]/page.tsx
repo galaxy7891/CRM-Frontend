@@ -31,13 +31,14 @@ const UpdateArticle = () => {
     article?.image_public_id ? null : null
   );
   const [preview, setPreview] = useState<string | null>(null);
-  const [content, setContent] = useState<string>(article?.description || '');
+  const [content, setContent] = useState<string>('');
   const [articleState, setArticleState] = useState<articleTypes>({
     title: article?.title || '',
     status: article?.status || '',
     description: article?.description || '',
   });
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
     {}
   );
@@ -57,12 +58,14 @@ const UpdateArticle = () => {
   };
 
   const handleUpdateArticle = () => {
+    console.log(content, 'test');
     dispatch(
       updateArticle(
         article?.id || '',
         articleState,
         content,
         photo,
+        setIsLoading,
         setIsSuccess,
         setErrorMessage
       )
@@ -95,7 +98,8 @@ const UpdateArticle = () => {
 
     const handleTrixChange = (event: TrixEditorEvent) => {
       const htmlContent = event.target.innerHTML;
-      setContent(htmlContent);
+      console.log(htmlContent, 'tes');
+      setContent(htmlContent); // Perbarui state dengan nilai terbaru
     };
 
     if (trixElement) {
@@ -103,6 +107,19 @@ const UpdateArticle = () => {
         'trix-change',
         handleTrixChange as EventListener
       );
+
+      // Sinkronisasi konten awal dengan editor
+      const editorElement = trixElement.querySelector(
+        'trix-editor'
+      ) as HTMLElement & {
+        editor?: {
+          loadHTML: (content: string) => void;
+        };
+      };
+
+      if (editorElement?.editor) {
+        editorElement.editor.loadHTML(content || ''); // Muat konten awal
+      }
     }
 
     return () => {
@@ -113,7 +130,7 @@ const UpdateArticle = () => {
         );
       }
     };
-  }, []);
+  }, [content, isEdit]); // Tambahkan `isEdit` ke dependensi untuk menyegarkan konten saat mode edit aktif
 
   return (
     <>
@@ -201,10 +218,11 @@ const UpdateArticle = () => {
               {isEdit && (
                 <div className="flex justify-end mt-4">
                   <button
+                    disabled={isLoading}
                     onClick={handleUpdateArticle}
                     className="sm:py-3 sm:px-16 py-3 px-12 bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
                   >
-                    Ubah
+                    {isLoading ? 'Menyimpan...' : 'Simpan'}
                   </button>
                 </div>
               )}

@@ -29,7 +29,7 @@ const GoogleLoginButton = () => {
       className="bg-white w-full px-1 h-12 lg:h-15 flex items-center justify-center border border-dark-blue py-2 rounded-md hover:opacity-80 transition-opacity duration-200 hover:shadow-md"
     >
       <Image
-        src="/icons/google.svg"
+        src="/images/icons/google.svg"
         alt="Google"
         width={14}
         height={14}

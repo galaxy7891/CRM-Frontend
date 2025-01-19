@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef } from "react";
-import Image from "next/image";
-import Menu from "./menu";
+import React, { useEffect, useRef } from 'react';
+import Image from 'next/image';
+import Menu from './menu';
 
 interface SidebarLandingPageProps {
   isOpen: boolean;
@@ -25,28 +25,30 @@ const SidebarLandingPage: React.FC<SidebarLandingPageProps> = ({
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [onClose]);
 
   return (
     <div
       ref={sidebarRef}
-      className={`fixed top-0 left-0 h-screen w-1/2 bg-dark-navy z-[99] flex flex-col overflow-hidden transition-transform duration-300 md:hidden ${
-        isOpen ? "translate-x-0" : "-translate-x-full"
-      }`}
+      className={`fixed top-0 left-0 h-screen  bg-dark-navy z-[99] flex flex-col items-center
+        overflow-hidden transition-transform duration-300 lg:hidden  shadow-2xl ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
     >
       <Image
-        src="/icons/logo.svg"
+        src="/images/icons/logo.svg"
         alt="logo"
         width={188}
         height={40}
         priority
-        className="p-4 h-auto w-auto"
+        className="p-4"
       />
+
       <div className="flex items-center justify-center">
         <Menu />
       </div>

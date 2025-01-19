@@ -48,6 +48,7 @@ const config: Config = {
         },
         font: {
           brown: '#542D0A',
+
           white: '#FDFDFD',
           light: '#D9D9D9',
           gray: '#A1A1A1',

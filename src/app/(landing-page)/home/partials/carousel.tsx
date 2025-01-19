@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 
 interface CarouselItem {
   description: string;
@@ -50,7 +50,7 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
           </svg>
         </button>
         <div className="py-2 px-8 ">
-          <p className="text-sm md:text-xl  text-font-black">
+          <p className="text-sm md:text-base   text-font-black">
             {items[currentIndex].description}
           </p>
           <p className="text-font-black text-base lg:text-base mt-4 font-bold">
@@ -86,7 +86,7 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
           <button
             key={index}
             className={`w-3 h-3 rounded-full ${
-              index === currentIndex ? "bg-dark-navy" : "bg-font-grayLight"
+              index === currentIndex ? 'bg-dark-navy' : 'bg-font-grayLight'
             }`}
             onClick={() => setCurrentIndex(index)}
             aria-label={`Go to slide ${index + 1}`}

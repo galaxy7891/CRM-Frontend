@@ -1,8 +1,8 @@
-import DashboardCard from "@/components/layout/dashboard-card";
-import HeaderWithBackButton from "@/components/layout/header-with-back";
-import React from "react";
-import LightCard from "./partials/light-card";
-import DarkCard from "./partials/dark-card";
+import DashboardCard from '@/components/layout/dashboard-card';
+import HeaderWithBackButton from '@/components/layout/header-with-back';
+import React from 'react';
+import LightCard from './partials/light-card';
+import DarkCard from './partials/dark-card';
 
 const UpgradeLoyalCust = () => {
   return (
@@ -10,7 +10,7 @@ const UpgradeLoyalCust = () => {
       <HeaderWithBackButton title="Tingkatkan CRM" />
       <div>
         <DashboardCard>
-          <div className="grid gap-7 lg:grid-cols-3">
+          <div className="grid gap-9 lg:grid-cols-3">
             <LightCard
               title="Regular"
               description={

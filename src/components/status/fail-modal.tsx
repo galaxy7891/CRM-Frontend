@@ -37,7 +37,7 @@ const FailModal: React.FC<FailModalProps> = ({
             onClick={handleClose}
           >
             <Image
-              src="/icons/closed.svg"
+              src="/images/icons/closed.svg"
               alt="close"
               width={10}
               height={10}
@@ -49,7 +49,7 @@ const FailModal: React.FC<FailModalProps> = ({
         <div className="flex flex-col items-center py-3 space-y-3 text-center">
           <div className="icon">
             <Image
-              src="/icons/modal/fail.svg"
+              src="/images/icons/modal/fail.svg"
               alt="success"
               width={50}
               height={50}

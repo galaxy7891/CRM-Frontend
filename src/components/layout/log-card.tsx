@@ -26,7 +26,7 @@ const CardActivityLog = ({ title, description, date }: CardProps) => {
         </p>
         {/* <Link href="#" className="ml-2 md:ml-0">
           <Image
-            src="/icons/profile/more-yellow.svg"
+            src="/images/icons/profile/more-yellow.svg"
             alt="morebtn"
             width={15}
             height={15}

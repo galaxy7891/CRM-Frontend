@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import Menu from "./menu";
-import Image from "next/image";
+import Link from 'next/link';
+import Menu from './menu';
+import Image from 'next/image';
 
 interface HeaderLandingPageProps {
   onToggleSidebar: () => void;
@@ -15,7 +15,7 @@ const HeaderLandingPage: React.FC<HeaderLandingPageProps> = ({
     <header className="sticky top-0 right-0 z-[88] flex items-center justify-between py-3 px-4 md:py-4  bg-dark-navy  shadow-lg">
       <div className="flex items-center justify-between w-full px-4">
         <Image
-          src="/icons/logo.svg"
+          src="/images/icons/logo.svg"
           alt="logo"
           width={188}
           height={40}

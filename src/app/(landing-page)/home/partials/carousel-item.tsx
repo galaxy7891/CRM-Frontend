@@ -1,18 +1,21 @@
-import Carousel from "./carousel";
+import Carousel from './carousel';
 
 const CarouselItem = () => {
   const carouselItems = [
     {
-      description: "“Fiturnya sangat membantu mengelola bisnis”",
-      name: "Faris Fanani",
+      description:
+        'Sistem ini sangat membantu kami dalam mengelola data pelanggan dengan lebih efisien. Semua proses jadi lebih cepat dan terstruktur, sangat direkomendasikan!',
+      name: 'Faris Fanani',
     },
     {
-      description: "“LoyalCust terbaik sangat meningkatkan bisnis kita”",
-      name: "Randy Rahman",
+      description:
+        'Dengan CRM ini, kami bisa lebih memahami kebutuhan pelanggan. Fitur-fiturnya mudah digunakan dan sangat mendukung aktivitas tim.',
+      name: 'Randy Rahman',
     },
     {
-      description: "“Harganya sangat terjangkau dengan fitur yang ditawarkan”",
-      name: "Satria Aji",
+      description:
+        'Menggunakan CRM ini, bisnis kami berkembang lebih cepat. Data pelanggan tersimpan rapi, dan tim penjualan jadi lebih produktif!',
+      name: 'Satria Aji',
     },
   ];
 

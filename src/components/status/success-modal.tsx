@@ -34,7 +34,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
             onClick={handleClose}
           >
             <Image
-              src="/icons/closed.svg"
+              src="/images/icons/closed.svg"
               alt="close"
               width={10}
               height={10}
@@ -46,7 +46,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
         <div className="flex flex-col items-center text-center">
           <div className="pt-2">
             <Image
-              src="/icons/status/success.svg"
+              src="/images/icons/status/success.svg"
               alt="success"
               width={50}
               height={50}
@@ -56,7 +56,9 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
           <h2 className="font-button-md font-semibold text-font-brown  dark:text-dark-gold md:text-base">
             {header}
           </h2>
-          <p className="text-xs md:text-base my-3 font-custom text-font-black dark:text-font-white">{description}</p>
+          <p className="text-xs md:text-base my-3 font-custom text-font-black dark:text-font-white">
+            {description}
+          </p>
           {actionButton_action && (
             <div className="w-full">
               <button

@@ -144,6 +144,7 @@ export const addArticle =
     setErrorMessage: (messages: { [key: string]: string }) => void
   ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
+    setIsLoading(true);
     const { token } = getState().auth;
 
     const formData = new FormData();
@@ -188,10 +189,12 @@ export const updateArticle =
     article: articleTypes,
     content: string,
     photo: File | null,
+    setIsLoading: (loading: boolean) => void,
     setIsSuccess: (success: boolean) => void,
     setErrorMessage: (messages: { [key: string]: string }) => void
   ) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
+    setIsLoading(true);
     const { token } = getState().auth;
 
     const formData = new FormData();
@@ -221,6 +224,7 @@ export const updateArticle =
         setIsSuccess(true);
       } else {
         setErrorMessage(response.data.message);
+        console.error(response.data.message);
       }
     } catch (error) {
       console.error('Request failed:', error);

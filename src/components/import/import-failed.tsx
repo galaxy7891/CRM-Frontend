@@ -25,7 +25,7 @@ const FailedImpor: React.FC<ImportFailedProps> = ({ errorMessageDetail }) => {
         <DashboardCard>
           <div className="flex flex-col gap-4 justify-center items-center">
             <Image
-              src="/icons/table/impor-failed.png"
+              src="/images/icons/table/impor-failed.png"
               alt="failed"
               width={150}
               height={150}
