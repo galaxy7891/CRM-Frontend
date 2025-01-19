@@ -158,6 +158,8 @@ export const addArticle =
     formData.append('description', content);
 
     try {
+      setIsLoading(true);
+      
       const config = {
         method: 'post',
         url: `${process.env.NEXT_PUBLIC_API_URL}/api/article`,
