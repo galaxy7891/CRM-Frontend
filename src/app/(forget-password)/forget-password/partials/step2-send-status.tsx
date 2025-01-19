@@ -18,7 +18,7 @@ const sendStatus: React.FC<SendStatusForgotPasswordProps> = ({
       />
       <div className="flex justify-center">
         <Image
-          src="/icons/Clock.svg"
+          src="/images/icons/Clock.svg"
           alt="Gambar di Kolom Kiri"
           width={150}
           height={150}

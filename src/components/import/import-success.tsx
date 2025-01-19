@@ -14,7 +14,7 @@ const SuccesImpor: React.FC<SuccesImporProps> = ({ href }) => {
       <div className="flex flex-col gap-4 justify-center items-center">
         {/* <p>Stepper</p> */}
         <Image
-          src="/icons/table/impor-success.png"
+          src="/images/icons/table/impor-success.png"
           alt="succes"
           width={150}
           height={150}

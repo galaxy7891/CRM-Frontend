@@ -21,6 +21,7 @@ const NewArticle = () => {
     title: '',
     status: '',
   });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<{ [key: string]: string }>(
     {}
@@ -36,7 +37,14 @@ const NewArticle = () => {
 
   const handleAddArticle = () => {
     dispatch(
-      addArticle(article, content, photo, setIsSuccess, setErrorMessage)
+      addArticle(
+        article,
+        content,
+        photo,
+        setIsLoading,
+        setIsSuccess,
+        setErrorMessage
+      )
     );
   };
 
@@ -45,6 +53,7 @@ const NewArticle = () => {
 
     const handleTrixChange = (event: TrixEditorEvent) => {
       const htmlContent = event.target.innerHTML;
+      console.log(htmlContent, 'tes');
       setContent(htmlContent);
     };
 
@@ -110,10 +119,11 @@ const NewArticle = () => {
             {errorMessage && <FailText>{errorMessage.description}</FailText>}
             <div className="flex justify-end mt-4">
               <button
+                disabled={isLoading}
                 onClick={handleAddArticle}
                 className="sm:py-3 sm:px-16 py-3 px-12 bg-light-gold text-font-brown text-xs lg:text-base font-medium rounded-[10px] duration-200 hover:shadow-md hover:shadow-light-gold"
               >
-                Tambah
+                {isLoading ? 'Menambahkan...' : 'Tambah'}
               </button>
             </div>
           </div>

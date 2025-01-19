@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import React from "react";
-import Accordion from "./accordion";
-import { motion } from "framer-motion";
+import React from 'react';
+import Accordion from './accordion';
+import { motion } from 'framer-motion';
 
 const Home: React.FC = () => {
   const accordionItems = [
     {
       id: 1,
-      title: "Apa Itu Loyalcust",
+      title: 'Apa Itu Loyalcust',
       content:
-        "Loyalcust adalah Website CRM yang akan membantu anda dalam meningkatkan bisnis anda.",
+        'Loyalcust adalah Website CRM yang akan membantu anda dalam meningkatkan bisnis anda.',
     },
     {
       id: 2,
-      title: "Apa Manfaat Loyalcust?",
+      title: 'Apa Manfaat Loyalcust?',
       content: (
         <ul className="list-disc pl-6 space-y-2">
           <li>Meningkatkan loyalitas pelanggan</li>
@@ -25,15 +25,15 @@ const Home: React.FC = () => {
     },
     {
       id: 3,
-      title: "Bagaimana Cara Kerja Loyalcust?",
+      title: 'Bagaimana Cara Kerja Loyalcust?',
       content:
-        "Memasukkan dan mengelola data pelanggan secara efektif, serta menghubungkannya dengan kesepakatan yang telah dibuat untuk memaksimalkan potensi bisnis.",
+        'Memasukkan dan mengelola data pelanggan secara efektif, serta menghubungkannya dengan kesepakatan yang telah dibuat untuk memaksimalkan potensi bisnis.',
     },
     {
       id: 4,
-      title: "Bagaimana Cara Memulai Loyalcust?",
+      title: 'Bagaimana Cara Memulai Loyalcust?',
       content:
-        "Hubungi kami dan lakukan register atau masuk ke dalam website untuk memulai Loyalcust.",
+        'Hubungi kami dan lakukan register atau masuk ke dalam website untuk memulai Loyalcust.',
     },
   ];
 

@@ -100,7 +100,7 @@ const SidebarRev = ({ isOpen, setIsOpen }: SidebarProps) => {
       >
         <div className="flex flex-col  gap-[8px] md:gap-4">
           <Image
-            src="/icons/logo.svg"
+            src="/images/icons/logo.svg"
             alt="logo"
             width={188}
             height={40}

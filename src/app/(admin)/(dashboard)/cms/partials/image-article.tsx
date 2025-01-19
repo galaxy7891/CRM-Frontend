@@ -67,7 +67,7 @@ const ImageArticle = ({
       {!disabled && (
         <div className="absolute bottom-[-30px] right-[-30px]">
           <Image
-            src="/icons/profile/camera.svg"
+            src="/images/icons/profile/camera.svg"
             alt="camera"
             width={24}
             height={24}
@@ -75,7 +75,6 @@ const ImageArticle = ({
           />
         </div>
       )}
-      
     </div>
   );
 };

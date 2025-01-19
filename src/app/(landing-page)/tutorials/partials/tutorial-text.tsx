@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode } from 'react';
 
 interface TutorialTextProps {
   title: string;
@@ -7,9 +7,13 @@ interface TutorialTextProps {
 
 const TutorialText = ({ title, content }: TutorialTextProps) => {
   return (
-    <div>
-      <h1 className="font-custom text-font-black text-[28px] font-bold">{title}</h1>
-      <h3 className="font-custom text-font-black text-base font-medium">{content}</h3>
+    <div className="flex flex-col gap-2 items-start md:items-center">
+      <h1 className="font-custom text-font-black text-[28px] font-bold">
+        {title}
+      </h1>
+      <h3 className="font-custom text-font-black text-xs md:text-base font-medium text-justify">
+        {content}
+      </h3>
     </div>
   );
 };

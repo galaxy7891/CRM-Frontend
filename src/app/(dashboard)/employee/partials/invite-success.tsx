@@ -9,7 +9,7 @@ const InviteSuccess: React.FC<InviteEmployeeProps> = ({ onClose }) => {
     <>
       <div className="flex flex-col justify-center items-center flex-grow">
         <InviteComponents
-          imageSrc="/icons/table/impor-success.png"
+          imageSrc="/images/icons/table/impor-success.png"
           title="Email Terkirim"
         />
         <div>

@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React from "react";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import BgLightWhite from "@/components/landing-page/layout/bg-light-white";
+import React from 'react';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import BgLightWhite from '@/components/landing-page/layout/bg-light-white';
 
 const PreviewCrm = () => {
   const textVariants = {
@@ -18,8 +18,9 @@ const PreviewCrm = () => {
   return (
     <BgLightWhite>
       <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-center">
+        {/* Image */}
         <motion.div
-          className="order-2 md:order-1"
+          className="order-2 md:order-1 flex items-center justify-center"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: false, amount: 0.3 }}
@@ -30,18 +31,20 @@ const PreviewCrm = () => {
             src="/images/preview.png"
             alt="preview"
             height={300}
-            width={500}
+            width={900}
+            quality={100}
           />
         </motion.div>
+        {/* Text */}
         <motion.div
-          className="hidden font-custom text-font-black md:order-2 md:inline-block"
+          className="hidden font-custom text-font-black md:order-2 md:inline-block lg:ms-16"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: false, amount: 0.3 }}
           custom={1}
           variants={textVariants}
         >
-          <p className="font-bold text-xl md:text-[28px]">
+          <p className="font-bold text-xl lg:text-[28px] leading-tight">
             Mengelola pelanggan anda <br />
             dimanapun dan kapanpun
           </p>
@@ -51,7 +54,7 @@ const PreviewCrm = () => {
           </p>
         </motion.div>
         <motion.div
-          className="font-bold text-xl md:text-[28px] md:hidden font-custom text-font-black order-1"
+          className="font-bold text-xl md:text-[28px] md:hidden font-custom text-font-black order-1 text-center"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: false, amount: 0.3 }}

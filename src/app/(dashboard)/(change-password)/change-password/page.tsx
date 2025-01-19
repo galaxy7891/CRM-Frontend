@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { useState } from "react";
-import { changePasswordTypes } from "@/types/profileTypes";
+import Image from 'next/image';
+import { useState } from 'react';
+import { changePasswordTypes } from '@/types/profileTypes';
 import {
   sendForgotPasswordEmail,
   changePassword,
-} from "@/redux/actions/profileActions";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
-import EmailSend from "./partials/email-send";
-import FailText from "@/components/status/fail-text";
-import DashboardCard from "@/components/layout/dashboard-card";
-import SuccessModal from "@/components/status/success-modal";
-import HeaderWithBackButton from "@/components/layout/header-with-back";
-import InputPassword from "@/components/form-input/password-input";
+} from '@/redux/actions/profileActions';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import EmailSend from './partials/email-send';
+import FailText from '@/components/status/fail-text';
+import DashboardCard from '@/components/layout/dashboard-card';
+import SuccessModal from '@/components/status/success-modal';
+import HeaderWithBackButton from '@/components/layout/header-with-back';
+import InputPassword from '@/components/form-input/password-input';
 
 const ChangePasswordForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -24,17 +24,17 @@ const ChangePasswordForm = () => {
     {}
   );
   const [password, setPassword] = useState<changePasswordTypes>({
-    password: "",
-    new_password: "",
-    confirm_new_password: "",
+    password: '',
+    new_password: '',
+    confirm_new_password: '',
   });
   const dispatch = useDispatch<AppDispatch>();
 
   const rules = [
-    { regex: /.{8,}/, label: "Minimal 8 karakter" },
-    { regex: /[a-z]/, label: "Satu karakter huruf kecil" },
-    { regex: /[A-Z]/, label: "Satu karakter huruf besar" },
-    { regex: /[\d\W]/, label: "Satu angka, simbol, atau karakter spasi" },
+    { regex: /.{8,}/, label: 'Minimal 8 karakter' },
+    { regex: /[a-z]/, label: 'Satu karakter huruf kecil' },
+    { regex: /[A-Z]/, label: 'Satu karakter huruf besar' },
+    { regex: /[\d\W]/, label: 'Satu angka, simbol, atau karakter spasi' },
   ];
 
   const isPasswordValid = rules.every((rule) =>
@@ -71,7 +71,7 @@ const ChangePasswordForm = () => {
         />
       ) : (
         <>
-          {" "}
+          {' '}
           <HeaderWithBackButton title="Perbarui Kata Sandi" />
           <DashboardCard>
             <div className="sm:px-32 2xl:px-80">
@@ -115,8 +115,8 @@ const ChangePasswordForm = () => {
                   onClick={handleSendEmail}
                 >
                   {isLoading
-                    ? "Mengirim Link Reset Password"
-                    : "Lupa Kata Sandi ?"}
+                    ? 'Mengirim Link Reset Password'
+                    : 'Lupa Kata Sandi ?'}
                 </button>
               </div>
 
@@ -128,10 +128,10 @@ const ChangePasswordForm = () => {
                       <Image
                         src={
                           isValid
-                            ? "/icons/checked.svg"
-                            : "/icons/red-cross.svg"
+                            ? '/images/icons/checked.svg'
+                            : '/images/icons/red-cross.svg'
                         }
-                        alt={isValid ? "Valid" : "Invalid"}
+                        alt={isValid ? 'Valid' : 'Invalid'}
                         width={16}
                         height={16}
                         className="mr-2"
@@ -139,8 +139,8 @@ const ChangePasswordForm = () => {
                       <span
                         className={`text-xs lg:text-base font-custom ${
                           isValid
-                            ? "text-font-green "
-                            : "text-light-redLight dark:text-dark-redGlow "
+                            ? 'text-font-green '
+                            : 'text-light-redLight dark:text-dark-redGlow '
                         }
                 `}
                       >

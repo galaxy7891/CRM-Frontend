@@ -1,10 +1,10 @@
-import React from "react";
-import Landing from "./partials/landing";
-import Platform from "./partials/platform";
-import PreviewCrm from "./partials/preview-crm";
-import Price from "./partials/price";
-import Faq from "./partials/faq";
-import Testimonial from "./partials/testimonial";
+import React from 'react';
+import Landing from './partials/landing';
+import Platform from './partials/platform';
+import PreviewCrm from './partials/preview-crm';
+import Price from './partials/price';
+import Faq from './partials/faq';
+import Testimonial from './partials/testimonial';
 
 const Home = () => {
   return (
@@ -14,7 +14,7 @@ const Home = () => {
       <PreviewCrm />
       <Price />
       <Faq />
-      <Testimonial/>
+      <Testimonial />
     </div>
   );
 };

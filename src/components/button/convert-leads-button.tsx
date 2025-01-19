@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import Image from 'next/image';
+import { useState, useEffect, useRef } from 'react';
 
 interface ButtonConvertProps {
   handleConvert: () => void;
@@ -29,10 +29,10 @@ const ButtonConvert: React.FC<ButtonConvertProps> = ({
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
@@ -45,12 +45,12 @@ const ButtonConvert: React.FC<ButtonConvertProps> = ({
       >
         Konversi
         <Image
-          src="/icons/down-brown.svg"
+          src="/images/icons/down-brown.svg"
           alt="dropdown"
           width={14}
           height={14}
           className={`w-[10px] h-[10px] md:w-[14px] md:h-[14px] ml-2 transform transition-transform duration-300 ${
-            isOpen ? "rotate-180" : "rotate-0"
+            isOpen ? 'rotate-180' : 'rotate-0'
           }`}
         />
       </button>

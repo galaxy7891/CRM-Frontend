@@ -1,12 +1,12 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { getPublicArticles } from "@/redux/actions/CMSActions";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/redux/store";
-import CardArticle from "./partials/card-article";
-import { paginationTypes } from "@/types/otherTypes";
-import PaginationButton from "@/components/button/pagination-button";
-import { motion } from "framer-motion"; // Import framer-motion
+'use client';
+import React, { useEffect, useState } from 'react';
+import { getPublicArticles } from '@/redux/actions/CMSActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import CardArticle from './partials/card-article';
+import { paginationTypes } from '@/types/otherTypes';
+import PaginationButton from '@/components/button/pagination-button';
+import { motion } from 'framer-motion'; // Import framer-motion
 
 const Article = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -57,9 +57,9 @@ const Article = () => {
               articles={[
                 {
                   title: article.title,
-                  description: article?.description || "",
-                  image_url: article.image_url || "",
-                  slug: article.slug || "",
+                  description: article?.description || '',
+                  image_url: article.image_url || '',
+                  slug: article.slug || '',
                 },
               ]}
             />

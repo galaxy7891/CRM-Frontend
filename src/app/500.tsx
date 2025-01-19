@@ -1,5 +1,5 @@
-import React from "react";
-import Image from "next/image";
+import React from 'react';
+import Image from 'next/image';
 
 const ServerError: React.FC = () => {
   return (
@@ -7,7 +7,7 @@ const ServerError: React.FC = () => {
       <div className="bg-font-white w-full h-full lg:max-h-screen rounded-xs mx-auto flex flex-col justify-center items-center">
         <div className="flex flex-col items-center">
           <Image
-            src="/icons/500.svg"
+            src="/images/icons/500.svg"
             alt="notfound"
             width={400}
             height={200}
@@ -26,7 +26,7 @@ const ServerError: React.FC = () => {
 
         <div className="absolute top-[30px] right-[30px] lg:top-[34px] lg:right-[34px]">
           <Image
-            src="/icons/top.png"
+            src="/images/icons/top.png"
             alt="top"
             width={125}
             height={125}
@@ -35,7 +35,7 @@ const ServerError: React.FC = () => {
         </div>
         <div className="absolute bottom-[30px] left-[30px] lg:bottom-[34px] lg:left-[34px]">
           <Image
-            src="/icons/bottom.png"
+            src="/images/icons/bottom.png"
             alt="bottom"
             width={125}
             height={125}

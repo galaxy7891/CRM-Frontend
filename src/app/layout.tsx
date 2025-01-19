@@ -7,7 +7,7 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'LoyalCust',
   description: 'Customer Relationship Management',
-  icons: '/icons/sidebar/logo.svg',
+  icons: '/images/icons/sidebar/logo.svg',
 };
 
 export default function RootLayout({

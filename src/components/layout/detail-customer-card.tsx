@@ -56,7 +56,7 @@ const CardCustomer: React.FC<CardCustomerProps> = ({
         {emailHref && (
           <Link href={emailHref}>
             <Image
-              src="/icons/profile/email.svg"
+              src="/images/icons/profile/email.svg"
               alt="email"
               width={24}
               height={24}
@@ -66,7 +66,7 @@ const CardCustomer: React.FC<CardCustomerProps> = ({
         {waHref && (
           <Link href={waHref}>
             <Image
-              src="/icons/profile/wa-gray.svg"
+              src="/images/icons/profile/wa-gray.svg"
               alt="wa"
               width={24}
               height={24}

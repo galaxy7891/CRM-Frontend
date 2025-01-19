@@ -71,7 +71,7 @@ const Password: React.FC<PasswordProps> = ({
         />
         <InputPassword
           value={password?.password_confirmation}
-          label='Konfirmasi Kata Sandi'
+          label="Konfirmasi Kata Sandi"
           onChange={(e) =>
             setPassword({
               ...password,
@@ -97,7 +97,11 @@ const Password: React.FC<PasswordProps> = ({
           return (
             <li key={index} className="flex items-center">
               <Image
-                src={isValid ? '/icons/checked.svg' : '/icons/red-cross.svg'}
+                src={
+                  isValid
+                    ? '/images/icons/checked.svg'
+                    : '/images/icons/red-cross.svg'
+                }
                 alt={isValid ? 'Valid' : 'Invalid'}
                 width={16}
                 height={16}

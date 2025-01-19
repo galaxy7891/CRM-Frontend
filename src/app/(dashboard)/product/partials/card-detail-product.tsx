@@ -49,7 +49,7 @@ const CardDetailProduct = () => {
         />
         <div className="absolute bottom-[-15px] right-[-1px]">
           <Image
-            src="/icons/profile/camera.svg"
+            src="/images/icons/profile/camera.svg"
             alt="camera"
             width={24}
             height={24}

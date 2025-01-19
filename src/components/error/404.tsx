@@ -7,7 +7,7 @@ const NotFound: React.FC = () => {
       <div className="bg-font-white w-full h-full lg:max-h-screen rounded-xs mx-auto flex flex-col justify-center items-center rounded-lg ">
         <div className="flex flex-col items-center">
           <Image
-            src="/icons/404.svg"
+            src="/images/icons/404.svg"
             alt="notfound"
             width={400}
             height={200}
@@ -26,7 +26,7 @@ const NotFound: React.FC = () => {
 
         <div className="absolute top-[15px] right-[15px] md:top-[50px] md:right-[50px] ">
           <Image
-            src="/icons/top.png"
+            src="/images/icons/top.png"
             alt="top"
             width={125}
             height={125}
@@ -35,7 +35,7 @@ const NotFound: React.FC = () => {
         </div>
         <div className="absolute bottom-[15px] left-[15px] md:bottom-[50px] md:left-[50px]">
           <Image
-            src="/icons/bottom.png"
+            src="/images/icons/bottom.png"
             alt="bottom"
             width={125}
             height={125}

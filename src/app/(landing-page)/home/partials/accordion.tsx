@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 type AccordionItem = {
   id: number;
@@ -15,7 +16,6 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const toggleAccordion = (id: number) => {
-    // Buka jika belum aktif, tutup jika sudah aktif
     setActiveId((prevActiveId) => (prevActiveId === id ? null : id));
   };
 
@@ -24,14 +24,14 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
       containerRef.current &&
       !containerRef.current.contains(event.target as Node)
     ) {
-      setActiveId(null); // Tutup semua accordion
+      setActiveId(null);
     }
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
@@ -40,15 +40,18 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
       {items.map((item) => {
         const isOpen = activeId === item.id;
         return (
-          <div key={item.id} className="border rounded-[10px]">
+          <div key={item.id}>
             <button
               onClick={() => toggleAccordion(item.id)}
-              className="w-full font-custom bg-font-white flex justify-between items-center py-4 px-6 text-left text-xl font-bold text-font-black"
+              className={`${
+                isOpen ? 'rounded-t-lg border-b-2' : 'rounded-lg'
+              } shadow-lg w-full font-custom bg-font-white flex justify-between 
+              items-center py-4 px-6 text-left md:text-xl text-base font-bold text-font-black`}
             >
               <span>{item.title}</span>
               <span
                 className={`flex items-center justify-center w-8 h-8 rounded-full transition-transform duration-300 ${
-                  isOpen ? "bg-light-gold rotate-180" : ""
+                  isOpen ? 'bg-light-gold rotate-180' : ''
                 }`}
               >
                 <svg
@@ -70,11 +73,21 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
                 </svg>
               </span>
             </button>
-            {isOpen && (
-              <div className="px-6 py-2 bg-font-white font-custom text-font-black text-xl font-normal">
-                {item.content}
-              </div>
-            )}
+            <AnimatePresence>
+              {isOpen && (
+                <motion.div
+                  key={item.id}
+                  initial={{ scaleY: 0, opacity: 0 }}
+                  animate={{ scaleY: 1, opacity: 1 }}
+                  exit={{ scaleY: 0, opacity: 0 }}
+                  transition={{ duration: 0.5, ease: 'easeInOut' }}
+                  style={{ transformOrigin: 'top' }}
+                  className="overflow-hidden px-6 py-4 bg-font-white font-custom text-font-black text-base font-normal rounded-b-lg shadow-lg"
+                >
+                  {item.content}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         );
       })}

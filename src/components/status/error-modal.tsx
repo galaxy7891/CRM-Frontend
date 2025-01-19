@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
-import { SuccessModalProps } from "@/types/otherTypes";
+import Image from 'next/image';
+import Link from 'next/link';
+import { useState } from 'react';
+import { SuccessModalProps } from '@/types/otherTypes';
 
 const ErrorModal: React.FC<SuccessModalProps> = ({
   header,
@@ -49,7 +49,7 @@ const ErrorModal: React.FC<SuccessModalProps> = ({
         <div className="flex flex-col items-center text-center">
           <div className="pt-2">
             <Image
-              src="/icons/status/error.svg"
+              src="/images/icons/status/error.svg"
               alt="success"
               width={50}
               height={50}

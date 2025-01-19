@@ -190,7 +190,7 @@ const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
                         {accountType} {duration}
                       </p>
                       <Image
-                        src="/icons/header/trial.svg"
+                        src="/images/icons/header/trial.svg"
                         alt="Trial Icon"
                         width={20}
                         height={20}

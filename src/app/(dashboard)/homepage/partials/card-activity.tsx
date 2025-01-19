@@ -1,11 +1,11 @@
-import Image from "next/image";
-import { FC } from "react";
-import Link from "next/link";
+import Image from 'next/image';
+import { FC } from 'react';
+import Link from 'next/link';
 
 interface CardProps {
   title: string;
   count: number;
-  link: string; 
+  link: string;
 }
 
 const Card: FC<CardProps> = ({ title, count, link }) => {
@@ -22,7 +22,7 @@ const Card: FC<CardProps> = ({ title, count, link }) => {
         </div>
 
         <Image
-          src="/icons/homepage/more-yellow.svg"
+          src="/images/icons/homepage/more-yellow.svg"
           alt="more"
           width={15}
           height={15}

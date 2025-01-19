@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { useState } from "react";
+import Image from 'next/image';
+import { useState } from 'react';
 
 interface AllertModalProps {
   header: string;
@@ -40,7 +40,7 @@ const AllertModal: React.FC<AllertModalProps> = ({
             onClick={handleClose}
           >
             <Image
-              src="/icons/closed.svg"
+              src="/images/icons/closed.svg"
               alt="close"
               width={10}
               height={10}
@@ -52,7 +52,7 @@ const AllertModal: React.FC<AllertModalProps> = ({
         <div className="flex flex-col items-center py-3 space-y-3 text-center">
           <div className="icon">
             <Image
-              src="/icons/modal/allert.svg"
+              src="/images/icons/modal/allert.svg"
               alt="success"
               width={50}
               height={50}
@@ -62,7 +62,9 @@ const AllertModal: React.FC<AllertModalProps> = ({
           <h2 className="text-xs md:text-xl font-bold font-custom text-font-black">
             {header}
           </h2>
-          <p className=" text-xs md:text-xl text-font-black font-custom">{description}</p>
+          <p className=" text-xs md:text-xl text-font-black font-custom">
+            {description}
+          </p>
           {actionButton && (
             <div className="w-full">
               <a

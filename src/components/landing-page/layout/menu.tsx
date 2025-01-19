@@ -3,7 +3,7 @@ import MenuProps from "./menu-props";
 
 const Menu = () => {
   return (
-    <div className="flex flex-col gap-y-6 md:flex-row md:flex-wrap md:gap-x-6">
+    <div className="flex flex-col gap-y-6 lg:flex-row lg:flex-wrap lg:gap-x-6">
       <MenuProps href="/home" title="Beranda" />
       <MenuProps href="/services" title="Layanan" />
       <MenuProps href="/about-us" title="Tentang Kami" />
