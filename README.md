@@ -62,9 +62,9 @@ LoyalCust is a Customer Relationship Management (CRM) application designed to he
 </ol>
 
 ## 🔎Related Project
+<ul>
+    <li>[CRM-Backend](https://github.com/galaxy7891/CRM-Backend.git)</li>
+</ul>
 
-Here are some related projects
-
-[CRM-Backend](https://github.com/galaxy7891/CRM-Backend.git)
 
 
