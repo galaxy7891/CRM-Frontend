@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/galaxy7891/CRM-Frontend/blob/main/public/icons/logo.svg" width="400" alt="LoyalCust Logo"></p>
+<p align="center"><img src="https://github.com/galaxy7891/CRM-Frontend/blob/main/public/images/icons/logo.svg" width="400" alt="LoyalCust Logo"></p>
 
 
 
