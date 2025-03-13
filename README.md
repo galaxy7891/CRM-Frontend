@@ -13,6 +13,7 @@ LoyalCust is a Customer Relationship Management (CRM) application designed to he
 ## 🚀 Key Feature
 <ul>
     <li>Management Leads, Contact, and Organization</li>
+    <li>Import and Export data to xlsx</li>
     <li>Deals Pipeline</li>
     <li>Employee Management for User Company</li>
     <li>Account Management and Reports for Administrator</li>
