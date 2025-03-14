@@ -4,7 +4,7 @@
 
 ## CRM LoyalCust
 
-LoyalCust is a Customer Relationship Management (CRM) application designed to help businesses manage customer data, optimize sales processes, and increase customer loyalty. 
+LoyalCust is a Customer Relationship Management (CRM) application designed to help businesses manage customer data, optimize sales processes, and increase customer loyalty. This project is part of the Magang Bersertifikat Batch 7 Kemdikbud.
 
 ## 🧑‍💻Authors
 - [@Raafina](https://github.com/Raafina)
