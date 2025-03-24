@@ -7,7 +7,7 @@ interface TutorialTextProps {
 
 const TutorialText = ({ title, content }: TutorialTextProps) => {
   return (
-    <div className="flex flex-col gap-2 items-start md:items-center">
+    <div className="flex flex-col gap-2 items-center">
       <h1 className="font-custom text-font-black text-[28px] font-bold">
         {title}
       </h1>

@@ -4,8 +4,9 @@ import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import RouterBackButton from '@/components/button/route-back-button';
 import { getPublicArticle } from '@/redux/actions/CMSActions';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import publicArticle from '../article.json';
 import moment from 'moment';
 import 'moment/locale/id';
 moment.locale('id');
@@ -13,7 +14,7 @@ moment.locale('id');
 const ArticleDetail = () => {
   const { slug } = useParams<{ slug: string }>();
 
-  const { publicArticle } = useSelector((state: RootState) => state.CMS);
+  // const { publicArticle } = useSelector((state: RootState) => state.CMS);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -45,8 +46,9 @@ const ArticleDetail = () => {
 
         <p
           className="leading-relaxed text-base md:text-lg"
-          dangerouslySetInnerHTML={{ __html: publicArticle?.description ?? '' }}
-        ></p>
+          dangerouslySetInnerHTML={{
+            __html: publicArticle?.description ?? '',
+          }}></p>
       </article>
     </div>
   );

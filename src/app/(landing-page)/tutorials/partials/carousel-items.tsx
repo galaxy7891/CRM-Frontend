@@ -20,10 +20,9 @@ const Tutorials: React.FC = () => {
             exit={{ opacity: 0, y: 50 }}
             viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
-            className={`flex flex-col md:flex-row px-0 lg:px-20 ${
+            className={`flex flex-col md:flex-row px-10 lg:px-20  bg-white rounded-xl shadow-xl p-4 ${
               isEven ? 'md:flex-row-reverse' : ''
-            } md:items-center items-start gap-6`}
-          >
+            } items-center gap-6`}>
             <div className="flex-1 ">
               <TutorialText
                 title={tutorial.title}
@@ -43,8 +42,7 @@ const Tutorials: React.FC = () => {
               exit={{ opacity: 0, scale: 0.8 }}
               viewport={{ once: false, amount: 0.2 }}
               transition={{ duration: 0.8, ease: 'easeOut' }}
-              className="flex-1"
-            >
+              className="flex-1">
               <CarouselTutorials
                 items={tutorial.images.map((image) => ({ image }))}
               />

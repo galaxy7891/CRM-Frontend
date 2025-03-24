@@ -1,16 +1,17 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { getPublicArticles } from '@/redux/actions/CMSActions';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/redux/store';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
 import CardArticle from './partials/card-article';
 import { paginationTypes } from '@/types/otherTypes';
 import PaginationButton from '@/components/button/pagination-button';
 import { motion } from 'framer-motion'; // Import framer-motion
+import publicArticles from './articles.json';
 
 const Article = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { publicArticles } = useSelector((state: RootState) => state.CMS);
+  // const { publicArticles } = useSelector((state: RootState) => state.CMS);
   const [pagination, setPagination] = useState<paginationTypes>({
     current_page: 1,
     last_page: 1,
@@ -51,8 +52,7 @@ const Article = () => {
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.4, delay: index * 0.1 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false }} // Animasi akan muncul setiap kali scroll kembali
-          >
+            viewport={{ once: false }}>
             <CardArticle
               articles={[
                 {

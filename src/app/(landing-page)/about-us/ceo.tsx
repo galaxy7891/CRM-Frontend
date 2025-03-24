@@ -13,22 +13,20 @@ interface CardLeftProps {
 const CardLeft: FC<CardLeftProps> = ({ title, image, description }) => {
   return (
     <motion.div
-      className="grid grid-cols-1 md:grid-cols-2 items-center justify-center"
+      className="grid grid-cols-1 md:grid-cols-2 items-center justify-center bg-white p-4 shadow-xl rounded-xl"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 1, ease: 'easeInOut' }}
-      viewport={{ once: false }}
-    >
+      viewport={{ once: false }}>
       {/* dekstop */}
       <motion.div
         className="md:order-2 hidden md:inline-block font-custom text-font-black ps-10 pe-20 "
         initial={{ opacity: 0, x: -50 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 1, ease: 'easeInOut' }}
-        viewport={{ once: false }}
-      >
-        <p className=" text-[28px] font-bold text-center">{title}</p>
-        <p className="font-medium text-base mt-2">{description}</p>
+        viewport={{ once: false }}>
+        <p className=" text-[28px] font-bold ">{title}</p>
+        <p className="font-medium text-base mt-2 text-justify">{description}</p>
       </motion.div>
       {/* mobile */}
       <motion.div
@@ -36,8 +34,7 @@ const CardLeft: FC<CardLeftProps> = ({ title, image, description }) => {
         initial={{ opacity: 0, x: -50 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 1, ease: 'easeInOut' }}
-        viewport={{ once: false }}
-      >
+        viewport={{ once: false }}>
         <p className="text-xl font-bold text-center">{title}</p>
       </motion.div>
 
@@ -46,8 +43,7 @@ const CardLeft: FC<CardLeftProps> = ({ title, image, description }) => {
         initial={{ opacity: 0, x: -50 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 1, ease: 'easeInOut' }}
-        viewport={{ once: false }}
-      >
+        viewport={{ once: false }}>
         <p className="font-normal text-sm md:text-base text-justify">
           {description}
         </p>
@@ -58,8 +54,7 @@ const CardLeft: FC<CardLeftProps> = ({ title, image, description }) => {
         initial={{ opacity: 0, scale: 0.8 }}
         whileInView={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1, ease: 'easeInOut' }}
-        viewport={{ once: false }}
-      >
+        viewport={{ once: false }}>
         <Image
           className="pb-4 md:pb-0"
           src={image}

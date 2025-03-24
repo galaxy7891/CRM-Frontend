@@ -1,5 +1,5 @@
 import React from 'react';
-import ServiceCard from '../services/partials/service-card';
+import AboutLoyalCust from './about-loyalcust';
 import CardLeft from './ceo';
 import BgLightWhite from '@/components/landing-page/layout/bg-light-white';
 
@@ -8,9 +8,28 @@ const AboutUs = () => {
     <>
       <BgLightWhite>
         <div className="flex flex-col items-center justify-center gap-6">
-          <ServiceCard
+          <AboutLoyalCust
             title="Tentang LoyalCust"
-            description='LoyalCust hadir dari gabungan kata "Loyal" dan "Customer," yang mencerminkan komitmen kami untuk membantu bisnis mempertahankan loyalitas pelanggan. Kami memahami bahwa pelanggan yang setia adalah aset berharga bagi pertumbuhan bisnis yang berkelanjutan. Melalui aplikasi CRM kami, LoyalCust membantu Anda memahami kebutuhan pelanggan lebih dalam, merancang strategi hubungan pelanggan yang tepat, dan meningkatkan efisiensi dalam pengelolaan hubungan pelanggan. Dengan pendekatan ini, LoyalCust bertujuan untuk memperkuat ikatan antara bisnis dan pelanggannya, sehingga Anda dapat mencapai pertumbuhan yang lebih cepat dan lebih efisien. Dibuat berdasarkan riset kebutuhan para pelaku bisnis dalam mengelola pelanggan yang berkualitas'
+            description={
+              <div className="text-justify">
+                <p>
+                  LoyalCust hadir dari gabungan kata &quot;Loyal&quot; dan
+                  &quot;Customer,&quot; yang mencerminkan komitmen kami untuk
+                  membantu bisnis mempertahankan loyalitas pelanggan. Kami
+                  memahami bahwa pelanggan yang setia adalah aset berharga bagi
+                  pertumbuhan bisnis yang berkelanjutan.
+                </p>
+                <p className="mt-5">
+                  Melalui aplikasi CRM kami, LoyalCust membantu Anda memahami
+                  kebutuhan pelanggan lebih dalam, merancang strategi hubungan
+                  pelanggan yang tepat, dan meningkatkan efisiensi dalam
+                  pengelolaan hubungan pelanggan. Dengan pendekatan ini,
+                  LoyalCust bertujuan untuk memperkuat ikatan antara bisnis dan
+                  pelanggannya, sehingga Anda dapat mencapai pertumbuhan yang
+                  lebih cepat dan lebih efisien.
+                </p>
+              </div>
+            }
             image="/images/about-us.png"
           />
 
