@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Image from "next/image";
+import { useState } from 'react';
+import Image from 'next/image';
 
 interface CarouselTutorialsItem {
   image: string;
@@ -34,8 +34,7 @@ const CarouselTutorials: React.FC<CarouselTutorialsProps> = ({ items }) => {
             height="16"
             viewBox="0 0 11 16"
             fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+            xmlns="http://www.w3.org/2000/svg">
             <path
               d="M8.06125 0.862821L0.973108 7.14875C0.435675 7.62535 0.435675 8.39808 0.973108 8.87469L0.99253 8.89192C1.52996 9.36852 2.40131 9.36852 2.93874 8.89192L10.0269 2.60599C10.5643 2.12938 10.5643 1.35665 10.0269 0.880045L10.0075 0.862821C9.47004 0.386214 8.59869 0.386214 8.06125 0.862821Z"
               fill="#1A1A1A"
@@ -62,8 +61,7 @@ const CarouselTutorials: React.FC<CarouselTutorialsProps> = ({ items }) => {
             height="16"
             viewBox="0 0 11 16"
             fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+            xmlns="http://www.w3.org/2000/svg">
             <path
               d="M2.93875 0.862821L10.0269 7.14875C10.5643 7.62535 10.5643 8.39808 10.0269 8.87469L10.0075 8.89192C9.47004 9.36852 8.59869 9.36852 8.06126 8.89192L0.973108 2.60599C0.435676 2.12938 0.435675 1.35665 0.973108 0.880045L0.99253 0.862821C1.52996 0.386214 2.40131 0.386214 2.93875 0.862821Z"
               fill="#1A1A1A"
@@ -82,11 +80,10 @@ const CarouselTutorials: React.FC<CarouselTutorialsProps> = ({ items }) => {
           <button
             key={index}
             className={`w-3 h-3 rounded-full ${
-              index === currentIndex ? "bg-dark-navy" : "bg-font-grayLight"
+              index === currentIndex ? 'bg-dark-navy' : 'bg-font-grayLight'
             }`}
             onClick={() => setCurrentIndex(index)}
-            aria-label={`Go to slide ${index + 1}`}
-          ></button>
+            aria-label={`Go to slide ${index + 1}`}></button>
         ))}
       </div>
     </div>
